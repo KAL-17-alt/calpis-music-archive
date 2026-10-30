@@ -21,6 +21,49 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Diagnose YouTube API
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_PLAYLIST_IDS: ${{ secrets.YOUTUBE_PLAYLIST_IDS }}
+        run: |
+          python3 - <<'PY'
+          import os, json, urllib.request, urllib.error
+          from urllib.parse import urlencode
+
+          key = os.getenv("YOUTUBE_API_KEY", "").strip()
+          ids = os.getenv("YOUTUBE_PLAYLIST_IDS", "").strip()
+
+          print("API key exists:", bool(key))
+          print("Playlist ID exists:", bool(ids))
+
+          if not key or not ids:
+              raise SystemExit("GitHub Secret is missing")
+
+          params = urlencode({
+              "part": "snippet",
+              "playlistId": ids.split(",")[0].strip(),
+              "maxResults": 1,
+              "key": key
+          })
+
+          url = "https://www.googleapis.com/youtube/v3/playlistItems?" + params
+
+          try:
+              with urllib.request.urlopen(url, timeout=30) as r:
+                  data = json.load(r)
+                  print("YouTube API: SUCCESS")
+                  print("Items returned:", len(data.get("items", [])))
+          except urllib.error.HTTPError as ex:
+              error = json.loads(ex.read().decode())
+              detail = error.get("error", {})
+              message = detail.get("message", "").replace(key, "[REDACTED]")
+              print("HTTP:", ex.code)
+              print("API status:", detail.get("status"))
+              print("Reason:", [x.get("reason") for x in detail.get("errors", [])])
+              print("Message:", message)
+              raise SystemExit(1)
+          PY
+
       - name: Run YouTube Playlist & Gemini AI Sync
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
