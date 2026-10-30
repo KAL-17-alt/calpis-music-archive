@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>かるが聴いている歌い手・アーティスト</title>
+  <meta name="description" content="かるが聴いている歌い手・アーティストの登録楽曲ランキング・アーカイブサイト（カバーあり・カバーなし・代表曲TOP5対応）">
+  <meta name="theme-color" content="#000000">
+  <link rel="preconnect" href="https://yt3.googleusercontent.com">
+  <link rel="preconnect" href="https://yt3.googleusercontent.com" crossorigin>
+  <link rel="dns-prefetch" href="https://yt3.googleusercontent.com">
+  <link rel="preconnect" href="https://yt3.ggpht.com">
+  <link rel="preconnect" href="https://yt3.ggpht.com" crossorigin>
+  <link rel="dns-prefetch" href="https://yt3.ggpht.com">
+  <link rel="preconnect" href="https://lh3.googleusercontent.com">
+  <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
+  <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
+  <link rel="icon" type="image/png" href="./assets/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/favicon.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <!-- ① Simplified Clean Mobile Top Header Bar (with Home Reset & Search) -->
+  <header class="mobile-top-bar">
+    <div class="mobile-top-left">
+      <span class="mobile-top-dot" aria-hidden="true"></span>
+      <div class="mobile-top-title" id="mobileTopTitle">すべて</div>
+    </div>
+    <div class="mobile-top-actions">
+      <button type="button" class="mob-icon-circle-btn mob-about-btn" id="mobAboutBtn" aria-label="当サイトについてを表示" title="当サイトについて">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"></circle><path d="M9.2 9.2a2.8 2.8 0 0 1 5.45.95c0 1.9-2.65 2.45-2.65 4.05"></path><circle cx="12" cy="17.3" r="0.65" fill="currentColor"></circle></svg>
+      </button>
+      <button type="button" class="mob-home-btn" id="mobTopHomeBtn" aria-label="初期状態（ホーム）に戻る" title="ホーム（初期状態に戻る）">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"></path></svg>
+        <span>ホーム</span>
+      </button>
+      <button type="button" class="mob-icon-circle-btn" id="mobTopSearchBtn" aria-label="検索画面を開く" title="検索">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="app-shell" id="appShell">
+    <!-- Left Sidebar (PC) -->
+    <aside class="left-sidebar" aria-label="メインナビゲーション">
+      <div class="sidebar-top-area">
+        <div class="brand-box">
+          <div class="brand-logo-row">
+            <div class="brand-disc-icon" aria-hidden="true"><img src="./assets/logo.svg" alt="CAL.piS ロゴ" class="brand-logo-img" width="48" height="48" decoding="async"></div>
+            <div class="brand-text-col">
+              <div class="brand-title">かるが聴いている<br>歌い手・アーティスト</div>
+              <div class="brand-sub">Music Archive &amp; Ranking</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="nav-section" aria-label="カテゴリ・検索切替">
+          <button type="button" class="nav-btn nav-home-btn" id="pcHomeBtn" title="初期状態（ホーム）に戻る">
+            <span class="nav-btn-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"></path></svg>
+              <span>ホーム</span>
+            </span>
+          </button>
+
+          <div class="nav-section-label" style="margin-top:8px;">ライブラリ分類</div>
+          <button type="button" class="nav-btn active" data-nav-view="all">
+            <span class="nav-btn-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+              <span>すべて</span>
+            </span>
+            <span class="nav-count-badge" id="navBadgeAll">1,463</span>
+          </button>
+
+          <button type="button" class="nav-btn" data-nav-view="cat1">
+            <span class="nav-btn-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+              <span>カバーあり</span>
+            </span>
+            <span class="nav-count-badge" id="navBadgeCat1">783</span>
+          </button>
+
+          <button type="button" class="nav-btn" data-nav-view="cat2">
+            <span class="nav-btn-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+              <span>カバーなし</span>
+            </span>
+            <span class="nav-count-badge" id="navBadgeCat2">680</span>
+          </button>
+
+          <div class="nav-section-label" style="margin-top:10px;">探索</div>
+          <button type="button" class="nav-btn" data-nav-view="search">
+            <span class="nav-btn-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg>
+              <span>検索</span>
+            </span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Fixed-Position Footer: #pcFontScaleBox never shifts by even 1px across 100%-175% -->
+      <div class="sidebar-footer" id="pcSidebarFooter">
+        <button type="button" class="pc-about-site-btn" id="pcAboutBtn" aria-label="当サイトについてを表示" title="当サイトについて">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"></circle><path d="M9.2 9.2a2.8 2.8 0 0 1 5.45.95c0 1.9-2.65 2.45-2.65 4.05"></path><circle cx="12" cy="17.3" r="0.65" fill="currentColor"></circle></svg>
+          <span>当サイトについて</span>
+        </button>
+        <div class="font-scale-box" id="pcFontScaleBox" aria-label="PC文字サイズ設定">
+          <div class="font-scale-header">
+            <span class="font-scale-label">文字サイズ</span>
+            <strong class="font-scale-val" id="pcFontScaleVal">100%</strong>
+          </div>
+          <input type="range" id="pcFontScaleSlider" class="font-scale-slider" min="100" max="175" step="25" value="100" aria-valuemin="100" aria-valuemax="175" aria-valuenow="100" aria-label="文字サイズ調整スライダー（100%〜175%）">
+          <div class="font-scale-ticks" role="group" aria-label="文字サイズ段階選択">
+            <button type="button" class="font-tick-btn active" data-font-scale="100">100%</button>
+            <button type="button" class="font-tick-btn" data-font-scale="125">125%</button>
+            <button type="button" class="font-tick-btn" data-font-scale="150">150%</button>
+            <button type="button" class="font-tick-btn" data-font-scale="175">175%</button>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- Center Ranking / Search Panel -->
+    <main class="center-panel">
+      <div class="center-scroll" id="centerScrollArea">
+        <!-- Hero Header (Visible on Category 1 & 2 views) -->
+        <section class="hero-header" id="heroHeaderSection">
+          <div class="hero-cover-wrap">
+            <img src="./assets/logo.svg" alt="かるが聴いている歌い手・アーティスト 公式ロゴ (CAL.piS)" class="hero-cover-img" width="156" height="156" fetchpriority="high" decoding="async">
+          </div>
+          <div class="hero-info">
+            <div class="hero-badge">
+              <span class="hero-badge-dot"></span>
+              <span>MY MUSIC LIBRARY</span>
+            </div>
+            <h1 class="hero-title">かるが聴いている<span class="nowrap-phrase">歌い手・アーティスト</span></h1>
+            <p class="hero-desc">お気に入りの歌声を、<span class="nowrap-phrase">ひとつのライブラリに。</span></p>
+            <div class="hero-brand-sub">
+              <span class="hero-brand-sub-dot"></span>
+              <span>CALPIS MUSIC ARCHIVE</span>
+            </div>
+            <div class="hero-stats">
+              <button type="button" class="stat-pill interactive active-cat" id="pillAll" title="すべてを表示">
+                <span class="stat-label">すべて</span>
+                <span class="stat-val" id="statTotal">1,463</span>
+              </button>
+              <button type="button" class="stat-pill interactive" id="pillCat1" title="カバーありを表示">
+                <span class="stat-label">カバーあり</span>
+                <span class="stat-val" id="statCat1">783</span>
+              </button>
+              <button type="button" class="stat-pill interactive" id="pillCat2" title="カバーなしを表示">
+                <span class="stat-label">カバーなし</span>
+                <span class="stat-val" id="statCat2">680</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ② 3 High-Visibility Stat Cards for Smartphone (Total is non-button readout; Cat1/Cat2 are interactive buttons) -->
+        <section class="mobile-stats-grid" id="mobileStatsGrid" aria-label="アーカイブ統計・分類切替">
+          <button type="button" class="mob-stat-card interactive active-cat" id="mobCardTotal">
+            <div class="mob-stat-top-row">
+              <div class="mob-stat-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+              </div>
+              <span class="mob-stat-action-badge">切替</span>
+            </div>
+            <div class="mob-stat-num" id="mobStatTotal">1,463</div>
+            <div class="mob-stat-label">すべて</div>
+          </button>
+
+          <button type="button" class="mob-stat-card interactive" id="mobCardCat1">
+            <div class="mob-stat-top-row">
+              <div class="mob-stat-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+              </div>
+              <span class="mob-stat-action-badge">切替</span>
+            </div>
+            <div class="mob-stat-num" id="mobStatCat1">783</div>
+            <div class="mob-stat-label">カバーあり</div>
+          </button>
+
+          <button type="button" class="mob-stat-card interactive" id="mobCardCat2">
+            <div class="mob-stat-top-row">
+              <div class="mob-stat-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+              </div>
+              <span class="mob-stat-action-badge">切替</span>
+            </div>
+            <div class="mob-stat-num" id="mobStatCat2">680</div>
+            <div class="mob-stat-label">カバーなし</div>
+          </button>
+        </section>
+
+        <!-- ③ Mobile Collection Section Heading above Unified Sort & Filter -->
+        <section class="mobile-collection-header" id="mobileCollectionHeader">
+          <div class="mob-col-overline">ARTIST COLLECTION</div>
+          <h2 class="mob-col-title" id="mobCollectionTitle">すべて</h2>
+          <div class="mob-col-subrow">
+            <span id="mobCollectionSub">歌い手・アーティストを登録楽曲数順に表示</span>
+            <span class="mob-col-count" id="mobCollectionCount">1,463 名義</span>
+          </div>
+        </section>
+
+        <!-- Dedicated Search Header (Visible on Search view) -->
+        <section class="search-view-header" id="searchHeaderSection" style="display:none;">
+          <div class="search-header-top-row">
+            <h1 class="search-view-title" id="searchViewTitle">すべて検索</h1>
+            <div class="search-target-tabs" role="tablist" aria-label="検索モードの切り替え">
+              <button type="button" class="search-target-tab active" data-search-target="all" role="tab" aria-selected="true">すべて</button>
+              <button type="button" class="search-target-tab" data-search-target="artist" role="tab" aria-selected="false">アーティストを検索</button>
+              <button type="button" class="search-target-tab" data-search-target="song" role="tab" aria-selected="false">楽曲を検索</button>
+              <button type="button" class="search-target-tab" data-search-target="group" role="tab" aria-selected="false">グループを検索</button>
+            </div>
+          </div>
+          <div class="search-box-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg>
+            <input type="text" inputmode="search" id="mainSearchInput" class="search-main-input" placeholder="アーティスト名・ひらがな・カタカナ・ローマ字・楽曲名を入力..." autocomplete="off">
+            <button type="button" id="clearSearchBtn" class="search-clear-btn" style="display:none;" aria-label="検索語をクリア">×</button>
+          </div>
+          <!-- Live Search Candidate Suggestions -->
+          <div class="search-candidates-bar" id="searchCandidatesBar" style="display:none;" aria-label="検索候補"></div>
+          <div class="search-scope-tabs" role="tablist" aria-label="検索対象の分類">
+            <button type="button" class="scope-tab active" data-search-scope="all">すべて (1,463)</button>
+            <button type="button" class="scope-tab" data-search-scope="cat1">カバーあり (783)</button>
+            <button type="button" class="scope-tab" data-search-scope="cat2">カバーなし (680)</button>
+          </div>
+        </section>
+
+        <!-- ③ Unified Sticky Controls & Active Filter Chips (Single unified location on both PC & Mobile) -->
+        <div class="sticky-controls">
+          <div class="controls-top-row">
+            <div class="controls-left">
+              <div class="history-nav-group" role="group" aria-label="操作の戻る・やり直す">
+                <button type="button" class="history-nav-btn" id="undoNavBtn" data-history-action="undo" disabled aria-label="直前の操作に戻る" title="直前の操作に戻る">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                  <span>戻る</span>
+                </button>
+                <button type="button" class="history-nav-btn" id="redoNavBtn" data-history-action="redo" disabled aria-label="操作をやり直す" title="操作をやり直す">
+                  <span>やり直す</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+              <div class="sort-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="16" y1="6" y2="6"></line><line x1="4" x2="12" y1="12" y2="12"></line><line x1="4" x2="8" y1="18" y2="18"></line><polyline points="15 15 18 18 21 15"></polyline><line x1="18" x2="18" y1="10" y2="18"></line></svg>
+                <select id="pcSortSelect" class="sort-select" aria-label="並び替え">
+                  <option value="countDesc">曲数が多い順</option>
+                  <option value="countAsc">曲数が少ない順</option>
+                  <option value="kanaAsc">五十音順</option>
+                  <option value="alphaAsc">アルファベット順</option>
+                  <option value="nameAsc">名前：昇順</option>
+                  <option value="nameDesc">名前：降順</option>
+                  <option value="subDesc">登録者数が多い順</option>
+                  <option value="subAsc">登録者数が少ない順</option>
+                </select>
+              </div>
+
+              <button type="button" class="filter-toggle-btn" id="pcFilterToggleBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                <span>絞り込み</span>
+              </button>
+
+              <!-- Active Filter Chips (Individual × removal + すべて解除) -->
+              <div class="active-chips-wrap" id="activeChipsContainer"></div>
+            </div>
+
+            <div class="controls-right">
+              <span class="result-summary-text" id="resultSummaryText">表示中: <strong>1,463</strong> 名義</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PC Collapsible Filter Drawer (Placed in normal scroll flow so scrolling down scrolls it up out of view) -->
+        <div class="pc-filter-drawer" id="pcFilterDrawer"></div>
+
+        <!-- Ranking List Column Header (PC: 6 columns / Smartphone: 4 columns) -->
+        <div class="list-col-header">
+          <span style="text-align:center;">#</span>
+          <span></span>
+          <span>アーティスト</span>
+          <span class="col-pc-only" style="text-align:right;">活動形態</span>
+          <span class="col-pc-only col-agency-wide" style="text-align:center;" title="所属（事務所・作品）">所属</span>
+          <span class="col-pc-only" style="text-align:right;" title="YouTubeチャンネル登録者数">登録者数</span>
+          <span style="text-align:right;padding-right:4px;">登録楽曲数</span>
+        </div>
+
+        <!-- Ranking Rows Container -->
+        <div class="artist-list" id="artistListContainer"></div>
+      </div>
+    </main>
+
+    <!-- Right Artist Detail Panel (PC Right Column / Mobile Bottom Sheet) -->
+    <aside class="right-panel" id="rightDetailPanel" aria-label="アーティスト詳細">
+      <div class="sheet-drag-handle" aria-hidden="true"></div>
+      <div class="detail-top-bar">
+        <button type="button" class="detail-back-btn" id="detailBackBtn" style="display:none;" aria-label="直前のプロフィール・状態に戻る" title="直前のプロフィール・状態に戻る">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span id="detailBackBtnLabel">戻る</span>
+        </button>
+        <div class="detail-bar-title" id="detailTopBarTitle">アーティスト詳細</div>
+        <button type="button" class="detail-close-btn" id="closeDetailBtn" aria-label="詳細パネルを閉じる" title="閉じる">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="detail-scroll" id="detailScrollContent"></div>
+    </aside>
+  </div>
+
+  <!-- Mobile Backdrop for Bottom Sheets -->
+  <div class="sheet-backdrop" id="sheetBackdrop"></div>
+
+  <!-- Mobile Filter Bottom Sheet -->
+  <div class="mobile-filter-sheet" id="mobFilterSheet" aria-label="絞り込み設定">
+    <div class="sheet-drag-handle" aria-hidden="true"></div>
+    <div class="mob-sheet-header">
+      <div class="mob-sheet-title">絞り込み条件</div>
+      <button type="button" class="detail-close-btn" id="closeMobFilterBtn" aria-label="閉じる">×</button>
+    </div>
+    <div class="mob-sheet-body" id="mobFilterSheetBody"></div>
+    <div class="mob-sheet-footer">
+      <button type="button" class="btn-reset-mob" id="resetMobFilterBtn">すべて解除</button>
+      <button type="button" class="btn-apply-mob" id="applyMobFilterBtn">結果を表示</button>
+    </div>
+  </div>
+
+  <!-- Mobile Fixed Bottom Navigation (3 Tabs: カバーあり / カバーなし / 検索) -->
+  <nav class="mobile-bottom-nav" aria-label="モバイルナビゲーション">
+    <button type="button" class="mob-nav-item active" data-nav-view="all">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+      <span>すべて</span>
+    </button>
+    <button type="button" class="mob-nav-item" data-nav-view="cat1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+      <span>カバーあり</span>
+    </button>
+    <button type="button" class="mob-nav-item" data-nav-view="cat2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+      <span>カバーなし</span>
+    </button>
+    <button type="button" class="mob-nav-item" data-nav-view="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg>
+      <span>検索</span>
+    </button>
+  </nav>
+
+  
+  <!-- About This Site Modal (当サイトについて) -->
+  <div class="about-modal-backdrop" id="aboutSiteModal" role="dialog" aria-modal="true" aria-labelledby="aboutSiteModalTitle" aria-hidden="true">
+    <div class="about-modal-card">
+      <div class="about-modal-header">
+        <div class="about-modal-title-wrap">
+          <svg class="about-modal-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"></circle><path d="M9.2 9.2a2.8 2.8 0 0 1 5.45.95c0 1.9-2.65 2.45-2.65 4.05"></path><circle cx="12" cy="17.3" r="0.65" fill="currentColor"></circle></svg>
+          <h2 class="about-modal-title" id="aboutSiteModalTitle">当サイトについて</h2>
+        </div>
+        <button type="button" class="about-modal-close-btn" id="closeAboutModalBtn" aria-label="閉じる" title="閉じる">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="about-modal-body">
+        <!-- 1. 各種機能について -->
+        <section class="about-item-card">
+          <h3 class="about-item-heading">1. 各種機能について：</h3>
+          <div class="about-item-lines">
+            <p class="about-line"><span class="about-green-text">ホーム</span>：リセットボタン。選択解除し最初の画面に戻る。</p>
+            <p class="about-line"><span class="about-green-text">検索</span>：登録名義や楽曲、ユニット名で検索できる。</p>
+            <p class="about-line"><span class="about-green-text">ランキングリスト</span>：並び替えや絞り込みが可能。名義を押すとプロフィール画面が出てくる。「歌手」「声優」「音楽グループ」のみその人の説明文を記載。</p>
+          </div>
+        </section>
+
+        <!-- 2. 登録楽曲数について -->
+        <section class="about-item-card">
+          <h3 class="about-item-heading">2. 登録楽曲数について：</h3>
+          <div class="about-item-lines">
+            <p class="about-line">登録楽曲（＝かるが聴いてる曲）は、かるがYouTube Musicの「無限 プレイリスト」「無限2 プレイリスト」に入れている曲。</p>
+            <p class="about-line">聴いてる曲にあるからと言ってかるが好きとは限らないし、知っている曲はプレイリストに入れないので記載のある曲が全曲ではない（例：めありーさんが3曲なわけないだろいい加減にしろ）。</p>
+          </div>
+        </section>
+
+        <!-- 3. 登録アーティストについて -->
+        <section class="about-item-card">
+          <h3 class="about-item-heading">3. 登録アーティストについて：</h3>
+          <div class="about-item-lines">
+            <p class="about-line"><span class="about-green-text">「女性ボーカル」</span>または<span class="about-green-text">「女性ボーカルを含む音楽ユニット」</span>を記載。</p>
+            <p class="about-line"><span class="about-green-text">「カバーあり」</span>は、歌ってみたやカバー曲を一定数出しているアーティスト。</p>
+            <p class="about-line"><span class="about-green-text">「カバーなし」</span>は、主にオリジナル曲で活動しているアーティスト。</p>
+            <p class="about-line">作曲者や男性ボーカルはアーティストとして登録していない。</p>
+          </div>
+        </section>
+
+        <!-- 4. 活動形態について -->
+        <section class="about-item-card">
+          <h3 class="about-item-heading">4. 活動形態について：</h3>
+          <div class="about-item-lines">
+            <p class="about-line"><span class="about-green-text">VsingerとVtuber</span>の境界線は曖昧。音楽活動が多かったり、本人がVsingerを自称またはVsinger事務所に所属している場合はVsingerに分類している。</p>
+            <p class="about-line"><span class="about-green-text">歌い手とVsinger</span>の境界線も曖昧。歌い手がVsingerになることは多いので。</p>
+            <p class="about-line"><span class="about-green-text">歌い手</span>は、カバーや歌みたをメインに活動している人。</p>
+            <p class="about-line"><span class="about-green-text">歌手</span>は、オリ曲をメインに活動している人。</p>
+            <p class="about-line"><span class="about-green-text">音楽グループ(アニゲー関連)</span>は、キャラクターユニットや声優ユニット以外にも、Vtuberやアニメ関連曲を担当したことがあるアーティストも含め、広く取っている。</p>
+          </div>
+        </section>
+
+        <!-- 5. サイト内の誤りについて -->
+        <section class="about-item-card">
+          <h3 class="about-item-heading">5. サイト内の誤りについて：</h3>
+          <div class="about-item-lines">
+            <p class="about-line">さすがに数が多すぎて、分類とかリンクとか全然間違っててもおかしくないから許してください。間違いに気づいたら教えてください。</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="./data.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
