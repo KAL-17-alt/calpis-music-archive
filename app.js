@@ -1367,6 +1367,12 @@
     if (statRec) statRec.textContent = recCnt;
     const mobStatRec = document.getElementById("mobStatRecommend");
     if (mobStatRec) mobStatRec.textContent = recCnt;
+    const scAll = document.getElementById("scopeCntAll");
+    if (scAll) scAll.textContent = fmtNum(countTotal);
+    const scCat1 = document.getElementById("scopeCntCat1");
+    if (scCat1) scCat1.textContent = fmtNum(countCat1);
+    const scCat2 = document.getElementById("scopeCntCat2");
+    if (scCat2) scCat2.textContent = fmtNum(countCat2);
 
   }
 
@@ -1399,7 +1405,11 @@
               }
               return rolesToShow.map(role => {
                 const isAct = state.roles.includes(role);
-                return `<button type="button" class="pill-btn ${isAct ? "active" : ""}" data-filter-role="${esc(role)}" aria-pressed="${isAct}">${esc(role)}</button>`;
+                const mobRoleLabel = role.startsWith("音楽グループ(") ? role.replace(/^音楽/, "") : role;
+                const labelHTML = (mobRoleLabel !== role)
+                  ? `<span class="tab-label-pc">${esc(role)}</span><span class="tab-label-mob">${esc(mobRoleLabel)}</span>`
+                  : esc(role);
+                return `<button type="button" class="pill-btn ${isAct ? "active" : ""}" data-filter-role="${esc(role)}" aria-pressed="${isAct}">${labelHTML}</button>`;
               }).join("");
             })()}
           </div>
@@ -1520,7 +1530,7 @@
   function buildArtistRowHTML(a, isSearch, rowIndex = 999, hideRankNumber = false) {
     const isSelected = state.selectedArtistName === a.name;
     const isFav = isRecommendedArtist(a.name);
-    const favHeartHTML = isFav ? `<span class="artist-fav-heart" title="かるのオススメ" aria-label="かるのオススメ">♥</span>` : "";
+    const favHeartHTML = isFav ? `<span class="artist-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : "";
     const rankClass = (!hideRankNumber && state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
     const isSongSearchMode = isSearch && state.searchTarget === "song" && Boolean(a._matchedSongPreview);
     const songDisplayStr = a._matchedSongsDisplay || a._matchedSongPreview || "";
@@ -1840,10 +1850,7 @@
     const catClass = artist.cat === 1 ? "cat-1" : "cat-2";
     const detailRoles = getEffectiveRolesForArtist(artist);
     const roleBadgeHTML = detailRoles
-      .map(r => {
-        const isRoleActive = state.roles.includes(r);
-        return `<button type="button" class="detail-role-badge interactive-role-btn ${isRoleActive ? "active-role" : ""}" data-detail-filter-role="${esc(r)}" title="活動形態「${esc(r)}」で絞り込む">${esc(r)}</button>`;
-      })
+      .map(r => `<span class="detail-role-badge static-role-badge">${esc(r)}</span>`)
       .join("");
     const hasArchiveSongs = (artist.count || 0) >= 1 && rawSongs.length >= 1;
     if (!hasArchiveSongs && state.detailMode === "archive") {
@@ -1992,7 +1999,7 @@
         <div class="detail-avatar-wrap">
           ${renderAvatarHTML(artist, true)}
         </div>
-        <h2 class="detail-artist-name">${esc(artist.name)}${isRecommendedArtist(artist.name) ? `<span class="detail-fav-heart" title="かるのオススメ" aria-label="かるのオススメ">♥</span>` : ""}</h2>
+        <h2 class="detail-artist-name">${esc(artist.name)}${isRecommendedArtist(artist.name) ? `<span class="detail-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : ""}</h2>
         <div class="detail-meta-row">
           ${roleBadgeHTML}
         </div>
@@ -2712,13 +2719,7 @@
       const row = e.target.closest(".artist-row");
       if (!row) return;
       const name = row.getAttribute("data-artist-name");
-      // Secret Method 1 (PC): Alt + Click on any artist row toggles ♥ directly
-      if (e.altKey) {
-        e.preventDefault();
-        toggleRecommendedArtist(name);
-        return;
-      }
-      // Secret Method 2 (PC & Mobile): When Quick-Heart Edit Mode is active, tapping the circular avatar in the list toggles ♥
+      // When Quick-Heart Edit Mode is active, tapping the circular avatar in the list toggles ❤
       if (favQuickEditMode && e.target.closest(".row-avatar-wrap")) {
         e.preventDefault();
         e.stopPropagation();
@@ -2790,53 +2791,7 @@
       detailBackBtn.addEventListener("click", undoStateAction);
     }
 
-    // Secret Method (Detail Panel): Double-click / Double-tap or Long-press (0.55s) on the circular Artist Avatar (.detail-avatar-wrap)
-    const detailContentEl = document.getElementById("detailScrollContent");
-    let detailAvatarLastTap = 0;
-    let detailAvatarPressTimer = null;
-    let detailAvatarLongPressed = false;
 
-    detailContentEl.addEventListener("dblclick", e => {
-      if (e.target.closest(".detail-avatar-wrap") && state.selectedArtistName) {
-        e.preventDefault();
-        toggleRecommendedArtist(state.selectedArtistName);
-      }
-    });
-
-    detailContentEl.addEventListener("touchstart", e => {
-      const av = e.target.closest(".detail-avatar-wrap");
-      if (!av || !state.selectedArtistName) return;
-      detailAvatarLongPressed = false;
-      if (detailAvatarPressTimer) clearTimeout(detailAvatarPressTimer);
-      detailAvatarPressTimer = setTimeout(() => {
-        detailAvatarLongPressed = true;
-        toggleRecommendedArtist(state.selectedArtistName);
-      }, 550);
-    }, { passive: true });
-
-    detailContentEl.addEventListener("touchend", e => {
-      if (detailAvatarPressTimer) {
-        clearTimeout(detailAvatarPressTimer);
-        detailAvatarPressTimer = null;
-      }
-      const av = e.target.closest(".detail-avatar-wrap");
-      if (!av || !state.selectedArtistName || detailAvatarLongPressed) return;
-      const now = Date.now();
-      if (now - detailAvatarLastTap < 340) {
-        e.preventDefault();
-        detailAvatarLastTap = 0;
-        toggleRecommendedArtist(state.selectedArtistName);
-      } else {
-        detailAvatarLastTap = now;
-      }
-    });
-
-    detailContentEl.addEventListener("touchmove", () => {
-      if (detailAvatarPressTimer) {
-        clearTimeout(detailAvatarPressTimer);
-        detailAvatarPressTimer = null;
-      }
-    }, { passive: true });
 
     // Secret 5-tap on top-left logo (.brand-disc-icon or .mobile-top-left) to toggle Quick-Heart Edit Mode
     // (When active, tapping any artist's circular icon in the main list toggles ♥ in 1 tap;
@@ -2888,33 +2843,19 @@
         }
         return;
       }
-      const roleFilterBtn = e.target.closest("[data-detail-filter-role]");
-      if (roleFilterBtn) {
-        const targetRole = roleFilterBtn.getAttribute("data-detail-filter-role") || "";
-        if (targetRole) {
-          pushHistorySnapshot(true);
-          if (state.roles.length === 1 && state.roles[0] === targetRole) {
-            state.roles = [];
-          } else {
-            state.roles = [targetRole];
-          }
-          if (state.view === "search") {
-            state.view = "all";
-          }
-          updateUI(true);
-          syncHistoryButtons();
-        }
-        return;
-      }
       const agencyBtn = e.target.closest("[data-filter-agency]");
       if (agencyBtn) {
         const agGroup = agencyBtn.getAttribute("data-filter-agency") || "";
         const matchCount = DATA.filter(a => (a.agencyGroup || a.agency || "") === agGroup).length;
         if (agGroup && matchCount >= 2) {
           pushHistorySnapshot(true);
-          state.agencyGroup = agGroup;
-          if (state.view === "search") {
-            state.view = "all";
+          if (state.agencyGroup === agGroup) {
+            state.agencyGroup = "";
+          } else {
+            state.agencyGroup = agGroup;
+            if (state.view === "search" || state.view === "recommend") {
+              state.view = "all";
+            }
           }
           updateUI(true);
           syncHistoryButtons();
@@ -3040,4 +2981,9 @@
     }
   }
   updateUI(true);
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js").catch(() => {});
+    });
+  }
 })();

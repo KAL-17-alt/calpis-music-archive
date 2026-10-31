@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Calpis Music Archive">
-<meta property="og:description" content="聴いているアーティストと楽曲をまとめた音楽アーカイブ">
-<meta property="og:image"
-  content="https://calpis-music-archive.vercel.app/og-image-v2.png">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Calpis Music Archive">
-<meta name="twitter:description" content="聴いているアーティストと楽曲をまとめた音楽アーカイブ">
-<meta name="twitter:image"
-  content="https://calpis-music-archive.vercel.app/og-image-v2.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>かるが聴いている歌い手・アーティスト</title>
@@ -26,8 +15,28 @@
   <link rel="preconnect" href="https://lh3.googleusercontent.com">
   <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
   <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
-  <link rel="icon" type="image/png" href="./assets/favicon.png">
-  <link rel="apple-touch-icon" href="./assets/favicon.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="かる音楽アーカイブ">
+  <link rel="icon" type="image/png" sizes="256x256" href="./assets/favicon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./assets/icon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+  <link rel="canonical" href="https://calpis-music-archive.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://calpis-music-archive.vercel.app/">
+  <meta property="og:site_name" content="かるが聴いている歌い手・アーティスト">
+  <meta property="og:title" content="かるが聴いている歌い手・アーティスト">
+  <meta property="og:description" content="かるが聴いている女性ボーカル・歌い手・アーティストの登録楽曲ランキング・アーカイブ">
+  <meta property="og:image" content="https://calpis-music-archive.vercel.app/assets/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://calpis-music-archive.vercel.app/">
+  <meta name="twitter:title" content="かるが聴いている歌い手・アーティスト">
+  <meta name="twitter:description" content="かるが聴いている女性ボーカル・歌い手・アーティストの登録楽曲ランキング・アーカイブ">
+  <meta name="twitter:image" content="https://calpis-music-archive.vercel.app/assets/ogp.png">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -35,7 +44,7 @@
   <div class="fav-quick-edit-banner" id="favQuickEditBanner" role="status" aria-live="polite">
     <span class="fav-qe-left">
       <span class="fav-qe-dot"></span>
-      <span>♥ 高速ハート編集モード ON（丸アイコン1タップで好き設定）</span>
+      <span class="fav-qe-text"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg> 高速ハート編集モード ON（丸アイコン1タップで好き設定）</span>
     </span>
     <button type="button" class="fav-qe-exit-btn" id="exitFavQuickEditBtn">完了して閉じる</button>
   </div>
@@ -180,7 +189,7 @@
                 <span class="stat-val" id="statCat2">680</span>
               </button>
               <button type="button" class="stat-pill interactive stat-pill-recommend" id="pillRecommend" title="かるのオススメを表示">
-                <span class="stat-label">♥ かるのオススメ</span>
+                <span class="stat-label"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg> かるのオススメ</span>
                 <span class="stat-val" id="statRecommend">0</span>
               </button>
             </div>
@@ -192,7 +201,7 @@
           <button type="button" class="mobile-recommend-banner" id="mobRecommendBtn">
             <span class="mob-rec-left">
               <span class="mob-rec-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                <svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg>
               </span>
               <span class="mob-rec-text-col">
                 <span class="mob-rec-title">かるのオススメ</span>
@@ -258,9 +267,9 @@
             <h1 class="search-view-title" id="searchViewTitle">すべて検索</h1>
             <div class="search-target-tabs" role="tablist" aria-label="検索モードの切り替え">
               <button type="button" class="search-target-tab active" data-search-target="all" role="tab" aria-selected="true">すべて</button>
-              <button type="button" class="search-target-tab" data-search-target="artist" role="tab" aria-selected="false">アーティストを検索</button>
-              <button type="button" class="search-target-tab" data-search-target="song" role="tab" aria-selected="false">楽曲を検索</button>
-              <button type="button" class="search-target-tab" data-search-target="group" role="tab" aria-selected="false">グループを検索</button>
+              <button type="button" class="search-target-tab" data-search-target="artist" role="tab" aria-selected="false"><span class="tab-label-pc">アーティストを検索</span><span class="tab-label-mob">アーティスト</span></button>
+              <button type="button" class="search-target-tab" data-search-target="song" role="tab" aria-selected="false"><span class="tab-label-pc">楽曲を検索</span><span class="tab-label-mob">楽曲</span></button>
+              <button type="button" class="search-target-tab" data-search-target="group" role="tab" aria-selected="false"><span class="tab-label-pc">グループを検索</span><span class="tab-label-mob">グループ</span></button>
             </div>
           </div>
           <div class="search-box-wrap">
@@ -271,9 +280,9 @@
           <!-- Live Search Candidate Suggestions -->
           <div class="search-candidates-bar" id="searchCandidatesBar" style="display:none;" aria-label="検索候補"></div>
           <div class="search-scope-tabs" role="tablist" aria-label="検索対象の分類">
-            <button type="button" class="scope-tab active" data-search-scope="all">すべて (1,463)</button>
-            <button type="button" class="scope-tab" data-search-scope="cat1">カバーあり (783)</button>
-            <button type="button" class="scope-tab" data-search-scope="cat2">カバーなし (680)</button>
+            <button type="button" class="scope-tab active" data-search-scope="all">すべて (<span id="scopeCntAll">1,465</span>)</button>
+            <button type="button" class="scope-tab" data-search-scope="cat1"><span class="tab-label-pc">カバーあり</span><span class="tab-label-mob">カバー</span> (<span id="scopeCntCat1">783</span>)</button>
+            <button type="button" class="scope-tab" data-search-scope="cat2">カバーなし (<span id="scopeCntCat2">682</span>)</button>
           </div>
         </section>
 

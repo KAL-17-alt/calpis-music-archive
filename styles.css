@@ -4107,3 +4107,167 @@ body.fav-quick-edit-mode .artist-row .row-avatar-wrap {
   outline: 2px dashed rgba(251, 113, 133, 0.75);
   outline-offset: 2px;
 }
+
+
+/* ==========================================================================
+   V43 UPDATES:
+   1) PLUMP SOFT ROUNDED HEART SVG (.heart-soft-svg)
+   2) 4-COLUMN MOBILE BOTTOM NAVIGATION BAR (Fixes Search wrapping bug)
+   3) SINGLE-LINE MOBILE SEARCH TABS ("すべて / アーティスト / 楽曲 / グループ", "すべて / カバー / カバーなし")
+      & 2-LINE MOBILE FILTER ROLE PILLS ("グループ(アニゲー関連)", "グループ(その他)")
+   4) NON-CLICKABLE DETAIL ROLE BADGE (.static-role-badge)
+   5) RANKING ROW COLOR SWAP: 活動形態 & 所属 in White (#FFFFFF), 登録楽曲数 in Gray (#B3B3B3)
+   ========================================================================== */
+
+/* 1. Plump, soft rounded heart SVG styling */
+.heart-soft-svg {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.14em;
+  flex-shrink: 0;
+}
+
+.artist-fav-heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fb7185;
+  font-size: 0.96em;
+  margin-left: 5px;
+  vertical-align: baseline;
+  filter: drop-shadow(0 1px 4px rgba(244, 63, 94, 0.32));
+}
+
+.detail-fav-heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fb7185;
+  font-size: 0.92em;
+  margin-left: 7px;
+  vertical-align: baseline;
+  filter: drop-shadow(0 1px 6px rgba(244, 63, 94, 0.4));
+}
+
+.stat-pill-recommend .stat-label .heart-soft-svg {
+  color: #fb7185;
+  margin-right: 3px;
+}
+
+.fav-qe-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.fav-qe-text .heart-soft-svg {
+  color: #fb7185;
+  width: 14px;
+  height: 14px;
+}
+
+/* 2. Responsive PC / Mobile labels for Search Tabs & Filter Role Pills */
+.tab-label-mob {
+  display: none;
+}
+.tab-label-pc {
+  display: inline;
+}
+
+@media (max-width: 900px) {
+  .tab-label-pc {
+    display: none !important;
+  }
+  .tab-label-mob {
+    display: inline !important;
+  }
+
+  /* Fix Mobile Bottom Nav: 4 columns in a single clean row */
+  .mobile-bottom-nav {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    align-items: center;
+  }
+
+  /* Mobile Search Screen: Fit 4 target tabs & 3 scope tabs strictly on 1 line */
+  .search-view-header {
+    padding: 16px 14px 14px !important;
+  }
+
+  .search-header-top-row {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 10px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .search-target-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    width: 100% !important;
+    gap: 4px !important;
+    padding: 4px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .search-target-tab {
+    padding: 6px 4px !important;
+    font-size: 12px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+
+  .search-scope-tabs {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    width: 100% !important;
+    margin-top: 11px !important;
+  }
+
+  .scope-tab {
+    flex: 1 1 0% !important;
+    padding: 6px 4px !important;
+    font-size: 11.5px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+
+  /* Mobile Filter Sheet: Fit Activity Role pills cleanly in 2 rows */
+  .mob-sheet-body {
+    padding: 14px 14px calc(24px + env(safe-area-inset-bottom, 12px)) !important;
+  }
+
+  .mob-sheet-body .preset-pills {
+    gap: 5px !important;
+  }
+
+  .mob-sheet-body .preset-pills .pill-btn {
+    padding: 5px 8px !important;
+    font-size: 11.5px !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* 3. Non-clickable Activity Role Badge in Artist Detail Panel */
+.detail-role-badge.static-role-badge {
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+/* 4. Ranking Row Text Color Swap:
+   - 活動形態 (.row-role-badge) & 所属 (.row-agency-badge) -> Crisp White (#FFFFFF)
+   - 登録楽曲数 (.row-count) -> Subdued Gray (var(--text-secondary), #B3B3B3) */
+.row-role-badge:not(.unclassified) {
+  color: #FFFFFF !important;
+}
+
+.row-agency-badge {
+  color: #FFFFFF !important;
+}
+
+.row-count,
+.row-count span {
+  color: var(--text-secondary) !important;
+}
