@@ -3807,3 +3807,303 @@ input[type="search"]::-webkit-search-results-decoration,
     line-height: 1.66;
   }
 }
+
+
+/* ==========================================================================
+   V42 UPDATES:
+   1) ABOUT MODAL BULLET SPACING (em-based so 100%-175% font scale never overlaps) & INLINE YT ICON
+   2) "かるのオススメ" PC SIDEBAR BUTTON, MOBILE HORIZONTAL BANNER (REPLACING MOBILE HERO BOX),
+      ROLE-GROUPED LIST WITHOUT RANK NUMBERS, AND HEART MARK INDICATORS
+   ========================================================================== */
+.about-line {
+  padding-left: 1.65em !important;
+  position: relative;
+}
+
+.about-line::before {
+  content: "・";
+  position: absolute;
+  left: 0.05em !important;
+  top: 0;
+  width: 1.2em;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.about-inline-yt-badge {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: calc(25px * var(--fs));
+  height: calc(25px * var(--fs));
+  border-radius: calc(6px * var(--fs));
+  background: #282828;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c4c4c4;
+  vertical-align: middle;
+  margin-right: 2px;
+  transform: translateY(-1.5px);
+}
+
+.about-inline-yt-badge .yt-ext-icon {
+  width: calc(14.5px * var(--fs));
+  height: calc(14.5px * var(--fs));
+}
+
+/* Mobile Recommend Box is hidden on PC; shown on Smartphone in place of Hero Header */
+.mobile-recommend-box-wrap {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  /* Hide the App Title Box (#heroHeaderSection) on Smartphone as requested */
+  #heroHeaderSection,
+  .hero-header {
+    display: none !important;
+  }
+
+  /* Vertically short, horizontally wide "かるのオススメ" box on Smartphone */
+  .mobile-recommend-box-wrap {
+    display: block;
+    padding: 10px 14px 2px;
+  }
+
+  .mobile-recommend-banner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.16) 0%, rgba(24, 24, 27, 0.96) 65%, #171717 100%);
+    border: 1px solid rgba(244, 63, 94, 0.34);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+  }
+
+  .mobile-recommend-banner:active {
+    transform: scale(0.992);
+  }
+
+  .mobile-recommend-banner.active-cat {
+    border-color: rgba(244, 63, 94, 0.5);
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.21) 0%, rgba(24, 24, 27, 0.96) 65%, #171717 100%);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.42);
+  }
+
+  .mob-rec-left {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+  }
+
+  .mob-rec-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: rgba(244, 63, 94, 0.18);
+    color: #fb7185;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .mob-rec-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mob-rec-text-col {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .mob-rec-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.25;
+  }
+
+  .mob-rec-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mob-rec-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .mob-rec-count-wrap {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mob-rec-count-wrap strong {
+    font-size: 17px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-right: 2px;
+  }
+
+  .mobile-recommend-banner.active-cat .mob-stat-action-badge {
+    background: rgba(244, 63, 94, 0.26);
+    border-color: rgba(244, 63, 94, 0.48);
+    color: #ffe4e6;
+  }
+}
+
+/* PC Sidebar Recommend button active accent */
+.nav-recommend-btn.active svg {
+  color: #fb7185 !important;
+}
+
+/* Heart Mark in Main Artist Row & Detail Panel */
+.artist-fav-heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fb7185;
+  font-size: 0.92em;
+  margin-left: 5px;
+  vertical-align: baseline;
+  filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.35));
+}
+
+.detail-fav-heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fb7185;
+  font-size: 0.88em;
+  margin-left: 7px;
+  vertical-align: baseline;
+  filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.45));
+}
+
+/* Role Group Section Headers inside "かるのオススメ" view */
+.recommend-role-section {
+  margin-bottom: 18px;
+}
+
+.recommend-role-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  margin: 8px 6px 4px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.recommend-role-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(29, 185, 84, 0.65);
+  flex-shrink: 0;
+}
+
+.recommend-role-title {
+  font-size: calc(13.5px * var(--fs));
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+.recommend-role-count {
+  margin-left: auto;
+  font-size: calc(11.5px * var(--fs));
+  font-weight: 700;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.row-rank-blank {
+  color: transparent !important;
+  user-select: none;
+}
+
+/* Owner Quick-Heart Edit Mode: Turn top-bar dot pink + show clear status banner & avatar rings */
+body.fav-quick-edit-mode .mobile-top-dot,
+body.fav-quick-edit-mode .hero-badge-dot {
+  background: #fb7185 !important;
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.95) !important;
+  transform: scale(1.25);
+}
+
+.fav-quick-edit-banner {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: rgba(36, 14, 22, 0.96);
+  border: 1.5px solid #fb7185;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.75), 0 0 16px rgba(244, 63, 94, 0.35);
+  color: #ffe4e6;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 800;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100vw - 20px);
+  white-space: nowrap;
+}
+
+body.fav-quick-edit-mode .fav-quick-edit-banner {
+  display: inline-flex;
+}
+
+.fav-qe-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fav-qe-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fb7185;
+  box-shadow: 0 0 8px #fb7185;
+  flex-shrink: 0;
+}
+
+.fav-qe-exit-btn {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #fb7185;
+  color: #000000;
+  font-size: 11.5px;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+body.fav-quick-edit-mode .artist-row .row-avatar-wrap {
+  outline: 2px dashed rgba(251, 113, 133, 0.75);
+  outline-offset: 2px;
+}

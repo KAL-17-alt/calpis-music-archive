@@ -33,6 +33,80 @@
   // PC Font Scale steps (4 steps in v6: 100%, 125%, 150%, 175%; 200% removed)
   const VALID_FONT_SCALES = [100, 125, 150, 175];
   const FONT_SCALE_STORAGE_KEY = "calpis_pc_font_scale";
+  const RECOMMENDED_STORAGE_KEY = "calpis_recommended_artists_v1";
+
+  // Recommended ("かるのオススメ" / 好き設定) Set: merges master `a.rec` flags + browser localStorage
+  const recommendedSet = new Set();
+  let favQuickEditMode = false;
+
+  function loadRecommendedArtists() {
+    recommendedSet.clear();
+    DATA.forEach(a => {
+      if (a && a.rec) recommendedSet.add(a.name);
+    });
+    try {
+      const raw = localStorage.getItem(RECOMMENDED_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          parsed.forEach(name => {
+            if (typeof name === "string" && name.trim()) {
+              if (name.startsWith("-")) {
+                recommendedSet.delete(name.slice(1));
+              } else {
+                recommendedSet.add(name.trim());
+              }
+            }
+          });
+        }
+      }
+    } catch (e) {}
+  }
+
+  function saveRecommendedArtists() {
+    try {
+      const overrides = [];
+      DATA.forEach(a => {
+        const inSet = recommendedSet.has(a.name);
+        if (inSet && !a.rec) overrides.push(a.name);
+        else if (!inSet && a.rec) overrides.push("-" + a.name);
+      });
+      recommendedSet.forEach(name => {
+        if (! overrides.includes(name)) {
+          const a = DATA.find(x => x.name === name);
+          if (!a || !a.rec) overrides.push(name);
+        }
+      });
+      localStorage.setItem(RECOMMENDED_STORAGE_KEY, JSON.stringify(Array.from(new Set(overrides))));
+    } catch (e) {}
+  }
+
+  function isRecommendedArtist(name) {
+    return Boolean(name && recommendedSet.has(name));
+  }
+
+  function getRecommendedCount() {
+    let cnt = 0;
+    DATA.forEach(a => {
+      if (recommendedSet.has(a.name)) cnt++;
+    });
+    return cnt;
+  }
+
+  function toggleRecommendedArtist(name) {
+    if (!name || !ARTIST_MAP.has(name)) return;
+    if (recommendedSet.has(name)) {
+      recommendedSet.delete(name);
+    } else {
+      recommendedSet.add(name);
+    }
+    saveRecommendedArtists();
+    renderStaticStats();
+    updateUI(false);
+    renderDetailPanel(false);
+  }
+
+  loadRecommendedArtists();
 
   // Application State
   const state = {
@@ -1083,7 +1157,9 @@
       if (state.agencyGroup) {
         if ((a.agencyGroup || a.agency || "") !== state.agencyGroup) return false;
       }
-      if (!isSearch && !state.agencyGroup && !state.unitGroup) {
+      if (state.view === "recommend") {
+        if (!isRecommendedArtist(a.name)) return false;
+      } else if (!isSearch && !state.agencyGroup && !state.unitGroup) {
         if (state.view === "cat1" && a.cat !== 1) return false;
         if (state.view === "cat2" && a.cat !== 2) return false;
       } else if (isSearch) {
@@ -1284,6 +1360,13 @@
     if (navAll) navAll.textContent = fmtNum(countTotal);
     document.getElementById("navBadgeCat1").textContent = fmtNum(countCat1);
     document.getElementById("navBadgeCat2").textContent = fmtNum(countCat2);
+    const recCnt = fmtNum(getRecommendedCount());
+    const navRec = document.getElementById("navBadgeRecommend");
+    if (navRec) navRec.textContent = recCnt;
+    const statRec = document.getElementById("statRecommend");
+    if (statRec) statRec.textContent = recCnt;
+    const mobStatRec = document.getElementById("mobStatRecommend");
+    if (mobStatRec) mobStatRec.textContent = recCnt;
 
   }
 
@@ -1434,9 +1517,11 @@
   }
 
   // Build a single Artist Row HTML string (PC: 6 columns / Smartphone: 4 columns)
-  function buildArtistRowHTML(a, isSearch, rowIndex = 999) {
+  function buildArtistRowHTML(a, isSearch, rowIndex = 999, hideRankNumber = false) {
     const isSelected = state.selectedArtistName === a.name;
-    const rankClass = (state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
+    const isFav = isRecommendedArtist(a.name);
+    const favHeartHTML = isFav ? `<span class="artist-fav-heart" title="かるのオススメ" aria-label="かるのオススメ">♥</span>` : "";
+    const rankClass = (!hideRankNumber && state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
     const isSongSearchMode = isSearch && state.searchTarget === "song" && Boolean(a._matchedSongPreview);
     const songDisplayStr = a._matchedSongsDisplay || a._matchedSongPreview || "";
     let nameWrapInner = "";
@@ -1444,7 +1529,7 @@
     if (isSongSearchMode) {
       nameWrapInner = `
         <div class="row-song-primary">♪ ${esc(songDisplayStr)}</div>
-        <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${esc(a.name)}</div>
+        <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${esc(a.name)}${favHeartHTML}</div>
       `;
     } else {
       let matchSub = "";
@@ -1456,7 +1541,7 @@
         }
       }
       nameWrapInner = `
-        <div class="row-name">${esc(a.name)}</div>
+        <div class="row-name">${esc(a.name)}${favHeartHTML}</div>
         ${matchSub}
       `;
     }
@@ -1508,7 +1593,7 @@
 
     return `
       <div class="artist-row ${isSelected ? "selected" : ""}" data-artist-name="${esc(a.name)}" role="button" tabindex="0">
-        <div class="row-rank ${rankClass}">${a._displayRank}</div>
+        <div class="row-rank ${hideRankNumber ? "row-rank-blank" : rankClass}">${hideRankNumber ? "" : a._displayRank}</div>
         <div class="row-avatar-wrap">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
           ${nameWrapInner}
@@ -1585,6 +1670,63 @@
       } else {
         listEl.innerHTML = groupsHTML;
       }
+      return;
+    }
+
+    if (state.view === "recommend") {
+      if (currentFiltered.length === 0) {
+        listEl.innerHTML = `
+          <div class="empty-list-state">
+            <h3>「かるのオススメ」に設定されたアーティストがまだありません</h3>
+            <p>お気に入りのアーティストを設定すると、ここに活動形態別で一覧表示されます。</p>
+          </div>
+        `;
+        return;
+      }
+      const roleOrder = [
+        "Vsinger",
+        "Vtuber",
+        "歌い手",
+        "歌手",
+        "声優",
+        "キャラ",
+        "音楽グループ(アニゲー関連)",
+        "音楽グループ(その他)"
+      ];
+      const buckets = new Map();
+      roleOrder.forEach(r => buckets.set(r, []));
+      currentFiltered.forEach(a => {
+        let primaryRole = a.role || "その他";
+        if (primaryRole === "音楽グループ") {
+          primaryRole = a.groupSubRole || "音楽グループ(アニゲー関連)";
+        }
+        if (!buckets.has(primaryRole)) {
+          buckets.set(primaryRole, []);
+        }
+        buckets.get(primaryRole).push(a);
+      });
+      let globalIdx = 0;
+      let sectionsHTML = "";
+      buckets.forEach((groupList, roleName) => {
+        if (!groupList || groupList.length === 0) return;
+        const rowsHTML = groupList.map(a => {
+          const htmlRow = buildArtistRowHTML(a, false, globalIdx, true);
+          globalIdx++;
+          return htmlRow;
+        }).join("");
+        sectionsHTML += `
+          <div class="recommend-role-section">
+            <div class="recommend-role-group-header">
+              <span class="recommend-role-dot" aria-hidden="true"></span>
+              <span class="recommend-role-title">${esc(roleName)}</span>
+              <span class="recommend-role-count">${fmtNum(groupList.length)} 名義</span>
+            </div>
+            ${rowsHTML}
+          </div>
+        `;
+      });
+      listEl.innerHTML = sectionsHTML;
+      scheduleLookaheadAvatarPreload(12, 40);
       return;
     }
 
@@ -1850,7 +1992,7 @@
         <div class="detail-avatar-wrap">
           ${renderAvatarHTML(artist, true)}
         </div>
-        <h2 class="detail-artist-name">${esc(artist.name)}</h2>
+        <h2 class="detail-artist-name">${esc(artist.name)}${isRecommendedArtist(artist.name) ? `<span class="detail-fav-heart" title="かるのオススメ" aria-label="かるのオススメ">♥</span>` : ""}</h2>
         <div class="detail-meta-row">
           ${roleBadgeHTML}
         </div>
@@ -1936,11 +2078,29 @@
       searchHeaderEl.style.display = "none";
     }
 
+    // Update mobileRecommendWrap visibility & active state
+    const mobRecWrap = document.getElementById("mobileRecommendWrap");
+    if (mobRecWrap) {
+      mobRecWrap.style.display = state.view === "search" ? "none" : "";
+    }
+    const mobRecBtn = document.getElementById("mobRecommendBtn");
+    if (mobRecBtn) {
+      mobRecBtn.classList.toggle("active-cat", state.view === "recommend");
+    }
+
+    // Hide "#" rank header text when in "recommend" view (since rank numbers are hidden)
+    const listColFirstSpan = document.querySelector(".list-col-header > span:first-child");
+    if (listColFirstSpan) {
+      listColFirstSpan.textContent = state.view === "recommend" ? "" : "#";
+    }
+
     // Highlight active stat pill (PC) & stat card (Mobile)
     const pillAllEl = document.getElementById("pillAll");
     if (pillAllEl) pillAllEl.classList.toggle("active-cat", state.view === "all");
     document.getElementById("pillCat1").classList.toggle("active-cat", state.view === "cat1");
     document.getElementById("pillCat2").classList.toggle("active-cat", state.view === "cat2");
+    const pillRecEl = document.getElementById("pillRecommend");
+    if (pillRecEl) pillRecEl.classList.toggle("active-cat", state.view === "recommend");
     const mobCardTotalEl = document.getElementById("mobCardTotal");
     if (mobCardTotalEl) mobCardTotalEl.classList.toggle("active-cat", state.view === "all");
     document.getElementById("mobCardCat1").classList.toggle("active-cat", state.view === "cat1");
@@ -1979,6 +2139,10 @@
     } else if (state.view === "cat2") {
       mobTitleEl.textContent = "カバーなし";
       if (mobColTitleEl) mobColTitleEl.textContent = "カバーなし";
+    } else if (state.view === "recommend") {
+      mobTitleEl.textContent = "かるのオススメ";
+      if (mobColTitleEl) mobColTitleEl.textContent = "かるのオススメ";
+      if (mobColSubEl) mobColSubEl.textContent = "好き設定したアーティストを活動形態別に表示";
     } else {
       mobTitleEl.textContent = "検索";
     }
@@ -2259,7 +2423,7 @@
         const targetView = btn.getAttribute("data-nav-view");
         pushHistorySnapshot(false);
         state.view = targetView;
-        if (targetView === "all" || targetView === "cat1" || targetView === "cat2") {
+        if (targetView === "all" || targetView === "cat1" || targetView === "cat2" || targetView === "recommend") {
           state.agencyGroup = "";
           state.unitGroup = "";
         }
@@ -2317,6 +2481,26 @@
       state.unitGroup = "";
       updateUI(true);
     });
+    const pillRecBtn = document.getElementById("pillRecommend");
+    if (pillRecBtn) {
+      pillRecBtn.addEventListener("click", () => {
+        pushHistorySnapshot(false);
+        state.view = "recommend";
+        state.agencyGroup = "";
+        state.unitGroup = "";
+        updateUI(true);
+      });
+    }
+    const mobRecBtn = document.getElementById("mobRecommendBtn");
+    if (mobRecBtn) {
+      mobRecBtn.addEventListener("click", () => {
+        pushHistorySnapshot(false);
+        state.view = state.view === "recommend" ? "all" : "recommend";
+        state.agencyGroup = "";
+        state.unitGroup = "";
+        updateUI(true);
+      });
+    }
     const mobCardTotalBtn = document.getElementById("mobCardTotal");
     if (mobCardTotalBtn) {
       mobCardTotalBtn.addEventListener("click", () => {
@@ -2528,6 +2712,19 @@
       const row = e.target.closest(".artist-row");
       if (!row) return;
       const name = row.getAttribute("data-artist-name");
+      // Secret Method 1 (PC): Alt + Click on any artist row toggles ♥ directly
+      if (e.altKey) {
+        e.preventDefault();
+        toggleRecommendedArtist(name);
+        return;
+      }
+      // Secret Method 2 (PC & Mobile): When Quick-Heart Edit Mode is active, tapping the circular avatar in the list toggles ♥
+      if (favQuickEditMode && e.target.closest(".row-avatar-wrap")) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleRecommendedArtist(name);
+        return;
+      }
       selectArtist(name);
     });
     listContainer.addEventListener("keydown", e => {
@@ -2542,7 +2739,7 @@
     // Infinite smooth chunk rendering on scroll using DocumentFragment append
     const scrollEl = document.getElementById("centerScrollArea");
     scrollEl.addEventListener("scroll", () => {
-      if (state.renderLimit >= currentFiltered.length) return;
+      if (state.view === "recommend" || state.renderLimit >= currentFiltered.length) return;
       if (scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 420) {
         const prevLimit = state.renderLimit;
         state.renderLimit = Math.min(currentFiltered.length, state.renderLimit + 100);
@@ -2591,6 +2788,94 @@
     const detailBackBtn = document.getElementById("detailBackBtn");
     if (detailBackBtn) {
       detailBackBtn.addEventListener("click", undoStateAction);
+    }
+
+    // Secret Method (Detail Panel): Double-click / Double-tap or Long-press (0.55s) on the circular Artist Avatar (.detail-avatar-wrap)
+    const detailContentEl = document.getElementById("detailScrollContent");
+    let detailAvatarLastTap = 0;
+    let detailAvatarPressTimer = null;
+    let detailAvatarLongPressed = false;
+
+    detailContentEl.addEventListener("dblclick", e => {
+      if (e.target.closest(".detail-avatar-wrap") && state.selectedArtistName) {
+        e.preventDefault();
+        toggleRecommendedArtist(state.selectedArtistName);
+      }
+    });
+
+    detailContentEl.addEventListener("touchstart", e => {
+      const av = e.target.closest(".detail-avatar-wrap");
+      if (!av || !state.selectedArtistName) return;
+      detailAvatarLongPressed = false;
+      if (detailAvatarPressTimer) clearTimeout(detailAvatarPressTimer);
+      detailAvatarPressTimer = setTimeout(() => {
+        detailAvatarLongPressed = true;
+        toggleRecommendedArtist(state.selectedArtistName);
+      }, 550);
+    }, { passive: true });
+
+    detailContentEl.addEventListener("touchend", e => {
+      if (detailAvatarPressTimer) {
+        clearTimeout(detailAvatarPressTimer);
+        detailAvatarPressTimer = null;
+      }
+      const av = e.target.closest(".detail-avatar-wrap");
+      if (!av || !state.selectedArtistName || detailAvatarLongPressed) return;
+      const now = Date.now();
+      if (now - detailAvatarLastTap < 340) {
+        e.preventDefault();
+        detailAvatarLastTap = 0;
+        toggleRecommendedArtist(state.selectedArtistName);
+      } else {
+        detailAvatarLastTap = now;
+      }
+    });
+
+    detailContentEl.addEventListener("touchmove", () => {
+      if (detailAvatarPressTimer) {
+        clearTimeout(detailAvatarPressTimer);
+        detailAvatarPressTimer = null;
+      }
+    }, { passive: true });
+
+    // Secret 5-tap on top-left logo (.brand-disc-icon or .mobile-top-left) to toggle Quick-Heart Edit Mode
+    // (When active, tapping any artist's circular icon in the main list toggles ♥ in 1 tap;
+    //  also copies the JSON array of recommended artist names to clipboard for optional GitHub sync)
+    let secretLogoTapCount = 0;
+    let secretLogoTapTimer = null;
+    function handleSecretLogoTap() {
+      secretLogoTapCount++;
+      if (secretLogoTapTimer) clearTimeout(secretLogoTapTimer);
+      if (secretLogoTapCount >= 5) {
+        secretLogoTapCount = 0;
+        favQuickEditMode = !favQuickEditMode;
+        document.body.classList.toggle("fav-quick-edit-mode", favQuickEditMode);
+        try {
+          const favArray = DATA.filter(a => recommendedSet.has(a.name)).map(a => a.name);
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(JSON.stringify(favArray, null, 2)).catch(() => {});
+          }
+        } catch (err) {}
+      } else {
+        secretLogoTapTimer = setTimeout(() => { secretLogoTapCount = 0; }, 1200);
+      }
+    }
+    const brandIconEl = document.querySelector(".brand-disc-icon");
+    if (brandIconEl) brandIconEl.addEventListener("click", handleSecretLogoTap);
+    const mobTopLeftEl = document.querySelector(".mobile-top-left");
+    if (mobTopLeftEl) mobTopLeftEl.addEventListener("click", handleSecretLogoTap);
+    const exitFavQeBtn = document.getElementById("exitFavQuickEditBtn");
+    if (exitFavQeBtn) {
+      exitFavQeBtn.addEventListener("click", () => {
+        favQuickEditMode = false;
+        document.body.classList.remove("fav-quick-edit-mode");
+        try {
+          const favArray = DATA.filter(a => recommendedSet.has(a.name)).map(a => a.name);
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(JSON.stringify(favArray, null, 2)).catch(() => {});
+          }
+        } catch (err) {}
+      });
     }
 
     document.getElementById("detailScrollContent").addEventListener("click", e => {

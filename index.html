@@ -20,6 +20,14 @@
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+  <!-- Owner-only Quick Heart Edit Mode Banner (Hidden unless activated by 5 taps) -->
+  <div class="fav-quick-edit-banner" id="favQuickEditBanner" role="status" aria-live="polite">
+    <span class="fav-qe-left">
+      <span class="fav-qe-dot"></span>
+      <span>♥ 高速ハート編集モード ON（丸アイコン1タップで好き設定）</span>
+    </span>
+    <button type="button" class="fav-qe-exit-btn" id="exitFavQuickEditBtn">完了して閉じる</button>
+  </div>
   <!-- ① Simplified Clean Mobile Top Header Bar (with Home Reset & Search) -->
   <header class="mobile-top-bar">
     <div class="mobile-top-left">
@@ -87,6 +95,14 @@
             <span class="nav-count-badge" id="navBadgeCat2">680</span>
           </button>
 
+          <button type="button" class="nav-btn nav-recommend-btn" data-nav-view="recommend">
+            <span class="nav-btn-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+              <span>かるのオススメ</span>
+            </span>
+            <span class="nav-count-badge" id="navBadgeRecommend">0</span>
+          </button>
+
           <div class="nav-section-label" style="margin-top:10px;">探索</div>
           <button type="button" class="nav-btn" data-nav-view="search">
             <span class="nav-btn-left">
@@ -152,8 +168,31 @@
                 <span class="stat-label">カバーなし</span>
                 <span class="stat-val" id="statCat2">680</span>
               </button>
+              <button type="button" class="stat-pill interactive stat-pill-recommend" id="pillRecommend" title="かるのオススメを表示">
+                <span class="stat-label">♥ かるのオススメ</span>
+                <span class="stat-val" id="statRecommend">0</span>
+              </button>
             </div>
           </div>
+        </section>
+
+        <!-- Smartphone Horizontal Short "かるのオススメ" Box (replaces Mobile App Title Box between Top Bar and Stat Cards) -->
+        <section class="mobile-recommend-box-wrap" id="mobileRecommendWrap" aria-label="かるのオススメ">
+          <button type="button" class="mobile-recommend-banner" id="mobRecommendBtn">
+            <span class="mob-rec-left">
+              <span class="mob-rec-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+              </span>
+              <span class="mob-rec-text-col">
+                <span class="mob-rec-title">かるのオススメ</span>
+                <span class="mob-rec-sub">好き設定したアーティストを活動形態別に表示</span>
+              </span>
+            </span>
+            <span class="mob-rec-right">
+              <span class="mob-rec-count-wrap"><strong id="mobStatRecommend">0</strong><span>名義</span></span>
+              <span class="mob-stat-action-badge">切替</span>
+            </span>
+          </button>
         </section>
 
         <!-- ② 3 High-Visibility Stat Cards for Smartphone (Total is non-button readout; Cat1/Cat2 are interactive buttons) -->
@@ -364,6 +403,7 @@
             <p class="about-line"><span class="about-green-text">ホーム</span>：リセットボタン。選択解除し最初の画面に戻る。</p>
             <p class="about-line"><span class="about-green-text">検索</span>：登録名義や楽曲、ユニット名で検索できる。</p>
             <p class="about-line"><span class="about-green-text">ランキングリスト</span>：並び替えや絞り込みが可能。名義を押すとプロフィール画面が出てくる。「歌手」「声優」「音楽グループ」のみその人の説明文を記載。</p>
+            <p class="about-line"><span class="yt-link-badge about-inline-yt-badge" aria-hidden="true"><svg class="yt-ext-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></span>：押すと代表曲のYouTubeリンクへ飛ぶ。</p>
           </div>
         </section>
 
@@ -371,8 +411,8 @@
         <section class="about-item-card">
           <h3 class="about-item-heading">2. 登録楽曲数について：</h3>
           <div class="about-item-lines">
-            <p class="about-line">登録楽曲（＝かるが聴いてる曲）は、かるがYouTube Musicの「無限 プレイリスト」「無限2 プレイリスト」に入れている曲。</p>
-            <p class="about-line">聴いてる曲にあるからと言ってかるが好きとは限らないし、知っている曲はプレイリストに入れないので記載のある曲が全曲ではない（例：めありーさんが3曲なわけないだろいい加減にしろ）。</p>
+            <p class="about-line"><span class="about-green-text">登録楽曲（＝かるが聴いてる曲）</span>は、かるがYouTube Musicの<span class="about-green-text">「無限 プレイリスト」「無限2 プレイリスト」</span>に入れている曲。</p>
+            <p class="about-line">聴いてる曲にあるからと言ってかるが好きとは限らないし、知っている曲はプレイリストに入れないので<span class="about-green-text">記載のある曲が全曲ではない</span>（例：めありーさんが3曲なわけないだろいい加減にしろ）。</p>
           </div>
         </section>
 

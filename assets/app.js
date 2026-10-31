@@ -33,18 +33,94 @@
   // PC Font Scale steps (4 steps in v6: 100%, 125%, 150%, 175%; 200% removed)
   const VALID_FONT_SCALES = [100, 125, 150, 175];
   const FONT_SCALE_STORAGE_KEY = "calpis_pc_font_scale";
+  const RECOMMENDED_STORAGE_KEY = "calpis_recommended_artists_v1";
+
+  // Recommended ("かるのオススメ" / 好き設定) Set: merges master `a.rec` flags + browser localStorage
+  const recommendedSet = new Set();
+  let favQuickEditMode = false;
+
+  function loadRecommendedArtists() {
+    recommendedSet.clear();
+    DATA.forEach(a => {
+      if (a && a.rec) recommendedSet.add(a.name);
+    });
+    try {
+      const raw = localStorage.getItem(RECOMMENDED_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          parsed.forEach(name => {
+            if (typeof name === "string" && name.trim()) {
+              if (name.startsWith("-")) {
+                recommendedSet.delete(name.slice(1));
+              } else {
+                recommendedSet.add(name.trim());
+              }
+            }
+          });
+        }
+      }
+    } catch (e) {}
+  }
+
+  function saveRecommendedArtists() {
+    try {
+      const overrides = [];
+      DATA.forEach(a => {
+        const inSet = recommendedSet.has(a.name);
+        if (inSet && !a.rec) overrides.push(a.name);
+        else if (!inSet && a.rec) overrides.push("-" + a.name);
+      });
+      recommendedSet.forEach(name => {
+        if (! overrides.includes(name)) {
+          const a = DATA.find(x => x.name === name);
+          if (!a || !a.rec) overrides.push(name);
+        }
+      });
+      localStorage.setItem(RECOMMENDED_STORAGE_KEY, JSON.stringify(Array.from(new Set(overrides))));
+    } catch (e) {}
+  }
+
+  function isRecommendedArtist(name) {
+    return Boolean(name && recommendedSet.has(name));
+  }
+
+  function getRecommendedCount() {
+    let cnt = 0;
+    DATA.forEach(a => {
+      if (recommendedSet.has(a.name)) cnt++;
+    });
+    return cnt;
+  }
+
+  function toggleRecommendedArtist(name) {
+    if (!name || !ARTIST_MAP.has(name)) return;
+    if (recommendedSet.has(name)) {
+      recommendedSet.delete(name);
+    } else {
+      recommendedSet.add(name);
+    }
+    saveRecommendedArtists();
+    renderStaticStats();
+    updateUI(false);
+    renderDetailPanel(false);
+  }
+
+  loadRecommendedArtists();
 
   // Application State
   const state = {
-    view: "cat1",          // "cat1" | "cat2" | "search"
+    view: "all",           // "all" | "cat1" | "cat2" | "search"
     searchScope: "all",    // "all" | "cat1" | "cat2"
+    searchTarget: "all",   // "all" | "artist" | "song" | "group"
     searchQuery: "",
     sortBy: "countDesc",   // "countDesc" | "countAsc" | "kanaAsc" | "alphaAsc" | "nameAsc" | "nameDesc"
     savedSortBy: "countDesc", // Sort order saved before 50-on or Alphabet filter auto-switches sort
     lastIndexType: "",     // "kana" | "alpha" | "" (tracks which index filter was operated most recently)
     roles: [],             // Selected activity roles (OR within group)
     subBuckets: [],        // Removed from filter drawer in v26
-    agencyGroup: "",       // Selected broad agency/content group when clicked from profile
+    agencyGroup: "",       // Selected broad agency/content group
+    unitGroup: "",         // Selected standalone unit group (for artists without a broader agencyGroup)
     kanaRows: [],          // Selected 50-on rows e.g. ["あ", "か"] (multi-select supported)
     kanaChar: "",          // Optional sub-character when a single 50-on row is focused
     alphaChars: [],        // Selected alphabet letters e.g. ["A", "B"] (multi-select supported)
@@ -74,14 +150,13 @@
       lastIndexType: state.lastIndexType,
       roles: [...state.roles],
       agencyGroup: state.agencyGroup,
+      unitGroup: state.unitGroup,
       kanaRows: [...state.kanaRows],
       kanaChar: state.kanaChar,
       alphaChars: [...state.alphaChars],
       selectedArtistName: state.selectedArtistName,
       detailMode: state.detailMode,
       songSort: state.songSort,
-      pcFilterOpen: state.pcFilterOpen,
-      mobFilterOpen: state.mobFilterOpen,
       profileBackAvailable: state.profileBackAvailable
     };
   }
@@ -111,28 +186,30 @@
     if (!snap) return;
     state.view = snap.view;
     state.searchScope = snap.searchScope;
-    state.searchTarget = snap.searchTarget || "both";
+    state.searchTarget = snap.searchTarget || "all";
     state.searchQuery = snap.searchQuery;
     state.sortBy = snap.sortBy;
     state.savedSortBy = snap.savedSortBy;
     state.lastIndexType = snap.lastIndexType;
     state.roles = [...(snap.roles || [])];
     state.agencyGroup = snap.agencyGroup || "";
+    state.unitGroup = snap.unitGroup || "";
     state.kanaRows = [...(snap.kanaRows || [])];
     state.kanaChar = snap.kanaChar || "";
     state.alphaChars = [...(snap.alphaChars || [])];
     state.selectedArtistName = snap.selectedArtistName || null;
     state.detailMode = snap.detailMode || "top5";
     state.songSort = snap.songSort || "titleAsc";
-    state.pcFilterOpen = Boolean(snap.pcFilterOpen);
-    state.mobFilterOpen = Boolean(snap.mobFilterOpen);
+    // Never open the filter drawer on Undo or Redo
+    state.pcFilterOpen = false;
+    state.mobFilterOpen = false;
     state.profileBackAvailable = Boolean(snap.profileBackAvailable);
 
     const mobSheet = document.getElementById("mobFilterSheet");
     const backdrop = document.getElementById("sheetBackdrop");
-    if (mobSheet) mobSheet.classList.toggle("open", state.mobFilterOpen);
+    if (mobSheet) mobSheet.classList.remove("open");
     if (backdrop) {
-      const showBd = state.mobFilterOpen || (window.innerWidth <= 900 && Boolean(state.selectedArtistName));
+      const showBd = (window.innerWidth <= 900 && Boolean(state.selectedArtistName));
       backdrop.classList.toggle("visible", showBd);
     }
 
@@ -147,7 +224,8 @@
   }
 
   function syncHistoryButtons() {
-    const canUndo = undoStack.length > 0;
+    const isFilterDrawerOpen = Boolean(state.pcFilterOpen || state.mobFilterOpen);
+    const canUndo = isFilterDrawerOpen || undoStack.length > 0;
     const canRedo = redoStack.length > 0;
     document.querySelectorAll('[data-history-action="undo"]').forEach(btn => {
       btn.disabled = !canUndo;
@@ -157,12 +235,28 @@
     });
     const detailBackBtn = document.getElementById("detailBackBtn");
     if (detailBackBtn) {
-      const showProfileBack = canUndo && (state.profileBackAvailable || Boolean(state.agencyGroup) || undoStack.length > 0);
+      const showProfileBack = (undoStack.length > 0) && (state.profileBackAvailable || Boolean(state.agencyGroup) || undoStack.length > 0);
       detailBackBtn.style.display = showProfileBack ? "inline-flex" : "none";
     }
   }
 
   function undoStateAction() {
+    // Requirement: If filter drawer is currently open, pressing Undo first closes the filter drawer
+    // (keeping current filters intact); subsequent Undo presses remove filters one by one while staying closed.
+    if (state.pcFilterOpen || state.mobFilterOpen) {
+      state.pcFilterOpen = false;
+      state.mobFilterOpen = false;
+      const mobSheet = document.getElementById("mobFilterSheet");
+      const backdrop = document.getElementById("sheetBackdrop");
+      if (mobSheet) mobSheet.classList.remove("open");
+      if (backdrop && (!state.selectedArtistName || window.innerWidth > 900)) {
+        backdrop.classList.remove("visible");
+      }
+      syncMobileScrollLock();
+      updateUI(false);
+      syncHistoryButtons();
+      return;
+    }
     if (undoStack.length === 0) return;
     const currentSnap = captureStateSnapshot();
     redoStack.push(currentSnap);
@@ -175,6 +269,9 @@
 
   function redoStateAction() {
     if (redoStack.length === 0) return;
+    // Requirement: Redo re-applies selections without opening the filter drawer
+    state.pcFilterOpen = false;
+    state.mobFilterOpen = false;
     const currentSnap = captureStateSnapshot();
     undoStack.push(currentSnap);
     const nextSnap = redoStack.pop();
@@ -444,12 +541,153 @@
     }
   });
   const CLICKABLE_AGENCY_GROUPS = Array.from(AGENCY_GROUP_COUNTS.entries())
-    .filter(([, cnt]) => cnt >= 2)
+    .filter(([, cnt]) => cnt >= 1)
     .map(([name, count]) => ({ name, count }))
     .sort((x, y) => {
       if (y.count !== x.count) return y.count - x.count;
       return jaCollator.compare(x.name, y.name);
     });
+
+  // Readings & aliases for 所属（事務所・作品）
+  const AGENCY_SEARCH_ALIASES = {
+    "ホロライブ": ["ほろらいぶ", "hololive", "ホロライブプロダクション"],
+    "にじさんじ": ["にじさんじ", "nijisanji"],
+    "ぶいすぽっ！": ["ぶいすぽっ", "ぶいすぽ", "vspo"],
+    "神椿スタジオ": ["かみつばきすたじお", "かみつばき", "kamitsubaki", "sinsekai"],
+    "ミリプロ": ["みりぷろ", "millionproduction"],
+    "RIOT MUSIC": ["らいおっとみゅーじっく", "riotmusic", "blitzwing"],
+    "RK Music": ["あーるけーみゅーじっく", "rkmusic"],
+    "Re:AcT": ["りあくと", "react"],
+    "ななしいんく": ["ななしいんく", "774inc"],
+    "あおぎり高校": ["あおぎりこうこう", "aogiri"],
+    "ネオポルテ": ["ねおぽるて", "neoporte"],
+    "のりプロ": ["のりぷろ", "noripro"],
+    "StelLive": ["すてるらいぶ", "stellive"],
+    "Varium": ["ぶいありうむ", "varium"],
+    "VEE": ["ぶいー", "vee"],
+    "VOMS Project": ["ぼむず", "voms"],
+    "Palette Project": ["ぱれっとぷろじぇくと", "パレプロ", "paletteproject"],
+    "Phase Connect": ["ふぇいずこねくと", "phaseconnect"],
+    "PRISM Project": ["ぷりずむぷろじぇくと", "prismproject"],
+    "Propro": ["ぷろぷろ", "propro"],
+    "Specialite": ["すぺしゃりて", "specialite"],
+    "Voice-ore": ["ぼいすおれ", "voiceore"],
+    "ホロスターズ": ["ほろすたーず", "holostars"],
+    "ラブライブ！シリーズ": ["らぶらいぶ", "らぶらいぶしりーず", "lovelive", "μ's", "aqours", "虹ヶ咲", "liella", "蓮ノ空"],
+    "アイドルマスターシリーズ": ["あいどるますたー", "アイマス", "imas", "idolmaster", "デレマス", "シンデレラガールズ", "ミリマス", "ミリオンライブ", "シャニマス", "シャイニーカラーズ", "学マス", "学園アイドルマスター"],
+    "BanG Dream!": ["ばんどり", "バンドリ", "ガルパ", "bangdream", "ゆめみた"],
+    "IDOLY PRIDE": ["あいどりーぷらいど", "アイプラ", "idolypride"],
+    "プロジェクトセカイ カラフルステージ！ feat. 初音ミク": ["ぷろじぇくとせかい", "プロセカ", "pjsekai", "projectsekai"],
+    "ウマ娘 プリティーダービー": ["うまむすめ", "umamusume"],
+    "Re:ステージ！": ["りすてーじ", "リステージ", "restage"],
+    "少女☆歌劇 レヴュースタァライト": ["れゔゅーすたぁらいと", "スタァライト", "revuestarlight"],
+    "D4DJ": ["でぃーふぉーでぃーじぇー", "グルミク", "d4dj"],
+    "ヘブンバーンズレッド": ["へぶんばーんずれっど", "ヘブバン", "heavenburnsred"],
+    "プリンセスコネクト！Re:Dive": ["ぷりんせすこねくと", "プリコネ", "priconne"],
+    "けいおん！": ["けいおん", "k-on"],
+    "マクロスシリーズ": ["まくろす", "macross", "マクロスδ", "マクロスf"],
+    "ぼっち・ざ・ろっく！": ["ぼっちざろっく", "ぼざろ", "bocchi"],
+    "【推しの子】": ["おしのこ", "推しの子", "oshinoko"],
+    "青春ブタ野郎シリーズ": ["せいしゅんぶたやろう", "青ブタ", "aobuta"],
+    "ワールドダイスター": ["わーるどだいすたー", "ユメステ", "worlddai"],
+    "ひなビタ♪": ["ひなびた", "hinabita"],
+    "Wake Up, Girls!": ["うぇいくあっぷがーるず", "wug"],
+    "アイカツ！シリーズ": ["あいかつ", "aikatsu"],
+    "ソードアート・オンライン": ["そーどあーとおんらいん", "sao", "ggo", "ガンゲイル・オンライン"],
+    "超かぐや姫！": ["ちょうかぐやひめ"],
+    "混血のカレコレ": ["こんけつのかれこれ", "カレコレ"],
+    "告白実行委員会 (HoneyWorks)": ["こくはくじっこういいんかい", "ハニワ", "honeyworks"],
+    "ガールズバンドクライ": ["がーるずばんどくらい", "ガルクラ", "girlsbandcry"],
+    "アズールレーン": ["あずーるれーん", "アズレン", "azurlane"],
+    "アークナイツ": ["あーくないつ", "arknights"],
+    "温泉むすめ": ["おんせんむすめ", "onsenmusume"],
+    "電音部": ["でんおんぶ", "denonbu"],
+    "SHOW BY ROCK!!": ["しょーばいろっく", "sb69"],
+    "NEW GAME!": ["にゅーげーむ", "newgame"]
+  };
+
+  // Build SEARCHABLE_GROUPS:
+  // 1) All 所属（事務所・作品） (agencyGroup)
+  // 2) All standalone ユニット (units of people who do NOT have a broader 所属（事務所・作品）)
+  const SEARCHABLE_GROUPS = [];
+  CLICKABLE_AGENCY_GROUPS.forEach(ag => {
+    const members = DATA.filter(a => (a.agencyGroup || a.agency || "") === ag.name);
+    const cat1Cnt = members.filter(a => a.cat === 1).length;
+    const cat2Cnt = members.filter(a => a.cat === 2).length;
+    const aliases = AGENCY_SEARCH_ALIASES[ag.name] || [];
+    const readingHira = aliases[0] || "";
+    const romajiTokens = readingHira ? hiraToRomajiPair(normSearch(readingHira)) : [];
+    const normTokens = [
+      normSearch(ag.name),
+      ...aliases.map(x => normSearch(x)),
+      ...romajiTokens.map(x => normSearch(x))
+    ].filter(Boolean);
+    const normTokensNoSpace = normTokens.map(x => stripSpaces(x)).filter(Boolean);
+    const sampleNames = members.slice(0, 4).map(m => m.name).join("・") + (members.length > 4 ? " ほか" : "");
+    SEARCHABLE_GROUPS.push({
+      type: "agency",
+      typeLabel: "所属（事務所・作品）",
+      name: ag.name,
+      count: members.length,
+      cat1Count: cat1Cnt,
+      cat2Count: cat2Cnt,
+      subtitle: sampleNames,
+      _normName: normSearch(ag.name),
+      _normNameNoSpace: stripSpaces(normSearch(ag.name)),
+      _normTokens: normTokens,
+      _normTokensNoSpace: normTokensNoSpace
+    });
+  });
+
+  // Find units of artists who do NOT have a broader agencyGroup
+  const standaloneUnitMembersMap = new Map();
+  DATA.forEach(a => {
+    const hasBroadAgency = Boolean(a.agencyGroup || a.agency);
+    if (!hasBroadAgency && Array.isArray(a.memberOf)) {
+      a.memberOf.forEach(uName => {
+        if (uName && uName !== a.name && ARTIST_MAP.has(uName)) {
+          const uArtist = ARTIST_MAP.get(uName);
+          // Exclude units that are themselves already a broad agencyGroup or belong to a broad agencyGroup
+          if (uArtist && !(uArtist.agencyGroup || uArtist.agency) && !AGENCY_GROUP_COUNTS.has(uName)) {
+            if (!standaloneUnitMembersMap.has(uName)) {
+              standaloneUnitMembersMap.set(uName, new Set([uName]));
+            }
+            standaloneUnitMembersMap.get(uName).add(a.name);
+          }
+        }
+      });
+    }
+  });
+
+  standaloneUnitMembersMap.forEach((memberSet, uName) => {
+    const uArtist = ARTIST_MAP.get(uName);
+    if (!uArtist) return;
+    const memberObjs = Array.from(memberSet).map(n => ARTIST_MAP.get(n)).filter(Boolean);
+    const cat1Cnt = memberObjs.filter(a => a.cat === 1).length;
+    const cat2Cnt = memberObjs.filter(a => a.cat === 2).length;
+    const indivMembers = Array.from(memberSet).filter(n => n !== uName);
+    const subtitle = indivMembers.length > 0 ? `ボーカル: ${indivMembers.join("・")}` : (uArtist.vocal ? `ボーカル: ${uArtist.vocal}` : "");
+    const normTokens = [
+      uArtist._normName,
+      uArtist._normReading,
+      ...(uArtist._normAliases || []),
+      ...indivMembers.map(m => normSearch(m))
+    ].filter(Boolean);
+    const normTokensNoSpace = normTokens.map(x => stripSpaces(x)).filter(Boolean);
+    SEARCHABLE_GROUPS.push({
+      type: "unit",
+      typeLabel: "ユニット",
+      name: uName,
+      count: memberObjs.length,
+      cat1Count: cat1Cnt,
+      cat2Count: cat2Cnt,
+      subtitle: subtitle,
+      _normName: uArtist._normName,
+      _normNameNoSpace: uArtist._normNameNoSpace,
+      _normTokens: normTokens,
+      _normTokensNoSpace: normTokensNoSpace
+    });
+  });
 
   // Deterministic luxury avatar gradient & monogram generator
   const AVATAR_PALETTES = [
@@ -624,7 +862,8 @@
   let currentFiltered = [];
 
   function syncSearchTargetUI() {
-    const target = state.searchTarget || "both";
+    if (state.searchTarget === "both") state.searchTarget = "all";
+    const target = state.searchTarget || "all";
     document.querySelectorAll("[data-search-target]").forEach(btn => {
       const isAct = btn.getAttribute("data-search-target") === target;
       btn.classList.toggle("active", isAct);
@@ -635,17 +874,59 @@
     if (titleEl) {
       if (target === "artist") titleEl.textContent = "アーティストを検索";
       else if (target === "song") titleEl.textContent = "楽曲を検索";
-      else titleEl.textContent = "アーティスト・楽曲を検索";
+      else if (target === "group") titleEl.textContent = "グループを検索";
+      else titleEl.textContent = "すべて検索";
     }
     if (inputEl) {
       if (target === "artist") {
         inputEl.placeholder = "アーティスト名・ひらがな・カタカナ・ローマ字を入力...";
       } else if (target === "song") {
         inputEl.placeholder = "楽曲名（登録曲・代表曲）を入力...";
+      } else if (target === "group") {
+        inputEl.placeholder = "所属（事務所・作品）やユニット名を入力...";
       } else {
-        inputEl.placeholder = "アーティスト名・ひらがな・カタカナ・ローマ字・楽曲名を入力...";
+        inputEl.placeholder = "アーティスト・楽曲・所属（事務所・作品）・ユニット名を入力...";
       }
     }
+  }
+
+  let currentMatchedGroups = [];
+
+  function findMatchingSearchGroups(q, qNoSpace) {
+    const scope = state.searchScope || "all";
+    const pool = SEARCHABLE_GROUPS.filter(g => {
+      if (scope === "cat1" && g.cat1Count === 0) return false;
+      if (scope === "cat2" && g.cat2Count === 0) return false;
+      return true;
+    });
+    if (!q) {
+      if (state.searchTarget !== "group") return [];
+      return pool.slice().sort((a, b) => {
+        if (b.count !== a.count) return b.count - a.count;
+        return jaCollator.compare(a.name, b.name);
+      });
+    }
+    const matched = [];
+    pool.forEach(g => {
+      let tier = 99;
+      if (g._normName === q || (qNoSpace && g._normNameNoSpace === qNoSpace)) {
+        tier = 1;
+      } else if (g._normTokens.includes(q) || (qNoSpace && g._normTokensNoSpace.includes(qNoSpace))) {
+        tier = 2;
+      } else if (g._normName.startsWith(q) || (qNoSpace && g._normNameNoSpace.startsWith(qNoSpace)) || g._normTokens.some(t => t.startsWith(q))) {
+        tier = 3;
+      } else if (g._normName.includes(q) || (qNoSpace && g._normNameNoSpace.includes(qNoSpace)) || g._normTokens.some(t => t.includes(q)) || (qNoSpace && g._normTokensNoSpace.some(t => t.includes(qNoSpace)))) {
+        tier = 4;
+      }
+      if (tier < 99) {
+        matched.push(g);
+      }
+    });
+    matched.sort((a, b) => {
+      if (b.count !== a.count) return b.count - a.count;
+      return jaCollator.compare(a.name, b.name);
+    });
+    return matched;
   }
 
   function findMatchedSongsForArtist(a, q, qNoSpace) {
@@ -692,8 +973,13 @@
   }
 
   function evaluateSearchMatch(a, q, qNoSpace) {
-    const mode = state.searchTarget || "both";
+    const rawMode = state.searchTarget || "all";
+    const mode = rawMode === "all" ? "both" : rawMode;
     a._matchedSongsDisplay = null;
+    if (mode === "group") {
+      a._searchTier = 99;
+      return false;
+    }
 
     if (mode !== "song") {
       // Tier 1: Exact match on artist name, reading, or confirmed alias/romaji
@@ -828,6 +1114,26 @@
     return 0;
   }
 
+  function isCat1OnlyContext() {
+    return (state.view === "cat1") || (state.view === "search" && state.searchScope === "cat1");
+  }
+
+  function getEffectiveRolesForArtist(a) {
+    const rawRoles = (Array.isArray(a.roles) && a.roles.length > 0)
+      ? a.roles
+      : (a.role && a.role !== "判定保留" ? [a.role] : []);
+    const cat1Only = isCat1OnlyContext();
+    return rawRoles.map(r => {
+      if (cat1Only) {
+        if (r === "音楽グループ(アニゲー関連)" || r === "音楽グループ(その他)") return "音楽グループ";
+        return r;
+      } else {
+        if (r === "音楽グループ") return a.groupSubRole || "音楽グループ(アニゲー関連)";
+        return r;
+      }
+    });
+  }
+
   function applyFilterAndSort() {
     const isSearch = state.view === "search";
     const q = isSearch ? normSearch(state.searchQuery) : "";
@@ -835,21 +1141,41 @@
     const kanaActive = hasKanaFilter();
     const alphaActive = hasAlphaFilter();
 
+    if (isSearch && (state.searchTarget === "all" || state.searchTarget === "both" || state.searchTarget === "group")) {
+      currentMatchedGroups = findMatchingSearchGroups(q, qNoSpace);
+    } else {
+      currentMatchedGroups = [];
+    }
+
     currentFiltered = DATA.filter(a => {
-      // Agency / Content group filter (triggered from profile click; lists all matching artists across categories)
+      // Unit group filter (standalone unit selected from search)
+      if (state.unitGroup) {
+        const inUnit = (a.name === state.unitGroup) || (Array.isArray(a.memberOf) && a.memberOf.includes(state.unitGroup));
+        if (!inUnit) return false;
+      }
+      // Agency / Content group filter
       if (state.agencyGroup) {
         if ((a.agencyGroup || a.agency || "") !== state.agencyGroup) return false;
-      } else if (!isSearch) {
-        const targetCat = state.view === "cat1" ? 1 : 2;
-        if (a.cat !== targetCat) return false;
-      } else {
+      }
+      if (state.view === "recommend") {
+        if (!isRecommendedArtist(a.name)) return false;
+      } else if (!isSearch && !state.agencyGroup && !state.unitGroup) {
+        if (state.view === "cat1" && a.cat !== 1) return false;
+        if (state.view === "cat2" && a.cat !== 2) return false;
+      } else if (isSearch) {
         if (state.searchScope === "cat1" && a.cat !== 1) return false;
         if (state.searchScope === "cat2" && a.cat !== 2) return false;
       }
 
-      // Activity Classification filter (OR within selected roles, AND with other filter groups)
+      // Activity Classification filter (OR within selected roles, supports effective roles per view)
       if (state.roles.length > 0) {
-        if (!state.roles.includes(a.role)) return false;
+        const effRoles = getEffectiveRolesForArtist(a);
+        const rawRoles = (Array.isArray(a.roles) && a.roles.length > 0) ? a.roles : [a.role];
+        const matchesRole = effRoles.some(r => state.roles.includes(r)) ||
+          rawRoles.some(r => state.roles.includes(r)) ||
+          Boolean(a.groupSubRole && state.roles.includes(a.groupSubRole)) ||
+          Boolean(state.roles.includes("音楽グループ") && (a.role === "音楽グループ" || a.role === "音楽グループ(アニゲー関連)" || a.role === "音楽グループ(その他)"));
+        if (!matchesRole) return false;
       }
 
       // YouTube Subscriber Count Bucket filter (OR within selected buckets, AND with other filter groups)
@@ -933,14 +1259,19 @@
     }
 
     if (state.searchTarget === "song") {
-      const songHits = currentFiltered.filter(a => a._matchedSongPreview).slice(0, 6);
+      const allSongHits = currentFiltered.filter(a => a._matchedSongPreview);
+      const songHits = allSongHits.slice(0, 6);
       if (songHits.length === 0) {
         bar.style.display = "none";
         bar.innerHTML = "";
         return;
       }
+      const moreCount = Math.max(0, allSongHits.length - songHits.length);
+      const moreNoteHTML = moreCount > 0
+        ? `<span class="search-cand-more-note">＋ほか${fmtNum(moreCount)}件（下の一覧に表示）</span>`
+        : "";
       bar.style.display = "flex";
-      bar.innerHTML = `<span class="search-cand-label">一致楽曲:</span>` + songHits.map(a => {
+      bar.innerHTML = `<span class="search-cand-label">上位候補:</span>` + songHits.map(a => {
         const isExact = a._searchTier === 4;
         return `
           <button type="button" class="search-cand-chip ${isExact ? "exact-hit" : ""}" data-cand-artist="${esc(a.name)}" title="${esc(a.name)} の詳細を表示">
@@ -948,18 +1279,46 @@
             <span class="search-cand-count">${esc(a.name)}</span>
           </button>
         `;
-      }).join("");
+      }).join("") + moreNoteHTML;
       return;
     }
-    const artistHits = currentFiltered.filter(a => a._searchTier <= 3).slice(0, 6);
-    if (artistHits.length === 0) {
+
+    const allGroupHits = (state.searchTarget === "all" || state.searchTarget === "group")
+      ? currentMatchedGroups
+      : [];
+    const allArtistHits = state.searchTarget === "group"
+      ? []
+      : currentFiltered.filter(a => a._searchTier <= 3);
+    const allSongHits = state.searchTarget === "all"
+      ? currentFiltered.filter(a => a._matchedSongPreview)
+      : [];
+
+    const groupHits = allGroupHits.slice(0, state.searchTarget === "group" ? 6 : 3);
+    const artistHits = allArtistHits.slice(0, state.searchTarget === "all" ? 4 : 6);
+    const songHits = allSongHits.slice(0, 4);
+
+    if (groupHits.length === 0 && artistHits.length === 0 && songHits.length === 0) {
       bar.style.display = "none";
       bar.innerHTML = "";
       return;
     }
 
-    bar.style.display = "flex";
-    bar.innerHTML = `<span class="search-cand-label">候補:</span>` + artistHits.map(a => {
+    const totalHidden =
+      Math.max(0, allGroupHits.length - groupHits.length) +
+      Math.max(0, allArtistHits.length - artistHits.length) +
+      Math.max(0, allSongHits.length - songHits.length);
+    const moreNoteHTML = totalHidden > 0
+      ? `<span class="search-cand-more-note">＋ほか${fmtNum(totalHidden)}件（下の一覧に表示）</span>`
+      : "";
+
+    const groupChipsHTML = groupHits.map(g => `
+      <button type="button" class="search-cand-chip exact-hit" data-cand-group-type="${esc(g.type)}" data-cand-group-name="${esc(g.name)}" title="グループ「${esc(g.name)}」で絞り込む">
+        <span>${esc(g.name)}</span>
+        <span class="search-cand-count">${fmtNum(g.count)}名義</span>
+      </button>
+    `).join("");
+
+    const artistChipsHTML = artistHits.map(a => {
       const isExact = a._searchTier === 1;
       const mono = esc(getMonogram(a.name));
       const grad = getAvatarGradient(a.name);
@@ -974,6 +1333,19 @@
         </button>
       `;
     }).join("");
+
+    const songChipsHTML = songHits.map(a => {
+      const isExact = a._searchTier === 4;
+      return `
+        <button type="button" class="search-cand-chip ${isExact ? "exact-hit" : ""}" data-cand-artist="${esc(a.name)}" title="一致楽曲: ${esc(a._matchedSongPreview)}（${esc(a.name)}）">
+          <span class="search-cand-name">♪ ${esc(a._matchedSongPreview)}</span>
+          <span class="search-cand-count">${esc(a.name)}</span>
+        </button>
+      `;
+    }).join("");
+
+    bar.style.display = "flex";
+    bar.innerHTML = `<span class="search-cand-label">上位候補:</span>` + groupChipsHTML + artistChipsHTML + songChipsHTML + moreNoteHTML;
   }
 
   // Update Header Stats & Navigation Badges (PC & Mobile Stat Cards dynamically populated)
@@ -984,8 +1356,17 @@
     document.getElementById("mobStatTotal").textContent = fmtNum(countTotal);
     document.getElementById("mobStatCat1").textContent = fmtNum(countCat1);
     document.getElementById("mobStatCat2").textContent = fmtNum(countCat2);
+    const navAll = document.getElementById("navBadgeAll");
+    if (navAll) navAll.textContent = fmtNum(countTotal);
     document.getElementById("navBadgeCat1").textContent = fmtNum(countCat1);
     document.getElementById("navBadgeCat2").textContent = fmtNum(countCat2);
+    const recCnt = fmtNum(getRecommendedCount());
+    const navRec = document.getElementById("navBadgeRecommend");
+    if (navRec) navRec.textContent = recCnt;
+    const statRec = document.getElementById("statRecommend");
+    if (statRec) statRec.textContent = recCnt;
+    const mobStatRec = document.getElementById("mobStatRecommend");
+    if (mobStatRec) mobStatRec.textContent = recCnt;
 
   }
 
@@ -1004,16 +1385,29 @@
             ${state.roles.length ? `<button type="button" class="clear-all-chips-btn" data-clear-roles="1">解除</button>` : ""}
           </div>
           <div class="preset-pills">
-            ${ACTIVITY_ROLES.map(role => {
-              const isAct = state.roles.includes(role);
-              return `<button type="button" class="pill-btn ${isAct ? "active" : ""}" data-filter-role="${esc(role)}" aria-pressed="${isAct}">${esc(role)}</button>`;
-            }).join("")}
+            ${(() => {
+              const isCat1Only = (state.view === "cat1") || (state.view === "search" && state.searchScope === "cat1");
+              const isCat2Only = (state.view === "cat2") || (state.view === "search" && state.searchScope === "cat2");
+              let rolesToShow;
+              if (isCat1Only) {
+                rolesToShow = ["Vsinger", "Vtuber", "歌い手", "声優", "キャラ", "歌手", "音楽グループ"];
+              } else if (isCat2Only) {
+                rolesToShow = ["Vtuber", "Vsinger", "歌手", "声優", "キャラ", "音楽グループ(アニゲー関連)", "音楽グループ(その他)"];
+                if (state.roles.includes("歌い手")) rolesToShow.unshift("歌い手");
+              } else {
+                rolesToShow = ["Vsinger", "Vtuber", "歌い手", "声優", "キャラ", "歌手", "音楽グループ(アニゲー関連)", "音楽グループ(その他)"];
+              }
+              return rolesToShow.map(role => {
+                const isAct = state.roles.includes(role);
+                return `<button type="button" class="pill-btn ${isAct ? "active" : ""}" data-filter-role="${esc(role)}" aria-pressed="${isAct}">${esc(role)}</button>`;
+              }).join("");
+            })()}
           </div>
         </div>
 
         <div>
           <div class="filter-group-title">
-            <span>五十音インデックス</span>
+            <span>五十音</span>
             ${hasKanaFilter() ? `<button type="button" class="clear-all-chips-btn" data-clear-kana="1">解除</button>` : ""}
           </div>
           <div class="index-pills">
@@ -1069,6 +1463,9 @@
     if (state.agencyGroup) {
       chips.push({ key: "agencyGroup", label: `所属: ${state.agencyGroup}` });
     }
+    if (state.unitGroup) {
+      chips.push({ key: "unitGroup", label: `ユニット: ${state.unitGroup}` });
+    }
     state.roles.forEach(role => {
       chips.push({ key: `role:${role}`, label: `活動形態: ${role}` });
     });
@@ -1100,7 +1497,7 @@
         <span>${esc(c.label)}</span>
         <button type="button" class="chip-remove-btn" data-remove-chip="${esc(c.key)}" title="この条件を解除" aria-label="${esc(c.label)}を解除">×</button>
       </span>
-    `).join("") + `<button type="button" class="clear-all-chips-btn" data-remove-chip="all">すべて解除</button>`;
+    `).join("") + `<button type="button" class="clear-all-chips-btn" data-remove-chip="all">× すべて解除</button>`;
   }
 
   // Format YouTube subscriber count in readable Japanese (e.g. 134万人, 5.15万人, 4,560人, 未取得)
@@ -1120,9 +1517,11 @@
   }
 
   // Build a single Artist Row HTML string (PC: 6 columns / Smartphone: 4 columns)
-  function buildArtistRowHTML(a, isSearch, rowIndex = 999) {
+  function buildArtistRowHTML(a, isSearch, rowIndex = 999, hideRankNumber = false) {
     const isSelected = state.selectedArtistName === a.name;
-    const rankClass = (state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
+    const isFav = isRecommendedArtist(a.name);
+    const favHeartHTML = isFav ? `<span class="artist-fav-heart" title="かるのオススメ" aria-label="かるのオススメ">♥</span>` : "";
+    const rankClass = (!hideRankNumber && state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
     const isSongSearchMode = isSearch && state.searchTarget === "song" && Boolean(a._matchedSongPreview);
     const songDisplayStr = a._matchedSongsDisplay || a._matchedSongPreview || "";
     let nameWrapInner = "";
@@ -1130,7 +1529,7 @@
     if (isSongSearchMode) {
       nameWrapInner = `
         <div class="row-song-primary">♪ ${esc(songDisplayStr)}</div>
-        <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${esc(a.name)}</div>
+        <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${esc(a.name)}${favHeartHTML}</div>
       `;
     } else {
       let matchSub = "";
@@ -1142,28 +1541,68 @@
         }
       }
       nameWrapInner = `
-        <div class="row-name">${esc(a.name)}</div>
+        <div class="row-name">${esc(a.name)}${favHeartHTML}</div>
         ${matchSub}
       `;
     }
 
     const isUnclassified = !a.role || a.role === "判定保留";
-    const roleLabel = isUnclassified ? "未分類" : a.role;
+    const effRoles = getEffectiveRolesForArtist(a);
+    const rowRoles = effRoles.length > 0 ? effRoles : [isUnclassified ? "未分類" : a.role];
+    const rowRoleBadgesHTML = rowRoles
+      .map(r => `<span class="row-role-badge ${isUnclassified ? "unclassified" : ""}">${esc(r)}</span>`)
+      .join("");
+  const AGENCY_SHORT_LABELS = {
+    "アイドルマスターシリーズ": "アイマス",
+    "ラブライブ！シリーズ": "ラブライブ！",
+    "神椿スタジオ": "神椿",
+    "BanG Dream!": "バンドリ",
+    "ウマ娘 プリティーダービー": "ウマ娘",
+    "Tokyo 7th シスターズ": "ナナシス",
+    "ガールズバンドクライ": "ガルク",
+    "プロジェクトセカイ カラフルステージ！ feat. 初音ミク": "プロセカ",
+    "青春ブタ野郎シリーズ": "青ブタ",
+    "アイカツ！シリーズ": "アイカツ",
+    "少女☆歌劇 レヴュースタァライト": "スタァライト",
+    "INCS toenter (インクストゥエンター)": "INCS toenter",
+    "ソードアート・オンライン": "SAO",
+    "プリンセスコネクト！Re:Dive": "プリコネ",
+    "ブルーアーカイブ -Blue Archive-": "ブルアカ",
+    "ヘブンバーンズレッド": "ヘブバン",
+    "ライヴラリ (ゆにクリエイト)": "ライヴラリ",
+    "陰の実力者になりたくて！": "陰実",
+    "告白実行委員会 (HoneyWorks)": "告白実行委員会"
+  };
+
+  function getShortAgencyLabel(rawAgency) {
+    if (!rawAgency) return "";
+    return AGENCY_SHORT_LABELS[rawAgency] || rawAgency;
+  }
+
     const hasSub = a.sub !== null && a.sub !== undefined;
     const subLabel = formatSubscribersJP(a.sub);
     const subTitle = hasSub
       ? `YouTube公式チャンネル公開登録者数（${a.subDate || "2026-10-27"}取得）`
       : "YouTube公式チャンネル登録者数：未取得";
 
+    const rawAgency = (a.agencyGroup || a.agency || "").trim();
+    const shortAgency = getShortAgencyLabel(rawAgency);
+    const agencyCellHTML = shortAgency
+      ? `<span class="row-agency-badge" title="所属（事務所・作品）：${esc(rawAgency)}">${esc(shortAgency)}</span>`
+      : `<span class="row-agency-empty">—</span>`;
+
     return `
       <div class="artist-row ${isSelected ? "selected" : ""}" data-artist-name="${esc(a.name)}" role="button" tabindex="0">
-        <div class="row-rank ${rankClass}">${a._displayRank}</div>
+        <div class="row-rank ${hideRankNumber ? "row-rank-blank" : rankClass}">${hideRankNumber ? "" : a._displayRank}</div>
         <div class="row-avatar-wrap">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
           ${nameWrapInner}
         </div>
         <div class="row-role col-pc-only">
-          <span class="row-role-badge ${isUnclassified ? "unclassified" : ""}">${esc(roleLabel)}</span>
+          ${rowRoleBadgesHTML}
+        </div>
+        <div class="row-agency col-pc-only col-agency-wide">
+          ${agencyCellHTML}
         </div>
         <div class="row-subs col-pc-only ${hasSub ? "" : "unacquired"}" title="${esc(subTitle)}">${esc(subLabel)}</div>
         <div class="row-count">${fmtNum(a.count)}<span>曲</span></div>
@@ -1172,13 +1611,39 @@
   }
 
   // Render Artist Rows (Initial / Reset render)
+  function buildSearchGroupsSectionHTML(groups) {
+    if (!groups || groups.length === 0) return "";
+    const isGroupOnly = state.searchTarget === "group";
+    const shown = isGroupOnly ? groups : groups.slice(0, 16);
+    return `
+      <div class="search-groups-section">
+        <div class="search-groups-heading">
+          <span>一致したグループ（所属・ユニット）：${fmtNum(groups.length)}件（クリックで絞り込み）</span>
+        </div>
+        <div class="search-groups-grid">
+          ${shown.map(g => `
+            <button type="button" class="search-group-card" data-select-search-group="${esc(g.name)}" data-select-search-group-type="${esc(g.type)}" title="「${esc(g.name)}」で絞り込む">
+              <span class="search-group-name">${esc(g.name)}</span>
+              <span class="search-group-count">${fmtNum(g.count)}名義</span>
+            </button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
   function renderArtistList(resetScroll = false) {
     const listEl = document.getElementById("artistListContainer");
     const totalEl = document.getElementById("resultSummaryText");
     const mobColCountEl = document.getElementById("mobCollectionCount");
     const scrollEl = document.getElementById("centerScrollArea");
 
-    totalEl.innerHTML = `表示中: <strong>${fmtNum(currentFiltered.length)}</strong> 名義`;
+    const isGroupSearchOnly = state.view === "search" && state.searchTarget === "group";
+    if (isGroupSearchOnly) {
+      totalEl.innerHTML = `表示中: <strong>${fmtNum(currentMatchedGroups.length)}</strong> グループ`;
+    } else {
+      totalEl.innerHTML = `表示中: <strong>${fmtNum(currentFiltered.length)}</strong> 名義`;
+    }
     if (mobColCountEl) {
       mobColCountEl.textContent = `${fmtNum(currentFiltered.length)} 名義`;
     }
@@ -1190,11 +1655,86 @@
       scrollEl.scrollTop = 0;
     }
 
-    if (currentFiltered.length === 0) {
+    const groupsHTML = (state.view === "search" && currentMatchedGroups.length > 0)
+      ? buildSearchGroupsSectionHTML(currentMatchedGroups)
+      : "";
+
+    if (isGroupSearchOnly) {
+      if (currentMatchedGroups.length === 0) {
+        listEl.innerHTML = `
+          <div class="empty-list-state">
+            <h3>条件に一致するグループ（所属・ユニット）が見つかりません</h3>
+            <p>別の所属（事務所・作品）名やユニット名でお試しください。</p>
+          </div>
+        `;
+      } else {
+        listEl.innerHTML = groupsHTML;
+      }
+      return;
+    }
+
+    if (state.view === "recommend") {
+      if (currentFiltered.length === 0) {
+        listEl.innerHTML = `
+          <div class="empty-list-state">
+            <h3>「かるのオススメ」に設定されたアーティストがまだありません</h3>
+            <p>お気に入りのアーティストを設定すると、ここに活動形態別で一覧表示されます。</p>
+          </div>
+        `;
+        return;
+      }
+      const roleOrder = [
+        "Vsinger",
+        "Vtuber",
+        "歌い手",
+        "歌手",
+        "声優",
+        "キャラ",
+        "音楽グループ(アニゲー関連)",
+        "音楽グループ(その他)"
+      ];
+      const buckets = new Map();
+      roleOrder.forEach(r => buckets.set(r, []));
+      currentFiltered.forEach(a => {
+        let primaryRole = a.role || "その他";
+        if (primaryRole === "音楽グループ") {
+          primaryRole = a.groupSubRole || "音楽グループ(アニゲー関連)";
+        }
+        if (!buckets.has(primaryRole)) {
+          buckets.set(primaryRole, []);
+        }
+        buckets.get(primaryRole).push(a);
+      });
+      let globalIdx = 0;
+      let sectionsHTML = "";
+      buckets.forEach((groupList, roleName) => {
+        if (!groupList || groupList.length === 0) return;
+        const rowsHTML = groupList.map(a => {
+          const htmlRow = buildArtistRowHTML(a, false, globalIdx, true);
+          globalIdx++;
+          return htmlRow;
+        }).join("");
+        sectionsHTML += `
+          <div class="recommend-role-section">
+            <div class="recommend-role-group-header">
+              <span class="recommend-role-dot" aria-hidden="true"></span>
+              <span class="recommend-role-title">${esc(roleName)}</span>
+              <span class="recommend-role-count">${fmtNum(groupList.length)} 名義</span>
+            </div>
+            ${rowsHTML}
+          </div>
+        `;
+      });
+      listEl.innerHTML = sectionsHTML;
+      scheduleLookaheadAvatarPreload(12, 40);
+      return;
+    }
+
+    if (currentFiltered.length === 0 && !groupsHTML) {
       listEl.innerHTML = `
         <div class="empty-list-state">
           <h3>条件に一致するアーティストが見つかりません</h3>
-          <p>検索キーワードや絞り込み条件（活動形態・チャンネル登録者数・五十音・英字）を変更してお試しください。</p>
+          <p>検索キーワードや絞り込み条件（活動形態・五十音・英字・所属）を変更してお試しください。</p>
         </div>
       `;
       return;
@@ -1202,7 +1742,7 @@
 
     const slice = currentFiltered.slice(0, state.renderLimit);
     const isSearch = state.view === "search" && state.searchQuery.trim() !== "";
-    listEl.innerHTML = slice.map((a, idx) => buildArtistRowHTML(a, isSearch, idx)).join("");
+    listEl.innerHTML = groupsHTML + slice.map((a, idx) => buildArtistRowHTML(a, isSearch, idx)).join("");
     scheduleLookaheadAvatarPreload(12, 40);
   }
 
@@ -1298,10 +1838,13 @@
     const q = state.view === "search" ? normSearch(state.searchQuery) : "";
     const catLabel = artist.cat === 1 ? "カバーあり" : "カバーなし";
     const catClass = artist.cat === 1 ? "cat-1" : "cat-2";
-    const isRoleActive = Boolean(artist.role && state.roles.includes(artist.role));
-    const roleBadgeHTML = (artist.role && artist.role !== "判定保留")
-      ? `<button type="button" class="detail-role-badge interactive-role-btn ${isRoleActive ? "active-role" : ""}" data-detail-filter-role="${esc(artist.role)}" title="活動形態「${esc(artist.role)}」で絞り込む">${esc(artist.role)}</button>`
-      : "";
+    const detailRoles = getEffectiveRolesForArtist(artist);
+    const roleBadgeHTML = detailRoles
+      .map(r => {
+        const isRoleActive = state.roles.includes(r);
+        return `<button type="button" class="detail-role-badge interactive-role-btn ${isRoleActive ? "active-role" : ""}" data-detail-filter-role="${esc(r)}" title="活動形態「${esc(r)}」で絞り込む">${esc(r)}</button>`;
+      })
+      .join("");
     const hasArchiveSongs = (artist.count || 0) >= 1 && rawSongs.length >= 1;
     if (!hasArchiveSongs && state.detailMode === "archive") {
       state.detailMode = "top5";
@@ -1343,10 +1886,13 @@
       ? `<div class="detail-submeta-row">${subMetaParts.join("")}</div>`
       : "";
 
+    const repHeadingLabel = (topSongs.length > 0 && topSongs.length < 5)
+      ? `代表曲（${topSongs.length}曲）`
+      : "代表曲 TOP 5";
     const modeTabsHTML = `
       <div class="detail-mode-tabs" role="tablist" aria-label="表示楽曲の切り替え">
         <button type="button" class="detail-mode-tab ${isTop5Mode ? "active" : ""}" data-detail-mode="top5" role="tab" aria-selected="${isTop5Mode}">
-          代表曲 TOP 5
+          ${repHeadingLabel}
         </button>
         ${hasArchiveSongs ? `
         <button type="button" class="detail-mode-tab ${!isTop5Mode ? "active" : ""}" data-detail-mode="archive" role="tab" aria-selected="${!isTop5Mode}">
@@ -1363,7 +1909,7 @@
           <div class="top5-header-row">
             <div class="top5-title-wrap">
               <span class="top5-badge-dot"></span>
-              <h3 class="top5-heading">代表曲 TOP 5</h3>
+              <h3 class="top5-heading">${repHeadingLabel}</h3>
             </div>
           </div>
           ${topSongs.length === 0 ? `
@@ -1403,17 +1949,12 @@
           `}
         </div>
 
-        ${hasArchiveSongs ? `
-        <button type="button" class="Switch-archive-btn" data-detail-mode="archive">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-          <span>かるが聴いてる曲（${fmtNum(artist.count)}曲）を見る</span>
-        </button>
-        ` : ""}
+
       `;
     } else {
       bodySectionHTML = `
         <button type="button" class="back-to-top5-btn" data-detail-mode="top5">
-          <span>← 代表曲 TOP 5 に戻る</span>
+          <span>← ${repHeadingLabel} に戻る</span>
         </button>
 
         <div class="detail-actions-row">
@@ -1451,16 +1992,31 @@
         <div class="detail-avatar-wrap">
           ${renderAvatarHTML(artist, true)}
         </div>
-        <h2 class="detail-artist-name">${esc(artist.name)}</h2>
+        <h2 class="detail-artist-name">${esc(artist.name)}${isRecommendedArtist(artist.name) ? `<span class="detail-fav-heart" title="かるのオススメ" aria-label="かるのオススメ">♥</span>` : ""}</h2>
         <div class="detail-meta-row">
-          <span class="detail-cat-badge ${catClass}">${catLabel}</span>
           ${roleBadgeHTML}
-          <span class="detail-song-total">登録楽曲 ${fmtNum(artist.count)} 曲</span>
         </div>
         ${subMetaRowHTML}
+        ${artist.ytChannelUrl ? `
+        <div class="detail-yt-channel-row">
+          <a class="detail-yt-channel-btn yt-type-${esc(artist.ytChannelType || "official")}" href="${esc(artist.ytChannelUrl)}" target="_blank" rel="noopener noreferrer" title="${esc(artist.name)} の ${esc(artist.ytChannelLabel || "YouTubeチャンネル")} を新しいタブで開く">
+            <svg class="detail-yt-channel-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+            <span>${esc(artist.ytChannelLabel || "YouTubeチャンネル →")}</span>
+          </a>
+        </div>
+        ` : ""}
       </div>
       ${modeTabsHTML}
       ${bodySectionHTML}
+      ${artist.profileBio ? `
+      <div class="detail-profile-bio-box">
+        <div class="detail-profile-bio-header">
+          <span class="top5-badge-dot"></span>
+          <h3 class="detail-profile-bio-heading">プロフィール</h3>
+        </div>
+        <p class="detail-profile-bio-text">${esc(artist.profileBio)}</p>
+      </div>
+      ` : ""}
     `;
 
     if (resetDetailScroll) {
@@ -1477,10 +2033,23 @@
       btn.classList.toggle("active", btn.getAttribute("data-nav-view") === state.view);
     });
 
+    // Normalize music group role filters when switching between cat1 ("音楽グループ") and all/cat2 ("音楽グループ(アニゲー関連)" / "音楽グループ(その他)")
+    if (isCat1OnlyContext()) {
+      const hadSubGrp = state.roles.some(r => r === "音楽グループ(アニゲー関連)" || r === "音楽グループ(その他)");
+      if (hadSubGrp) {
+        state.roles = Array.from(new Set(state.roles.map(r => (r === "音楽グループ(アニゲー関連)" || r === "音楽グループ(その他)") ? "音楽グループ" : r)));
+      }
+    } else {
+      if (state.roles.includes("音楽グループ")) {
+        state.roles = Array.from(new Set(state.roles.flatMap(r => r === "音楽グループ" ? ["音楽グループ(アニゲー関連)", "音楽グループ(その他)"] : [r])));
+      }
+    }
+
     // Highlight Home button when in clean initial state
     const isInitialDefault = (
-      state.view === "cat1" &&
+      state.view === "all" &&
       !state.agencyGroup &&
+      !state.unitGroup &&
       !state.searchQuery &&
       state.roles.length === 0 &&
       !hasAnyIndexFilter() &&
@@ -1509,9 +2078,31 @@
       searchHeaderEl.style.display = "none";
     }
 
+    // Update mobileRecommendWrap visibility & active state
+    const mobRecWrap = document.getElementById("mobileRecommendWrap");
+    if (mobRecWrap) {
+      mobRecWrap.style.display = state.view === "search" ? "none" : "";
+    }
+    const mobRecBtn = document.getElementById("mobRecommendBtn");
+    if (mobRecBtn) {
+      mobRecBtn.classList.toggle("active-cat", state.view === "recommend");
+    }
+
+    // Hide "#" rank header text when in "recommend" view (since rank numbers are hidden)
+    const listColFirstSpan = document.querySelector(".list-col-header > span:first-child");
+    if (listColFirstSpan) {
+      listColFirstSpan.textContent = state.view === "recommend" ? "" : "#";
+    }
+
     // Highlight active stat pill (PC) & stat card (Mobile)
+    const pillAllEl = document.getElementById("pillAll");
+    if (pillAllEl) pillAllEl.classList.toggle("active-cat", state.view === "all");
     document.getElementById("pillCat1").classList.toggle("active-cat", state.view === "cat1");
     document.getElementById("pillCat2").classList.toggle("active-cat", state.view === "cat2");
+    const pillRecEl = document.getElementById("pillRecommend");
+    if (pillRecEl) pillRecEl.classList.toggle("active-cat", state.view === "recommend");
+    const mobCardTotalEl = document.getElementById("mobCardTotal");
+    if (mobCardTotalEl) mobCardTotalEl.classList.toggle("active-cat", state.view === "all");
     document.getElementById("mobCardCat1").classList.toggle("active-cat", state.view === "cat1");
     document.getElementById("mobCardCat2").classList.toggle("active-cat", state.view === "cat2");
 
@@ -1533,17 +2124,27 @@
       mobColSubEl.textContent = sortDescMap[state.sortBy] || sortDescMap.countDesc;
     }
 
-    if (state.agencyGroup && state.view !== "search") {
+    if (state.unitGroup && state.view !== "search") {
+      mobTitleEl.textContent = `ユニット：${state.unitGroup}`;
+      if (mobColTitleEl) mobColTitleEl.textContent = `ユニット：${state.unitGroup}`;
+    } else if (state.agencyGroup && state.view !== "search") {
       mobTitleEl.textContent = `所属：${state.agencyGroup}`;
       if (mobColTitleEl) mobColTitleEl.textContent = `所属：${state.agencyGroup}`;
+    } else if (state.view === "all") {
+      mobTitleEl.textContent = "すべて";
+      if (mobColTitleEl) mobColTitleEl.textContent = "すべて";
     } else if (state.view === "cat1") {
       mobTitleEl.textContent = "カバーあり";
       if (mobColTitleEl) mobColTitleEl.textContent = "カバーあり";
     } else if (state.view === "cat2") {
       mobTitleEl.textContent = "カバーなし";
       if (mobColTitleEl) mobColTitleEl.textContent = "カバーなし";
+    } else if (state.view === "recommend") {
+      mobTitleEl.textContent = "かるのオススメ";
+      if (mobColTitleEl) mobColTitleEl.textContent = "かるのオススメ";
+      if (mobColSubEl) mobColSubEl.textContent = "好き設定したアーティストを活動形態別に表示";
     } else {
-      mobTitleEl.textContent = "アーティスト・楽曲検索";
+      mobTitleEl.textContent = "検索";
     }
 
     // Sync unified sort select dropdown
@@ -1618,6 +2219,7 @@
   function clearAllFilters() {
     const hadIndex = hasAnyIndexFilter();
     state.agencyGroup = "";
+    state.unitGroup = "";
     state.roles = [];
     state.subBuckets = [];
     state.kanaRows = [];
@@ -1632,10 +2234,12 @@
   function resetToHomeState() {
     pushHistorySnapshot(false);
     state.profileBackAvailable = false;
-    state.view = "cat1";
+    state.view = "all";
     state.searchScope = "all";
+    state.searchTarget = "all";
     state.searchQuery = "";
     state.agencyGroup = "";
+    state.unitGroup = "";
     state.roles = [];
     state.subBuckets = [];
     state.kanaRows = [];
@@ -1819,8 +2423,9 @@
         const targetView = btn.getAttribute("data-nav-view");
         pushHistorySnapshot(false);
         state.view = targetView;
-        if (targetView === "cat1" || targetView === "cat2") {
+        if (targetView === "all" || targetView === "cat1" || targetView === "cat2" || targetView === "recommend") {
           state.agencyGroup = "";
+          state.unitGroup = "";
         }
         if (window.innerWidth <= 900) {
           closeDetailPanel();
@@ -1851,29 +2456,73 @@
       });
     }
 
-    // Hero stat pills (PC) & Mobile Stat Cards can switch category (Total stat is non-clickable)
+    // Hero stat pills (PC) & Mobile Stat Cards can switch category (すべて / カバーあり / カバーなし)
+    const pillAllBtn = document.getElementById("pillAll");
+    if (pillAllBtn) {
+      pillAllBtn.addEventListener("click", () => {
+        pushHistorySnapshot(false);
+        state.view = "all";
+        state.agencyGroup = "";
+        state.unitGroup = "";
+        updateUI(true);
+      });
+    }
     document.getElementById("pillCat1").addEventListener("click", () => {
       pushHistorySnapshot(false);
       state.view = "cat1";
       state.agencyGroup = "";
+      state.unitGroup = "";
       updateUI(true);
     });
     document.getElementById("pillCat2").addEventListener("click", () => {
       pushHistorySnapshot(false);
       state.view = "cat2";
       state.agencyGroup = "";
+      state.unitGroup = "";
       updateUI(true);
     });
+    const pillRecBtn = document.getElementById("pillRecommend");
+    if (pillRecBtn) {
+      pillRecBtn.addEventListener("click", () => {
+        pushHistorySnapshot(false);
+        state.view = "recommend";
+        state.agencyGroup = "";
+        state.unitGroup = "";
+        updateUI(true);
+      });
+    }
+    const mobRecBtn = document.getElementById("mobRecommendBtn");
+    if (mobRecBtn) {
+      mobRecBtn.addEventListener("click", () => {
+        pushHistorySnapshot(false);
+        state.view = state.view === "recommend" ? "all" : "recommend";
+        state.agencyGroup = "";
+        state.unitGroup = "";
+        updateUI(true);
+      });
+    }
+    const mobCardTotalBtn = document.getElementById("mobCardTotal");
+    if (mobCardTotalBtn) {
+      mobCardTotalBtn.addEventListener("click", () => {
+        pushHistorySnapshot(false);
+        state.view = "all";
+        state.agencyGroup = "";
+        state.unitGroup = "";
+        updateUI(true);
+      });
+    }
     document.getElementById("mobCardCat1").addEventListener("click", () => {
       pushHistorySnapshot(false);
       state.view = "cat1";
       state.agencyGroup = "";
+      state.unitGroup = "";
       updateUI(true);
     });
     document.getElementById("mobCardCat2").addEventListener("click", () => {
       pushHistorySnapshot(false);
       state.view = "cat2";
       state.agencyGroup = "";
+      state.unitGroup = "";
       updateUI(true);
     });
 
@@ -1885,15 +2534,29 @@
       updateUI(true);
     });
 
-    // Unified Filter button: opens collapsible drawer on PC, or bottom filter sheet on Smartphone (records undo step)
+    // Unified Filter button: opens collapsible drawer on PC, or bottom filter sheet on Smartphone (does not pollute undoStack)
     document.getElementById("pcFilterToggleBtn").addEventListener("click", () => {
       if (window.innerWidth <= 900) {
-        if (state.mobFilterOpen) closeMobFilterSheet(true);
-        else openMobFilterSheet(true);
+        if (state.mobFilterOpen) closeMobFilterSheet(false);
+        else openMobFilterSheet(false);
       } else {
-        pushHistorySnapshot(false);
         state.pcFilterOpen = !state.pcFilterOpen;
         updateUI(false);
+        if (state.pcFilterOpen) {
+          const drawerEl = document.getElementById("pcFilterDrawer");
+          const scrollEl = document.getElementById("centerScrollArea");
+          const stickyEl = document.querySelector(".sticky-controls");
+          if (drawerEl && scrollEl) {
+            const stickyH = stickyEl ? stickyEl.offsetHeight : 62;
+            const dRect = drawerEl.getBoundingClientRect();
+            const sRect = scrollEl.getBoundingClientRect();
+            const visibleTop = sRect.top + stickyH + 10;
+            if (dRect.top < visibleTop) {
+              const targetTop = Math.max(0, scrollEl.scrollTop + (dRect.top - visibleTop));
+              scrollEl.scrollTo({ top: targetTop, behavior: "smooth" });
+            }
+          }
+        }
       }
     });
 
@@ -1918,6 +2581,8 @@
         clearAllFilters();
       } else if (key === "agencyGroup") {
         state.agencyGroup = "";
+      } else if (key === "unitGroup") {
+        state.unitGroup = "";
       } else if (key.startsWith("role:")) {
         const r = key.slice(5);
         state.roles = state.roles.filter(item => item !== r);
@@ -1968,9 +2633,31 @@
       searchInput.focus();
     });
 
+    function applySearchGroupFilter(groupType, groupName) {
+      if (!groupName) return;
+      pushHistorySnapshot(false);
+      if (groupType === "agency") {
+        state.agencyGroup = groupName;
+        state.unitGroup = "";
+      } else {
+        state.unitGroup = groupName;
+        state.agencyGroup = "";
+      }
+      state.view = state.searchScope === "cat1" ? "cat1" : (state.searchScope === "cat2" ? "cat2" : "all");
+      updateUI(true);
+    }
+
     const candBar = document.getElementById("searchCandidatesBar");
     if (candBar) {
       candBar.addEventListener("click", e => {
+        const grpChip = e.target.closest("[data-cand-group-name]");
+        if (grpChip) {
+          applySearchGroupFilter(
+            grpChip.getAttribute("data-cand-group-type"),
+            grpChip.getAttribute("data-cand-group-name")
+          );
+          return;
+        }
         const chip = e.target.closest("[data-cand-artist]");
         if (!chip) return;
         const name = chip.getAttribute("data-cand-artist");
@@ -2014,9 +2701,30 @@
     listContainer.addEventListener("pointerover", handleRowHoverPreload, { passive: true });
     listContainer.addEventListener("touchstart", handleRowHoverPreload, { passive: true });
     listContainer.addEventListener("click", e => {
+      const grpCard = e.target.closest("[data-select-search-group]");
+      if (grpCard) {
+        applySearchGroupFilter(
+          grpCard.getAttribute("data-select-search-group-type"),
+          grpCard.getAttribute("data-select-search-group")
+        );
+        return;
+      }
       const row = e.target.closest(".artist-row");
       if (!row) return;
       const name = row.getAttribute("data-artist-name");
+      // Secret Method 1 (PC): Alt + Click on any artist row toggles ♥ directly
+      if (e.altKey) {
+        e.preventDefault();
+        toggleRecommendedArtist(name);
+        return;
+      }
+      // Secret Method 2 (PC & Mobile): When Quick-Heart Edit Mode is active, tapping the circular avatar in the list toggles ♥
+      if (favQuickEditMode && e.target.closest(".row-avatar-wrap")) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleRecommendedArtist(name);
+        return;
+      }
       selectArtist(name);
     });
     listContainer.addEventListener("keydown", e => {
@@ -2031,7 +2739,7 @@
     // Infinite smooth chunk rendering on scroll using DocumentFragment append
     const scrollEl = document.getElementById("centerScrollArea");
     scrollEl.addEventListener("scroll", () => {
-      if (state.renderLimit >= currentFiltered.length) return;
+      if (state.view === "recommend" || state.renderLimit >= currentFiltered.length) return;
       if (scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 420) {
         const prevLimit = state.renderLimit;
         state.renderLimit = Math.min(currentFiltered.length, state.renderLimit + 100);
@@ -2041,6 +2749,35 @@
 
     // Detail panel close, mode toggle (TOP 5 <-> かるが聴いてる曲), & song sort toggle
     document.getElementById("closeDetailBtn").addEventListener("click", closeDetailPanel);
+
+    // About Site Modal ("当サイトについて") open & close handlers
+    const aboutModal = document.getElementById("aboutSiteModal");
+    const openAboutModal = () => {
+      if (!aboutModal) return;
+      aboutModal.classList.add("open");
+      aboutModal.setAttribute("aria-hidden", "false");
+    };
+    const closeAboutModal = () => {
+      if (!aboutModal) return;
+      aboutModal.classList.remove("open");
+      aboutModal.setAttribute("aria-hidden", "true");
+    };
+    const mobAboutBtn = document.getElementById("mobAboutBtn");
+    if (mobAboutBtn) mobAboutBtn.addEventListener("click", openAboutModal);
+    const pcAboutBtn = document.getElementById("pcAboutBtn");
+    if (pcAboutBtn) pcAboutBtn.addEventListener("click", openAboutModal);
+    const closeAboutBtn = document.getElementById("closeAboutModalBtn");
+    if (closeAboutBtn) closeAboutBtn.addEventListener("click", closeAboutModal);
+    if (aboutModal) {
+      aboutModal.addEventListener("click", e => {
+        if (e.target === aboutModal) closeAboutModal();
+      });
+    }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && aboutModal && aboutModal.classList.contains("open")) {
+        closeAboutModal();
+      }
+    });
     // Bind Undo / Redo buttons and Profile Top-Left Back Button
     document.querySelectorAll('[data-history-action="undo"]').forEach(btn => {
       btn.addEventListener("click", undoStateAction);
@@ -2051,6 +2788,94 @@
     const detailBackBtn = document.getElementById("detailBackBtn");
     if (detailBackBtn) {
       detailBackBtn.addEventListener("click", undoStateAction);
+    }
+
+    // Secret Method (Detail Panel): Double-click / Double-tap or Long-press (0.55s) on the circular Artist Avatar (.detail-avatar-wrap)
+    const detailContentEl = document.getElementById("detailScrollContent");
+    let detailAvatarLastTap = 0;
+    let detailAvatarPressTimer = null;
+    let detailAvatarLongPressed = false;
+
+    detailContentEl.addEventListener("dblclick", e => {
+      if (e.target.closest(".detail-avatar-wrap") && state.selectedArtistName) {
+        e.preventDefault();
+        toggleRecommendedArtist(state.selectedArtistName);
+      }
+    });
+
+    detailContentEl.addEventListener("touchstart", e => {
+      const av = e.target.closest(".detail-avatar-wrap");
+      if (!av || !state.selectedArtistName) return;
+      detailAvatarLongPressed = false;
+      if (detailAvatarPressTimer) clearTimeout(detailAvatarPressTimer);
+      detailAvatarPressTimer = setTimeout(() => {
+        detailAvatarLongPressed = true;
+        toggleRecommendedArtist(state.selectedArtistName);
+      }, 550);
+    }, { passive: true });
+
+    detailContentEl.addEventListener("touchend", e => {
+      if (detailAvatarPressTimer) {
+        clearTimeout(detailAvatarPressTimer);
+        detailAvatarPressTimer = null;
+      }
+      const av = e.target.closest(".detail-avatar-wrap");
+      if (!av || !state.selectedArtistName || detailAvatarLongPressed) return;
+      const now = Date.now();
+      if (now - detailAvatarLastTap < 340) {
+        e.preventDefault();
+        detailAvatarLastTap = 0;
+        toggleRecommendedArtist(state.selectedArtistName);
+      } else {
+        detailAvatarLastTap = now;
+      }
+    });
+
+    detailContentEl.addEventListener("touchmove", () => {
+      if (detailAvatarPressTimer) {
+        clearTimeout(detailAvatarPressTimer);
+        detailAvatarPressTimer = null;
+      }
+    }, { passive: true });
+
+    // Secret 5-tap on top-left logo (.brand-disc-icon or .mobile-top-left) to toggle Quick-Heart Edit Mode
+    // (When active, tapping any artist's circular icon in the main list toggles ♥ in 1 tap;
+    //  also copies the JSON array of recommended artist names to clipboard for optional GitHub sync)
+    let secretLogoTapCount = 0;
+    let secretLogoTapTimer = null;
+    function handleSecretLogoTap() {
+      secretLogoTapCount++;
+      if (secretLogoTapTimer) clearTimeout(secretLogoTapTimer);
+      if (secretLogoTapCount >= 5) {
+        secretLogoTapCount = 0;
+        favQuickEditMode = !favQuickEditMode;
+        document.body.classList.toggle("fav-quick-edit-mode", favQuickEditMode);
+        try {
+          const favArray = DATA.filter(a => recommendedSet.has(a.name)).map(a => a.name);
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(JSON.stringify(favArray, null, 2)).catch(() => {});
+          }
+        } catch (err) {}
+      } else {
+        secretLogoTapTimer = setTimeout(() => { secretLogoTapCount = 0; }, 1200);
+      }
+    }
+    const brandIconEl = document.querySelector(".brand-disc-icon");
+    if (brandIconEl) brandIconEl.addEventListener("click", handleSecretLogoTap);
+    const mobTopLeftEl = document.querySelector(".mobile-top-left");
+    if (mobTopLeftEl) mobTopLeftEl.addEventListener("click", handleSecretLogoTap);
+    const exitFavQeBtn = document.getElementById("exitFavQuickEditBtn");
+    if (exitFavQeBtn) {
+      exitFavQeBtn.addEventListener("click", () => {
+        favQuickEditMode = false;
+        document.body.classList.remove("fav-quick-edit-mode");
+        try {
+          const favArray = DATA.filter(a => recommendedSet.has(a.name)).map(a => a.name);
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(JSON.stringify(favArray, null, 2)).catch(() => {});
+          }
+        } catch (err) {}
+      });
     }
 
     document.getElementById("detailScrollContent").addEventListener("click", e => {
@@ -2074,7 +2899,7 @@
             state.roles = [targetRole];
           }
           if (state.view === "search") {
-            state.view = "cat1";
+            state.view = "all";
           }
           updateUI(true);
           syncHistoryButtons();
@@ -2089,7 +2914,7 @@
           pushHistorySnapshot(true);
           state.agencyGroup = agGroup;
           if (state.view === "search") {
-            state.view = "cat1";
+            state.view = "all";
           }
           updateUI(true);
           syncHistoryButtons();
@@ -2203,10 +3028,14 @@
   renderStaticStats();
   initEvents();
   // Select the #1 artist by default on desktop so the 3-column layout showcases Representative TOP 5 immediately
+  syncSearchTargetUI();
   if (window.innerWidth > 900 && DATA.length > 0) {
-    const firstCat1 = DATA.find(a => a.cat === 1);
-    if (firstCat1) {
-      state.selectedArtistName = firstCat1.name;
+    let topArtist = DATA[0];
+    for (let i = 1; i < DATA.length; i++) {
+      if (DATA[i].count > topArtist.count) topArtist = DATA[i];
+    }
+    if (topArtist) {
+      state.selectedArtistName = topArtist.name;
       state.detailMode = "top5";
     }
   }

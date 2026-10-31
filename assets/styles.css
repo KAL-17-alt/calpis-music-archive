@@ -3019,3 +3019,1091 @@ button.detail-role-badge.interactive-role-btn.active-role {
   line-height: 1.3;
   margin-top: 3px;
 }
+
+
+/* ==========================================================================
+   v30 Updates:
+   1. All green-background + black-text elements changed to green-background + white-text (#FFFFFF)
+   2. Top-left site brand title & subtitle capped at 125% font scaling so 150%/175% never overflows
+   3. Responsive 3-column PC filter grid (minmax(0, ...)) so Alphabet (A–Z) never clips horizontally
+   4. PC Filter Drawer placed in normal scroll flow so scrolling down scrolls it up out of view
+   5. Prominent, larger "すべて解除" button (.clear-all-chips-btn)
+   ========================================================================== */
+
+/* 1. Green background with crisp white text (#FFFFFF) across all active buttons & badges */
+.pill-btn.active,
+.Switch-archive-btn,
+.song-sort-btn.active,
+.font-tick-btn.active,
+.btn-apply-mob,
+.mob-stat-card.interactive.active-cat .mob-stat-action-badge,
+.search-target-tab.active {
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+}
+
+/* 2. Cap top-left brand header font scaling at 125% so 150%/175% never overflows the sidebar */
+.brand-box {
+  --fs-brand: min(var(--fs), 1.25);
+  overflow: hidden;
+}
+
+.brand-title {
+  font-size: calc(12.5px * var(--fs-brand)) !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.brand-sub {
+  font-size: calc(10.5px * var(--fs-brand)) !important;
+  line-height: 1.25 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 3. Responsive 3-column PC Filter Drawer that never clips "アルファベット (A–Z)" on short/narrow monitors */
+@media (min-width: 901px) {
+  .pc-filter-drawer {
+    margin: 0 18px 10px 18px;
+    padding: 14px 16px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-med);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .pc-filter-drawer .filter-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.04fr) minmax(0, 1.18fr) !important;
+    gap: 12px 14px !important;
+    align-items: start;
+  }
+
+  .pc-filter-drawer .filter-grid > div {
+    min-width: 0;
+  }
+
+  .pc-filter-drawer .preset-pills,
+  .pc-filter-drawer .index-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 6px;
+  }
+
+  .pc-filter-drawer .pill-btn {
+    padding: 4px 9px;
+    font-size: calc(11.5px * min(var(--fs), 1.35));
+  }
+}
+
+/* 4. Prominent, larger "すべて解除" button */
+.clear-all-chips-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: calc(12.5px * var(--fs)) !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  background: rgba(239, 68, 68, 0.22) !important;
+  border: 1.5px solid rgba(248, 113, 113, 0.65) !important;
+  border-radius: 9999px !important;
+  padding: 5px 13px !important;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.clear-all-chips-btn:hover {
+  background: rgba(239, 68, 68, 0.38) !important;
+  border-color: #f87171 !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px);
+}
+
+.clear-all-chips-btn:active {
+  transform: translateY(0);
+}
+
+
+/* ==========================================================================
+   v31 Updates:
+   1. Hide browser-native search cancel button so only the custom white '×' button is shown
+   ========================================================================== */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration,
+.search-main-input::-webkit-search-cancel-button {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  display: none !important;
+}
+
+
+/* ==========================================================================
+   v32 Updates:
+   1. Non-clickable affiliation badge (.static-agency-badge) uses white text (#FFFFFF)
+      while keeping its blue-tinted background and border
+   2. Dual role badges in artist row & profile header
+   3. Profile introduction card (.detail-profile-bio-box) for カバーなし 音楽グループ(その他)
+   ========================================================================== */
+
+.detail-agency-badge.static-agency-badge {
+  color: #FFFFFF !important;
+  background: rgba(56, 189, 248, 0.14) !important;
+  border: 1px solid rgba(56, 189, 248, 0.38) !important;
+  cursor: default;
+}
+
+.row-role {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.detail-profile-bio-box {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.09));
+  border-radius: var(--radius-md, 12px);
+}
+
+.detail-profile-bio-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.detail-profile-bio-heading {
+  margin: 0;
+  font-size: calc(13.5px * var(--fs));
+  font-weight: 700;
+  color: var(--text-primary, #FFFFFF);
+  letter-spacing: 0.02em;
+}
+
+.detail-profile-bio-text {
+  margin: 0;
+  font-size: calc(12.5px * var(--fs));
+  line-height: 1.72;
+  color: rgba(255, 255, 255, 0.88);
+  letter-spacing: 0.01em;
+}
+
+
+/* ==========================================================================
+   v34 Updates:
+   1. Eye-friendly low-motion fade transition on Smartphone Detail Panel & Filter Sheet
+   2. Group Search Result Section & Cards (所属（事務所・作品） & ユニット)
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .sheet-backdrop {
+    transition: opacity 0.14s ease-out !important;
+  }
+
+  .right-panel,
+  .app-shell.detail-closed .right-panel {
+    transform: translateY(8px) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.14s ease-out, transform 0.14s ease-out, visibility 0.14s !important;
+  }
+
+  .right-panel.mobile-open {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .mobile-filter-sheet {
+    transform: translateY(8px) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.14s ease-out, transform 0.14s ease-out, visibility 0.14s !important;
+  }
+
+  .mobile-filter-sheet.open {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+}
+
+.search-groups-section {
+  padding: 10px 14px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.search-groups-heading {
+  font-size: calc(11.5px * var(--fs));
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.03em;
+}
+
+.search-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 8px;
+}
+
+.search-group-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.14s ease, border-color 0.14s ease;
+}
+
+.search-group-card:hover {
+  background: rgba(29, 185, 84, 0.12);
+  border-color: rgba(29, 185, 84, 0.45);
+}
+
+.search-group-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.search-group-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-group-type-badge {
+  font-size: calc(10px * var(--fs));
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.search-group-type-badge.type-agency {
+  background: rgba(56, 189, 248, 0.16);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.search-group-type-badge.type-unit {
+  background: rgba(168, 85, 247, 0.16);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+
+.search-group-name {
+  font-size: calc(13.5px * var(--fs));
+  font-weight: 700;
+  color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-group-sub {
+  font-size: calc(11px * var(--fs));
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-group-count {
+  font-size: calc(12px * var(--fs));
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+
+/* ==========================================================================
+   v35 Updates:
+   1. Artist Detail YouTube Channel Link Button (.detail-yt-channel-btn)
+   2. PC Filter Drawer Scroll Margin Fix (.pc-filter-drawer)
+   3. Search Candidate Bar Top-Candidates Note (.search-cand-more-note)
+   4. Compact, Full-Name Group Search Cards (.search-group-card)
+   ========================================================================== */
+
+.pc-filter-drawer {
+  scroll-margin-top: 76px;
+}
+
+.detail-yt-channel-row {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.detail-yt-channel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 6px 15px;
+  border-radius: 999px;
+  background: rgba(255, 0, 51, 0.14);
+  border: 1px solid rgba(255, 77, 109, 0.5);
+  color: #FFFFFF;
+  font-size: calc(12.5px * var(--fs));
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.detail-yt-channel-btn:hover {
+  background: rgba(255, 0, 51, 0.26);
+  border-color: rgba(255, 105, 130, 0.85);
+  transform: translateY(-1px);
+}
+
+.detail-yt-channel-btn.yt-type-topic {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.detail-yt-channel-btn.yt-type-topic:hover {
+  background: rgba(255, 0, 51, 0.2);
+  border-color: rgba(255, 105, 130, 0.7);
+}
+
+.detail-yt-channel-btn.yt-type-unit {
+  background: rgba(255, 0, 51, 0.12);
+  border-color: rgba(255, 130, 150, 0.48);
+}
+
+.detail-yt-channel-icon {
+  width: 16px;
+  height: 16px;
+  color: #ff4d6d;
+  flex-shrink: 0;
+}
+
+.search-cand-more-note {
+  font-size: calc(11px * var(--fs));
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+/* Compact Group Search Cards without Type Badges */
+.search-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px !important;
+}
+
+.search-group-card {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  padding: 6px 11px !important;
+  min-height: 32px !important;
+  border-radius: 7px !important;
+  background: rgba(255, 255, 255, 0.045) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #FFFFFF !important;
+  text-align: left !important;
+  cursor: pointer;
+}
+
+.search-group-card:hover {
+  background: rgba(29, 185, 84, 0.14) !important;
+  border-color: rgba(29, 185, 84, 0.5) !important;
+}
+
+.search-group-card .search-group-name {
+  font-size: calc(12.5px * var(--fs)) !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  line-height: 1.3 !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: keep-all !important;
+}
+
+.search-group-card .search-group-count {
+  font-size: calc(11px * var(--fs)) !important;
+  font-weight: 700 !important;
+  color: var(--accent) !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}
+
+
+/* ==========================================================================
+   v36 Updates:
+   - Song Search Ranking Rows (.row-song-primary): 25% smaller & white text
+   ========================================================================== */
+.row-song-primary {
+  font-size: calc(12.375px * var(--fs)) !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  line-height: 1.32 !important;
+  margin-bottom: 2px !important;
+}
+
+.artist-row.selected .row-song-primary {
+  color: #FFFFFF !important;
+}
+
+.row-name.row-name-with-song {
+  font-size: calc(10.5px * var(--fs)) !important;
+  color: var(--text-secondary) !important;
+}
+
+.row-artist-prefix {
+  font-size: calc(10px * var(--fs)) !important;
+}
+
+
+/* ==========================================================================
+   v38 Updates:
+   1. Responsive Ranking Columns based on .center-panel width:
+      - Sufficient width (>= 560px): Never truncate 活動形態 ("音楽グループ(アニゲー関連)")
+      - Even wider width (>= 730px): Show 所属 column (.col-agency-wide) with short labels
+   ========================================================================== */
+.col-agency-wide {
+  display: none !important;
+}
+
+.row-agency {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.row-agency-badge {
+  display: inline-block;
+  font-size: calc(11.5px * var(--fs));
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-agency-empty {
+  font-size: calc(12px * var(--fs));
+  color: var(--text-muted);
+  opacity: 0.45;
+  user-select: none;
+}
+
+@media (min-width: 901px) {
+  .center-panel {
+    container-type: inline-size;
+    container-name: centerpanel;
+  }
+
+  /* When center-panel has enough width (>= 560px): never truncate 活動形態 */
+  @container centerpanel (min-width: 560px) {
+    .list-col-header,
+    .artist-row {
+      grid-template-columns:
+        calc(34px + (var(--fs) - 1) * 14px)
+        42px
+        minmax(110px, 1fr)
+        calc(178px + (var(--fs) - 1) * 114px)
+        calc(76px + (var(--fs) - 1) * 44px)
+        calc(80px + (var(--fs) - 1) * 52px) !important;
+    }
+
+    .row-role {
+      overflow: visible !important;
+    }
+
+    .row-role-badge {
+      max-width: none !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+    }
+  }
+
+  /* When center-panel has even more width (>= 730px): also show 所属 column */
+  @container centerpanel (min-width: 730px) {
+    .list-col-header > span.col-agency-wide {
+      display: block !important;
+    }
+
+    .artist-row > .row-agency.col-agency-wide {
+      display: flex !important;
+    }
+
+    .list-col-header,
+    .artist-row {
+      grid-template-columns:
+        calc(34px + (var(--fs) - 1) * 14px)
+        42px
+        minmax(120px, 1fr)
+        calc(178px + (var(--fs) - 1) * 114px)
+        calc(118px + (var(--fs) - 1) * 74px)
+        calc(76px + (var(--fs) - 1) * 44px)
+        calc(80px + (var(--fs) - 1) * 52px) !important;
+    }
+  }
+}
+
+
+/* ==========================================================================
+   v40 Updates:
+   - Mobile Top Bar "?" Button (#mobAboutBtn)
+   - PC Sidebar Footer "？ 当サイトについて" Button (#pcAboutBtn)
+   - Wider PC About Site Modal (#aboutSiteModal, max-width: 860px)
+   - Bold Section Headings (.about-item-heading) & Clean Line Spacing (.about-item-lines)
+   ========================================================================== */
+.pc-about-site-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  color: var(--text-primary);
+  font-size: calc(12.5px * var(--fs));
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.pc-about-site-btn svg {
+  width: calc(16px * var(--fs));
+  height: calc(16px * var(--fs));
+  flex-shrink: 0;
+  color: var(--text-secondary);
+  transition: color 0.15s ease;
+}
+
+.pc-about-site-btn:hover,
+.pc-about-site-btn:focus-visible {
+  background: rgba(29, 185, 84, 0.14);
+  border-color: rgba(29, 185, 84, 0.45);
+  color: #FFFFFF;
+}
+
+.pc-about-site-btn:hover svg,
+.pc-about-site-btn:focus-visible svg {
+  color: #4ade80;
+}
+
+.mob-about-btn svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* Modal Backdrop & Dialog Card */
+.about-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  background: rgba(0, 0, 0, 0.74);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.16s ease-out, visibility 0.16s ease-out;
+}
+
+.about-modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.about-modal-card {
+  width: min(92vw, 860px);
+  max-width: 860px;
+  max-height: min(88dvh, 820px);
+  background: #171717;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.about-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.about-modal-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.about-modal-title-icon {
+  width: 21px;
+  height: 21px;
+  color: #4ade80;
+  flex-shrink: 0;
+}
+
+.about-modal-title {
+  margin: 0;
+  font-size: calc(16.5px * var(--fs));
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.about-modal-close-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.about-modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+}
+
+.about-modal-body {
+  padding: 20px 24px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.about-item-card {
+  padding: 15px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.085);
+}
+
+.about-item-heading {
+  margin: 0 0 8px 0;
+  font-size: calc(14.5px * var(--fs));
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 0.01em;
+}
+
+.about-item-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.about-line {
+  margin: 0;
+  font-size: calc(13.5px * var(--fs));
+  line-height: 1.72;
+  color: #e5e7eb;
+  padding-left: 12px;
+  position: relative;
+  word-break: break-word;
+}
+
+.about-line::before {
+  content: "・";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: rgba(255, 255, 255, 0.42);
+  font-weight: 700;
+}
+
+.about-green-text {
+  color: #4ade80;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .pc-about-site-btn {
+    display: none !important;
+  }
+  .about-modal-backdrop {
+    padding: 12px;
+  }
+  .about-modal-card {
+    width: 100%;
+    max-width: 100%;
+    max-height: 85dvh;
+    border-radius: 14px;
+  }
+  .about-modal-header {
+    padding: 14px 16px;
+  }
+  .about-modal-body {
+    padding: 14px 16px 18px;
+    gap: 11px;
+  }
+  .about-item-card {
+    padding: 13px 14px;
+  }
+  .about-item-heading {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .about-line {
+    font-size: 13.2px;
+    line-height: 1.66;
+  }
+}
+
+
+/* ==========================================================================
+   V42 UPDATES:
+   1) ABOUT MODAL BULLET SPACING (em-based so 100%-175% font scale never overlaps) & INLINE YT ICON
+   2) "かるのオススメ" PC SIDEBAR BUTTON, MOBILE HORIZONTAL BANNER (REPLACING MOBILE HERO BOX),
+      ROLE-GROUPED LIST WITHOUT RANK NUMBERS, AND HEART MARK INDICATORS
+   ========================================================================== */
+.about-line {
+  padding-left: 1.65em !important;
+  position: relative;
+}
+
+.about-line::before {
+  content: "・";
+  position: absolute;
+  left: 0.05em !important;
+  top: 0;
+  width: 1.2em;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.about-inline-yt-badge {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: calc(25px * var(--fs));
+  height: calc(25px * var(--fs));
+  border-radius: calc(6px * var(--fs));
+  background: #282828;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c4c4c4;
+  vertical-align: middle;
+  margin-right: 2px;
+  transform: translateY(-1.5px);
+}
+
+.about-inline-yt-badge .yt-ext-icon {
+  width: calc(14.5px * var(--fs));
+  height: calc(14.5px * var(--fs));
+}
+
+/* Mobile Recommend Box is hidden on PC; shown on Smartphone in place of Hero Header */
+.mobile-recommend-box-wrap {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  /* Hide the App Title Box (#heroHeaderSection) on Smartphone as requested */
+  #heroHeaderSection,
+  .hero-header {
+    display: none !important;
+  }
+
+  /* Vertically short, horizontally wide "かるのオススメ" box on Smartphone */
+  .mobile-recommend-box-wrap {
+    display: block;
+    padding: 10px 14px 2px;
+  }
+
+  .mobile-recommend-banner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.16) 0%, rgba(24, 24, 27, 0.96) 65%, #171717 100%);
+    border: 1px solid rgba(244, 63, 94, 0.34);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+  }
+
+  .mobile-recommend-banner:active {
+    transform: scale(0.992);
+  }
+
+  .mobile-recommend-banner.active-cat {
+    border-color: rgba(244, 63, 94, 0.5);
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.21) 0%, rgba(24, 24, 27, 0.96) 65%, #171717 100%);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.42);
+  }
+
+  .mob-rec-left {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+  }
+
+  .mob-rec-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: rgba(244, 63, 94, 0.18);
+    color: #fb7185;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .mob-rec-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mob-rec-text-col {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .mob-rec-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.25;
+  }
+
+  .mob-rec-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mob-rec-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .mob-rec-count-wrap {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mob-rec-count-wrap strong {
+    font-size: 17px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-right: 2px;
+  }
+
+  .mobile-recommend-banner.active-cat .mob-stat-action-badge {
+    background: rgba(244, 63, 94, 0.26);
+    border-color: rgba(244, 63, 94, 0.48);
+    color: #ffe4e6;
+  }
+}
+
+/* PC Sidebar Recommend button active accent */
+.nav-recommend-btn.active svg {
+  color: #fb7185 !important;
+}
+
+/* Heart Mark in Main Artist Row & Detail Panel */
+.artist-fav-heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fb7185;
+  font-size: 0.92em;
+  margin-left: 5px;
+  vertical-align: baseline;
+  filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.35));
+}
+
+.detail-fav-heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fb7185;
+  font-size: 0.88em;
+  margin-left: 7px;
+  vertical-align: baseline;
+  filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.45));
+}
+
+/* Role Group Section Headers inside "かるのオススメ" view */
+.recommend-role-section {
+  margin-bottom: 18px;
+}
+
+.recommend-role-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  margin: 8px 6px 4px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.recommend-role-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(29, 185, 84, 0.65);
+  flex-shrink: 0;
+}
+
+.recommend-role-title {
+  font-size: calc(13.5px * var(--fs));
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+.recommend-role-count {
+  margin-left: auto;
+  font-size: calc(11.5px * var(--fs));
+  font-weight: 700;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.row-rank-blank {
+  color: transparent !important;
+  user-select: none;
+}
+
+/* Owner Quick-Heart Edit Mode: Turn top-bar dot pink + show clear status banner & avatar rings */
+body.fav-quick-edit-mode .mobile-top-dot,
+body.fav-quick-edit-mode .hero-badge-dot {
+  background: #fb7185 !important;
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.95) !important;
+  transform: scale(1.25);
+}
+
+.fav-quick-edit-banner {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: rgba(36, 14, 22, 0.96);
+  border: 1.5px solid #fb7185;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.75), 0 0 16px rgba(244, 63, 94, 0.35);
+  color: #ffe4e6;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 800;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100vw - 20px);
+  white-space: nowrap;
+}
+
+body.fav-quick-edit-mode .fav-quick-edit-banner {
+  display: inline-flex;
+}
+
+.fav-qe-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fav-qe-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fb7185;
+  box-shadow: 0 0 8px #fb7185;
+  flex-shrink: 0;
+}
+
+.fav-qe-exit-btn {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #fb7185;
+  color: #000000;
+  font-size: 11.5px;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+body.fav-quick-edit-mode .artist-row .row-avatar-wrap {
+  outline: 2px dashed rgba(251, 113, 133, 0.75);
+  outline-offset: 2px;
+}

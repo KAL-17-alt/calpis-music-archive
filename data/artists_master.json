@@ -7713,6 +7713,78 @@
     "youtubeChannelUrl": "https://www.youtube.com/channel/UCt5-0i4AVHXaWJrL8Wql3mw"
   },
   {
+    "name": "JELEE",
+    "cat": 1,
+    "count": 14,
+    "reading": "jelee",
+    "kana": "",
+    "row": "",
+    "alpha": "J",
+    "img": "https://lh3.googleusercontent.com/zDKzAwCOgvgX4vzxHlNrBkbw1iRE3rJC9pCq7jPZiQcrZjc5CN4q-WKMsrKqK91vZa6rTgasuT5URfMi=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "海を泳ぐ月",
+      "からくりピエロ",
+      "JOURNEE",
+      "億万☆Choooo者！",
+      "笑顔のおかわり",
+      "ってゆーか",
+      "月の温度",
+      "最強ガール",
+      "深海遊泳",
+      "1日は25時間。",
+      "渋谷アクアリウム",
+      "青一色",
+      "重力級拘束ラブ",
+      "ブルーライトコネクト"
+    ],
+    "topSongs": [
+      "渋谷アクアリウム",
+      "最強ガール",
+      "青一色",
+      "月の温度",
+      "深海遊泳"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "じぇりー",
+      "ジェリー"
+    ],
+    "role": "音楽グループ",
+    "imgType": "youtube_official",
+    "sub": 90500,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "orig",
+      "orig",
+      "orig",
+      "orig",
+      "orig"
+    ],
+    "topLinks": [
+      "4KbArcGFZdA",
+      "tpWIK6D-yVM",
+      "g3OKl5OzwiU",
+      "Yv0Ybyq_C-Q",
+      "d9pOqWHY9Ws"
+    ],
+    "subDate": "2026-10-28",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(アニゲー関連)",
+    "roles": [
+      "音楽グループ"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@jelee_official",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@jelee_official"
+  },
+  {
     "name": "硝子宮",
     "cat": 1,
     "count": 14,
@@ -8262,77 +8334,6 @@
     "ytChannelUrl": "https://www.youtube.com/@YOSHIKA-Ch",
     "ytChannelLabel": "YouTubeチャンネル →",
     "ytChannelType": "official"
-  },
-  {
-    "name": "JELEE",
-    "cat": 1,
-    "count": 13,
-    "reading": "jelee",
-    "kana": "",
-    "row": "",
-    "alpha": "J",
-    "img": "https://lh3.googleusercontent.com/zDKzAwCOgvgX4vzxHlNrBkbw1iRE3rJC9pCq7jPZiQcrZjc5CN4q-WKMsrKqK91vZa6rTgasuT5URfMi=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "海を泳ぐ月",
-      "からくりピエロ",
-      "JOURNEE",
-      "億万☆Choooo者！",
-      "笑顔のおかわり",
-      "ってゆーか",
-      "月の温度",
-      "最強ガール",
-      "深海遊泳",
-      "1日は25時間。",
-      "渋谷アクアリウム",
-      "青一色",
-      "重力級拘束ラブ"
-    ],
-    "topSongs": [
-      "渋谷アクアリウム",
-      "最強ガール",
-      "青一色",
-      "月の温度",
-      "深海遊泳"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "じぇりー",
-      "ジェリー"
-    ],
-    "role": "音楽グループ",
-    "imgType": "youtube_official",
-    "sub": 90500,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "orig",
-      "orig",
-      "orig",
-      "orig",
-      "orig"
-    ],
-    "topLinks": [
-      "4KbArcGFZdA",
-      "tpWIK6D-yVM",
-      "g3OKl5OzwiU",
-      "Yv0Ybyq_C-Q",
-      "d9pOqWHY9Ws"
-    ],
-    "subDate": "2026-10-28",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(アニゲー関連)",
-    "roles": [
-      "音楽グループ"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@jelee_official",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@jelee_official"
   },
   {
     "name": "珀",

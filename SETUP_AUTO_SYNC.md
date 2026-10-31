@@ -1,78 +1,33 @@
-# YouTubeプレイリスト自動同期・AI自動登録 セットアップ＆運用ガイド
+# YouTube Music / YouTube プレイリスト自動更新 セットアップ＆運用ガイド（v2.0 安全初期化対応版）
 
----
+## 概要と仕組み
+- **初回初期化（`mode: init`）**：現在プレイリストに入っている全曲（約2,692件など）の動画IDを `data/processed_videos.json` に「初期登録済み」として一括記録し、`data/sync_state.json` に `"initialized": true` を保存します。**初期化時は Gemini API を一切呼び出さず（AI分析0件）、既存の楽曲・アーティスト・保留リストも一切変更しません。**
+- **通常同期（`mode: sync`）**：初期化が完了した時点より後にプレイリストへ新しく追加された動画だけを検出して Gemini API（第一候補：`gemini-3.5-flash-lite`）で分析します。
+  - **高確信度（`confidence >= 0.85`）かつ既存名義と明確に一致し、動画タイトル・チャンネル名等の根拠が確認できる曲**：即座に `data/artists_master.json`、`data.js`、`calpis-music-archive.html` に自動追加されます（カバー曲が1曲追加されただけで既存の分類2が分類1へ変わることはありません）。
+  - **サイト未登録の新規名義、または低確信度・複数人コラボ・作曲者チャンネル投稿などの要確認曲**：本番データには自動登録せず、`data/pending_review.json` および `PENDING_REVIEW.md` にAIの仮設定を出力します。
+- **手動承認・除外**：`data/pending_review.json` で `"approved": true` にした項目は次回実行時に本番登録され、`"skip": true` にした項目は登録せず除外されます（新曲が0件の日でも承認・除外は反映されます）。
 
-## ステップ3：GitHubリポジトリを作成し、Secrets（環境変数）を登録する
+## 1. GitHub 上の既存ファイルへの反映手順
+このZIPファイルを解凍し、以下のファイルをGitHubリポジトリへ上書きアップロードして Commit してください。
+- `scripts/sync_youtube_playlists.py`（初期化モード・Gemini 404対策・状態保護・確信度0〜1対応済みスクリプト）
+- `.github/workflows/sync-playlists.yml`（`Diagnose YouTube API` 維持・モード選択・`data/sync_state.json` コミット対応済みワークフロー）
+- `data/sync_state.json`（初期状態管理ファイル）
+- `data/processed_videos.json`
+- `data/pending_review.json`
+- `PENDING_REVIEW.md`
+- `SETUP_AUTO_SYNC.md`
 
-### 3-1. GitHubにリポジトリを作ってファイルをアップロードする
-1. [GitHub (https://github.com/)](https://github.com/) にログインし、右上の **「＋」アイコン →「New repository」** をクリックします。
-2. **Repository name** に任意の名前（例：`calpis-music-archive`）を入力し、**「Create repository」** を押します（Public / Private どちらでも構いません）。
-3. `calpis-music-archive-vercel.zip` をパソコン上で解凍（展開）し、中に入っているすべてのファイル・フォルダ（`index.html`, `app.js`, `styles.css`, `data.js`, `vercel.json`, `assets/`, `data/`, `scripts/`, `.github/` など）をそのリポジトリにアップロード（Push）します。
-   - ※ブラウザから直接アップロードする場合は、隠しフォルダの `.github/workflows/sync-playlists.yml` も忘れずにアップロードしてください。
+## 2. 初回初期化（現在のプレイリスト全曲を登録済みとして記録する手順）
+1. GitHubリポジトリ上部の **「Actions」** タブを開きます。
+2. 左側メニューの **「Auto Sync YouTube Playlists」** をクリックします。
+3. 右側の **「Run workflow」** ボタンを押します。
+4. **「実行モード」** のドロップダウンで **`init`** を選択し、緑色の **「Run workflow」** ボタンを押します。
+5. 実行が完了すると、現在のプレイリスト内の全動画IDが `data/processed_videos.json` に保存され、`data/sync_state.json` が `"initialized": true` となって自動コミットされます。
+   - ※誤って2回目に `init` を実行しても、自動的にブロックされるため既存の記録がリセットされる心配はありません。
 
-### 3-2. 3つのSecret（APIキー・プレイリストID）を登録する
-1. GitHubリポジトリのページ上部にある **「Settings」タブ**（歯車アイコン）をクリックします。
-2. 左側メニューの下方にある **「Secrets and variables」** をクリックし、展開された **「Actions」** をクリックします。
-3. 画面右上の緑色のボタン **「New repository secret」** をクリックし、以下の **3つ** を1つずつ登録します。
+## 3. Gemini API の動作確認方法（任意）
+- **「Run workflow」** のドロップダウンで **`verify_gemini`** を選択して実行すると、プレイリストや本番データには一切触れずに Gemini API（`gemini-3.5-flash-lite` 等）へ最小1リクエストだけテスト送信し、推論が成功するかログで確認できます。
 
-| 1つ目の登録 | 内容 |
-| :--- | :--- |
-| **Name** | `YOUTUBE_API_KEY` |
-| **Secret** | 取得した YouTube Data API v3 のキー（`AIza...`）を貼り付けて **「Add secret」** |
-
-| 2つ目の登録 | 内容 |
-| :--- | :--- |
-| **Name** | `GEMINI_API_KEY` |
-| **Secret** | 取得した Google AI Studio (Gemini) のキー（`AIza...`）を貼り付けて **「Add secret」** |
-
-| 3つ目の登録 | 内容 |
-| :--- | :--- |
-| **Name** | `YOUTUBE_PLAYLIST_IDS` |
-| **Secret** | 「無限 プレイリスト」「無限2 プレイリスト」のIDをカンマ区切りで貼り付けて **「Add secret」**<br>（例：`PLxxxxxxxxxxxx1,PLxxxxxxxxxxxx2`） |
-
----
-
-## ステップ4：GitHub Actions の有効化・テスト実行と Vercel 連携
-
-### 4-1. GitHub Actions の手動テスト実行
-1. GitHubリポジトリ上部の **「Actions」タブ** を開きます。
-   - ※もし緑色の「I understand my workflows, go ahead and enable them」というボタンが表示されたらクリックして有効化します。
-2. 左側のメニューから **「Auto Sync YouTube Playlists」** をクリックします。
-3. 右側にある **「Run workflow」▼** ボタンを押して、緑色の **「Run workflow」** をクリックします。
-4. 1分ほど待つと緑色のチェックマーク（成功）がつきます（以降は毎日午前4時に自動実行されます）。
-
-### 4-2. Vercel と GitHub リポジトリを連携する
-1. [Vercel (https://vercel.com/)](https://vercel.com/) にログインし、**「Add New...」→「Project」** を押します。
-2. 先ほど作成した GitHub リポジトリ（`calpis-music-archive`）の **「Import」** を押し、そのまま **「Deploy」** を押します。
-3. これで連携完了です！以後、GitHub Actions がデータを更新して自動コミットするたびに、Vercelも自動で再デプロイされ、本番サイトが最新化されます。
-
----
-
-## ステップ5：実用開始後の「手動調整（新規名義・低確信度の確認）」のやり方
-
-自動同期スクリプトは、以下のように **2段階の安全設計** になっています：
-- **既存名義の曲（高確信度）**: そのまま自動で本番データ（`data.js`）に追加され、サイトに即時反映されます。
-- **未登録の新規名義・またはAIが迷った曲（低確信度）**: 勝手には本番登録せず、AIが「活動形態」「所属」「プロフィール文」「曲名」を仮設定した状態で **`PENDING_REVIEW.md`（見やすい一覧表）** と **`data/pending_review.json`（編集用データ）** に出力します。
-
-### あなたが手動調整として行う操作（スマホやPCのブラウザだけで完結します）
-1. たまにGitHubリポジトリのトップ画面にある **`PENDING_REVIEW.md`** を見ます（確認待ちの曲があると表形式で並んでいます）。
-2. 内容を確認・承認する場合は、GitHub上で **`data/pending_review.json`** を開き、右上の **鉛筆アイコン（Edit this file）** を押します。
-3. 各項目にAIの仮設定が入っています：
-   ```json
-   {
-     "approved": false,
-     "skip": false,
-     "artistName": "〇〇",
-     "songTitle": "△△",
-     "songType": "cover",
-     "role": "Vsinger",
-     "agency": "",
-     "profileBio": "〇〇は、...",
-     "reason": "未登録の新規名義のため仮設定"
-   }
-   ```
-   - もし `role`（歌い手／Vsinger／音楽グループ(アニゲー関連)／音楽グループ(その他) など）や `agency`（所属）、`profileBio`（プロフィール文）を直したい箇所があれば書き換えます。
-   - サイトに登録してよければ、1番上の `"approved": false` を **`"approved": true`** に書き換えます。
-   - （※もし男性ボーカル曲などで登録したくない場合は、`"skip": true` に書き換えます。）
-4. 右上の緑色の **「Commit changes...」** ボタンを押して保存します。
-5. 次の自動実行時（または「Actions」タブで「Run workflow」を押すとすぐその場で）、承認された項目が本番の `data.js` / `artists_master.json` に本登録され、`pending_review.json` から自動で消去されます。
+## 4. Vercel公開版と単体HTML版（`calpis-music-archive.html`）について
+- **Vercel公開版**：`index.html` + `app.js` + `styles.css` + `data.js` を参照して動作します。
+- **単体HTML版（`calpis-music-archive.html`）**：HTML内部に `window.ARCHIVE_DATA` を内蔵したオフライン・単体動作版スナップショットです。本スクリプト（v2.0）は同期時に `data.js` と同時にリポジトリ内の `calpis-music-archive.html` も自動更新します。
