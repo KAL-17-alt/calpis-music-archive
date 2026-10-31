@@ -906,14 +906,61 @@ def classify_videos_with_gemini(
 
 
 
-def ensure_artist_stable_aid(artist: dict) -> str:
-    aid = artist.get("aid")
-    if isinstance(aid, str) and re.match(r"^a_[0-9a-f]{8,}$", aid):
-        return aid
+def ensure_artist_stable_aid(artist: dict, used_aids: set[str] | None = None) -> str:
+    """Preserves existing `aid` permanently (even across artist renames or sort changes).
+    Only generates a deterministic `aid` when a brand-new artist record has none."""
+    existing = artist.get("aid")
+    if isinstance(existing, str) and re.match(r"^a_[0-9a-f]{8}(?:_\d+)?$", existing):
+        if used_aids is not None:
+            used_aids.add(existing)
+        return existing
     name_str = str(artist.get("name") or "").strip()
-    aid = "a_" + hashlib.sha1(name_str.encode("utf-8")).hexdigest()[:8]
-    artist["aid"] = aid
-    return aid
+    base = "a_" + hashlib.sha1(name_str.encode("utf-8")).hexdigest()[:8]
+    cand = base
+    if used_aids is not None:
+        suffix = 2
+        while cand in used_aids:
+            cand = f"{base}_{suffix}"
+            suffix += 1
+        used_aids.add(cand)
+    artist["aid"] = cand
+    return cand
+
+
+def update_api_artists_index_if_present(artists: list[dict]) -> None:
+    """Keeps api/_artists_index.js synchronized when new artists are added via YouTube auto-sync."""
+    api_index_path = os.path.join(BASE_DIR, "api", "_artists_index.js")
+    if not os.path.isdir(os.path.dirname(api_index_path)):
+        return
+    try:
+        valid_aids = []
+        name_to_aid = {}
+        alias_to_aid = {}
+        for a in artists:
+            aid = a.get("aid")
+            if not aid:
+                continue
+            valid_aids.append(aid)
+            if a.get("name"):
+                name_to_aid[a["name"]] = aid
+            for al in a.get("al") or []:
+                if isinstance(al, str) and al.strip() and al.strip() not in name_to_aid:
+                    alias_to_aid[al.strip()] = aid
+        payload = {
+            "validAids": sorted(set(valid_aids)),
+            "nameToAid": name_to_aid,
+            "aliasToAid": alias_to_aid,
+        }
+        content = (
+            "// Auto-generated artist identifier index for Calpis Music Archive (/api/favorites)\n"
+            "// Maps stable artist IDs (aid) and artist names/aliases for strict server-side validation.\n"
+            "module.exports = "
+            + json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+            + ";\n"
+        )
+        atomic_write_text(api_index_path, content)
+    except Exception as e:
+        safe_print(f"[WARN] Could not update api/_artists_index.js: {e}")
 
 
 def build_compact_data_js(artists: list[dict]) -> str:
@@ -966,9 +1013,13 @@ def recompute_and_save_production_data(artists: list[dict]) -> None:
             f"is below minimum expected ({MIN_EXPECTED_ARTISTS})."
         )
 
+    used_aids: set[str] = {
+        a["aid"] for a in artists
+        if isinstance(a.get("aid"), str) and re.match(r"^a_[0-9a-f]{8}(?:_\d+)?$", a["aid"])
+    }
     agency_counts = {}
     for a in artists:
-        ensure_artist_stable_aid(a)
+        ensure_artist_stable_aid(a, used_aids)
         ag = a.get("agencyGroup") or a.get("agency") or ""
         if ag:
             agency_counts[ag] = agency_counts.get(ag, 0) + 1
@@ -984,6 +1035,7 @@ def recompute_and_save_production_data(artists: list[dict]) -> None:
     atomic_write_json(MASTER_JSON_PATH, artists)
     atomic_write_text(DATA_JS_PATH, compact_js + "\n")
     update_standalone_html_if_present(STANDALONE_HTML_PATH, compact_js)
+    update_api_artists_index_if_present(artists)
 
 
 def run_sync(
