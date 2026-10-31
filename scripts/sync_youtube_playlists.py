@@ -905,6 +905,17 @@ def classify_videos_with_gemini(
         raise ValueError(f"Invalid JSON structure from Gemini model '{used_model}': {e}")
 
 
+
+def ensure_artist_stable_aid(artist: dict) -> str:
+    aid = artist.get("aid")
+    if isinstance(aid, str) and re.match(r"^a_[0-9a-f]{8,}$", aid):
+        return aid
+    name_str = str(artist.get("name") or "").strip()
+    aid = "a_" + hashlib.sha1(name_str.encode("utf-8")).hexdigest()[:8]
+    artist["aid"] = aid
+    return aid
+
+
 def build_compact_data_js(artists: list[dict]) -> str:
     compact_artists = []
     for a in artists:
@@ -957,6 +968,7 @@ def recompute_and_save_production_data(artists: list[dict]) -> None:
 
     agency_counts = {}
     for a in artists:
+        ensure_artist_stable_aid(a)
         ag = a.get("agencyGroup") or a.get("agency") or ""
         if ag:
             agency_counts[ag] = agency_counts.get(ag, 0) + 1
