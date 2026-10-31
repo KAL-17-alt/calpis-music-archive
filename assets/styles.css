@@ -4271,3 +4271,219 @@ body.fav-quick-edit-mode .artist-row .row-avatar-wrap {
 .row-count span {
   color: var(--text-secondary) !important;
 }
+
+
+/* ==========================================================================
+   V46 UPDATES:
+   1) Mobile Search: Hide "よみがな: ～" (.row-match-kana)
+   2) Mobile Detail Popup: Pure white artist name (no dark shadow overlap from avatar),
+      larger role badge, agency/vocal badge, and YouTube channel button
+   3) Mobile Filter Sheet: Larger close button "×" icon
+   4) Mobile Ranking & Search List: Wider text column (+2~4 chars) & line break before ()
+   5) Mobile & PC Sort: Compact custom sort popup menu on mobile
+   ========================================================================== */
+
+/* PC / Mobile responsive display helpers for artist names & parentheses */
+.name-pc-only {
+  display: inline;
+}
+.name-mob-only {
+  display: none;
+}
+.mob-paren-br {
+  display: none;
+}
+.pc-paren-space {
+  display: inline;
+}
+
+/* Fix avatar box-shadow overlapping .detail-artist-name */
+.detail-avatar-wrap {
+  z-index: 1;
+}
+.detail-artist-name {
+  position: relative;
+  z-index: 2;
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+/* Custom Sort Menu (hidden by default, compact popup on mobile) */
+.sort-wrap {
+  position: relative;
+}
+
+.custom-sort-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 156px;
+  background: #1c1c1e;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 4px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.72);
+  z-index: 120;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.custom-sort-menu.open {
+  display: flex;
+}
+
+.custom-sort-option {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  white-space: nowrap;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.custom-sort-option:hover,
+.custom-sort-option:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  outline: none;
+}
+
+.custom-sort-option.active {
+  background: rgba(29, 185, 84, 0.16);
+  color: #2ed573;
+}
+
+.custom-sort-option.active::after {
+  content: "✓";
+  font-size: 11px;
+  font-weight: 900;
+  color: #2ed573;
+}
+
+#closeMobFilterBtn svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .name-pc-only {
+    display: none !important;
+  }
+  .name-mob-only {
+    display: inline !important;
+  }
+  .mob-paren-br {
+    display: inline !important;
+  }
+  .pc-paren-space {
+    display: none !important;
+  }
+  .row-name-with-song .mob-paren-br {
+    display: none !important;
+  }
+  .mob-paren-chunk {
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  /* 1. Hide よみがな: ～ in mobile search results */
+  .row-match-kana {
+    display: none !important;
+  }
+
+  /* 2. Pure white artist name without dark shadow in mobile detail popup + larger badges/buttons */
+  .detail-avatar-wrap {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.38) !important;
+    margin-bottom: 14px !important;
+  }
+
+  .detail-artist-name {
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+    position: relative !important;
+    z-index: 2 !important;
+  }
+
+  .detail-role-badge {
+    font-size: 13px !important;
+    padding: 4.5px 13px !important;
+  }
+
+  .detail-vocal-badge,
+  .detail-agency-badge {
+    font-size: 12.5px !important;
+    padding: 4.5px 12px !important;
+  }
+
+  .detail-yt-channel-btn {
+    font-size: 13.5px !important;
+    padding: 7.5px 18px !important;
+    gap: 8px !important;
+  }
+
+  .detail-yt-channel-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  /* 3. Larger × icon in mobile filter sheet close button */
+  #closeMobFilterBtn {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  #closeMobFilterBtn svg {
+    width: 21px !important;
+    height: 21px !important;
+  }
+
+  /* 4. Extend mobile ranking & search list text width by ~2-4 characters */
+  .artist-list {
+    padding: 4px 4px 24px !important;
+  }
+
+  .list-col-header {
+    grid-template-columns: 28px 38px minmax(0, 1fr) 46px !important;
+    gap: 7px !important;
+    padding: 6px 10px !important;
+  }
+
+  .artist-row {
+    grid-template-columns: 28px 38px minmax(0, 1fr) 46px !important;
+    gap: 7px !important;
+    padding: 8px 6px !important;
+  }
+
+  .row-rank {
+    font-size: 12.5px !important;
+  }
+
+  .row-count {
+    font-size: 13.5px !important;
+    text-align: right !important;
+  }
+
+  /* 5. Compact Sort Button & Popup on Mobile */
+  .sort-wrap {
+    padding: 5px 10px !important;
+    cursor: pointer;
+  }
+
+  .sort-select {
+    font-size: 11.5px !important;
+    pointer-events: none !important;
+  }
+}

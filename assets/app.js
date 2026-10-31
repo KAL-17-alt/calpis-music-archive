@@ -991,9 +991,8 @@
         (qNoSpace && a._normAliasesNoSpace.includes(qNoSpace))
       ) {
         a._searchTier = 1;
-        const sm = mode === "both" ? findMatchedSongsForArtist(a, q, qNoSpace) : null;
-        a._matchedSongPreview = sm ? sm.first : null;
-        a._matchedSongsDisplay = sm ? sm.display : null;
+        a._matchedSongPreview = null;
+        a._matchedSongsDisplay = null;
         a._matchedAliasHint = (a._normName !== q && a._normNameNoSpace !== qNoSpace) ? (a.reading || "") : "";
         return true;
       }
@@ -1007,9 +1006,8 @@
         (qNoSpace && a._normAliasesNoSpace.some(al => al.startsWith(qNoSpace)))
       ) {
         a._searchTier = 2;
-        const sm = mode === "both" ? findMatchedSongsForArtist(a, q, qNoSpace) : null;
-        a._matchedSongPreview = sm ? sm.first : null;
-        a._matchedSongsDisplay = sm ? sm.display : null;
+        a._matchedSongPreview = null;
+        a._matchedSongsDisplay = null;
         a._matchedAliasHint = (!a._normName.includes(q) && a.reading) ? a.reading : "";
         return true;
       }
@@ -1023,9 +1021,8 @@
         (qNoSpace && a._normAliasesNoSpace.some(al => al.includes(qNoSpace)))
       ) {
         a._searchTier = 3;
-        const sm = mode === "both" ? findMatchedSongsForArtist(a, q, qNoSpace) : null;
-        a._matchedSongPreview = sm ? sm.first : null;
-        a._matchedSongsDisplay = sm ? sm.display : null;
+        a._matchedSongPreview = null;
+        a._matchedSongsDisplay = null;
         a._matchedAliasHint = (!a._normName.includes(q) && a.reading) ? a.reading : "";
         return true;
       }
@@ -1526,20 +1523,41 @@
     return `${fmtNum(n)}人`;
   }
 
+  function formatArtistNameHTML(rawName, forSongSubtitle = false) {
+    const s = String(rawName || "");
+    if (s === "神崎エルザ (ガンゲイル・オンライン)") {
+      if (forSongSubtitle) {
+        return `<span class="name-pc-only">${esc(s)}</span><span class="name-mob-only">神崎エルザ(GGO)</span>`;
+      }
+      return `<span class="name-pc-only">${esc(s)}</span><span class="name-mob-only">神崎エルザ<br class="mob-paren-br">(GGO)</span>`;
+    }
+    const m = s.match(/^([^\(（]+?)(\s*)([\(（].*)$/);
+    if (m && m[1]) {
+      const basePart = esc(m[1]);
+      const spacePart = m[2] ? `<span class="pc-paren-space">${esc(m[2])}</span>` : "";
+      const parenPart = esc(m[3]);
+      if (forSongSubtitle) {
+        return `${basePart}${spacePart}<span class="mob-paren-chunk">${parenPart}</span>`;
+      }
+      return `${basePart}${spacePart}<br class="mob-paren-br"><span class="mob-paren-chunk">${parenPart}</span>`;
+    }
+    return esc(s);
+  }
+
   // Build a single Artist Row HTML string (PC: 6 columns / Smartphone: 4 columns)
   function buildArtistRowHTML(a, isSearch, rowIndex = 999, hideRankNumber = false) {
     const isSelected = state.selectedArtistName === a.name;
     const isFav = isRecommendedArtist(a.name);
     const favHeartHTML = isFav ? `<span class="artist-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : "";
     const rankClass = (!hideRankNumber && state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
-    const isSongSearchMode = isSearch && state.searchTarget === "song" && Boolean(a._matchedSongPreview);
+    const isSongSearchMode = isSearch && (state.searchTarget === "song" || state.searchTarget === "all") && Boolean(a._matchedSongPreview);
     const songDisplayStr = a._matchedSongsDisplay || a._matchedSongPreview || "";
     let nameWrapInner = "";
 
     if (isSongSearchMode) {
       nameWrapInner = `
         <div class="row-song-primary">♪ ${esc(songDisplayStr)}</div>
-        <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${esc(a.name)}${favHeartHTML}</div>
+        <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${favHeartHTML}</div>
       `;
     } else {
       let matchSub = "";
@@ -1547,11 +1565,11 @@
         if (a._matchedSongPreview) {
           matchSub = `<div class="row-match-sub row-match-song-both">♪ 一致楽曲: ${esc(songDisplayStr)}</div>`;
         } else if (a._matchedAliasHint) {
-          matchSub = `<div class="row-match-sub">よみがな: ${esc(a._matchedAliasHint)}</div>`;
+          matchSub = `<div class="row-match-sub row-match-kana">よみがな: ${esc(a._matchedAliasHint)}</div>`;
         }
       }
       nameWrapInner = `
-        <div class="row-name">${esc(a.name)}${favHeartHTML}</div>
+        <div class="row-name">${formatArtistNameHTML(a.name, false)}${favHeartHTML}</div>
         ${matchSub}
       `;
     }
@@ -1834,7 +1852,7 @@
     }
     syncMobileScrollLock();
 
-    topTitleEl.textContent = artist.name;
+    topTitleEl.textContent = (window.innerWidth <= 900 && artist.name === "神崎エルザ (ガンゲイル・オンライン)") ? "神崎エルザ(GGO)" : artist.name;
 
     const rawSongs = artist.songs || [];
     const topSongs = artist.topSongs || [];
@@ -1999,7 +2017,7 @@
         <div class="detail-avatar-wrap">
           ${renderAvatarHTML(artist, true)}
         </div>
-        <h2 class="detail-artist-name">${esc(artist.name)}${isRecommendedArtist(artist.name) ? `<span class="detail-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : ""}</h2>
+        <h2 class="detail-artist-name">${artist.name === "神崎エルザ (ガンゲイル・オンライン)" ? `<span class="name-pc-only">${esc(artist.name)}</span><span class="name-mob-only">神崎エルザ(GGO)</span>` : esc(artist.name)}${isRecommendedArtist(artist.name) ? `<span class="detail-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : ""}</h2>
         <div class="detail-meta-row">
           ${roleBadgeHTML}
         </div>
@@ -2154,10 +2172,18 @@
       mobTitleEl.textContent = "検索";
     }
 
-    // Sync unified sort select dropdown
+    // Sync unified sort select dropdown & custom sort menu
     const sortSelect = document.getElementById("pcSortSelect");
     if (sortSelect) {
       sortSelect.value = state.sortBy;
+    }
+    const customSortMenu = document.getElementById("customSortMenu");
+    if (customSortMenu) {
+      customSortMenu.querySelectorAll(".custom-sort-option").forEach(btn => {
+        const isSelected = btn.getAttribute("data-sort-value") === state.sortBy;
+        btn.classList.toggle("active", isSelected);
+        btn.setAttribute("aria-selected", isSelected ? "true" : "false");
+      });
     }
 
     // Sync filter drawers
@@ -2533,13 +2559,63 @@
       updateUI(true);
     });
 
-    // Unified Sort select (Manual change updates both sortBy and savedSortBy)
-    document.getElementById("pcSortSelect").addEventListener("change", e => {
-      pushHistorySnapshot(false);
-      state.sortBy = e.target.value;
-      state.savedSortBy = e.target.value;
-      updateUI(true);
-    });
+    // Unified Sort select & Custom compact sort popup menu
+    const pcSortSelectEl = document.getElementById("pcSortSelect");
+    const sortWrapEl = document.getElementById("sortWrapContainer") || (pcSortSelectEl && pcSortSelectEl.closest(".sort-wrap"));
+    const customSortMenuEl = document.getElementById("customSortMenu");
+
+    if (pcSortSelectEl) {
+      pcSortSelectEl.addEventListener("change", e => {
+        pushHistorySnapshot(false);
+        state.sortBy = e.target.value;
+        state.savedSortBy = e.target.value;
+        if (customSortMenuEl) customSortMenuEl.classList.remove("open");
+        updateUI(true);
+      });
+      // On mobile (<= 900px), intercept native select opening and use the compact custom sort popup
+      pcSortSelectEl.addEventListener("mousedown", e => {
+        if (window.innerWidth <= 900 && customSortMenuEl) {
+          e.preventDefault();
+          customSortMenuEl.classList.toggle("open");
+        }
+      });
+      pcSortSelectEl.addEventListener("touchstart", e => {
+        if (window.innerWidth <= 900 && customSortMenuEl) {
+          e.preventDefault();
+          customSortMenuEl.classList.toggle("open");
+        }
+      }, { passive: false });
+    }
+
+    if (sortWrapEl && customSortMenuEl) {
+      sortWrapEl.addEventListener("click", e => {
+        if (window.innerWidth <= 900 && !e.target.closest(".custom-sort-option")) {
+          e.preventDefault();
+          e.stopPropagation();
+          customSortMenuEl.classList.toggle("open");
+        }
+      });
+      customSortMenuEl.addEventListener("click", e => {
+        const optBtn = e.target.closest(".custom-sort-option");
+        if (!optBtn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const newVal = optBtn.getAttribute("data-sort-value");
+        customSortMenuEl.classList.remove("open");
+        if (newVal && newVal !== state.sortBy) {
+          pushHistorySnapshot(false);
+          state.sortBy = newVal;
+          state.savedSortBy = newVal;
+          if (pcSortSelectEl) pcSortSelectEl.value = newVal;
+          updateUI(true);
+        }
+      });
+      document.addEventListener("click", e => {
+        if (!sortWrapEl.contains(e.target)) {
+          customSortMenuEl.classList.remove("open");
+        }
+      });
+    }
 
     // Unified Filter button: opens collapsible drawer on PC, or bottom filter sheet on Smartphone (does not pollute undoStack)
     document.getElementById("pcFilterToggleBtn").addEventListener("click", () => {
