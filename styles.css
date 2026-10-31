@@ -4490,9 +4490,325 @@ body.fav-quick-edit-mode .artist-row .row-avatar-wrap {
 
 
 /* ==========================================================================
-   V47 UPDATES: SERVER-SHARED FAVORITES ("かるのオススメ") UI & MODALS
+   V49 UPDATES:
+   1) MOBILE LIST BOTTOM CLEARANCE & TACTILE TAP UX
+   2) PC SEARCH SCREEN EDIT MODE BANNER CLEARANCE (No overlap with search tabs)
+   3) EDIT MODE MANUAL SONG ADDITION INPUT BAR & SONG HEART TOGGLE IN DETAIL PANEL
+   4) "かるのオススメ" ARTIST / SONG SWITCHER TABS & ACTIVITY-ROLE SONG LIST
    ========================================================================== */
 
+@media (max-width: 900px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .app-shell,
+  .app-shell.detail-closed {
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    height: calc(100dvh - 56px) !important;
+    max-height: calc(100dvh - 56px) !important;
+    overflow: hidden !important;
+    width: 100vw;
+  }
+
+  .center-panel {
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    height: 100% !important;
+  }
+
+  .center-scroll {
+    padding-bottom: calc(68px + env(safe-area-inset-bottom, 12px)) !important;
+  }
+
+  .artist-list {
+    padding: 4px 4px 20px !important;
+  }
+
+  .artist-row {
+    transition: background-color 0.08s ease-out, transform 0.08s ease-out !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .artist-row:active,
+  .artist-row.mob-tap-active {
+    background-color: rgba(29, 185, 84, 0.18) !important;
+    transform: scale(0.986) !important;
+  }
+
+  .sheet-backdrop {
+    transition: opacity 0.20s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  .right-panel,
+  .app-shell.detail-closed .right-panel {
+    transform: translateY(18px) scale(0.992) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition:
+      opacity 0.20s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.22s !important;
+  }
+
+  .right-panel.mobile-open {
+    transform: translateY(0) scale(1) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+}
+
+/* 2. PC Search Screen: Prevent Edit Mode banner from overlapping search target tabs */
+@media (min-width: 901px) {
+  body.fav-quick-edit-mode[data-current-view="search"] .search-view-header {
+    padding-top: 64px !important;
+  }
+}
+
+/* 3. Edit Mode Manual Song Addition Bar & Song Heart Toggle in Detail Panel */
+.edit-add-song-bar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  background: rgba(251, 113, 133, 0.09);
+  border: 1.5px solid rgba(251, 113, 133, 0.45);
+  border-radius: 12px;
+}
+
+body.fav-quick-edit-mode .edit-add-song-bar {
+  display: flex;
+}
+
+.edit-add-song-input {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.edit-add-song-input:focus {
+  border-color: #fb7185;
+  box-shadow: 0 0 0 2px rgba(251, 113, 133, 0.25);
+}
+
+.edit-add-song-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 500;
+}
+
+.edit-add-song-btn {
+  width: 38px;
+  height: 36px;
+  border-radius: 8px;
+  background: #fb7185;
+  color: #000000;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.15s ease;
+}
+
+.edit-add-song-btn:hover {
+  background: #fda4af;
+}
+
+.edit-add-song-btn:active {
+  transform: scale(0.95);
+}
+
+/* Song Heart Badge in Detail Song List */
+.song-fav-heart {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  color: #f43f5e;
+  font-size: 0.95em;
+  vertical-align: -0.08em;
+  filter: drop-shadow(0 0 4px rgba(244, 63, 94, 0.35));
+}
+
+.detail-song-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.detail-song-item .song-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.detail-song-right-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.song-edit-heart-indicator {
+  display: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  color: rgba(251, 113, 133, 0.35);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(251, 113, 133, 0.35);
+  font-size: 14px;
+  transition: all 0.12s ease;
+}
+
+.song-edit-heart-indicator.is-fav {
+  color: #f43f5e;
+  background: rgba(244, 63, 94, 0.16);
+  border: 1px solid #fb7185;
+}
+
+body.fav-quick-edit-mode .detail-song-item {
+  cursor: pointer;
+  border: 1px dashed rgba(251, 113, 133, 0.25);
+  border-radius: 8px;
+  padding-right: 8px;
+  user-select: none;
+}
+
+body.fav-quick-edit-mode .detail-song-item:hover {
+  background: rgba(251, 113, 133, 0.1);
+  border-color: rgba(251, 113, 133, 0.55);
+}
+
+body.fav-quick-edit-mode .song-edit-heart-indicator {
+  display: inline-flex;
+}
+
+/* Hide the inline passive heart when the interactive right-side heart indicator is shown in Edit Mode */
+body.fav-quick-edit-mode .detail-song-item .song-fav-heart {
+  display: none;
+}
+
+.custom-song-del-btn {
+  display: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fca5a5;
+  font-size: 13px;
+  font-weight: 800;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.custom-song-del-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+  color: #ffffff;
+}
+
+body.fav-quick-edit-mode .custom-song-del-btn {
+  display: inline-flex;
+}
+
+/* 4. "かるのオススメ" Artist / Song Switcher Tabs */
+.recommend-switch-bar {
+  padding: 10px 12px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.recommend-switch-tabs {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(244, 63, 94, 0.28);
+  border-radius: 12px;
+  width: min(100%, 360px);
+}
+
+.recommend-switch-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: calc(13px * var(--fs));
+  font-weight: 800;
+  color: var(--text-secondary);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.recommend-switch-tab:hover {
+  color: #ffffff;
+}
+
+.recommend-switch-tab.active {
+  background: rgba(225, 29, 72, 0.25);
+  border: 1px solid rgba(244, 63, 94, 0.65);
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(225, 29, 72, 0.2);
+}
+
+.recommend-switch-tab .rec-tab-icon {
+  color: #fb7185;
+  display: inline-flex;
+  align-items: center;
+}
+
+.recommend-switch-tab .rec-tab-count {
+  font-size: 0.88em;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fda4af;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 900px) {
+  .recommend-switch-bar {
+    padding: 8px 6px 4px;
+  }
+  .recommend-switch-tabs {
+    width: 100%;
+  }
+  .recommend-switch-tab {
+    font-size: 13px;
+    padding: 7px 10px;
+  }
+}
+
+/* 5. Owner-Only Shared Favorites Banner & Modals (Hidden from regular visitors) */
 .fav-quick-edit-banner {
   flex-direction: column;
   align-items: stretch;
@@ -4611,61 +4927,20 @@ body.fav-quick-edit-mode .artist-row .row-avatar-wrap {
   cursor: pointer;
 }
 
-/* Unsaved Draft Restore Banner */
-.fav-draft-restore-banner {
-  position: fixed;
-  bottom: 72px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9990;
-  background: rgba(24, 24, 28, 0.97);
-  border: 1.5px solid #fb7185;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.8);
-  color: #ffe4e6;
-  padding: 9px 14px;
-  border-radius: 14px;
-  font-size: 12px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  max-width: calc(100vw - 20px);
-  flex-wrap: wrap;
+.fav-sync-modal-overlay {
+  display: none !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 10000 !important;
 }
 
-.fav-draft-restore-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: auto;
+.fav-sync-modal-overlay.open {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
-.fav-draft-btn-primary,
-.fav-draft-btn-save {
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #fb7185;
-  color: #000000;
-  font-size: 11px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.fav-draft-btn-save {
-  background: #1ed760;
-}
-
-.fav-draft-btn-discard {
-  padding: 4px 9px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #e5e7eb;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-/* Migration & Conflict Modals */
 .fav-sync-modal-card {
   max-width: 560px;
   width: calc(100vw - 24px);
@@ -4778,7 +5053,6 @@ body.fav-quick-edit-mode .artist-row .row-avatar-wrap {
   font-weight: 700;
 }
 
-/* Lightweight Toast */
 .fav-sync-toast {
   position: fixed;
   bottom: 76px;

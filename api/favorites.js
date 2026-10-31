@@ -1,32 +1,32 @@
 /**
- * Calpis Music Archive - Shared Favorites API (/api/favorites)
+ * Calpis Music Archive - Shared Favorites & Custom Songs API (/api/favorites) [v49]
  *
- * Stores ONLY the list of hearted artist stable IDs (`ids`), `version`, and `updatedAt`.
- * Supports zero-cost Vercel Hobby storage backends automatically via environment variables:
- *   1. Vercel Global Config / Edge Config (`EDGE_CONFIG` + `VERCEL_API_TOKEN`) [Recommended: 100% inside Vercel, $0]
- *   2. Upstash Redis / Vercel Marketplace KV (`KV_REST_API_URL` + `KV_REST_API_TOKEN` or `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`) [$0]
- *   3. GitHub Secret Gist (`GITHUB_GIST_ID` + `GITHUB_GIST_TOKEN`) [$0, no Vercel redeploy]
+ * Stores and synchronizes:
+ *   - `ids`: Array of recommended artist stable IDs (`["a_...", ...]`)
+ *   - `songFavs`: Array of recommended songs (`["a_...\t曲名", ...]`)
+ *   - `customSongs`: Array of manually added songs (`["a_...\t曲名", ...]`)
+ *   - `version`: Optimistic concurrency integer
+ *   - `updatedAt`: ISO timestamp
  *
- * Security & Reliability Features (No-Login Personal Site Mode):
- *   - Strict input validation against the archive's valid artist ID index (`_artists_index.js`)
- *   - Automatic deduplication and canonical sorting of artist IDs
- *   - Request body size limit (max 32 KB)
- *   - Custom intent headers (`X-Calpis-Client: archive-v1`) & Same-Origin / Sec-Fetch-Site verification
- *   - Per-IP and global sliding-window rate limiting
- *   - Optimistic concurrency control (`baseVersion`) returning 409 Conflict to prevent silent overwrites
- *   - No-op write skipping (0 writes consumed when submitted IDs match current server state)
- *   - Strict `Cache-Control: no-store` headers so browsers, SW, and CDNs never serve stale data
+ * Supported Zero-Cost Storage Backends (Auto-detected via Environment Variables):
+ *   1. [Recommended #1] Upstash Redis (via Vercel Marketplace)
+ *      - Env vars: `KV_REST_API_URL` + `KV_REST_API_TOKEN` (or `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`)
+ *      - Atomic Lua `EVAL` Check-And-Set + Cross-instance Redis rate limiting
+ *   2. [Alternative #2] Vercel Global Config (formerly Edge Config)
+ *      - Env vars: `GLOBAL_CONFIG` (or `EDGE_CONFIG`) + `VERCEL_API_TOKEN`
+ *   3. [Alternative #3] GitHub Secret Gist (`GITHUB_GIST_ID` + `GITHUB_GIST_TOKEN`)
  */
 
 const fs = require("fs");
 const path = require("path");
 const artistIndex = require("./_artists_index.js");
 
-const MAX_BODY_BYTES = 32 * 1024; // 32 KB max payload
+const MAX_BODY_BYTES = 64 * 1024; // 64 KB max payload
 const MAX_IDS_COUNT = 1500;
+const MAX_SONG_FAVS_COUNT = 5000;
+const MAX_CUSTOM_SONGS_COUNT = 5000;
 const STORAGE_KEY = "calpis_favorites";
 
-// Build fast lookup tables from _artists_index.js
 const VALID_AID_SET = new Set(artistIndex.validAids || []);
 const NAME_TO_AID = Object.assign({}, artistIndex.nameToAid || {});
 const ALIAS_TO_AID = Object.assign({}, artistIndex.aliasToAid || {});
@@ -45,7 +45,6 @@ for (const [alias, aid] of Object.entries(ALIAS_TO_AID)) {
   if (!NORM_TO_AID[nk]) NORM_TO_AID[nk] = aid;
 }
 
-// Also dynamically index any newly synced artists from data/artists_master.json if present on disk
 try {
   const masterPath = path.join(process.cwd(), "data", "artists_master.json");
   if (fs.existsSync(masterPath)) {
@@ -59,16 +58,20 @@ try {
             NAME_TO_AID[a.name.trim()] = a.aid;
             NORM_TO_AID[normalizeKey(a.name)] = a.aid;
           }
+          if (Array.isArray(a.al)) {
+            for (const al of a.al) {
+              if (typeof al === "string" && al.trim()) {
+                const nk = normalizeKey(al);
+                if (!NORM_TO_AID[nk]) NORM_TO_AID[nk] = a.aid;
+              }
+            }
+          }
         }
       }
     }
   }
 } catch (_ignore) {}
 
-/**
- * Resolves an artist identifier (`aid`, exact `name`, or `alias`) to its canonical `aid`.
- * Returns `null` if the identifier does not correspond to a real artist in the archive.
- */
 function resolveIdentifierToAid(rawId) {
   if (typeof rawId !== "string") return null;
   const trimmed = rawId.trim();
@@ -81,14 +84,141 @@ function resolveIdentifierToAid(rawId) {
   return null;
 }
 
-// In-memory rate limiter & short-lived write consistency cache (per warm instance)
+/**
+ * Normalizes a song entry (`"aid\tsongTitle"` or `{ aid, song }`) into canonical `"aid\tsongTitle"`.
+ * Returns `null` if invalid or if the artist does not exist.
+ */
+function resolveSongEntry(rawEntry) {
+  let rawArtist = "";
+  let rawSong = "";
+
+  if (typeof rawEntry === "string") {
+    const tabIdx = rawEntry.indexOf("\t");
+    if (tabIdx <= 0) return null;
+    rawArtist = rawEntry.slice(0, tabIdx);
+    rawSong = rawEntry.slice(tabIdx + 1);
+  } else if (rawEntry && typeof rawEntry === "object") {
+    rawArtist = String(rawEntry.aid || rawEntry.artist || "");
+    rawSong = String(rawEntry.song || rawEntry.title || "");
+  } else {
+    return null;
+  }
+
+  const aid = resolveIdentifierToAid(rawArtist);
+  if (!aid) return null;
+
+  const cleanSong = rawSong.replace(/[\r\n\t]+/g, " ").trim();
+  if (!cleanSong || cleanSong.length > 180) return null;
+
+  return `${aid}\t${cleanSong}`;
+}
+
+const REDIS_RATE_LIMIT_LUA = `
+local k1 = KEYS[1]
+local limit1 = tonumber(ARGV[1])
+local win1 = tonumber(ARGV[2])
+local c1 = redis.call("INCR", k1)
+if c1 == 1 then redis.call("PEXPIRE", k1, win1) end
+if c1 > limit1 then return {0, 1} end
+
+if KEYS[2] and KEYS[2] ~= "" then
+  local k2 = KEYS[2]
+  local limit2 = tonumber(ARGV[3])
+  local win2 = tonumber(ARGV[4])
+  local c2 = redis.call("INCR", k2)
+  if c2 == 1 then redis.call("PEXPIRE", k2, win2) end
+  if c2 > limit2 then return {0, 2} end
+end
+
+if KEYS[3] and KEYS[3] ~= "" then
+  local k3 = KEYS[3]
+  local limit3 = tonumber(ARGV[5])
+  local win3 = tonumber(ARGV[6])
+  local c3 = redis.call("INCR", k3)
+  if c3 == 1 then redis.call("PEXPIRE", k3, win3) end
+  if c3 > limit3 then return {0, 3} end
+end
+
+return {1, 0}
+`;
+
+const REDIS_ATOMIC_CAS_LUA = `
+local key = KEYS[1]
+local expectedBaseVer = tonumber(ARGV[1])
+local newIdsJson = ARGV[2]
+local newSongFavsJson = ARGV[3]
+local newCustomSongsJson = ARGV[4]
+local updatedAt = ARGV[5]
+local clientReqId = ARGV[6]
+local action = ARGV[7]
+local forceOverwrite = ARGV[8] == "1"
+
+local raw = redis.call("GET", key)
+local curVer = 0
+local curIdsJson = "[]"
+local curSongFavsJson = "[]"
+local curCustomSongsJson = "[]"
+local curLastReqId = ""
+
+if raw and raw ~= false and raw ~= "" then
+  local ok, decoded = pcall(cjson.decode, raw)
+  if ok and type(decoded) == "table" then
+    curVer = tonumber(decoded.version) or 0
+    if type(decoded.ids) == "table" and #decoded.ids > 0 then
+      curIdsJson = cjson.encode(decoded.ids)
+    end
+    if type(decoded.songFavs) == "table" and #decoded.songFavs > 0 then
+      curSongFavsJson = cjson.encode(decoded.songFavs)
+    end
+    if type(decoded.customSongs) == "table" and #decoded.customSongs > 0 then
+      curCustomSongsJson = cjson.encode(decoded.customSongs)
+    end
+    curLastReqId = tostring(decoded.lastRequestId or "")
+  end
+end
+
+-- 1. Idempotency check
+if clientReqId ~= "" and curLastReqId ~= "" and clientReqId == curLastReqId then
+  return {"IDEMPOTENT", raw}
+end
+
+-- 2. No-op check (if all 3 arrays are identical, skip write)
+if curVer > 0 and curIdsJson == newIdsJson and curSongFavsJson == newSongFavsJson and curCustomSongsJson == newCustomSongsJson then
+  return {"UNCHANGED", raw}
+end
+
+-- 3. Initial migration protection
+if action == "migrate" and curVer > 0 and not forceOverwrite then
+  return {"ALREADY_INITIALIZED", raw}
+end
+
+-- 4. Atomic Optimistic Concurrency Check
+if curVer > 0 and expectedBaseVer ~= curVer and not forceOverwrite then
+  return {"CONFLICT", raw}
+end
+
+-- 5. Atomic Write with incremented version
+local nextVer = curVer + 1
+local nextObj = {
+  ids = cjson.decode(newIdsJson),
+  songFavs = cjson.decode(newSongFavsJson),
+  customSongs = cjson.decode(newCustomSongsJson),
+  version = nextVer,
+  updatedAt = updatedAt,
+  lastRequestId = clientReqId
+}
+local nextRaw = cjson.encode(nextObj)
+redis.call("SET", key, nextRaw)
+return {"SAVED", nextRaw}
+`;
+
 const ipReadWindows = new Map();
 const ipWriteMinuteWindows = new Map();
 const ipWriteHourWindows = new Map();
 let globalWriteMinuteTimestamps = [];
-let recentWriteCache = null; // { state, expiresAt }
+let recentWriteCache = null;
 
-function checkRateLimit(ip, isWrite) {
+function checkInMemoryRateLimit(ip, isWrite) {
   const now = Date.now();
   const cleanWindow = (arr, windowMs) => arr.filter(t => now - t < windowMs);
 
@@ -102,7 +232,6 @@ function checkRateLimit(ip, isWrite) {
     return { allowed: true };
   }
 
-  // Write rate limits: max 6/min per IP, max 30/hour per IP, max 15/min globally
   const minWin = cleanWindow(ipWriteMinuteWindows.get(ip) || [], 60 * 1000);
   const hrWin = cleanWindow(ipWriteHourWindows.get(ip) || [], 60 * 60 * 1000);
   globalWriteMinuteTimestamps = cleanWindow(globalWriteMinuteTimestamps, 60 * 1000);
@@ -120,6 +249,61 @@ function checkRateLimit(ip, isWrite) {
   ipWriteMinuteWindows.set(ip, minWin);
   ipWriteHourWindows.set(ip, hrWin);
   return { allowed: true };
+}
+
+async function checkRateLimit(backend, ip, isWrite) {
+  if (backend && backend.name === "upstash-redis") {
+    try {
+      const { url, token } = backend.config;
+      const safeIp = String(ip || "unknown").replace(/[^a-zA-Z0-9.:_-]/g, "_").slice(0, 64);
+      const cmd = isWrite
+        ? [
+            "EVAL",
+            REDIS_RATE_LIMIT_LUA,
+            3,
+            `calpis_rl:w:m:${safeIp}`,
+            `calpis_rl:w:h:${safeIp}`,
+            `calpis_rl:w:g`,
+            6, 60000,
+            30, 3600000,
+            15, 60000
+          ]
+        : [
+            "EVAL",
+            REDIS_RATE_LIMIT_LUA,
+            1,
+            `calpis_rl:r:m:${safeIp}`,
+            90, 60000
+          ];
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(cmd),
+        cache: "no-store"
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        const resArr = data && data.result;
+        if (Array.isArray(resArr) && resArr[0] === 0) {
+          const reason = resArr[1];
+          return {
+            allowed: false,
+            retryAfterSec: reason === 2 ? 300 : 60,
+            message: isWrite
+              ? "短時間に保存操作が集中しています。しばらく待ってから再度「完了して閉じる」を押してください。"
+              : "読み込みリクエストが多すぎます。しばらく待ってから再読み込みしてください。"
+          };
+        }
+        if (Array.isArray(resArr) && resArr[0] === 1) {
+          return { allowed: true };
+        }
+      }
+    } catch (_e) {}
+  }
+  return checkInMemoryRateLimit(ip, isWrite);
 }
 
 function getClientIp(req) {
@@ -145,38 +329,73 @@ function setNoCacheHeaders(res) {
 
 function normalizeStateObject(raw) {
   if (!raw || typeof raw !== "object") {
-    return { ids: [], version: 0, updatedAt: null, lastRequestId: "" };
+    return { ids: [], songFavs: [], customSongs: [], version: 0, updatedAt: null, lastRequestId: "" };
   }
   const rawIds = Array.isArray(raw.ids) ? raw.ids : [];
   const validIds = [];
-  const seen = new Set();
+  const seenIds = new Set();
   for (const item of rawIds) {
     const aid = resolveIdentifierToAid(item);
-    if (aid && !seen.has(aid)) {
-      seen.add(aid);
+    if (aid && !seenIds.has(aid)) {
+      seenIds.add(aid);
       validIds.push(aid);
     }
   }
   validIds.sort();
+
+  const rawSongFavs = Array.isArray(raw.songFavs) ? raw.songFavs : [];
+  const validSongFavs = [];
+  const seenSongFavs = new Set();
+  for (const item of rawSongFavs) {
+    const key = resolveSongEntry(item);
+    if (key && !seenSongFavs.has(key)) {
+      seenSongFavs.add(key);
+      validSongFavs.push(key);
+    }
+  }
+  validSongFavs.sort();
+
+  const rawCustomSongs = Array.isArray(raw.customSongs) ? raw.customSongs : [];
+  const validCustomSongs = [];
+  const seenCustomSongs = new Set();
+  for (const item of rawCustomSongs) {
+    const key = resolveSongEntry(item);
+    if (key && !seenCustomSongs.has(key)) {
+      seenCustomSongs.add(key);
+      validCustomSongs.push(key);
+    }
+  }
+  validCustomSongs.sort();
+
+  const hasAnyData = validIds.length > 0 || validSongFavs.length > 0 || validCustomSongs.length > 0;
   const version = typeof raw.version === "number" && Number.isFinite(raw.version) && raw.version >= 0
     ? Math.floor(raw.version)
-    : (validIds.length > 0 ? 1 : 0);
+    : (hasAnyData ? 1 : 0);
+
   return {
     ids: validIds,
+    songFavs: validSongFavs,
+    customSongs: validCustomSongs,
     version,
     updatedAt: typeof raw.updatedAt === "string" ? raw.updatedAt : null,
     lastRequestId: typeof raw.lastRequestId === "string" ? raw.lastRequestId : ""
   };
 }
 
-/**
- * Storage Backend Detection & Operations
- */
-function parseEdgeConfigEnv() {
-  const connStr = (process.env.EDGE_CONFIG || "").trim();
-  let configId = (process.env.EDGE_CONFIG_ID || process.env.GLOBAL_CONFIG_ID || "").trim();
-  let readToken = (process.env.EDGE_CONFIG_TOKEN || "").trim();
-  let readOrigin = "https://edge-config.vercel.com";
+function parseUpstashEnv() {
+  const url = (process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || "").trim().replace(/\/+$/, "");
+  const token = (process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || "").trim();
+  if (url && token) {
+    return { url, token };
+  }
+  return null;
+}
+
+function parseGlobalConfigEnv() {
+  const connStr = (process.env.GLOBAL_CONFIG || process.env.EDGE_CONFIG || "").trim();
+  let configId = (process.env.GLOBAL_CONFIG_ID || process.env.EDGE_CONFIG_ID || "").trim();
+  let readToken = (process.env.GLOBAL_CONFIG_TOKEN || process.env.EDGE_CONFIG_TOKEN || "").trim();
+  let readOrigin = "https://global-config.vercel.com";
 
   if (connStr) {
     try {
@@ -200,15 +419,6 @@ function parseEdgeConfigEnv() {
   return null;
 }
 
-function parseUpstashEnv() {
-  const url = (process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || "").trim().replace(/\/+$/, "");
-  const token = (process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || "").trim();
-  if (url && token) {
-    return { url, token };
-  }
-  return null;
-}
-
 function parseGistEnv() {
   const gistId = (process.env.GITHUB_GIST_ID || "").trim();
   const gistToken = (process.env.GITHUB_GIST_TOKEN || "").trim();
@@ -219,21 +429,23 @@ function parseGistEnv() {
 }
 
 function detectStorageBackend(req) {
-  const edgeCfg = parseEdgeConfigEnv();
-  if (edgeCfg) {
-    return {
-      name: "vercel-global-config",
-      configured: Boolean(edgeCfg.configId && edgeCfg.apiToken),
-      readOnlyConfigured: Boolean(edgeCfg.configId && edgeCfg.readToken && !edgeCfg.apiToken),
-      config: edgeCfg
-    };
-  }
   const upstash = parseUpstashEnv();
   if (upstash) {
     return {
       name: "upstash-redis",
       configured: true,
+      atomicCas: true,
       config: upstash
+    };
+  }
+  const globalCfg = parseGlobalConfigEnv();
+  if (globalCfg) {
+    return {
+      name: "vercel-global-config",
+      configured: Boolean(globalCfg.configId && globalCfg.apiToken),
+      readOnlyConfigured: Boolean(globalCfg.configId && globalCfg.readToken && !globalCfg.apiToken),
+      atomicCas: false,
+      config: globalCfg
     };
   }
   const gist = parseGistEnv();
@@ -241,6 +453,7 @@ function detectStorageBackend(req) {
     return {
       name: "github-gist",
       configured: true,
+      atomicCas: false,
       config: gist
     };
   }
@@ -249,6 +462,7 @@ function detectStorageBackend(req) {
   return {
     name: isLocal ? "local-file" : "unconfigured",
     configured: isLocal,
+    atomicCas: isLocal,
     config: { filePath: process.env.LOCAL_FAV_STORE_PATH || "/tmp/calpis_favorites_local.json" }
   };
 }
@@ -256,7 +470,24 @@ function detectStorageBackend(req) {
 async function readFromBackend(backend, options = {}) {
   const strong = Boolean(options.strong);
 
-  // If a write occurred very recently on this warm instance, return the guaranteed fresh state
+  if (backend.name === "upstash-redis") {
+    const { url, token } = backend.config;
+    const resp = await fetch(`${url}/get/${STORAGE_KEY}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store"
+    });
+    if (!resp.ok) {
+      throw new Error(`Upstash Redis GET failed with status ${resp.status}`);
+    }
+    const data = await resp.json();
+    if (!data || data.result === null || data.result === undefined) {
+      return normalizeStateObject(null);
+    }
+    const parsed = typeof data.result === "string" ? JSON.parse(data.result) : data.result;
+    return normalizeStateObject(parsed);
+  }
+
   if (recentWriteCache && Date.now() < recentWriteCache.expiresAt) {
     return normalizeStateObject(recentWriteCache.state);
   }
@@ -265,12 +496,10 @@ async function readFromBackend(backend, options = {}) {
     const { configId, readToken, readOrigin, apiToken, teamId } = backend.config;
     const teamQuery = teamId ? `?teamId=${encodeURIComponent(teamId)}` : "";
 
-    // When strong consistency is required (e.g., inside POST before saving or ?fresh=1) and apiToken is present,
-    // query the Vercel REST API directly so the 1-10s Edge Config CDN propagation window never causes stale reads.
     if ((strong || !readToken) && apiToken) {
       const endpoints = [
-        `https://api.vercel.com/v1/edge-config/${encodeURIComponent(configId)}/item/${STORAGE_KEY}${teamQuery}`,
-        `https://api.vercel.com/v1/global-config/${encodeURIComponent(configId)}/item/${STORAGE_KEY}${teamQuery}`
+        `https://api.vercel.com/v1/global-config/${encodeURIComponent(configId)}/item/${STORAGE_KEY}${teamQuery}`,
+        `https://api.vercel.com/v1/edge-config/${encodeURIComponent(configId)}/item/${STORAGE_KEY}${teamQuery}`
       ];
       for (const ep of endpoints) {
         const resp = await fetch(ep, {
@@ -289,44 +518,31 @@ async function readFromBackend(backend, options = {}) {
       }
     }
 
-    // Standard ultra-fast Global Config / Edge Config read endpoint (100,000 free reads/month on Hobby)
     if (readToken) {
-      const readUrl = `${readOrigin}/${encodeURIComponent(configId)}/item/${STORAGE_KEY}`;
-      const resp = await fetch(readUrl, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${readToken}` },
-        cache: "no-store"
-      });
-      if (resp.status === 404) {
-        return normalizeStateObject(null);
+      const origins = [readOrigin];
+      if (!origins.includes("https://global-config.vercel.com")) origins.push("https://global-config.vercel.com");
+      if (!origins.includes("https://edge-config.vercel.com")) origins.push("https://edge-config.vercel.com");
+
+      for (const orig of origins) {
+        const readUrl = `${orig}/${encodeURIComponent(configId)}/item/${STORAGE_KEY}`;
+        const resp = await fetch(readUrl, {
+          method: "GET",
+          headers: { Authorization: `Bearer ${readToken}` },
+          cache: "no-store"
+        });
+        if (resp.status === 404) {
+          return normalizeStateObject(null);
+        }
+        if (resp.ok) {
+          const text = await resp.text();
+          if (!text || text === "null") return normalizeStateObject(null);
+          return normalizeStateObject(JSON.parse(text));
+        }
       }
-      if (!resp.ok) {
-        throw new Error(`Global Config read failed with status ${resp.status}`);
-      }
-      const text = await resp.text();
-      if (!text || text === "null") return normalizeStateObject(null);
-      return normalizeStateObject(JSON.parse(text));
+      throw new Error("Global Config read failed");
     }
 
     return normalizeStateObject(null);
-  }
-
-  if (backend.name === "upstash-redis") {
-    const { url, token } = backend.config;
-    const resp = await fetch(`${url}/get/${STORAGE_KEY}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store"
-    });
-    if (!resp.ok) {
-      throw new Error(`Upstash Redis GET failed with status ${resp.status}`);
-    }
-    const data = await resp.json();
-    if (!data || data.result === null || data.result === undefined) {
-      return normalizeStateObject(null);
-    }
-    const parsed = typeof data.result === "string" ? JSON.parse(data.result) : data.result;
-    return normalizeStateObject(parsed);
   }
 
   if (backend.name === "github-gist") {
@@ -364,11 +580,58 @@ async function readFromBackend(backend, options = {}) {
   return normalizeStateObject(null);
 }
 
-async function writeToBackend(backend, nextState) {
+async function atomicCasUpstashWrite(backend, params) {
+  const { url, token } = backend.config;
+  const { normalizedAids, normalizedSongFavs, normalizedCustomSongs, baseVersion, updatedAt, clientRequestId, action, forceOverwrite } = params;
+
+  const evalCmd = [
+    "EVAL",
+    REDIS_ATOMIC_CAS_LUA,
+    1,
+    STORAGE_KEY,
+    String(baseVersion),
+    JSON.stringify(normalizedAids),
+    JSON.stringify(normalizedSongFavs),
+    JSON.stringify(normalizedCustomSongs),
+    updatedAt,
+    clientRequestId,
+    action,
+    forceOverwrite ? "1" : "0"
+  ];
+
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(evalCmd),
+    cache: "no-store"
+  });
+
+  if (!resp.ok) {
+    const txt = await resp.text().catch(() => "");
+    throw new Error(`Upstash Redis EVAL failed (HTTP ${resp.status}): ${txt.slice(0, 180)}`);
+  }
+
+  const data = await resp.json();
+  const resArr = data && data.result;
+  if (!Array.isArray(resArr) || resArr.length < 2) {
+    throw new Error("Unexpected response format from Upstash Redis EVAL");
+  }
+
+  const statusTag = resArr[0];
+  const stateJson = resArr[1];
+  const stateObj = normalizeStateObject(stateJson ? JSON.parse(stateJson) : null);
+
+  return { statusTag, stateObj };
+}
+
+async function writeToNonAtomicBackend(backend, nextState) {
   if (backend.name === "vercel-global-config") {
     const { configId, apiToken, teamId } = backend.config;
     if (!apiToken) {
-      const err = new Error("VERCEL_API_TOKEN が設定されていないため、サーバーへ書き込めません。VercelのEnvironment Variablesに VERCEL_API_TOKEN を設定してください。");
+      const err = new Error("VERCEL_API_TOKEN が設定されていないため、サーバーへ書き込めません。");
       err.code = "missing_write_token";
       throw err;
     }
@@ -384,8 +647,8 @@ async function writeToBackend(backend, nextState) {
     });
 
     const endpoints = [
-      `https://api.vercel.com/v1/edge-config/${encodeURIComponent(configId)}/items${teamQuery}`,
-      `https://api.vercel.com/v1/global-config/${encodeURIComponent(configId)}/items${teamQuery}`
+      `https://api.vercel.com/v1/global-config/${encodeURIComponent(configId)}/items${teamQuery}`,
+      `https://api.vercel.com/v1/edge-config/${encodeURIComponent(configId)}/items${teamQuery}`
     ];
 
     let lastStatus = 0;
@@ -408,24 +671,6 @@ async function writeToBackend(backend, nextState) {
       if (resp.status !== 404) break;
     }
     throw new Error(`Global Config update failed (HTTP ${lastStatus}): ${lastText.slice(0, 180)}`);
-  }
-
-  if (backend.name === "upstash-redis") {
-    const { url, token } = backend.config;
-    const resp = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(["SET", STORAGE_KEY, JSON.stringify(nextState)])
-    });
-    if (!resp.ok) {
-      const txt = await resp.text().catch(() => "");
-      throw new Error(`Upstash Redis SET failed (HTTP ${resp.status}): ${txt.slice(0, 180)}`);
-    }
-    recentWriteCache = { state: nextState, expiresAt: Date.now() + 20000 };
-    return;
   }
 
   if (backend.name === "github-gist") {
@@ -461,7 +706,7 @@ async function writeToBackend(backend, nextState) {
     return;
   }
 
-  const err = new Error("サーバー保存先（Vercel Global Config / Edge Config または Upstash Redis）の環境変数が未設定です。");
+  const err = new Error("サーバー保存先（Upstash Redis または Vercel Global Config）の環境変数が未設定です。");
   err.code = "storage_unconfigured";
   throw err;
 }
@@ -476,20 +721,17 @@ function areSortedArraysEqual(a, b) {
 }
 
 function verifyWriteRequestSecurity(req) {
-  // 1. Custom intent headers (prevents simple form CSRF and casual bots)
   const clientHeader = req.headers["x-calpis-client"];
   const intentHeader = req.headers["x-calpis-edit-intent"];
   if (clientHeader !== "archive-v1" || intentHeader !== "1") {
     return { ok: false, status: 403, message: "不正なリクエストヘッダーです。" };
   }
 
-  // 2. Sec-Fetch-Site check if sent by modern browsers
   const secFetchSite = req.headers["sec-fetch-site"];
   if (secFetchSite && secFetchSite !== "same-origin" && secFetchSite !== "same-site" && secFetchSite !== "none") {
     return { ok: false, status: 403, message: "クロスサイトからの書き込みリクエストは拒否されました。" };
   }
 
-  // 3. Origin vs Host check
   const origin = req.headers["origin"];
   const host = req.headers["host"];
   if (origin && host) {
@@ -510,7 +752,7 @@ async function parseJsonBodyWithLimit(req) {
   if (req.body && typeof req.body === "object" && !Buffer.isBuffer(req.body)) {
     const rawStr = JSON.stringify(req.body);
     if (Buffer.byteLength(rawStr, "utf8") > MAX_BODY_BYTES) {
-      const err = new Error("リクエストサイズが上限（32KB）を超えています。");
+      const err = new Error("リクエストサイズが上限（64KB）を超えています。");
       err.status = 413;
       throw err;
     }
@@ -519,7 +761,7 @@ async function parseJsonBodyWithLimit(req) {
 
   if (typeof req.body === "string") {
     if (Buffer.byteLength(req.body, "utf8") > MAX_BODY_BYTES) {
-      const err = new Error("リクエストサイズが上限（32KB）を超えています。");
+      const err = new Error("リクエストサイズが上限（64KB）を超えています。");
       err.status = 413;
       throw err;
     }
@@ -532,7 +774,7 @@ async function parseJsonBodyWithLimit(req) {
     req.on("data", chunk => {
       totalBytes += chunk.length;
       if (totalBytes > MAX_BODY_BYTES) {
-        const err = new Error("リクエストサイズが上限（32KB）を超えています。");
+        const err = new Error("リクエストサイズが上限（64KB）を超えています。");
         err.status = 413;
         req.destroy();
         reject(err);
@@ -571,9 +813,10 @@ module.exports = async function handler(req, res) {
     });
   }
 
+  const backend = detectStorageBackend(req);
   const clientIp = getClientIp(req);
   const isWrite = req.method === "POST";
-  const rateCheck = checkRateLimit(clientIp, isWrite);
+  const rateCheck = await checkRateLimit(backend, clientIp, isWrite);
   if (!rateCheck.allowed) {
     res.setHeader("Retry-After", String(rateCheck.retryAfterSec || 60));
     return res.status(429).json({
@@ -582,8 +825,6 @@ module.exports = async function handler(req, res) {
       message: rateCheck.message
     });
   }
-
-  const backend = detectStorageBackend(req);
 
   // ==================== GET /api/favorites ====================
   if (req.method === "GET") {
@@ -594,7 +835,10 @@ module.exports = async function handler(req, res) {
         ok: true,
         configured: backend.configured,
         storageBackend: backend.name,
+        atomicCas: Boolean(backend.atomicCas),
         ids: current.ids,
+        songFavs: current.songFavs,
+        customSongs: current.customSongs,
         version: current.version,
         updatedAt: current.updatedAt
       });
@@ -647,6 +891,17 @@ module.exports = async function handler(req, res) {
     });
   }
 
+  const rawSongFavs = Array.isArray(body.songFavs) ? body.songFavs : [];
+  const rawCustomSongs = Array.isArray(body.customSongs) ? body.customSongs : [];
+
+  if (rawSongFavs.length > MAX_SONG_FAVS_COUNT || rawCustomSongs.length > MAX_CUSTOM_SONGS_COUNT) {
+    return res.status(400).json({
+      ok: false,
+      error: "too_many_songs",
+      message: "楽曲設定数の上限を超えています。"
+    });
+  }
+
   const action = body.action === "migrate" ? "migrate" : "save";
   const baseVersion = typeof body.baseVersion === "number" && Number.isFinite(body.baseVersion) && body.baseVersion >= 0
     ? Math.floor(body.baseVersion)
@@ -680,7 +935,6 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  // In normal save mode, strictly reject any unknown or non-existent artist IDs
   if (action !== "migrate" && invalidEntries.length > 0) {
     return res.status(400).json({
       ok: false,
@@ -692,23 +946,141 @@ module.exports = async function handler(req, res) {
 
   normalizedAids.sort();
 
+  const normalizedSongFavs = [];
+  const seenSongFavs = new Set();
+  for (const item of rawSongFavs) {
+    const key = resolveSongEntry(item);
+    if (!key) {
+      if (action !== "migrate") {
+        return res.status(400).json({
+          ok: false,
+          error: "invalid_song_fav",
+          message: "不正なオススメ楽曲データが含まれています。"
+        });
+      }
+      continue;
+    }
+    if (!seenSongFavs.has(key)) {
+      seenSongFavs.add(key);
+      normalizedSongFavs.push(key);
+    }
+  }
+  normalizedSongFavs.sort();
+
+  const normalizedCustomSongs = [];
+  const seenCustomSongs = new Set();
+  for (const item of rawCustomSongs) {
+    const key = resolveSongEntry(item);
+    if (!key) {
+      if (action !== "migrate") {
+        return res.status(400).json({
+          ok: false,
+          error: "invalid_custom_song",
+          message: "不正な手動追加楽曲データが含まれています。"
+        });
+      }
+      continue;
+    }
+    if (!seenCustomSongs.has(key)) {
+      seenCustomSongs.add(key);
+      normalizedCustomSongs.push(key);
+    }
+  }
+  normalizedCustomSongs.sort();
+
   if (!backend.configured) {
     return res.status(503).json({
       ok: false,
       error: "storage_unconfigured",
       storageBackend: backend.name,
       message: backend.readOnlyConfigured
-        ? "Vercelの環境変数 VERCEL_API_TOKEN が未設定のため書き込みできません。設定手順に沿って VERCEL_API_TOKEN を追加してください。"
-        : "Vercelの共有保存先（Global Config / Edge Config または Upstash Redis）が未設定です。設定手順に沿って環境変数を設定してください。"
+        ? "Vercelの環境変数 VERCEL_API_TOKEN が未設定のため書き込みできません。"
+        : "Vercelの共有保存先（Upstash Redis または Global Config）が未設定です。設定手順書に沿って接続してください。"
     });
   }
 
-  try {
-    // 1. Strongly-consistent read of current server state
-    const current = await readFromBackend(backend, { strong: true });
-    const clientRequestId = typeof body.clientRequestId === "string" ? body.clientRequestId.trim().slice(0, 80) : "";
+  const clientRequestId = typeof body.clientRequestId === "string" ? body.clientRequestId.trim().slice(0, 80) : "";
+  const forceOverwrite = body.forceOverwrite === true;
+  const nowIso = new Date().toISOString();
 
-    // 2. Idempotency check: if this exact clientRequestId already succeeded, return 200 without re-writing
+  try {
+    // Path A: Upstash Redis -> 100% Atomic Lua Check-And-Set (`EVAL`)
+    if (backend.name === "upstash-redis") {
+      const { statusTag, stateObj } = await atomicCasUpstashWrite(backend, {
+        normalizedAids,
+        normalizedSongFavs,
+        normalizedCustomSongs,
+        baseVersion,
+        updatedAt: nowIso,
+        clientRequestId,
+        action,
+        forceOverwrite
+      });
+
+      if (statusTag === "IDEMPOTENT" || statusTag === "UNCHANGED") {
+        return res.status(200).json({
+          ok: true,
+          unchanged: true,
+          idempotentReplay: statusTag === "IDEMPOTENT",
+          configured: true,
+          storageBackend: backend.name,
+          atomicCas: true,
+          ids: stateObj.ids,
+          songFavs: stateObj.songFavs,
+          customSongs: stateObj.customSongs,
+          version: stateObj.version,
+          updatedAt: stateObj.updatedAt
+        });
+      }
+
+      if (statusTag === "ALREADY_INITIALIZED") {
+        return res.status(409).json({
+          ok: false,
+          error: "already_initialized",
+          message: "すでにサーバー上に共有ハート設定が保存されています。他の端末のデータで上書きしないよう移行を停止しました。",
+          serverData: {
+            ids: stateObj.ids,
+            songFavs: stateObj.songFavs,
+            customSongs: stateObj.customSongs,
+            version: stateObj.version,
+            updatedAt: stateObj.updatedAt
+          }
+        });
+      }
+
+      if (statusTag === "CONFLICT") {
+        return res.status(409).json({
+          ok: false,
+          error: "conflict",
+          message: "編集中に他の端末で設定が更新されました。最新データを確認してください。",
+          serverData: {
+            ids: stateObj.ids,
+            songFavs: stateObj.songFavs,
+            customSongs: stateObj.customSongs,
+            version: stateObj.version,
+            updatedAt: stateObj.updatedAt
+          }
+        });
+      }
+
+      return res.status(200).json({
+        ok: true,
+        unchanged: false,
+        configured: true,
+        storageBackend: backend.name,
+        atomicCas: true,
+        ids: stateObj.ids,
+        songFavs: stateObj.songFavs,
+        customSongs: stateObj.customSongs,
+        version: stateObj.version,
+        updatedAt: stateObj.updatedAt,
+        ignoredUnknownCount: invalidEntries.length
+      });
+    }
+
+    // Path B: Non-Redis backends (Global Config / Gist / Local File)
+    const current = await readFromBackend(backend, { strong: true });
+
     if (clientRequestId && current.lastRequestId && clientRequestId === current.lastRequestId) {
       return res.status(200).json({
         ok: true,
@@ -716,69 +1088,85 @@ module.exports = async function handler(req, res) {
         idempotentReplay: true,
         configured: true,
         storageBackend: backend.name,
+        atomicCas: Boolean(backend.atomicCas),
         ids: current.ids,
+        songFavs: current.songFavs,
+        customSongs: current.customSongs,
         version: current.version,
         updatedAt: current.updatedAt
       });
     }
 
-    // 3. No-op check: if the submitted set is identical to what's already stored on the server, skip writing!
-    if (current.version > 0 && areSortedArraysEqual(normalizedAids, current.ids)) {
+    if (
+      current.version > 0 &&
+      areSortedArraysEqual(normalizedAids, current.ids) &&
+      areSortedArraysEqual(normalizedSongFavs, current.songFavs) &&
+      areSortedArraysEqual(normalizedCustomSongs, current.customSongs)
+    ) {
       return res.status(200).json({
         ok: true,
         unchanged: true,
         configured: true,
         storageBackend: backend.name,
+        atomicCas: Boolean(backend.atomicCas),
         ids: current.ids,
+        songFavs: current.songFavs,
+        customSongs: current.customSongs,
         version: current.version,
         updatedAt: current.updatedAt
       });
     }
 
-    // 4. Initial migration safety check: prevent overwriting if server already has data
-    if (action === "migrate" && current.version > 0 && body.forceOverwrite !== true) {
+    if (action === "migrate" && current.version > 0 && !forceOverwrite) {
       return res.status(409).json({
         ok: false,
         error: "already_initialized",
         message: "すでにサーバー上に共有ハート設定が保存されています。他の端末のデータで上書きしないよう移行を停止しました。",
         serverData: {
           ids: current.ids,
+          songFavs: current.songFavs,
+          customSongs: current.customSongs,
           version: current.version,
           updatedAt: current.updatedAt
         }
       });
     }
 
-    // 5. Optimistic concurrency check: if server version moved ahead of baseVersion, return 409 Conflict
-    if (current.version > 0 && baseVersion !== current.version && body.forceOverwrite !== true) {
+    if (current.version > 0 && baseVersion !== current.version && !forceOverwrite) {
       return res.status(409).json({
         ok: false,
         error: "conflict",
-        message: "編集中に他の端末で「かるのオススメ」が更新されました。最新データを確認してください。",
+        message: "編集中に他の端末で設定が更新されました。最新データを確認してください。",
         serverData: {
           ids: current.ids,
+          songFavs: current.songFavs,
+          customSongs: current.customSongs,
           version: current.version,
           updatedAt: current.updatedAt
         }
       });
     }
 
-    // 6. Perform single batch write
     const nextState = {
       ids: normalizedAids,
+      songFavs: normalizedSongFavs,
+      customSongs: normalizedCustomSongs,
       version: (current.version || 0) + 1,
-      updatedAt: new Date().toISOString(),
+      updatedAt: nowIso,
       lastRequestId: clientRequestId
     };
 
-    await writeToBackend(backend, nextState);
+    await writeToNonAtomicBackend(backend, nextState);
 
     return res.status(200).json({
       ok: true,
       unchanged: false,
       configured: true,
       storageBackend: backend.name,
+      atomicCas: Boolean(backend.atomicCas),
       ids: nextState.ids,
+      songFavs: nextState.songFavs,
+      customSongs: nextState.customSongs,
       version: nextState.version,
       updatedAt: nextState.updatedAt,
       ignoredUnknownCount: invalidEntries.length

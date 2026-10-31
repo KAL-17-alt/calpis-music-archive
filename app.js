@@ -40,7 +40,9 @@
   const FAV_MIGRATION_STATE_KEY = "calpis_fav_migration_state_v1";
   const FAV_API_ENDPOINT = "./api/favorites";
 
-  // Build stable Artist Identifier (`aid`) maps so renames or sort order changes never break hearts
+  const HEART_SVG_INNER = `<svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg>`;
+
+  // Build stable Artist Identifier (`aid`) maps and preserve static base songs for each artist
   const AID_TO_ARTIST = new Map();
   const NAME_TO_AID = new Map();
   const NORM_NAME_TO_AID = new Map();
@@ -54,6 +56,7 @@
     if (!a.aid || typeof a.aid !== "string") {
       a.aid = "a_" + String(idx + 1).padStart(4, "0");
     }
+    a._staticBaseSongs = Array.isArray(a.songs) ? [...a.songs] : [];
     AID_TO_ARTIST.set(a.aid, a);
     if (a.name) {
       NAME_TO_AID.set(a.name, a.aid);
@@ -85,20 +88,61 @@
     return a ? a.name : null;
   }
 
-  // Active set of recommended artist stable IDs (`aid`)
+  function makeSongKey(aidOrName, songTitle) {
+    const aid = resolveToAid(aidOrName);
+    if (!aid) return null;
+    const cleanSong = String(songTitle || "").replace(/[\r\n\t]+/g, " ").trim();
+    if (!cleanSong) return null;
+    return `${aid}\t${cleanSong}`;
+  }
+
+  function normalizeSongKeyArray(arr) {
+    if (!Array.isArray(arr)) return [];
+    const out = [];
+    const seen = new Set();
+    arr.forEach(item => {
+      let key = null;
+      if (typeof item === "string") {
+        const tabIdx = item.indexOf("\t");
+        if (tabIdx > 0) {
+          key = makeSongKey(item.slice(0, tabIdx), item.slice(tabIdx + 1));
+        }
+      } else if (item && typeof item === "object") {
+        key = makeSongKey(item.aid || item.artist, item.song || item.title);
+      }
+      if (key && !seen.has(key)) {
+        seen.add(key);
+        out.push(key);
+      }
+    });
+    out.sort();
+    return out;
+  }
+
+  // Active sets in memory:
+  // 1) recommendedAidSet: Set of recommended artist `aid`s
+  // 2) recommendedSongSet: Set of recommended song keys (`"aid	songTitle"`)
+  // 3) customAddedSongSet: Set of manually added song keys (`"aid	songTitle"`)
   const recommendedAidSet = new Set();
+  const recommendedSongSet = new Set();
+  const customAddedSongSet = new Set();
+
   let favQuickEditMode = false;
   let isSavingFavorites = false;
 
-  // Server synchronization & optimistic concurrency tracking
-  let serverFavIds = [];         // Sorted array of `aid`s confirmed on server
-  let serverVersion = 0;         // Server version integer (0 = uninitialized)
-  let serverConfigured = true;   // Whether server storage backend is configured
+  // Confirmed server state
+  let serverFavIds = [];
+  let serverSongFavs = [];
+  let serverCustomSongs = [];
+  let serverVersion = 0;
+  let serverConfigured = true;
   let hasFetchedServerOnce = false;
   let lastServerFetchAt = 0;
 
-  // Edit session baseline snapshot (captured when entering edit mode)
+  // Edit session baselines (captured when entering Edit Mode)
   let editSessionBaseIds = [];
+  let editSessionBaseSongFavs = [];
+  let editSessionBaseCustomSongs = [];
   let editSessionBaseVersion = 0;
 
   function getSortedCurrentAids() {
@@ -112,7 +156,15 @@
     return arr;
   }
 
-  function areAidArraysEqual(a, b) {
+  function getSortedCurrentSongFavs() {
+    return Array.from(recommendedSongSet).sort();
+  }
+
+  function getSortedCurrentCustomSongs() {
+    return Array.from(customAddedSongSet).sort();
+  }
+
+  function areStringArraysEqual(a, b) {
     if (!Array.isArray(a) || !Array.isArray(b)) return false;
     if (a.length !== b.length) return false;
     for (let i = 0; i < a.length; i++) {
@@ -121,19 +173,69 @@
     return true;
   }
 
-  function setRecommendedFromAids(aids) {
-    recommendedAidSet.clear();
-    if (!Array.isArray(aids)) return;
-    aids.forEach(item => {
-      const aid = resolveToAid(item);
-      if (aid) recommendedAidSet.add(aid);
+  /**
+   * Merges `customAddedSongSet` into each artist's `a.songs` and updates `a.count` and search normalization arrays.
+   */
+  function syncCustomSongsIntoArchiveData() {
+    const customByAid = new Map();
+    customAddedSongSet.forEach(key => {
+      const idx = key.indexOf("\t");
+      if (idx <= 0) return;
+      const aid = key.slice(0, idx);
+      const title = key.slice(idx + 1);
+      if (!customByAid.has(aid)) customByAid.set(aid, []);
+      customByAid.get(aid).push(title);
+    });
+
+    DATA.forEach(a => {
+      if (!a || !a.aid) return;
+      const baseSongs = Array.isArray(a._staticBaseSongs) ? a._staticBaseSongs : [];
+      const extraSongs = customByAid.get(a.aid) || [];
+      if (extraSongs.length === 0) {
+        if (a.songs.length !== baseSongs.length) {
+          a.songs = [...baseSongs];
+          a.count = a.songs.length;
+          if (typeof normSearch === "function" && typeof stripSpaces === "function") {
+            a._normSongs = a.songs.map(s => normSearch(s));
+            a._normSongsNoSpace = a._normSongs.map(s => stripSpaces(s));
+          }
+        }
+        return;
+      }
+      const existingSet = new Set(baseSongs);
+      const merged = [...baseSongs];
+      extraSongs.forEach(t => {
+        if (!existingSet.has(t)) {
+          existingSet.add(t);
+          merged.push(t);
+        }
+      });
+      a.songs = merged;
+      a.count = merged.length;
+      if (typeof normSearch === "function" && typeof stripSpaces === "function") {
+        a._normSongs = a.songs.map(s => normSearch(s));
+        a._normSongsNoSpace = a._normSongs.map(s => stripSpaces(s));
+      }
     });
   }
 
-  /**
-   * Reads legacy `calpis_recommended_artists_v1` from localStorage without modifying or deleting it.
-   * Returns an array of resolved `aid`s.
-   */
+  function setAllSharedStates(ids, songFavs, customSongs) {
+    recommendedAidSet.clear();
+    if (Array.isArray(ids)) {
+      ids.forEach(x => {
+        const aid = resolveToAid(x);
+        if (aid) recommendedAidSet.add(aid);
+      });
+    }
+    recommendedSongSet.clear();
+    normalizeSongKeyArray(songFavs).forEach(k => recommendedSongSet.add(k));
+
+    customAddedSongSet.clear();
+    normalizeSongKeyArray(customSongs).forEach(k => customAddedSongSet.add(k));
+
+    syncCustomSongsIntoArchiveData();
+  }
+
   function getLegacyLocalStorageAids() {
     const tempSet = new Set();
     DATA.forEach(a => {
@@ -179,6 +281,8 @@
         cleanIds.sort();
         return {
           ids: cleanIds,
+          songFavs: normalizeSongKeyArray(parsed.songFavs),
+          customSongs: normalizeSongKeyArray(parsed.customSongs),
           version: typeof parsed.version === "number" ? parsed.version : 0,
           updatedAt: parsed.updatedAt || null
         };
@@ -187,15 +291,25 @@
     return null;
   }
 
-  function saveFavServerCache(ids, version, updatedAt) {
+  function saveFavServerCache(ids, songFavs, customSongs, version, updatedAt) {
     try {
       localStorage.setItem(FAV_SERVER_CACHE_KEY, JSON.stringify({
         ids: Array.isArray(ids) ? ids : [],
+        songFavs: Array.isArray(songFavs) ? songFavs : [],
+        customSongs: Array.isArray(customSongs) ? customSongs : [],
         version: typeof version === "number" ? version : 0,
         updatedAt: updatedAt || new Date().toISOString(),
         cachedAt: Date.now()
       }));
     } catch (e) {}
+  }
+
+  function hasAnyEditChanges() {
+    return (
+      !areStringArraysEqual(getSortedCurrentAids(), editSessionBaseIds) ||
+      !areStringArraysEqual(getSortedCurrentSongFavs(), editSessionBaseSongFavs) ||
+      !areStringArraysEqual(getSortedCurrentCustomSongs(), editSessionBaseCustomSongs)
+    );
   }
 
   function loadUnsavedDraft() {
@@ -204,22 +318,15 @@
       if (!raw) return null;
       const parsed = JSON.parse(raw);
       if (!parsed || !Array.isArray(parsed.ids)) return null;
-      const cleanIds = [];
-      const seen = new Set();
-      parsed.ids.forEach(x => {
-        const aid = resolveToAid(x);
-        if (aid && !seen.has(aid)) {
-          seen.add(aid);
-          cleanIds.push(aid);
-        }
-      });
-      cleanIds.sort();
-      const baseIds = Array.isArray(parsed.baseIds)
-        ? parsed.baseIds.map(resolveToAid).filter(Boolean).sort()
-        : [];
+      const cleanIds = parsed.ids.map(resolveToAid).filter(Boolean).sort();
+      const baseIds = Array.isArray(parsed.baseIds) ? parsed.baseIds.map(resolveToAid).filter(Boolean).sort() : [];
       return {
-        ids: cleanIds,
-        baseIds,
+        ids: Array.from(new Set(cleanIds)).sort(),
+        songFavs: normalizeSongKeyArray(parsed.songFavs),
+        customSongs: normalizeSongKeyArray(parsed.customSongs),
+        baseIds: Array.from(new Set(baseIds)).sort(),
+        baseSongFavs: normalizeSongKeyArray(parsed.baseSongFavs),
+        baseCustomSongs: normalizeSongKeyArray(parsed.baseCustomSongs),
         baseVersion: typeof parsed.baseVersion === "number" ? parsed.baseVersion : 0,
         updatedAt: parsed.updatedAt || Date.now()
       };
@@ -229,14 +336,17 @@
 
   function saveUnsavedDraft() {
     try {
-      const currentIds = getSortedCurrentAids();
-      if (areAidArraysEqual(currentIds, editSessionBaseIds)) {
+      if (!hasAnyEditChanges()) {
         localStorage.removeItem(FAV_UNSAVED_DRAFT_KEY);
         return;
       }
       localStorage.setItem(FAV_UNSAVED_DRAFT_KEY, JSON.stringify({
-        ids: currentIds,
+        ids: getSortedCurrentAids(),
+        songFavs: getSortedCurrentSongFavs(),
+        customSongs: getSortedCurrentCustomSongs(),
         baseIds: editSessionBaseIds,
+        baseSongFavs: editSessionBaseSongFavs,
+        baseCustomSongs: editSessionBaseCustomSongs,
         baseVersion: editSessionBaseVersion,
         updatedAt: Date.now()
       }));
@@ -247,40 +357,6 @@
     try {
       localStorage.removeItem(FAV_UNSAVED_DRAFT_KEY);
     } catch (e) {}
-  }
-
-  function hasActiveUnsavedDraft() {
-    const d = loadUnsavedDraft();
-    if (!d) return false;
-    return !areAidArraysEqual(d.ids, d.baseIds);
-  }
-
-  // Initial synchronous boot load (0ms blocking)
-  function loadRecommendedArtists() {
-    const cachedServer = loadFavServerCache();
-    const unsavedDraft = loadUnsavedDraft();
-    const legacyAids = getLegacyLocalStorageAids();
-
-    if (cachedServer && (cachedServer.version > 0 || cachedServer.ids.length > 0)) {
-      serverFavIds = cachedServer.ids;
-      serverVersion = cachedServer.version;
-      setRecommendedFromAids(serverFavIds);
-    } else if (legacyAids.length > 0) {
-      // Display local legacy hearts until server responds
-      setRecommendedFromAids(legacyAids);
-    } else {
-      setRecommendedFromAids([]);
-    }
-
-    // If there is an uncommitted draft from a previous session, keep it protected and visible
-    if (unsavedDraft && !areAidArraysEqual(unsavedDraft.ids, unsavedDraft.baseIds)) {
-      editSessionBaseIds = unsavedDraft.baseIds;
-      editSessionBaseVersion = unsavedDraft.baseVersion;
-      setRecommendedFromAids(unsavedDraft.ids);
-    } else {
-      editSessionBaseIds = [...serverFavIds];
-      editSessionBaseVersion = serverVersion;
-    }
   }
 
   function isRecommendedArtist(nameOrAid) {
@@ -296,9 +372,136 @@
     return cnt;
   }
 
-  // Toggling in Quick-Heart Edit Mode ONLY updates screen + localStorage draft (NO server request!)
+  function isRecommendedSong(aidOrName, songTitle) {
+    const key = makeSongKey(aidOrName, songTitle);
+    return Boolean(key && recommendedSongSet.has(key));
+  }
+
+  function getRecommendedSongCount() {
+    let cnt = 0;
+    DATA.forEach(a => {
+      if (!a || !a.aid || !Array.isArray(a.songs)) return;
+      a.songs.forEach(s => {
+        if (recommendedSongSet.has(`${a.aid}\t${s}`)) cnt++;
+      });
+    });
+    return cnt;
+  }
+
+  function hasRecommendedSongsForArtist(aidOrName) {
+    const aid = resolveToAid(aidOrName);
+    if (!aid) return false;
+    const a = AID_TO_ARTIST.get(aid);
+    if (!a || !Array.isArray(a.songs)) return false;
+    return a.songs.some(s => recommendedSongSet.has(`${aid}\t${s}`));
+  }
+
+  function getRecommendedSongsForArtist(artist) {
+    if (!artist || !artist.aid || !Array.isArray(artist.songs)) return [];
+    return artist.songs.filter(s => recommendedSongSet.has(`${artist.aid}\t${s}`));
+  }
+
+  function isCustomAddedSong(aidOrName, songTitle) {
+    const key = makeSongKey(aidOrName, songTitle);
+    return Boolean(key && customAddedSongSet.has(key));
+  }
+
+  /**
+   * Flicker-free in-place DOM update for heart icons and counts during background sync / edits.
+   */
+  function applySilentFavoritesDOMUpdate() {
+    renderStaticStats();
+
+    // Update heart icons & song counts on currently rendered artist rows in-place
+    const rows = document.querySelectorAll("#artistListContainer .artist-row[data-artist-name]");
+    rows.forEach(row => {
+      const aName = row.getAttribute("data-artist-name");
+      const recSongTitle = row.getAttribute("data-rec-song-title");
+      const aObj = aName ? ARTIST_MAP.get(aName) : null;
+      if (!aName || !aObj) return;
+
+      // Update song count column in-place
+      const countEl = row.querySelector(".row-count");
+      if (countEl) {
+        countEl.innerHTML = `${fmtNum(aObj.count)}<span>曲</span>`;
+      }
+
+      if (recSongTitle) return; // Song rows in recommend tab are handled by recommend refresh below
+
+      const nameEl = row.querySelector(".row-name");
+      if (!nameEl) return;
+      const shouldHaveHeart = isRecommendedArtist(aName);
+      const existingHeart = nameEl.querySelector(".artist-fav-heart");
+      if (shouldHaveHeart && !existingHeart) {
+        const span = document.createElement("span");
+        span.className = "artist-fav-heart";
+        span.title = "かるのオススメ";
+        span.setAttribute("aria-label", "かるのオススメ");
+        span.innerHTML = HEART_SVG_INNER;
+        nameEl.appendChild(span);
+      } else if (!shouldHaveHeart && existingHeart) {
+        existingHeart.remove();
+      }
+    });
+
+    // Update heart icon on currently open detail panel header in-place
+    if (state.selectedArtistName) {
+      const detailNameEl = document.querySelector("#detailScrollContent .detail-artist-name");
+      if (detailNameEl) {
+        const shouldHaveHeart = isRecommendedArtist(state.selectedArtistName);
+        const existingHeart = detailNameEl.querySelector(".detail-fav-heart");
+        if (shouldHaveHeart && !existingHeart) {
+          const span = document.createElement("span");
+          span.className = "detail-fav-heart";
+          span.title = "かるのオススメ";
+          span.setAttribute("aria-label", "かるのオススメ");
+          span.innerHTML = HEART_SVG_INNER;
+          detailNameEl.appendChild(span);
+        } else if (!shouldHaveHeart && existingHeart) {
+          existingHeart.remove();
+        }
+      }
+    }
+
+    if (state.view === "recommend") {
+      const scrollEl = document.getElementById("centerScrollArea");
+      const prevTop = scrollEl ? scrollEl.scrollTop : 0;
+      updateUI(false);
+      if (scrollEl) scrollEl.scrollTop = prevTop;
+    }
+  }
+
+  // Initial synchronous boot load (0ms blocking)
+  function loadRecommendedArtists() {
+    const cachedServer = loadFavServerCache();
+    const legacyAids = getLegacyLocalStorageAids();
+    const migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY);
+
+    if (
+      cachedServer &&
+      (cachedServer.version > 0 ||
+        cachedServer.ids.length > 0 ||
+        cachedServer.songFavs.length > 0 ||
+        cachedServer.customSongs.length > 0)
+    ) {
+      serverFavIds = cachedServer.ids;
+      serverSongFavs = cachedServer.songFavs;
+      serverCustomSongs = cachedServer.customSongs;
+      serverVersion = cachedServer.version;
+      setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
+    } else if (legacyAids.length > 0 && migState !== "skipped") {
+      setAllSharedStates(legacyAids, [], []);
+    } else {
+      setAllSharedStates([], [], []);
+    }
+    editSessionBaseIds = [...serverFavIds];
+    editSessionBaseSongFavs = [...serverSongFavs];
+    editSessionBaseCustomSongs = [...serverCustomSongs];
+    editSessionBaseVersion = serverVersion;
+  }
+
   function toggleRecommendedArtist(name) {
-    if (isSavingFavorites) return;
+    if (!favQuickEditMode || isSavingFavorites) return;
     const aid = resolveToAid(name);
     if (!aid) return;
     if (recommendedAidSet.has(aid)) {
@@ -308,16 +511,82 @@
     }
     saveUnsavedDraft();
     updateFavEditBannerStatus();
-    renderStaticStats();
-    updateUI(false);
+    applySilentFavoritesDOMUpdate();
+  }
+
+  function toggleRecommendedSong(aidOrName, songTitle) {
+    if (!favQuickEditMode || isSavingFavorites) return;
+    const key = makeSongKey(aidOrName, songTitle);
+    if (!key) return;
+    if (recommendedSongSet.has(key)) {
+      recommendedSongSet.delete(key);
+    } else {
+      recommendedSongSet.add(key);
+    }
+    saveUnsavedDraft();
+    updateFavEditBannerStatus();
     renderDetailPanel(false);
+    applySilentFavoritesDOMUpdate();
+  }
+
+  function addCustomSongToArtist(aidOrName, rawSongTitle) {
+    if (!favQuickEditMode || isSavingFavorites) return false;
+    const aid = resolveToAid(aidOrName);
+    if (!aid) return false;
+    const artist = AID_TO_ARTIST.get(aid);
+    if (!artist) return false;
+
+    const cleanTitle = String(rawSongTitle || "").replace(/[\r\n\t]+/g, " ").trim();
+    if (!cleanTitle) return false;
+
+    // Check if song already exists in this artist's songs
+    if (Array.isArray(artist.songs) && artist.songs.includes(cleanTitle)) {
+      const inp = document.getElementById("editAddSongInput");
+      if (inp) {
+        inp.value = "";
+        inp.focus();
+      }
+      return false;
+    }
+
+    const key = makeSongKey(aid, cleanTitle);
+    if (!key) return false;
+    customAddedSongSet.add(key);
+    syncCustomSongsIntoArchiveData();
+    saveUnsavedDraft();
+    updateFavEditBannerStatus();
+    renderDetailPanel(false);
+    applySilentFavoritesDOMUpdate();
+
+    // Keep focus inside input box for effortless consecutive song additions
+    const nextInp = document.getElementById("editAddSongInput");
+    if (nextInp) {
+      nextInp.value = "";
+      nextInp.focus();
+    }
+    return true;
+  }
+
+  function removeCustomSongFromArtist(aidOrName, songTitle) {
+    if (!favQuickEditMode || isSavingFavorites) return false;
+    const key = makeSongKey(aidOrName, songTitle);
+    if (!key || !customAddedSongSet.has(key)) return false;
+    customAddedSongSet.delete(key);
+    recommendedSongSet.delete(key);
+    syncCustomSongsIntoArchiveData();
+    saveUnsavedDraft();
+    updateFavEditBannerStatus();
+    renderDetailPanel(false);
+    applySilentFavoritesDOMUpdate();
+    return true;
   }
 
   loadRecommendedArtists();
 
   // Application State
   const state = {
-    view: "all",           // "all" | "cat1" | "cat2" | "search"
+    view: "all",           // "all" | "cat1" | "cat2" | "search" | "recommend"
+    recommendTab: "artist", // "artist" | "song"
     searchScope: "all",    // "all" | "cat1" | "cat2"
     searchTarget: "all",   // "all" | "artist" | "song" | "group"
     searchQuery: "",
@@ -1362,7 +1631,11 @@
         if ((a.agencyGroup || a.agency || "") !== state.agencyGroup) return false;
       }
       if (state.view === "recommend") {
-        if (!isRecommendedArtist(a.name)) return false;
+        if (state.recommendTab === "song") {
+          if (!hasRecommendedSongsForArtist(a.aid)) return false;
+        } else {
+          if (!isRecommendedArtist(a.name)) return false;
+        }
       } else if (!isSearch && !state.agencyGroup && !state.unitGroup) {
         if (state.view === "cat1" && a.cat !== 1) return false;
         if (state.view === "cat2" && a.cat !== 2) return false;
@@ -1845,6 +2118,54 @@
     `;
   }
 
+  // Build a single Song Row HTML for "かるのオススメ" -> "楽曲" tab (1 row per song, never joined with "/")
+  function buildRecommendSongRowHTML(a, songTitle, rowIndex = 999) {
+    const isSelected = state.selectedArtistName === a.name;
+    const isArtistFav = isRecommendedArtist(a.name);
+    const artistHeartHTML = isArtistFav
+      ? `<span class="artist-fav-heart" title="かるのオススメ" aria-label="かるのオススメ">${HEART_SVG_INNER}</span>`
+      : "";
+    const songHeartHTML = `<span class="artist-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>`;
+
+    const isUnclassified = !a.role || a.role === "判定保留";
+    const effRoles = getEffectiveRolesForArtist(a);
+    const rowRoles = effRoles.length > 0 ? effRoles : [isUnclassified ? "未分類" : a.role];
+    const rowRoleBadgesHTML = rowRoles
+      .map(r => `<span class="row-role-badge ${isUnclassified ? "unclassified" : ""}">${esc(r)}</span>`)
+      .join("");
+
+    const hasSub = a.sub !== null && a.sub !== undefined;
+    const subLabel = formatSubscribersJP(a.sub);
+    const subTitle = hasSub
+      ? `YouTube公式チャンネル公開登録者数（${a.subDate || "2026-10-27"}取得）`
+      : "YouTube公式チャンネル登録者数：未取得";
+
+    const rawAgency = (a.agencyGroup || a.agency || "").trim();
+    const shortAgency = getShortAgencyLabel(rawAgency);
+    const agencyCellHTML = shortAgency
+      ? `<span class="row-agency-badge" title="所属（事務所・作品）：${esc(rawAgency)}">${esc(shortAgency)}</span>`
+      : `<span class="row-agency-empty">—</span>`;
+
+    return `
+      <div class="artist-row recommend-song-row ${isSelected ? "selected" : ""}" data-artist-name="${esc(a.name)}" data-rec-song-title="${esc(songTitle)}" role="button" tabindex="0">
+        <div class="row-rank row-rank-blank"></div>
+        <div class="row-avatar-wrap">${renderAvatarHTML(a, false, rowIndex)}</div>
+        <div class="row-name-wrap">
+          <div class="row-song-primary">♪ ${esc(songTitle)}${songHeartHTML}</div>
+          <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${artistHeartHTML}</div>
+        </div>
+        <div class="row-role col-pc-only">
+          ${rowRoleBadgesHTML}
+        </div>
+        <div class="row-agency col-pc-only col-agency-wide">
+          ${agencyCellHTML}
+        </div>
+        <div class="row-subs col-pc-only ${hasSub ? "" : "unacquired"}" title="${esc(subTitle)}">${esc(subLabel)}</div>
+        <div class="row-count">${fmtNum(a.count)}<span>曲</span></div>
+      </div>
+    `;
+  }
+
   // Render Artist Rows (Initial / Reset render)
   function buildSearchGroupsSectionHTML(groups) {
     if (!groups || groups.length === 0) return "";
@@ -1909,15 +2230,27 @@
     }
 
     if (state.view === "recommend") {
-      if (currentFiltered.length === 0) {
-        listEl.innerHTML = `
-          <div class="empty-list-state">
-            <h3>「かるのオススメ」に設定されたアーティストがまだありません</h3>
-            <p>お気に入りのアーティストを設定すると、ここに活動形態別で一覧表示されます。</p>
+      const recArtistCnt = getRecommendedCount();
+      const recSongCnt = getRecommendedSongCount();
+      const isSongTab = state.recommendTab === "song";
+
+      const switchBarHTML = `
+        <div class="recommend-switch-bar">
+          <div class="recommend-switch-tabs" role="tablist" aria-label="かるのオススメ表示切り替え">
+            <button type="button" class="recommend-switch-tab ${!isSongTab ? "active" : ""}" data-recommend-tab="artist" role="tab" aria-selected="${!isSongTab}">
+              <span class="rec-tab-icon">${HEART_SVG_INNER}</span>
+              <span>アーティスト</span>
+              <span class="rec-tab-count">${fmtNum(recArtistCnt)}</span>
+            </button>
+            <button type="button" class="recommend-switch-tab ${isSongTab ? "active" : ""}" data-recommend-tab="song" role="tab" aria-selected="${isSongTab}">
+              <span class="rec-tab-icon">♪</span>
+              <span>楽曲</span>
+              <span class="rec-tab-count">${fmtNum(recSongCnt)}</span>
+            </button>
           </div>
-        `;
-        return;
-      }
+        </div>
+      `;
+
       const roleOrder = [
         "Vsinger",
         "Vtuber",
@@ -1928,6 +2261,80 @@
         "音楽グループ(アニゲー関連)",
         "音楽グループ(その他)"
       ];
+
+      if (isSongTab) {
+        // Collect individual recommended song items (NEVER joined with "/")
+        const buckets = new Map();
+        roleOrder.forEach(r => buckets.set(r, []));
+        let matchedSongTotal = 0;
+
+        currentFiltered.forEach(a => {
+          const favSongs = getRecommendedSongsForArtist(a);
+          if (favSongs.length === 0) return;
+          let primaryRole = a.role || "その他";
+          if (primaryRole === "音楽グループ") {
+            primaryRole = a.groupSubRole || "音楽グループ(アニゲー関連)";
+          }
+          if (!buckets.has(primaryRole)) {
+            buckets.set(primaryRole, []);
+          }
+          const bucketArr = buckets.get(primaryRole);
+          favSongs.forEach(songTitle => {
+            bucketArr.push({ artist: a, songTitle });
+            matchedSongTotal++;
+          });
+        });
+
+        totalEl.innerHTML = `表示中: <strong>${fmtNum(matchedSongTotal)}</strong> 曲`;
+        if (mobColCountEl) {
+          mobColCountEl.textContent = `${fmtNum(matchedSongTotal)} 曲`;
+        }
+
+        if (matchedSongTotal === 0) {
+          listEl.innerHTML = switchBarHTML + `
+            <div class="empty-list-state">
+              <h3>「かるのオススメ」に設定された楽曲がまだありません</h3>
+              <p>編集モードでアーティスト詳細の「かるが聴いてる曲」にハートを付けると、ここに活動形態別で1曲ずつ表示されます。</p>
+            </div>
+          `;
+          return;
+        }
+
+        let globalIdx = 0;
+        let sectionsHTML = switchBarHTML;
+        buckets.forEach((songItems, roleName) => {
+          if (!songItems || songItems.length === 0) return;
+          const rowsHTML = songItems.map(item => {
+            const htmlRow = buildRecommendSongRowHTML(item.artist, item.songTitle, globalIdx);
+            globalIdx++;
+            return htmlRow;
+          }).join("");
+          sectionsHTML += `
+            <div class="recommend-role-section">
+              <div class="recommend-role-group-header">
+                <span class="recommend-role-dot" aria-hidden="true"></span>
+                <span class="recommend-role-title">${esc(roleName)}</span>
+                <span class="recommend-role-count">${fmtNum(songItems.length)} 曲</span>
+              </div>
+              ${rowsHTML}
+            </div>
+          `;
+        });
+        listEl.innerHTML = sectionsHTML;
+        scheduleLookaheadAvatarPreload(12, 40);
+        return;
+      }
+
+      // Artist tab in "recommend" view
+      if (currentFiltered.length === 0) {
+        listEl.innerHTML = switchBarHTML + `
+          <div class="empty-list-state">
+            <h3>「かるのオススメ」に設定されたアーティストがまだありません</h3>
+            <p>お気に入りのアーティストを設定すると、ここに活動形態別で一覧表示されます。</p>
+          </div>
+        `;
+        return;
+      }
       const buckets = new Map();
       roleOrder.forEach(r => buckets.set(r, []));
       currentFiltered.forEach(a => {
@@ -1941,7 +2348,7 @@
         buckets.get(primaryRole).push(a);
       });
       let globalIdx = 0;
-      let sectionsHTML = "";
+      let sectionsHTML = switchBarHTML;
       buckets.forEach((groupList, roleName) => {
         if (!groupList || groupList.length === 0) return;
         const rowsHTML = groupList.map(a => {
@@ -2022,9 +2429,11 @@
   // Lock/Unlock background scroll on mobile when bottom sheet is open
   function syncMobileScrollLock() {
     const scrollEl = document.getElementById("centerScrollArea");
+    const rightPanel = document.getElementById("rightDetailPanel");
     if (!scrollEl) return;
     const isMobile = window.innerWidth <= 900;
-    const isSheetOpen = isMobile && (Boolean(state.selectedArtistName) || state.mobFilterOpen);
+    const isDetailOpen = Boolean(rightPanel && rightPanel.classList.contains("mobile-open"));
+    const isSheetOpen = isMobile && (isDetailOpen || state.mobFilterOpen);
     scrollEl.classList.toggle("scroll-locked", isSheetOpen);
   }
 
@@ -2034,6 +2443,7 @@
     const rightPanel = document.getElementById("rightDetailPanel");
     const backdrop = document.getElementById("sheetBackdrop");
     const contentEl = document.getElementById("detailScrollContent");
+    const prevDetailScrollTop = contentEl ? contentEl.scrollTop : 0;
     const topTitleEl = document.getElementById("detailTopBarTitle");
 
     const artist = state.selectedArtistName ? ARTIST_MAP.get(state.selectedArtistName) : null;
@@ -2077,7 +2487,7 @@
     const roleBadgeHTML = detailRoles
       .map(r => `<span class="detail-role-badge static-role-badge">${esc(r)}</span>`)
       .join("");
-    const hasArchiveSongs = (artist.count || 0) >= 1 && rawSongs.length >= 1;
+    const hasArchiveSongs = favQuickEditMode || ((artist.count || 0) >= 1 && rawSongs.length >= 1);
     if (!hasArchiveSongs && state.detailMode === "archive") {
       state.detailMode = "top5";
     }
@@ -2199,6 +2609,11 @@
           </div>
         </div>
 
+        <div class="edit-add-song-bar" id="editAddSongBar">
+          <input type="text" class="edit-add-song-input" id="editAddSongInput" placeholder="追加する曲名を入力..." autocomplete="off" aria-label="追加する曲名">
+          <button type="button" class="edit-add-song-btn" id="editAddSongSubmitBtn" title="この名義に曲を追加" aria-label="曲を追加">＋</button>
+        </div>
+
         ${displaySongs.length === 0 ? `
           <div class="empty-songs-box">
             登録されている楽曲データはありません（0曲）
@@ -2207,10 +2622,16 @@
           <div class="detail-song-list">
             ${displaySongs.map((s, i) => {
               const isMatch = q && normSearch(s.title).includes(q);
+              const isSongFav = isRecommendedSong(artist.aid, s.title);
+              const isCustom = isCustomAddedSong(artist.aid, s.title);
               return `
-                <div class="detail-song-item ${isMatch ? "highlight-match" : ""}">
+                <div class="detail-song-item ${isMatch ? "highlight-match" : ""} ${isSongFav ? "song-is-fav" : ""}" data-song-title="${esc(s.title)}" data-artist-aid="${esc(artist.aid)}">
                   <span class="song-idx">${i + 1}</span>
-                  <span class="song-name">${esc(s.title)}</span>
+                  <span class="song-name">${esc(s.title)}${isSongFav ? `<span class="song-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>` : ""}</span>
+                  <span class="detail-song-right-actions">
+                    ${isCustom ? `<button type="button" class="custom-song-del-btn" data-delete-custom-song="${esc(s.title)}" title="手動追加したこの曲を削除" aria-label="${esc(s.title)}を削除">×</button>` : ""}
+                    <span class="song-edit-heart-indicator ${isSongFav ? "is-fav" : ""}" aria-hidden="true">${HEART_SVG_INNER}</span>
+                  </span>
                 </div>
               `;
             }).join("")}
@@ -2253,11 +2674,28 @@
 
     if (resetDetailScroll) {
       contentEl.scrollTop = 0;
+    } else if (typeof prevDetailScrollTop === "number" && prevDetailScrollTop > 0) {
+      contentEl.scrollTop = prevDetailScrollTop;
+      if (contentEl.scrollTop < prevDetailScrollTop) {
+        const spacer = document.createElement("div");
+        spacer.className = "detail-scroll-preserve-spacer";
+        spacer.setAttribute("aria-hidden", "true");
+        contentEl.appendChild(spacer);
+        const cRect = contentEl.getBoundingClientRect();
+        const sRect = spacer.getBoundingClientRect();
+        const usedHeight = (sRect.top - cRect.top) + contentEl.scrollTop;
+        const neededSpacer = (prevDetailScrollTop + contentEl.clientHeight) - usedHeight + 2;
+        if (neededSpacer > 0) {
+          spacer.style.height = Math.ceil(neededSpacer) + "px";
+        }
+        contentEl.scrollTop = prevDetailScrollTop;
+      }
     }
   }
 
   // Sync full UI with state
   function updateUI(resetScroll = false) {
+    document.body.setAttribute("data-current-view", state.view);
     applyFilterAndSort();
 
     // Update desktop nav buttons & mobile bottom nav buttons
@@ -2410,11 +2848,12 @@
   // Select / Open Artist Detail (Always defaults to Representative TOP 5, resets detail scroll, preserves list scroll & songSort)
   function selectArtist(name, fromProfileJump = false) {
     if (!name || !ARTIST_MAP.has(name)) return;
-    if (state.selectedArtistName !== name || state.detailMode !== "top5") {
+    const defaultMode = favQuickEditMode ? "archive" : "top5";
+    if (state.selectedArtistName !== name || state.detailMode !== defaultMode) {
       pushHistorySnapshot(fromProfileJump);
     }
     state.selectedArtistName = name;
-    state.detailMode = "top5";
+    state.detailMode = defaultMode;
     if (window.innerWidth <= 900) {
       try {
         history.pushState({ sheet: "detail", artist: name }, "");
@@ -2999,17 +3438,40 @@
         );
         return;
       }
+      const recTabBtn = e.target.closest("[data-recommend-tab]");
+      if (recTabBtn) {
+        const nextTab = recTabBtn.getAttribute("data-recommend-tab") || "artist";
+        if (state.recommendTab !== nextTab) {
+          state.recommendTab = nextTab;
+          updateUI(true);
+        }
+        return;
+      }
       const row = e.target.closest(".artist-row");
       if (!row) return;
       const name = row.getAttribute("data-artist-name");
-      // When Quick-Heart Edit Mode is active, tapping the circular avatar in the list toggles ❤
+      const recSongTitle = row.getAttribute("data-rec-song-title");
+      // When Edit Mode is active, tapping the circular avatar in the list toggles ❤ (song heart on song rows, artist heart on artist rows)
       if (favQuickEditMode && e.target.closest(".row-avatar-wrap")) {
         e.preventDefault();
         e.stopPropagation();
-        toggleRecommendedArtist(name);
+        if (recSongTitle) {
+          const aObj = ARTIST_MAP.get(name);
+          if (aObj && aObj.aid) toggleRecommendedSong(aObj.aid, recSongTitle);
+        } else {
+          toggleRecommendedArtist(name);
+        }
         return;
       }
-      selectArtist(name);
+      if (window.innerWidth <= 900) {
+        row.classList.add("mob-tap-active");
+        setTimeout(() => {
+          row.classList.remove("mob-tap-active");
+          selectArtist(name);
+        }, 55);
+      } else {
+        selectArtist(name);
+      }
     });
     listContainer.addEventListener("keydown", e => {
       if (e.key === "Enter" || e.key === " ") {
@@ -3077,10 +3539,10 @@
 
 
     // =========================================================================
-    // V47: SERVER-SHARED FAVORITES ("かるのオススメ") SYNC, MIGRATION & EDIT CONTROLLER
+    // V49: OWNER-ONLY EDIT MODE CONTROLLER (Artists ❤ + Songs ❤ + Manual Song Add)
     // =========================================================================
     let favToastTimer = null;
-    function showFavSyncToast(message, isWarn = false, durationMs = 3400) {
+    function showOwnerFavToast(message, isWarn = false, durationMs = 3200) {
       const toastEl = document.getElementById("favSyncToast");
       if (!toastEl) return;
       toastEl.textContent = message;
@@ -3092,16 +3554,16 @@
       }, durationMs);
     }
 
-    function computeDiffCounts(baseIds, currentIds) {
-      const baseSet = new Set(baseIds || []);
-      const curSet = new Set(currentIds || []);
+    function computeDiffCounts(baseArr, currentArr) {
+      const baseSet = new Set(baseArr || []);
+      const curSet = new Set(currentArr || []);
       const added = [];
       const removed = [];
-      curSet.forEach(id => {
-        if (!baseSet.has(id)) added.push(id);
+      curSet.forEach(x => {
+        if (!baseSet.has(x)) added.push(x);
       });
-      baseSet.forEach(id => {
-        if (!curSet.has(id)) removed.push(id);
+      baseSet.forEach(x => {
+        if (!curSet.has(x)) removed.push(x);
       });
       return { added, removed, hasChanges: added.length > 0 || removed.length > 0 };
     }
@@ -3111,23 +3573,28 @@
       const discardBtn = document.getElementById("discardFavQuickEditBtn");
       const migrateBtn = document.getElementById("openLegacyMigrateBtn");
       const exitBtn = document.getElementById("exitFavQuickEditBtn");
-      const currentIds = getSortedCurrentAids();
-      const diff = computeDiffCounts(editSessionBaseIds, currentIds);
+
+      const curIds = getSortedCurrentAids();
+      const curSongs = getSortedCurrentSongFavs();
+      const curCustom = getSortedCurrentCustomSongs();
+
+      const dIds = computeDiffCounts(editSessionBaseIds, curIds);
+      const dSongs = computeDiffCounts(editSessionBaseSongFavs, curSongs);
+      const dCustom = computeDiffCounts(editSessionBaseCustomSongs, curCustom);
+      const anyChanged = dIds.hasChanges || dSongs.hasChanges || dCustom.hasChanges;
 
       if (diffBadge) {
-        if (!diff.hasChanges) {
-          diffBadge.textContent = `変更なし (${currentIds.length}名義)`;
+        if (!anyChanged) {
+          diffBadge.textContent = `変更なし (名義:${curIds.length} / 曲♥:${curSongs.length})`;
           diffBadge.classList.remove("has-changes");
         } else {
-          const parts = [];
-          if (diff.added.length > 0) parts.push(`+${diff.added.length}`);
-          if (diff.removed.length > 0) parts.push(`-${diff.removed.length}`);
-          diffBadge.textContent = `未保存の変更: ${parts.join(" / ")} (計${currentIds.length}名義)`;
+          const totalChanges = dIds.added.length + dIds.removed.length + dSongs.added.length + dSongs.removed.length + dCustom.added.length + dCustom.removed.length;
+          diffBadge.textContent = `未保存の変更: ${totalChanges}件 (名義:${curIds.length} / 曲♥:${curSongs.length})`;
           diffBadge.classList.add("has-changes");
         }
       }
       if (discardBtn) {
-        discardBtn.style.display = diff.hasChanges && !isSavingFavorites ? "inline-flex" : "none";
+        discardBtn.style.display = anyChanged && !isSavingFavorites ? "inline-flex" : "none";
       }
       if (migrateBtn) {
         const legacyAids = getLegacyLocalStorageAids();
@@ -3157,48 +3624,56 @@
       if (errRow) errRow.style.display = "flex";
     }
 
-    function updateDraftRestoreBannerUI() {
-      const banner = document.getElementById("favDraftRestoreBanner");
-      const textEl = document.getElementById("favDraftRestoreText");
-      if (!banner) return;
-      if (favQuickEditMode) {
-        banner.style.display = "none";
-        return;
-      }
-      const draft = loadUnsavedDraft();
-      if (draft && !areAidArraysEqual(draft.ids, draft.baseIds)) {
-        const diff = computeDiffCounts(draft.baseIds, draft.ids);
-        if (textEl) {
-          textEl.textContent = `前回の未保存のハート編集内容（+${diff.added.length} / -${diff.removed.length}、計${draft.ids.length}名義）が端末に残っています。`;
-        }
-        banner.style.display = "flex";
-      } else {
-        banner.style.display = "none";
-      }
-    }
-
     function enterFavQuickEditMode() {
       if (favQuickEditMode) return;
       const existingDraft = loadUnsavedDraft();
-      if (existingDraft && !areAidArraysEqual(existingDraft.ids, existingDraft.baseIds)) {
+      let restoredDraft = false;
+
+      if (
+        existingDraft &&
+        (!areStringArraysEqual(existingDraft.ids, existingDraft.baseIds) ||
+          !areStringArraysEqual(existingDraft.songFavs, existingDraft.baseSongFavs) ||
+          !areStringArraysEqual(existingDraft.customSongs, existingDraft.baseCustomSongs))
+      ) {
         editSessionBaseIds = existingDraft.baseIds;
+        editSessionBaseSongFavs = existingDraft.baseSongFavs;
+        editSessionBaseCustomSongs = existingDraft.baseCustomSongs;
         editSessionBaseVersion = existingDraft.baseVersion;
-        setRecommendedFromAids(existingDraft.ids);
+        setAllSharedStates(existingDraft.ids, existingDraft.songFavs, existingDraft.customSongs);
+        restoredDraft = true;
       } else {
         editSessionBaseIds = hasFetchedServerOnce ? [...serverFavIds] : getSortedCurrentAids();
+        editSessionBaseSongFavs = hasFetchedServerOnce ? [...serverSongFavs] : getSortedCurrentSongFavs();
+        editSessionBaseCustomSongs = hasFetchedServerOnce ? [...serverCustomSongs] : getSortedCurrentCustomSongs();
         editSessionBaseVersion = serverVersion;
       }
+
       favQuickEditMode = true;
       hideFavEditError();
       document.body.classList.add("fav-quick-edit-mode");
-      updateDraftRestoreBannerUI();
-      updateFavEditBannerStatus();
-      renderStaticStats();
-      updateUI(false);
-      renderDetailPanel(false);
 
-      // Refresh baseline quietly if no changes have been made yet in this edit session
-      fetchServerFavorites({ silent: true, fresh: true });
+      // Automatically switch open detail panel to "かるが聴いてる曲" ("archive") so song hearting & manual song addition are immediately accessible!
+      if (state.selectedArtistName) {
+        state.detailMode = "archive";
+        renderDetailPanel(false);
+      }
+
+      updateFavEditBannerStatus();
+      applySilentFavoritesDOMUpdate();
+
+      if (restoredDraft) {
+        showOwnerFavToast("前回の未保存の編集内容を復元しました（「完了して閉じる」で保存、「取消」で破棄できます）");
+      } else {
+        const legacyAids = getLegacyLocalStorageAids();
+        const migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY);
+        if (serverVersion === 0 && legacyAids.length > 0 && migState !== "migrated" && migState !== "skipped") {
+          openFavMigrationModal();
+        }
+      }
+
+      if (!restoredDraft) {
+        fetchServerFavorites({ silent: true, fresh: true });
+      }
     }
 
     function closeFavQuickEditModeCleanly() {
@@ -3206,7 +3681,7 @@
       isSavingFavorites = false;
       hideFavEditError();
       document.body.classList.remove("fav-quick-edit-mode");
-      updateDraftRestoreBannerUI();
+      renderDetailPanel(false);
       updateFavEditBannerStatus();
     }
 
@@ -3214,16 +3689,25 @@
     async function saveFavoritesToServer(options = {}) {
       if (isSavingFavorites) return;
       const forceOverwrite = Boolean(options.forceOverwrite);
-      const customIds = Array.isArray(options.customIds) ? options.customIds : null;
+      const targetIds = Array.isArray(options.customIds) ? [...options.customIds].sort() : getSortedCurrentAids();
+      const targetSongFavs = Array.isArray(options.customSongFavs) ? [...options.customSongFavs].sort() : getSortedCurrentSongFavs();
+      const targetCustomSongs = Array.isArray(options.customAddedSongs) ? [...options.customAddedSongs].sort() : getSortedCurrentCustomSongs();
       const customBaseVersion = typeof options.customBaseVersion === "number" ? options.customBaseVersion : editSessionBaseVersion;
 
-      const targetIds = customIds ? [...customIds].sort() : getSortedCurrentAids();
+      const noDiffFromSession = (
+        areStringArraysEqual(targetIds, editSessionBaseIds) &&
+        areStringArraysEqual(targetSongFavs, editSessionBaseSongFavs) &&
+        areStringArraysEqual(targetCustomSongs, editSessionBaseCustomSongs)
+      );
+      const noDiffFromServer = !hasFetchedServerOnce || (
+        areStringArraysEqual(targetIds, serverFavIds) &&
+        areStringArraysEqual(targetSongFavs, serverSongFavs) &&
+        areStringArraysEqual(targetCustomSongs, serverCustomSongs)
+      );
 
-      // Requirement 1-5: Skip server write if there are no changes
-      if (!forceOverwrite && areAidArraysEqual(targetIds, editSessionBaseIds) && (!hasFetchedServerOnce || areAidArraysEqual(targetIds, serverFavIds))) {
+      if (!forceOverwrite && noDiffFromSession && noDiffFromServer) {
         clearUnsavedDraft();
         closeFavQuickEditModeCleanly();
-        showFavSyncToast("変更はありませんでした（編集モードを終了しました）");
         return;
       }
 
@@ -3250,6 +3734,8 @@
           body: JSON.stringify({
             action: "save",
             ids: targetIds,
+            songFavs: targetSongFavs,
+            customSongs: targetCustomSongs,
             baseVersion: customBaseVersion,
             forceOverwrite,
             clientRequestId
@@ -3260,7 +3746,6 @@
         const data = await resp.json().catch(() => null);
 
         if (resp.status === 409 && data && data.serverData) {
-          // Conflict detected! Do not overwrite silently; open Conflict Resolution Modal
           isSavingFavorites = false;
           updateFavEditBannerStatus();
           openFavConflictModal(data.serverData);
@@ -3274,19 +3759,21 @@
           throw new Error(errMsg);
         }
 
-        // Success! Update confirmed server baseline and clear local draft
-        const savedIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean).sort() : targetIds;
-        serverFavIds = savedIds;
+        serverFavIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean).sort() : targetIds;
+        serverSongFavs = Array.isArray(data.songFavs) ? normalizeSongKeyArray(data.songFavs) : targetSongFavs;
+        serverCustomSongs = Array.isArray(data.customSongs) ? normalizeSongKeyArray(data.customSongs) : targetCustomSongs;
         serverVersion = typeof data.version === "number" ? data.version : (customBaseVersion + 1);
         hasFetchedServerOnce = true;
+
         editSessionBaseIds = [...serverFavIds];
+        editSessionBaseSongFavs = [...serverSongFavs];
+        editSessionBaseCustomSongs = [...serverCustomSongs];
         editSessionBaseVersion = serverVersion;
 
-        setRecommendedFromAids(serverFavIds);
-        saveFavServerCache(serverFavIds, serverVersion, data.updatedAt);
+        setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
+        saveFavServerCache(serverFavIds, serverSongFavs, serverCustomSongs, serverVersion, data.updatedAt);
         clearUnsavedDraft();
 
-        // Once saved to server, mark device migration state so old localStorage never prompts again
         try {
           const rawLegacy = localStorage.getItem(RECOMMENDED_STORAGE_KEY);
           if (rawLegacy && !localStorage.getItem(RECOMMENDED_BACKUP_KEY)) {
@@ -3296,12 +3783,9 @@
         } catch (e) {}
 
         closeFavQuickEditModeCleanly();
-        renderStaticStats();
-        updateUI(false);
-        renderDetailPanel(false);
-        showFavSyncToast(`「かるのオススメ」（${serverFavIds.length}名義）をサーバーに保存しました`);
+        applySilentFavoritesDOMUpdate();
+        showOwnerFavToast(`設定をサーバーに保存しました（名義:${serverFavIds.length} / 曲♥:${serverSongFavs.length}）`);
       } catch (err) {
-        // Save failed: keep edit mode open, preserve changes in recommendedAidSet & localStorage draft
         isSavingFavorites = false;
         saveUnsavedDraft();
         updateFavEditBannerStatus();
@@ -3314,12 +3798,9 @@
       }
     }
 
-    // Fetch shared favorites from server (startup + visibility/periodic check)
+    // Background fetch of shared favorites & custom songs (completely silent for general visitors)
     async function fetchServerFavorites(options = {}) {
-      const isInitial = Boolean(options.isInitial);
-      const silent = Boolean(options.silent);
       const fresh = Boolean(options.fresh);
-
       lastServerFetchAt = Date.now();
       const url = `${FAV_API_ENDPOINT}?_t=${Date.now()}${fresh ? "&fresh=1" : ""}`;
 
@@ -3329,86 +3810,62 @@
           headers: { "Accept": "application/json" },
           cache: "no-store"
         });
-        if (!resp.ok) {
-          throw new Error(`HTTP ${resp.status}`);
-        }
+        if (!resp.ok) return;
         const data = await resp.json();
-        if (!data || !data.ok) {
-          throw new Error((data && data.message) || "Invalid response");
-        }
+        if (!data || !data.ok) return;
 
-        const fetchedIds = Array.isArray(data.ids)
-          ? data.ids.map(resolveToAid).filter(Boolean).sort()
-          : [];
+        const fetchedIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean).sort() : [];
+        const fetchedSongFavs = normalizeSongKeyArray(data.songFavs);
+        const fetchedCustomSongs = normalizeSongKeyArray(data.customSongs);
         const fetchedVersion = typeof data.version === "number" ? data.version : 0;
         serverConfigured = data.configured !== false;
         hasFetchedServerOnce = true;
 
         serverFavIds = fetchedIds;
+        serverSongFavs = fetchedSongFavs;
+        serverCustomSongs = fetchedCustomSongs;
         serverVersion = fetchedVersion;
-        saveFavServerCache(serverFavIds, serverVersion, data.updatedAt);
+        saveFavServerCache(serverFavIds, serverSongFavs, serverCustomSongs, serverVersion, data.updatedAt);
 
-        const currentIds = getSortedCurrentAids();
-        const isEditingWithChanges = favQuickEditMode && !areAidArraysEqual(currentIds, editSessionBaseIds);
-        const hasPendingDraft = hasActiveUnsavedDraft();
-
-        if (isEditingWithChanges || hasPendingDraft) {
-          // Never overwrite unsaved user edits during background polling!
-          // If the user is in edit mode but hasn't changed any hearts yet, keep baseline synced
-          if (favQuickEditMode && areAidArraysEqual(currentIds, editSessionBaseIds)) {
-            editSessionBaseIds = [...serverFavIds];
-            editSessionBaseVersion = serverVersion;
-            setRecommendedFromAids(serverFavIds);
+        if (favQuickEditMode) {
+          if (!hasAnyEditChanges()) {
+            if (serverVersion > 0) {
+              editSessionBaseIds = [...serverFavIds];
+              editSessionBaseSongFavs = [...serverSongFavs];
+              editSessionBaseCustomSongs = [...serverCustomSongs];
+              editSessionBaseVersion = serverVersion;
+              setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
+              renderDetailPanel(false);
+              applySilentFavoritesDOMUpdate();
+            }
             updateFavEditBannerStatus();
-            renderStaticStats();
-            updateUI(false);
-            renderDetailPanel(false);
-          } else {
-            updateDraftRestoreBannerUI();
           }
           return;
         }
 
         if (serverVersion > 0) {
-          // Server has shared data: treat server as the single source of truth
+          const changed = (
+            !areStringArraysEqual(getSortedCurrentAids(), serverFavIds) ||
+            !areStringArraysEqual(getSortedCurrentSongFavs(), serverSongFavs) ||
+            !areStringArraysEqual(getSortedCurrentCustomSongs(), serverCustomSongs)
+          );
           editSessionBaseIds = [...serverFavIds];
+          editSessionBaseSongFavs = [...serverSongFavs];
+          editSessionBaseCustomSongs = [...serverCustomSongs];
           editSessionBaseVersion = serverVersion;
-          if (!areAidArraysEqual(currentIds, serverFavIds)) {
-            setRecommendedFromAids(serverFavIds);
-            renderStaticStats();
-            updateUI(false);
+          if (changed) {
+            setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
             renderDetailPanel(false);
-          }
-        } else {
-          // Server version is 0 (not yet initialized on server)
-          const legacyAids = getLegacyLocalStorageAids();
-          const migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY);
-          if (legacyAids.length > 0 && migState !== "skipped" && migState !== "migrated") {
-            // Keep showing local legacy hearts on this device and offer explicit 1-time migration
-            setRecommendedFromAids(legacyAids);
-            renderStaticStats();
-            updateUI(false);
-            renderDetailPanel(false);
-            if (isInitial && serverConfigured) {
-              openFavMigrationModal();
-            }
-          } else {
-            setRecommendedFromAids([]);
-            renderStaticStats();
-            updateUI(false);
-            renderDetailPanel(false);
+            applySilentFavoritesDOMUpdate();
           }
         }
-      } catch (err) {
-        if (isInitial && !silent) {
-          showFavSyncToast("共有データの取得に失敗したため、端末内のデータを表示しています", true, 4200);
-        }
-      }
+      } catch (_err) {}
     }
 
-    // ==================== Initial localStorage Migration Modal ====================
+    // ==================== Owner-Only Initial Migration Modal ====================
     const favMigrationModal = document.getElementById("favMigrationModal");
     function openFavMigrationModal() {
+      if (!favQuickEditMode) return;
       const legacyAids = getLegacyLocalStorageAids();
       if (!favMigrationModal || legacyAids.length === 0) return;
       const countBadge = document.getElementById("favMigrationCountBadge");
@@ -3455,6 +3912,8 @@
           body: JSON.stringify({
             action: "migrate",
             ids: legacyAids,
+            songFavs: getSortedCurrentSongFavs(),
+            customSongs: getSortedCurrentCustomSongs(),
             baseVersion: serverVersion,
             forceOverwrite,
             clientRequestId: `mig_${Date.now()}`
@@ -3464,8 +3923,9 @@
         const data = await resp.json().catch(() => null);
 
         if (resp.status === 409 && data && data.serverData) {
-          // Server already has data! Ask before overwriting
           serverFavIds = (data.serverData.ids || []).map(resolveToAid).filter(Boolean).sort();
+          serverSongFavs = normalizeSongKeyArray(data.serverData.songFavs);
+          serverCustomSongs = normalizeSongKeyArray(data.serverData.customSongs);
           serverVersion = data.serverData.version || 1;
           if (confirmBtn) {
             confirmBtn.disabled = false;
@@ -3483,7 +3943,6 @@
           throw new Error((data && data.message) || `移行エラー (HTTP ${resp.status})`);
         }
 
-        // Migration succeeded! Backup localStorage key without losing data, mark migrated
         try {
           const rawOrig = localStorage.getItem(RECOMMENDED_STORAGE_KEY);
           if (rawOrig) localStorage.setItem(RECOMMENDED_BACKUP_KEY, rawOrig);
@@ -3491,13 +3950,18 @@
         } catch (e) {}
 
         serverFavIds = (data.ids || legacyAids).map(resolveToAid).filter(Boolean).sort();
+        serverSongFavs = normalizeSongKeyArray(data.songFavs);
+        serverCustomSongs = normalizeSongKeyArray(data.customSongs);
         serverVersion = typeof data.version === "number" ? data.version : 1;
         hasFetchedServerOnce = true;
+
         editSessionBaseIds = [...serverFavIds];
+        editSessionBaseSongFavs = [...serverSongFavs];
+        editSessionBaseCustomSongs = [...serverCustomSongs];
         editSessionBaseVersion = serverVersion;
 
-        setRecommendedFromAids(serverFavIds);
-        saveFavServerCache(serverFavIds, serverVersion, data.updatedAt);
+        setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
+        saveFavServerCache(serverFavIds, serverSongFavs, serverCustomSongs, serverVersion, data.updatedAt);
         clearUnsavedDraft();
 
         if (confirmBtn) {
@@ -3507,12 +3971,9 @@
         }
         closeFavMigrationModal();
         updateFavEditBannerStatus();
-        renderStaticStats();
-        updateUI(false);
-        renderDetailPanel(false);
-        showFavSyncToast(`既存の「かるのオススメ」（${serverFavIds.length}名義）をサーバーへ移行しました`);
+        applySilentFavoritesDOMUpdate();
+        showOwnerFavToast(`既存の「かるのオススメ」（${serverFavIds.length}名義）をサーバーへ移行しました`);
       } catch (err) {
-        // Migration failed: preserve existing localStorage untouched!
         if (confirmBtn) {
           confirmBtn.disabled = false;
           confirmBtn.textContent = "再試行：この端末からサーバーへ移行する";
@@ -3532,33 +3993,38 @@
       if (!favConflictModal || !serverData) return;
       lastConflictServerData = {
         ids: (serverData.ids || []).map(resolveToAid).filter(Boolean).sort(),
+        songFavs: normalizeSongKeyArray(serverData.songFavs),
+        customSongs: normalizeSongKeyArray(serverData.customSongs),
         version: typeof serverData.version === "number" ? serverData.version : 1,
         updatedAt: serverData.updatedAt || null
       };
 
-      const currentIds = getSortedCurrentAids();
-      const localDiff = computeDiffCounts(editSessionBaseIds, currentIds);
-      const serverDiff = computeDiffCounts(editSessionBaseIds, lastConflictServerData.ids);
+      const curIds = getSortedCurrentAids();
+      const curSongs = getSortedCurrentSongFavs();
+      const curCustom = getSortedCurrentCustomSongs();
+
+      const localDiff = computeDiffCounts(editSessionBaseIds, curIds);
+      const localSongDiff = computeDiffCounts(editSessionBaseSongFavs, curSongs);
+      const localCustomDiff = computeDiffCounts(editSessionBaseCustomSongs, curCustom);
 
       const localSumEl = document.getElementById("favConflictLocalSummary");
       const localDetEl = document.getElementById("favConflictLocalDetail");
       const srvSumEl = document.getElementById("favConflictServerSummary");
       const srvDetEl = document.getElementById("favConflictServerDetail");
 
-      if (localSumEl) localSumEl.textContent = `計 ${currentIds.length} 名義 (+${localDiff.added.length} / -${localDiff.removed.length})`;
+      if (localSumEl) localSumEl.textContent = `名義:${curIds.length} / 曲♥:${curSongs.length}`;
       if (localDetEl) {
         const lines = [];
-        if (localDiff.added.length > 0) lines.push(`【追加】${localDiff.added.map(resolveAidToName).filter(Boolean).join("、")}`);
-        if (localDiff.removed.length > 0) lines.push(`【解除】${localDiff.removed.map(resolveAidToName).filter(Boolean).join("、")}`);
+        if (localDiff.added.length > 0) lines.push(`【名義追加】${localDiff.added.map(resolveAidToName).filter(Boolean).join("、")}`);
+        if (localDiff.removed.length > 0) lines.push(`【名義解除】${localDiff.removed.map(resolveAidToName).filter(Boolean).join("、")}`);
+        if (localSongDiff.hasChanges) lines.push(`【曲♥変更】+${localSongDiff.added.length} / -${localSongDiff.removed.length}`);
+        if (localCustomDiff.hasChanges) lines.push(`【曲追加】+${localCustomDiff.added.length}`);
         localDetEl.textContent = lines.length > 0 ? lines.join(" / ") : "変更なし";
       }
 
-      if (srvSumEl) srvSumEl.textContent = `計 ${lastConflictServerData.ids.length} 名義 (v${lastConflictServerData.version})`;
+      if (srvSumEl) srvSumEl.textContent = `名義:${lastConflictServerData.ids.length} / 曲♥:${lastConflictServerData.songFavs.length} (v${lastConflictServerData.version})`;
       if (srvDetEl) {
-        const sLines = [];
-        if (serverDiff.added.length > 0) sLines.push(`【他端末で追加】${serverDiff.added.map(resolveAidToName).filter(Boolean).join("、")}`);
-        if (serverDiff.removed.length > 0) sLines.push(`【他端末で解除】${serverDiff.removed.map(resolveAidToName).filter(Boolean).join("、")}`);
-        srvDetEl.textContent = sLines.length > 0 ? sLines.join(" / ") : `登録名義: ${lastConflictServerData.ids.slice(0, 15).map(resolveAidToName).filter(Boolean).join("、")}${lastConflictServerData.ids.length > 15 ? " ほか" : ""}`;
+        srvDetEl.textContent = `他端末でバージョン v${lastConflictServerData.version} が保存されています。「両方の変更を合体して保存」を押すと両方の編集内容を統合します。`;
       }
 
       favConflictModal.classList.add("open");
@@ -3582,7 +4048,6 @@
         if (!favQuickEditMode) {
           enterFavQuickEditMode();
         } else {
-          // When already in edit mode, 5-tap triggers the same "完了して閉じる" save flow
           saveFavoritesToServer();
         }
       } else {
@@ -3602,22 +4067,19 @@
       });
     }
 
-    // 「取消」 button in edit banner (discards unsaved changes and reverts to editSessionBaseIds)
+    // 「取消」 button in edit banner
     const discardFavQeBtn = document.getElementById("discardFavQuickEditBtn");
     if (discardFavQeBtn) {
       discardFavQeBtn.addEventListener("click", () => {
         if (isSavingFavorites) return;
-        setRecommendedFromAids(editSessionBaseIds);
+        setAllSharedStates(editSessionBaseIds, editSessionBaseSongFavs, editSessionBaseCustomSongs);
         clearUnsavedDraft();
         closeFavQuickEditModeCleanly();
-        renderStaticStats();
-        updateUI(false);
-        renderDetailPanel(false);
-        showFavSyncToast("未保存の変更を取り消しました");
+        applySilentFavoritesDOMUpdate();
+        showOwnerFavToast("未保存の変更を取り消しました");
       });
     }
 
-    // Error row buttons ("再試行" & "一時保存して閉じる")
     const retryFavSaveBtn = document.getElementById("retryFavSaveBtn");
     if (retryFavSaveBtn) {
       retryFavSaveBtn.addEventListener("click", () => {
@@ -3628,41 +4090,12 @@
     if (closeKeepDraftBtn) {
       closeKeepDraftBtn.addEventListener("click", () => {
         saveUnsavedDraft();
+        setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
         closeFavQuickEditModeCleanly();
-        showFavSyncToast("未保存の編集内容を端末に一時保存しました（次回編集時に復元されます）", true);
+        applySilentFavoritesDOMUpdate();
       });
     }
 
-    // Unsaved Draft Restore Banner buttons
-    const resumeFavDraftBtn = document.getElementById("resumeFavDraftBtn");
-    if (resumeFavDraftBtn) {
-      resumeFavDraftBtn.addEventListener("click", () => {
-        enterFavQuickEditMode();
-      });
-    }
-    const saveFavDraftNowBtn = document.getElementById("saveFavDraftNowBtn");
-    if (saveFavDraftNowBtn) {
-      saveFavDraftNowBtn.addEventListener("click", () => {
-        enterFavQuickEditMode();
-        saveFavoritesToServer();
-      });
-    }
-    const discardFavDraftBtn = document.getElementById("discardFavDraftBtn");
-    if (discardFavDraftBtn) {
-      discardFavDraftBtn.addEventListener("click", () => {
-        clearUnsavedDraft();
-        setRecommendedFromAids(serverFavIds);
-        editSessionBaseIds = [...serverFavIds];
-        editSessionBaseVersion = serverVersion;
-        updateDraftRestoreBannerUI();
-        renderStaticStats();
-        updateUI(false);
-        renderDetailPanel(false);
-        showFavSyncToast("未保存の編集データを破棄し、サーバーの状態に戻しました");
-      });
-    }
-
-    // Migration Modal buttons
     const openLegacyMigrateBtn = document.getElementById("openLegacyMigrateBtn");
     if (openLegacyMigrateBtn) {
       openLegacyMigrateBtn.addEventListener("click", openFavMigrationModal);
@@ -3683,12 +4116,14 @@
         } catch (e) {}
         closeFavMigrationModal();
         if (hasFetchedServerOnce) {
-          setRecommendedFromAids(serverFavIds);
-          renderStaticStats();
-          updateUI(false);
-          renderDetailPanel(false);
+          setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
+          editSessionBaseIds = [...serverFavIds];
+          editSessionBaseSongFavs = [...serverSongFavs];
+          editSessionBaseCustomSongs = [...serverCustomSongs];
+          editSessionBaseVersion = serverVersion;
+          updateFavEditBannerStatus();
+          applySilentFavoritesDOMUpdate();
         }
-        showFavSyncToast("この端末からの初回移行をスキップしました");
       });
     }
     const confirmFavMigrationBtn = document.getElementById("confirmFavMigrationBtn");
@@ -3699,7 +4134,7 @@
       });
     }
 
-    // Conflict Modal buttons
+    // Conflict Modal buttons (3-way merge across ids, songFavs, and customSongs)
     const closeFavConflictModalBtn = document.getElementById("closeFavConflictModalBtn");
     if (closeFavConflictModalBtn) {
       closeFavConflictModalBtn.addEventListener("click", closeFavConflictModal);
@@ -3708,35 +4143,51 @@
     if (conflictMergeSaveBtn) {
       conflictMergeSaveBtn.addEventListener("click", () => {
         if (!lastConflictServerData) return;
-        const currentIds = getSortedCurrentAids();
-        const diff = computeDiffCounts(editSessionBaseIds, currentIds);
-        const mergedSet = new Set(lastConflictServerData.ids);
-        diff.added.forEach(id => mergedSet.add(id));
-        diff.removed.forEach(id => mergedSet.delete(id));
-        const mergedIds = Array.from(mergedSet).sort();
+        const mergeThreeWay = (baseArr, localArr, serverArr) => {
+          const diff = computeDiffCounts(baseArr, localArr);
+          const merged = new Set(serverArr);
+          diff.added.forEach(x => merged.add(x));
+          diff.removed.forEach(x => merged.delete(x));
+          return Array.from(merged).sort();
+        };
+
+        const mergedIds = mergeThreeWay(editSessionBaseIds, getSortedCurrentAids(), lastConflictServerData.ids);
+        const mergedSongFavs = mergeThreeWay(editSessionBaseSongFavs, getSortedCurrentSongFavs(), lastConflictServerData.songFavs);
+        const mergedCustomSongs = mergeThreeWay(editSessionBaseCustomSongs, getSortedCurrentCustomSongs(), lastConflictServerData.customSongs);
 
         serverFavIds = [...lastConflictServerData.ids];
+        serverSongFavs = [...lastConflictServerData.songFavs];
+        serverCustomSongs = [...lastConflictServerData.customSongs];
         serverVersion = lastConflictServerData.version;
-        editSessionBaseIds = [...lastConflictServerData.ids];
-        editSessionBaseVersion = lastConflictServerData.version;
-        setRecommendedFromAids(mergedIds);
+
+        editSessionBaseIds = [...serverFavIds];
+        editSessionBaseSongFavs = [...serverSongFavs];
+        editSessionBaseCustomSongs = [...serverCustomSongs];
+        editSessionBaseVersion = serverVersion;
+
+        setAllSharedStates(mergedIds, mergedSongFavs, mergedCustomSongs);
         saveUnsavedDraft();
         closeFavConflictModal();
-        renderStaticStats();
-        updateUI(false);
         renderDetailPanel(false);
-        saveFavoritesToServer({ customIds: mergedIds, customBaseVersion: lastConflictServerData.version });
+        applySilentFavoritesDOMUpdate();
+        saveFavoritesToServer({
+          customIds: mergedIds,
+          customSongFavs: mergedSongFavs,
+          customAddedSongs: mergedCustomSongs,
+          customBaseVersion: lastConflictServerData.version
+        });
       });
     }
     const conflictForceOverwriteBtn = document.getElementById("conflictForceOverwriteBtn");
     if (conflictForceOverwriteBtn) {
       conflictForceOverwriteBtn.addEventListener("click", () => {
         if (!lastConflictServerData) return;
-        const currentIds = getSortedCurrentAids();
         editSessionBaseVersion = lastConflictServerData.version;
         closeFavConflictModal();
         saveFavoritesToServer({
-          customIds: currentIds,
+          customIds: getSortedCurrentAids(),
+          customSongFavs: getSortedCurrentSongFavs(),
+          customAddedSongs: getSortedCurrentCustomSongs(),
           customBaseVersion: lastConflictServerData.version,
           forceOverwrite: true
         });
@@ -3747,23 +4198,25 @@
       conflictLoadServerBtn.addEventListener("click", () => {
         if (!lastConflictServerData) return;
         serverFavIds = [...lastConflictServerData.ids];
+        serverSongFavs = [...lastConflictServerData.songFavs];
+        serverCustomSongs = [...lastConflictServerData.customSongs];
         serverVersion = lastConflictServerData.version;
+
         editSessionBaseIds = [...serverFavIds];
+        editSessionBaseSongFavs = [...serverSongFavs];
+        editSessionBaseCustomSongs = [...serverCustomSongs];
         editSessionBaseVersion = serverVersion;
-        setRecommendedFromAids(serverFavIds);
-        saveFavServerCache(serverFavIds, serverVersion, lastConflictServerData.updatedAt);
+
+        setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
+        saveFavServerCache(serverFavIds, serverSongFavs, serverCustomSongs, serverVersion, lastConflictServerData.updatedAt);
         clearUnsavedDraft();
         closeFavConflictModal();
         closeFavQuickEditModeCleanly();
-        renderStaticStats();
-        updateUI(false);
-        renderDetailPanel(false);
-        showFavSyncToast("サーバーの最新データを反映しました");
+        applySilentFavoritesDOMUpdate();
       });
     }
 
-    // Startup non-blocking fetch + visibilitychange & gentle periodic check
-    updateDraftRestoreBannerUI();
+    // Silent background fetch on startup + visibilitychange & gentle periodic check
     fetchServerFavorites({ isInitial: true });
 
     document.addEventListener("visibilitychange", () => {
@@ -3814,13 +4267,57 @@
       const modeBtn = e.target.closest("[data-detail-mode]");
       if (modeBtn) {
         state.detailMode = modeBtn.getAttribute("data-detail-mode");
-        renderDetailPanel(true);
+        renderDetailPanel(false);
         return;
       }
       const sortBtn = e.target.closest("[data-song-sort]");
       if (sortBtn) {
         state.songSort = sortBtn.getAttribute("data-song-sort");
         renderDetailPanel(false);
+        return;
+      }
+      if (favQuickEditMode) {
+        const addSongBtn = e.target.closest("#editAddSongSubmitBtn");
+        if (addSongBtn) {
+          const inp = document.getElementById("editAddSongInput");
+          if (inp && state.selectedArtistName) {
+            const artist = ARTIST_MAP.get(state.selectedArtistName);
+            if (artist && artist.aid) {
+              addCustomSongToArtist(artist.aid, inp.value);
+            }
+          }
+          return;
+        }
+        const delCustomBtn = e.target.closest("[data-delete-custom-song]");
+        if (delCustomBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          const songTitle = delCustomBtn.getAttribute("data-delete-custom-song");
+          const artist = state.selectedArtistName ? ARTIST_MAP.get(state.selectedArtistName) : null;
+          if (artist && artist.aid && songTitle) {
+            removeCustomSongFromArtist(artist.aid, songTitle);
+          }
+          return;
+        }
+        const songRow = e.target.closest(".detail-song-item[data-song-title]");
+        if (songRow) {
+          const sTitle = songRow.getAttribute("data-song-title");
+          const aAid = songRow.getAttribute("data-artist-aid");
+          if (aAid && sTitle) {
+            toggleRecommendedSong(aAid, sTitle);
+          }
+          return;
+        }
+      }
+    });
+
+    document.getElementById("detailScrollContent").addEventListener("keydown", e => {
+      if (favQuickEditMode && e.key === "Enter" && e.target && e.target.id === "editAddSongInput") {
+        e.preventDefault();
+        const artist = state.selectedArtistName ? ARTIST_MAP.get(state.selectedArtistName) : null;
+        if (artist && artist.aid) {
+          addCustomSongToArtist(artist.aid, e.target.value);
+        }
       }
     });
 
