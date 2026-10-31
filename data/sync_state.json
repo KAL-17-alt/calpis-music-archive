@@ -1,8 +1,11 @@
 {
   "schemaVersion": 2,
-  "initialized": false,
-  "initializedAt": null,
-  "baselineVideoCount": 0,
-  "playlistIds": [],
-  "lastSyncAt": null
+  "initialized": true,
+  "initializedAt": "2026-10-31T04:56:11Z",
+  "baselineVideoCount": 3118,
+  "totalTrackedCount": 8446,
+  "playlistIds": [
+    "PL0lpRpQs2Mb03ovDMpqm4rbHkTWUTLyJp"
+  ],
+  "lastSyncAt": "2026-10-31T04:56:11Z"
 }
