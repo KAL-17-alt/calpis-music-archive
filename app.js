@@ -666,7 +666,7 @@
     const cat1Cnt = memberObjs.filter(a => a.cat === 1).length;
     const cat2Cnt = memberObjs.filter(a => a.cat === 2).length;
     const indivMembers = Array.from(memberSet).filter(n => n !== uName);
-    const subtitle = indivMembers.length > 0 ? `ボーカル: ${indivMembers.join("・")}` : (uArtist.vocal ? `ボーカル: ${uArtist.vocal}` : "");
+    const subtitle = (uName === "MAISONdes") ? "" : (indivMembers.length > 0 ? `ボーカル: ${indivMembers.join("・")}` : (uArtist.vocal ? `ボーカル: ${uArtist.vocal}` : ""));
     const normTokens = [
       uArtist._normName,
       uArtist._normReading,
