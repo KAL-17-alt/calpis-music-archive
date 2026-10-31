@@ -4704,10 +4704,7 @@ body.fav-quick-edit-mode .song-edit-heart-indicator {
   display: inline-flex;
 }
 
-/* Hide the inline passive heart when the interactive right-side heart indicator is shown in Edit Mode */
-body.fav-quick-edit-mode .detail-song-item .song-fav-heart {
-  display: none;
-}
+/* Keep inline .song-fav-heart visible in Edit Mode so ❤ appears right next to the song title immediately */
 
 .custom-song-del-btn {
   display: none;
@@ -5082,4 +5079,261 @@ body.fav-quick-edit-mode .custom-song-del-btn {
 .fav-sync-toast.toast-warn {
   border-color: rgba(251, 113, 133, 0.75);
   color: #ffe4e6;
+}
+
+
+/* ==========================================================================
+   V50 UPDATES:
+   1) HIGH-CONTRAST TACTILE HEART FEEDBACK IN EDIT MODE (ICONS & SONGS)
+   2) MINUS BUTTON (－) FOR DELETING MANUALLY ADDED SONGS IN EDIT MODE
+   3) SMARTPHONE SLIM 1-LINE COLUMN HEADER & FULL-WIDTH SONG LIST MODE
+   4) SMARTPHONE SEARCH BUTTON TACTILE PRESS + SCREEN TRANSITION UX
+   ========================================================================== */
+
+@keyframes editHeartPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.edit-heart-pop {
+  animation: editHeartPop 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 1A. Avatar floating heart badge in Edit Mode (List rows & Detail popup) */
+.row-avatar-wrap,
+.detail-avatar-wrap {
+  position: relative;
+}
+
+.avatar-edit-heart-badge {
+  display: none;
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: rgba(20, 20, 26, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
+  color: rgba(255, 255, 255, 0.28);
+  align-items: center;
+  justify-content: center;
+  font-size: 9.5px;
+  z-index: 4;
+  pointer-events: none;
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.detail-avatar-heart-badge {
+  width: 26px;
+  height: 26px;
+  right: -2px;
+  bottom: -2px;
+  font-size: 14px;
+}
+
+body.fav-quick-edit-mode .avatar-edit-heart-badge {
+  display: inline-flex;
+}
+
+/* Unhearted state in Edit Mode: neutral dim dashed outline so ON vs OFF is unmistakable */
+body.fav-quick-edit-mode .artist-row:not(.artist-is-fav):not(.recommend-song-row) .row-avatar-wrap {
+  outline: 2px dashed rgba(255, 255, 255, 0.32) !important;
+  outline-offset: 2px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+body.fav-quick-edit-mode .detail-hero:not(.detail-artist-is-fav) .detail-avatar-wrap {
+  outline: 2.5px dashed rgba(255, 255, 255, 0.38) !important;
+  outline-offset: 3px;
+  cursor: pointer;
+}
+
+body.fav-quick-edit-mode .detail-artist-name {
+  cursor: pointer;
+}
+
+/* Hearted state in Edit Mode: glowing solid rose-pink ring + bright pink heart badge + subtle row tint */
+body.fav-quick-edit-mode .artist-row.artist-is-fav .row-avatar-wrap,
+body.fav-quick-edit-mode .artist-row.recommend-song-row .row-avatar-wrap {
+  outline: 2.5px solid #fb7185 !important;
+  outline-offset: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.55) !important;
+  cursor: pointer;
+}
+
+body.fav-quick-edit-mode .artist-row.artist-is-fav .avatar-edit-heart-badge,
+body.fav-quick-edit-mode .artist-row.recommend-song-row .avatar-edit-heart-badge,
+body.fav-quick-edit-mode .detail-hero.detail-artist-is-fav .avatar-edit-heart-badge {
+  background: #f43f5e !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(244, 63, 94, 0.65);
+}
+
+body.fav-quick-edit-mode .artist-row.artist-is-fav {
+  background: rgba(244, 63, 94, 0.12) !important;
+}
+
+body.fav-quick-edit-mode .detail-hero.detail-artist-is-fav .detail-avatar-wrap {
+  outline: 3px solid #fb7185 !important;
+  outline-offset: 3px;
+  box-shadow: 0 0 18px rgba(244, 63, 94, 0.6) !important;
+  cursor: pointer;
+}
+
+/* 1B. Song rows in Edit Mode: unmistakable OFF (dim grey) vs ON (bright pink row + inline heart + solid pink badge) */
+.song-edit-heart-indicator {
+  color: rgba(255, 255, 255, 0.22) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1.5px dashed rgba(255, 255, 255, 0.24) !important;
+}
+
+.song-edit-heart-indicator.is-fav {
+  color: #ffffff !important;
+  background: #f43f5e !important;
+  border: 1.5px solid #fda4af !important;
+  box-shadow: 0 2px 8px rgba(244, 63, 94, 0.5) !important;
+}
+
+body.fav-quick-edit-mode .detail-song-item {
+  border: 1px dashed rgba(255, 255, 255, 0.18) !important;
+  transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.1s ease;
+}
+
+body.fav-quick-edit-mode .detail-song-item:active {
+  transform: scale(0.985);
+}
+
+body.fav-quick-edit-mode .detail-song-item.song-is-fav {
+  background: rgba(244, 63, 94, 0.18) !important;
+  border: 1.5px solid #fb7185 !important;
+  box-shadow: 0 2px 10px rgba(244, 63, 94, 0.18);
+}
+
+body.fav-quick-edit-mode .detail-song-item.song-is-fav .song-name {
+  color: #ffe4e6 !important;
+  font-weight: 700 !important;
+}
+
+/* 2. Minus button (－) for deleting manually added songs in Edit Mode */
+.custom-song-del-btn {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 7px !important;
+  background: rgba(239, 68, 68, 0.2) !important;
+  border: 1.5px solid rgba(248, 113, 113, 0.65) !important;
+  color: #fecaca !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}
+
+.custom-song-del-btn:hover,
+.custom-song-del-btn:active {
+  background: rgba(239, 68, 68, 0.45) !important;
+  color: #ffffff !important;
+}
+
+/* 3. Song List Mode (楽曲検索 & オススメ曲): hide 登録楽曲数 and expand song title across full width */
+body.song-list-mode #listColCountLabel,
+body.song-list-mode .list-col-header .list-col-count,
+body.song-list-mode .artist-row .row-count,
+.artist-row.recommend-song-row .row-count {
+  display: none !important;
+}
+
+@media (min-width: 901px) {
+  body.song-list-mode .list-col-header,
+  body.song-list-mode .artist-row,
+  .artist-row.recommend-song-row {
+    grid-template-columns: 44px 44px minmax(220px, 1.85fr) 110px 128px 110px !important;
+  }
+}
+
+/* 4. Smartphone Column Header (slim 1-line 登録楽曲数, smaller #, full-width song title in song list mode) */
+@media (max-width: 900px) {
+  .list-col-header {
+    grid-template-columns: 24px 38px minmax(0, 1fr) auto !important;
+    gap: 6px !important;
+    padding: 3px 10px !important;
+    min-height: 0 !important;
+    line-height: 1.15 !important;
+    align-items: center !important;
+  }
+
+  .list-col-header #listColRankLabel,
+  .list-col-header .list-col-rank {
+    font-size: 9.5px !important;
+    line-height: 1.1 !important;
+  }
+
+  .list-col-header #listColMainLabel,
+  .list-col-header .list-col-main {
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+  }
+
+  .list-col-header #listColCountLabel,
+  .list-col-header .list-col-count {
+    font-size: 10.5px !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+    padding-right: 0 !important;
+    word-break: keep-all !important;
+  }
+
+  body.song-list-mode .list-col-header,
+  body.song-list-mode .artist-row,
+  .artist-row.recommend-song-row {
+    grid-template-columns: 24px 38px minmax(0, 1fr) !important;
+    gap: 7px !important;
+  }
+
+  body.song-list-mode .artist-row .row-name-wrap,
+  .artist-row.recommend-song-row .row-name-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body.song-list-mode .artist-row .row-song-primary,
+  .artist-row.recommend-song-row .row-song-primary {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 5. Smartphone Search Button Tactile Press & Screen Transition UX */
+  .mob-nav-item[data-nav-view="search"],
+  #mobTopSearchBtn {
+    transition: background-color 0.08s ease-out, transform 0.08s ease-out, color 0.08s ease-out !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mob-nav-item[data-nav-view="search"]:active,
+  .mob-nav-item[data-nav-view="search"].mob-search-tap-active,
+  #mobTopSearchBtn:active,
+  #mobTopSearchBtn.mob-search-tap-active {
+    background-color: rgba(29, 185, 84, 0.22) !important;
+    color: #1ed760 !important;
+    transform: scale(0.93) !important;
+  }
+
+  @keyframes mobSearchScreenEnter {
+    0% {
+      opacity: 0;
+      transform: translateY(14px) scale(0.992);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .center-scroll.mob-search-screen-enter {
+    animation: mobSearchScreenEnter 0.21s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
 }

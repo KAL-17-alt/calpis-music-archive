@@ -5786,6 +5786,7 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
 
   let favQuickEditMode = false;
   let isSavingFavorites = false;
+  let updateFavEditBannerStatus = function() {};
 
   // Confirmed server state
   let serverFavIds = [];
@@ -7798,7 +7799,28 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
       : "YouTube公式チャンネル登録者数：未取得";
 
     const rawAgency = (a.agencyGroup || a.agency || "").trim();
-    const shortAgency = getShortAgencyLabel(rawAgency);
+    const AGENCY_SHORT_MAP = {
+      "アイドルマスターシリーズ": "アイマス",
+      "ラブライブ！シリーズ": "ラブライブ！",
+      "神椿スタジオ": "神椿",
+      "BanG Dream!": "バンドリ",
+      "ウマ娘 プリティーダービー": "ウマ娘",
+      "Tokyo 7th シスターズ": "ナナシス",
+      "ガールズバンドクライ": "ガルク",
+      "プロジェクトセカイ カラフルステージ！ feat. 初音ミク": "プロセカ",
+      "青春ブタ野郎シリーズ": "青ブタ",
+      "アイカツ！シリーズ": "アイカツ",
+      "少女☆歌劇 レヴュースタァライト": "スタァライト",
+      "INCS toenter (インクストゥエンター)": "INCS toenter",
+      "ソードアート・オンライン": "SAO",
+      "プリンセスコネクト！Re:Dive": "プリコネ",
+      "ブルーアーカイブ -Blue Archive-": "ブルアカ",
+      "ヘブンバーンズレッド": "ヘブバン",
+      "ライヴラリ (ゆにクリエイト)": "ライヴラリ",
+      "陰の実力者になりたくて！": "陰実",
+      "告白実行委員会 (HoneyWorks)": "告白実行委員会"
+    };
+    const shortAgency = rawAgency ? (AGENCY_SHORT_MAP[rawAgency] || rawAgency) : "";
     const agencyCellHTML = shortAgency
       ? `<span class="row-agency-badge" title="所属（事務所・作品）：${esc(rawAgency)}">${esc(shortAgency)}</span>`
       : `<span class="row-agency-empty">—</span>`;
@@ -8144,6 +8166,11 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
     const roleBadgeHTML = detailRoles
       .map(r => `<span class="detail-role-badge static-role-badge">${esc(r)}</span>`)
       .join("");
+    if (favQuickEditMode) {
+      const customPart = displaySongs.filter(x => isCustomAddedSong(artist.aid, x.title)).reverse();
+      const basePart = displaySongs.filter(x => !isCustomAddedSong(artist.aid, x.title));
+      displaySongs = [...customPart, ...basePart];
+    }
     const hasArchiveSongs = favQuickEditMode || ((artist.count || 0) >= 1 && rawSongs.length >= 1);
     if (!hasArchiveSongs && state.detailMode === "archive") {
       state.detailMode = "top5";
@@ -9225,7 +9252,7 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
       return { added, removed, hasChanges: added.length > 0 || removed.length > 0 };
     }
 
-    function updateFavEditBannerStatus() {
+    updateFavEditBannerStatus = function() {
       const diffBadge = document.getElementById("favQeDiffBadge");
       const discardBtn = document.getElementById("discardFavQuickEditBtn");
       const migrateBtn = document.getElementById("openLegacyMigrateBtn");

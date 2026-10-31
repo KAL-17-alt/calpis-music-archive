@@ -129,6 +129,7 @@
 
   let favQuickEditMode = false;
   let isSavingFavorites = false;
+  let updateFavEditBannerStatus = function() {};
 
   // Confirmed server state
   let serverFavIds = [];
@@ -428,9 +429,11 @@
 
       if (recSongTitle) return; // Song rows in recommend tab are handled by recommend refresh below
 
+      const shouldHaveHeart = isRecommendedArtist(aName);
+      row.classList.toggle("artist-is-fav", shouldHaveHeart);
+
       const nameEl = row.querySelector(".row-name");
       if (!nameEl) return;
-      const shouldHaveHeart = isRecommendedArtist(aName);
       const existingHeart = nameEl.querySelector(".artist-fav-heart");
       if (shouldHaveHeart && !existingHeart) {
         const span = document.createElement("span");
@@ -444,11 +447,15 @@
       }
     });
 
-    // Update heart icon on currently open detail panel header in-place
+    // Update heart icon & hero state on currently open detail panel header in-place
     if (state.selectedArtistName) {
+      const shouldHaveHeart = isRecommendedArtist(state.selectedArtistName);
+      const detailHeroEl = document.querySelector("#detailScrollContent .detail-hero");
+      if (detailHeroEl) {
+        detailHeroEl.classList.toggle("detail-artist-is-fav", shouldHaveHeart);
+      }
       const detailNameEl = document.querySelector("#detailScrollContent .detail-artist-name");
       if (detailNameEl) {
-        const shouldHaveHeart = isRecommendedArtist(state.selectedArtistName);
         const existingHeart = detailNameEl.querySelector(".detail-fav-heart");
         if (shouldHaveHeart && !existingHeart) {
           const span = document.createElement("span");
@@ -500,32 +507,87 @@
     editSessionBaseVersion = serverVersion;
   }
 
+  function triggerPopAnimation(el) {
+    if (!el) return;
+    el.classList.remove("edit-heart-pop");
+    void el.offsetWidth;
+    el.classList.add("edit-heart-pop");
+  }
+
   function toggleRecommendedArtist(name) {
     if (!favQuickEditMode || isSavingFavorites) return;
     const aid = resolveToAid(name);
     if (!aid) return;
-    if (recommendedAidSet.has(aid)) {
-      recommendedAidSet.delete(aid);
-    } else {
+    const isNowFav = !recommendedAidSet.has(aid);
+    if (isNowFav) {
       recommendedAidSet.add(aid);
+    } else {
+      recommendedAidSet.delete(aid);
     }
     saveUnsavedDraft();
     updateFavEditBannerStatus();
     applySilentFavoritesDOMUpdate();
+
+    // Trigger tactile pop animation on matching list row avatar & open detail avatar
+    const rows = document.querySelectorAll("#artistListContainer .artist-row[data-artist-name]");
+    rows.forEach(row => {
+      if (row.getAttribute("data-artist-name") === name) {
+        triggerPopAnimation(row.querySelector(".row-avatar-wrap"));
+        triggerPopAnimation(row);
+      }
+    });
+    if (state.selectedArtistName === name) {
+      triggerPopAnimation(document.querySelector("#detailScrollContent .detail-avatar-wrap"));
+      triggerPopAnimation(document.querySelector("#detailScrollContent .detail-artist-name"));
+    }
   }
 
   function toggleRecommendedSong(aidOrName, songTitle) {
     if (!favQuickEditMode || isSavingFavorites) return;
     const key = makeSongKey(aidOrName, songTitle);
     if (!key) return;
-    if (recommendedSongSet.has(key)) {
-      recommendedSongSet.delete(key);
-    } else {
+    const isNowFav = !recommendedSongSet.has(key);
+    if (isNowFav) {
       recommendedSongSet.add(key);
+    } else {
+      recommendedSongSet.delete(key);
     }
     saveUnsavedDraft();
     updateFavEditBannerStatus();
-    renderDetailPanel(false);
+
+    // Update the song item in-place inside #detailScrollContent so the user sees immediate pop + heart badge without DOM rebuild flash
+    const aid = resolveToAid(aidOrName);
+    const songItems = document.querySelectorAll("#detailScrollContent .detail-song-item[data-song-title]");
+    let updatedInPlace = false;
+    songItems.forEach(item => {
+      if (item.getAttribute("data-artist-aid") === aid && item.getAttribute("data-song-title") === songTitle) {
+        updatedInPlace = true;
+        item.classList.toggle("song-is-fav", isNowFav);
+        const indicator = item.querySelector(".song-edit-heart-indicator");
+        if (indicator) {
+          indicator.classList.toggle("is-fav", isNowFav);
+          triggerPopAnimation(indicator);
+        }
+        const songNameEl = item.querySelector(".song-name");
+        if (songNameEl) {
+          const existingHeart = songNameEl.querySelector(".song-fav-heart");
+          if (isNowFav && !existingHeart) {
+            const span = document.createElement("span");
+            span.className = "song-fav-heart";
+            span.title = "かるのオススメ楽曲";
+            span.setAttribute("aria-label", "かるのオススメ楽曲");
+            span.innerHTML = HEART_SVG_INNER;
+            songNameEl.appendChild(span);
+          } else if (!isNowFav && existingHeart) {
+            existingHeart.remove();
+          }
+        }
+        triggerPopAnimation(item);
+      }
+    });
+    if (!updatedInPlace) {
+      renderDetailPanel(false);
+    }
     applySilentFavoritesDOMUpdate();
   }
 
@@ -2030,8 +2092,11 @@
     const isFav = isRecommendedArtist(a.name);
     const favHeartHTML = isFav ? `<span class="artist-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : "";
     const rankClass = (!hideRankNumber && state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
-    const isSongSearchMode = isSearch && (state.searchTarget === "song" || state.searchTarget === "all") && Boolean(a._matchedSongPreview);
-    const songDisplayStr = a._matchedSongsDisplay || a._matchedSongPreview || "";
+    const isSongSearchMode = (isSearch && (state.searchTarget === "song" || state.searchTarget === "all") && Boolean(a._matchedSongPreview)) || (state.view === "search" && state.searchTarget === "song" && Boolean(a._matchedSongPreview || (a.songs && a.songs[0])));
+    const fallbackFirstSong = (!a._matchedSongPreview && state.view === "search" && state.searchTarget === "song" && Array.isArray(a.songs) && a.songs.length > 0)
+      ? (a.songs.length > 1 ? `${a.songs[0]} ほか${fmtNum(a.songs.length - 1)}曲` : a.songs[0])
+      : "";
+    const songDisplayStr = a._matchedSongsDisplay || a._matchedSongPreview || fallbackFirstSong || "";
     let nameWrapInner = "";
 
     if (isSongSearchMode) {
@@ -2100,9 +2165,9 @@
       : `<span class="row-agency-empty">—</span>`;
 
     return `
-      <div class="artist-row ${isSelected ? "selected" : ""}" data-artist-name="${esc(a.name)}" role="button" tabindex="0">
+      <div class="artist-row ${isSelected ? "selected" : ""} ${isFav ? "artist-is-fav" : ""}" data-artist-name="${esc(a.name)}" role="button" tabindex="0">
         <div class="row-rank ${hideRankNumber ? "row-rank-blank" : rankClass}">${hideRankNumber ? "" : a._displayRank}</div>
-        <div class="row-avatar-wrap">${renderAvatarHTML(a, false, rowIndex)}</div>
+        <div class="row-avatar-wrap" title="編集モード時：タップでオススメ切替">${renderAvatarHTML(a, false, rowIndex)}<span class="avatar-edit-heart-badge" aria-hidden="true">${HEART_SVG_INNER}</span></div>
         <div class="row-name-wrap">
           ${nameWrapInner}
         </div>
@@ -2141,15 +2206,36 @@
       : "YouTube公式チャンネル登録者数：未取得";
 
     const rawAgency = (a.agencyGroup || a.agency || "").trim();
-    const shortAgency = getShortAgencyLabel(rawAgency);
+    const AGENCY_SHORT_MAP = {
+      "アイドルマスターシリーズ": "アイマス",
+      "ラブライブ！シリーズ": "ラブライブ！",
+      "神椿スタジオ": "神椿",
+      "BanG Dream!": "バンドリ",
+      "ウマ娘 プリティーダービー": "ウマ娘",
+      "Tokyo 7th シスターズ": "ナナシス",
+      "ガールズバンドクライ": "ガルク",
+      "プロジェクトセカイ カラフルステージ！ feat. 初音ミク": "プロセカ",
+      "青春ブタ野郎シリーズ": "青ブタ",
+      "アイカツ！シリーズ": "アイカツ",
+      "少女☆歌劇 レヴュースタァライト": "スタァライト",
+      "INCS toenter (インクストゥエンター)": "INCS toenter",
+      "ソードアート・オンライン": "SAO",
+      "プリンセスコネクト！Re:Dive": "プリコネ",
+      "ブルーアーカイブ -Blue Archive-": "ブルアカ",
+      "ヘブンバーンズレッド": "ヘブバン",
+      "ライヴラリ (ゆにクリエイト)": "ライヴラリ",
+      "陰の実力者になりたくて！": "陰実",
+      "告白実行委員会 (HoneyWorks)": "告白実行委員会"
+    };
+    const shortAgency = rawAgency ? (AGENCY_SHORT_MAP[rawAgency] || rawAgency) : "";
     const agencyCellHTML = shortAgency
       ? `<span class="row-agency-badge" title="所属（事務所・作品）：${esc(rawAgency)}">${esc(shortAgency)}</span>`
       : `<span class="row-agency-empty">—</span>`;
 
     return `
-      <div class="artist-row recommend-song-row ${isSelected ? "selected" : ""}" data-artist-name="${esc(a.name)}" data-rec-song-title="${esc(songTitle)}" role="button" tabindex="0">
+      <div class="artist-row recommend-song-row song-is-fav ${isSelected ? "selected" : ""} ${isArtistFav ? "artist-is-fav" : ""}" data-artist-name="${esc(a.name)}" data-rec-song-title="${esc(songTitle)}" role="button" tabindex="0">
         <div class="row-rank row-rank-blank"></div>
-        <div class="row-avatar-wrap">${renderAvatarHTML(a, false, rowIndex)}</div>
+        <div class="row-avatar-wrap" title="編集モード時：タップでこの曲のハートを解除">${renderAvatarHTML(a, false, rowIndex)}<span class="avatar-edit-heart-badge" aria-hidden="true">${HEART_SVG_INNER}</span></div>
         <div class="row-name-wrap">
           <div class="row-song-primary">♪ ${esc(songTitle)}${songHeartHTML}</div>
           <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${artistHeartHTML}</div>
@@ -2188,11 +2274,34 @@
     `;
   }
 
+  function preserveCenterScrollPosition(scrollEl, listEl, prevScrollTop) {
+    if (!scrollEl || !listEl || typeof prevScrollTop !== "number" || prevScrollTop <= 0) return;
+    scrollEl.scrollTop = prevScrollTop;
+    if (scrollEl.scrollTop < prevScrollTop) {
+      let spacer = listEl.querySelector(".list-scroll-preserve-spacer");
+      if (!spacer) {
+        spacer = document.createElement("div");
+        spacer.className = "list-scroll-preserve-spacer";
+        spacer.setAttribute("aria-hidden", "true");
+        listEl.appendChild(spacer);
+      }
+      const sRect = scrollEl.getBoundingClientRect();
+      const spRect = spacer.getBoundingClientRect();
+      const usedHeight = (spRect.top - sRect.top) + scrollEl.scrollTop;
+      const neededSpacer = (prevScrollTop + scrollEl.clientHeight) - usedHeight + 4;
+      if (neededSpacer > 0) {
+        spacer.style.height = Math.ceil(neededSpacer) + "px";
+      }
+      scrollEl.scrollTop = prevScrollTop;
+    }
+  }
+
   function renderArtistList(resetScroll = false) {
     const listEl = document.getElementById("artistListContainer");
     const totalEl = document.getElementById("resultSummaryText");
     const mobColCountEl = document.getElementById("mobCollectionCount");
     const scrollEl = document.getElementById("centerScrollArea");
+    const prevListScrollTop = (!resetScroll && scrollEl) ? scrollEl.scrollTop : 0;
 
     const isGroupSearchOnly = state.view === "search" && state.searchTarget === "group";
     if (isGroupSearchOnly) {
@@ -2297,6 +2406,7 @@
               <p>編集モードでアーティスト詳細の「かるが聴いてる曲」にハートを付けると、ここに活動形態別で1曲ずつ表示されます。</p>
             </div>
           `;
+          if (!resetScroll) preserveCenterScrollPosition(scrollEl, listEl, prevListScrollTop);
           return;
         }
 
@@ -2321,6 +2431,7 @@
           `;
         });
         listEl.innerHTML = sectionsHTML;
+        if (!resetScroll) preserveCenterScrollPosition(scrollEl, listEl, prevListScrollTop);
         scheduleLookaheadAvatarPreload(12, 40);
         return;
       }
@@ -2333,6 +2444,7 @@
             <p>お気に入りのアーティストを設定すると、ここに活動形態別で一覧表示されます。</p>
           </div>
         `;
+        if (!resetScroll) preserveCenterScrollPosition(scrollEl, listEl, prevListScrollTop);
         return;
       }
       const buckets = new Map();
@@ -2368,6 +2480,7 @@
         `;
       });
       listEl.innerHTML = sectionsHTML;
+      if (!resetScroll) preserveCenterScrollPosition(scrollEl, listEl, prevListScrollTop);
       scheduleLookaheadAvatarPreload(12, 40);
       return;
     }
@@ -2487,6 +2600,11 @@
     const roleBadgeHTML = detailRoles
       .map(r => `<span class="detail-role-badge static-role-badge">${esc(r)}</span>`)
       .join("");
+    if (favQuickEditMode) {
+      const customPart = displaySongs.filter(x => isCustomAddedSong(artist.aid, x.title)).reverse();
+      const basePart = displaySongs.filter(x => !isCustomAddedSong(artist.aid, x.title));
+      displaySongs = [...customPart, ...basePart];
+    }
     const hasArchiveSongs = favQuickEditMode || ((artist.count || 0) >= 1 && rawSongs.length >= 1);
     if (!hasArchiveSongs && state.detailMode === "archive") {
       state.detailMode = "top5";
@@ -2629,7 +2747,7 @@
                   <span class="song-idx">${i + 1}</span>
                   <span class="song-name">${esc(s.title)}${isSongFav ? `<span class="song-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>` : ""}</span>
                   <span class="detail-song-right-actions">
-                    ${isCustom ? `<button type="button" class="custom-song-del-btn" data-delete-custom-song="${esc(s.title)}" title="手動追加したこの曲を削除" aria-label="${esc(s.title)}を削除">×</button>` : ""}
+                    ${isCustom ? `<button type="button" class="custom-song-del-btn" data-delete-custom-song="${esc(s.title)}" title="手動追加したこの曲を削除" aria-label="${esc(s.title)}を削除">－</button>` : ""}
                     <span class="song-edit-heart-indicator ${isSongFav ? "is-fav" : ""}" aria-hidden="true">${HEART_SVG_INNER}</span>
                   </span>
                 </div>
@@ -2640,10 +2758,12 @@
       `;
     }
 
+    const isDetailArtistFav = isRecommendedArtist(artist.name);
     contentEl.innerHTML = `
-      <div class="detail-hero">
-        <div class="detail-avatar-wrap">
+      <div class="detail-hero ${isDetailArtistFav ? "detail-artist-is-fav" : ""}">
+        <div class="detail-avatar-wrap" title="編集モード時：タップでオススメ切替">
           ${renderAvatarHTML(artist, true)}
+          <span class="avatar-edit-heart-badge detail-avatar-heart-badge" aria-hidden="true">${HEART_SVG_INNER}</span>
         </div>
         <h2 class="detail-artist-name">${artist.name === "神崎エルザ (ガンゲイル・オンライン)" ? `<span class="name-pc-only">${esc(artist.name)}</span><span class="name-mob-only">神崎エルザ(GGO)</span>` : esc(artist.name)}${isRecommendedArtist(artist.name) ? `<span class="detail-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : ""}</h2>
         <div class="detail-meta-row">
@@ -2758,10 +2878,22 @@
       mobRecBtn.classList.toggle("active-cat", state.view === "recommend");
     }
 
-    // Hide "#" rank header text when in "recommend" view (since rank numbers are hidden)
-    const listColFirstSpan = document.querySelector(".list-col-header > span:first-child");
-    if (listColFirstSpan) {
-      listColFirstSpan.textContent = state.view === "recommend" ? "" : "#";
+    // Sync list-col-header labels & song-list-mode (hide 登録楽曲数 and show 曲名 across full width in 楽曲検索 & オススメ曲)
+    const isSongListMode =
+      (state.view === "recommend" && state.recommendTab === "song") ||
+      (state.view === "search" && state.searchTarget === "song");
+    document.body.classList.toggle("song-list-mode", isSongListMode);
+    const listColHeaderEl = document.getElementById("listColHeader") || document.querySelector(".list-col-header");
+    if (listColHeaderEl) {
+      listColHeaderEl.classList.toggle("song-list-mode", isSongListMode);
+    }
+    const listColRankEl = document.getElementById("listColRankLabel") || document.querySelector(".list-col-header > span:first-child");
+    if (listColRankEl) {
+      listColRankEl.textContent = state.view === "recommend" ? "" : "#";
+    }
+    const listColMainEl = document.getElementById("listColMainLabel") || document.querySelector(".list-col-header > span:nth-child(3)");
+    if (listColMainEl) {
+      listColMainEl.textContent = isSongListMode ? "曲名" : "アーティスト";
     }
 
     // Highlight active stat pill (PC) & stat card (Mobile)
@@ -3096,10 +3228,40 @@
       mobTopHomeBtn.addEventListener("click", resetToHomeState);
     }
 
+    function triggerMobileSearchTransition(triggerBtn) {
+      if (triggerBtn) {
+        triggerBtn.classList.add("mob-search-tap-active");
+      }
+      setTimeout(() => {
+        if (triggerBtn) {
+          triggerBtn.classList.remove("mob-search-tap-active");
+        }
+        pushHistorySnapshot(false);
+        state.view = "search";
+        closeDetailPanel();
+        closeMobFilterSheet();
+        updateUI(true);
+        const scrollEl = document.getElementById("centerScrollArea");
+        if (scrollEl) {
+          scrollEl.classList.remove("mob-search-screen-enter");
+          void scrollEl.offsetWidth;
+          scrollEl.classList.add("mob-search-screen-enter");
+        }
+        setTimeout(() => {
+          const inp = document.getElementById("mainSearchInput");
+          if (inp) inp.focus();
+        }, 65);
+      }, 55);
+    }
+
     // Navigation buttons (Left Sidebar & Mobile Bottom Nav)
     document.querySelectorAll("[data-nav-view]").forEach(btn => {
       btn.addEventListener("click", () => {
         const targetView = btn.getAttribute("data-nav-view");
+        if (targetView === "search" && window.innerWidth <= 900) {
+          triggerMobileSearchTransition(btn);
+          return;
+        }
         pushHistorySnapshot(false);
         state.view = targetView;
         if (targetView === "all" || targetView === "cat1" || targetView === "cat2" || targetView === "recommend") {
@@ -3124,6 +3286,10 @@
     const mobTopSearchBtn = document.getElementById("mobTopSearchBtn");
     if (mobTopSearchBtn) {
       mobTopSearchBtn.addEventListener("click", () => {
+        if (window.innerWidth <= 900) {
+          triggerMobileSearchTransition(mobTopSearchBtn);
+          return;
+        }
         state.view = "search";
         closeDetailPanel();
         closeMobFilterSheet();
@@ -3443,7 +3609,7 @@
         const nextTab = recTabBtn.getAttribute("data-recommend-tab") || "artist";
         if (state.recommendTab !== nextTab) {
           state.recommendTab = nextTab;
-          updateUI(true);
+          updateUI(false);
         }
         return;
       }
@@ -3568,7 +3734,7 @@
       return { added, removed, hasChanges: added.length > 0 || removed.length > 0 };
     }
 
-    function updateFavEditBannerStatus() {
+    updateFavEditBannerStatus = function() {
       const diffBadge = document.getElementById("favQeDiffBadge");
       const discardBtn = document.getElementById("discardFavQuickEditBtn");
       const migrateBtn = document.getElementById("openLegacyMigrateBtn");
@@ -4277,6 +4443,13 @@
         return;
       }
       if (favQuickEditMode) {
+        const avatarOrName = e.target.closest(".detail-avatar-wrap, .detail-artist-name");
+        if (avatarOrName && state.selectedArtistName) {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleRecommendedArtist(state.selectedArtistName);
+          return;
+        }
         const addSongBtn = e.target.closest("#editAddSongSubmitBtn");
         if (addSongBtn) {
           const inp = document.getElementById("editAddSongInput");
