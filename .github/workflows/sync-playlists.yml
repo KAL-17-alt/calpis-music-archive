@@ -2,9 +2,24 @@ name: Auto Sync YouTube Playlists
 
 on:
   schedule:
-    # 毎日 04:00 JST (19:00 UTC) に自動実行
-    - cron: '0 19 * * *'
-  workflow_dispatch: # GitHubのActionsタブからいつでも手動実行可能
+    # 毎日 06:00 JST (21:00 UTC) に自動実行（初期化完了後の新曲のみ同期）
+    - cron: '0 21 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '実行モード (init: 初回のみ全曲を登録済み記録 / sync: 通常同期 / verify_gemini: Gemini疎通テスト)'
+        required: true
+        default: 'sync'
+        type: choice
+        options:
+          - sync
+          - init
+          - verify_gemini
+      gemini_model:
+        description: '使用するGeminiモデル (空欄時は gemini-3.5-flash-lite を第一候補として自動選択)'
+        required: false
+        default: 'gemini-3.5-flash-lite'
+        type: string
 
 permissions:
   contents: write
@@ -26,49 +41,29 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           YOUTUBE_PLAYLIST_IDS: ${{ secrets.YOUTUBE_PLAYLIST_IDS }}
         run: |
-          python3 - <<'PY'
-          import os, json, urllib.request, urllib.error
-          from urllib.parse import urlencode
-
-          key = os.getenv("YOUTUBE_API_KEY", "").strip()
-          ids = os.getenv("YOUTUBE_PLAYLIST_IDS", "").strip()
-
-          print("API key exists:", bool(key))
-          print("Playlist ID exists:", bool(ids))
-
-          if not key or not ids:
-              raise SystemExit("GitHub Secret is missing")
-
-          params = urlencode({
-              "part": "snippet",
-              "playlistId": ids.split(",")[0].strip(),
-              "maxResults": 1,
-              "key": key
-          })
-
-          url = "https://www.googleapis.com/youtube/v3/playlistItems?" + params
-
-          try:
-              with urllib.request.urlopen(url, timeout=30) as r:
-                  data = json.load(r)
-                  print("YouTube API: SUCCESS")
-                  print("Items returned:", len(data.get("items", [])))
-          except urllib.error.HTTPError as ex:
-              error = json.loads(ex.read().decode())
-              detail = error.get("error", {})
-              message = detail.get("message", "").replace(key, "[REDACTED]")
-              print("HTTP:", ex.code)
-              print("API status:", detail.get("status"))
-              print("Reason:", [x.get("reason") for x in detail.get("errors", [])])
-              print("Message:", message)
-              raise SystemExit(1)
-          PY
+          python3 - << 'EOF'
+          import json, os, re, urllib.parse, urllib.request
+          yt_key = os.environ.get("YOUTUBE_API_KEY", "").strip()
+          pl_raw = os.environ.get("YOUTUBE_PLAYLIST_IDS", "").strip()
+          pl_ids = [p.strip() for p in re.split(r"[,\s]+", pl_raw) if p.strip()]
+          print(f"API key exists: {bool(yt_key)}")
+          print(f"Playlist ID exists: {bool(pl_ids)} (count={len(pl_ids)})")
+          if yt_key and pl_ids:
+              params = urllib.parse.urlencode({"part": "id", "playlistId": pl_ids[0], "maxResults": "1", "key": yt_key})
+              url = f"https://www.googleapis.com/youtube/v3/playlistItems?{params}"
+              req = urllib.request.Request(url, headers={"User-Agent": "CalpisMusicArchiveDiag/2.0"})
+              with urllib.request.urlopen(req, timeout=20) as resp:
+                  data = json.loads(resp.read().decode("utf-8"))
+                  print(f"YouTube API: SUCCESS (totalResults={data.get('pageInfo', {}).get('totalResults', 'unknown')})")
+          EOF
 
       - name: Run YouTube Playlist & Gemini AI Sync
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           YOUTUBE_PLAYLIST_IDS: ${{ secrets.YOUTUBE_PLAYLIST_IDS }}
+          SYNC_MODE: ${{ github.event.inputs.mode || 'sync' }}
+          GEMINI_MODEL: ${{ github.event.inputs.gemini_model || 'gemini-3.5-flash-lite' }}
         run: |
           python3 scripts/sync_youtube_playlists.py
 
@@ -76,10 +71,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/artists_master.json data/processed_videos.json data/pending_review.json data/auto_sync_log.json PENDING_REVIEW.md data.js || true
+          git add data/artists_master.json data/processed_videos.json data/sync_state.json data/pending_review.json data/recommended_artists.json data/auto_sync_log.json PENDING_REVIEW.md data.js calpis-music-archive.html || true
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "chore: auto-sync playlists and update pending review list"
+            git commit -m "chore: auto-sync playlists and update state (${{ github.event.inputs.mode || 'sync' }})"
             git push
           fi
