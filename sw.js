@@ -21,7 +21,7 @@ self.addEventListener('fetch', event => {
   if (url.origin !== self.location.origin) return;
   // Navigation, scripts, and JSON always use the browser's normal HTTP path.
   // Do not serve stale or missing archive data from Service Worker caches.
-  if (event.request.mode === 'navigate' || /\.(?:html|js|json)$/i.test(url.pathname) || url.pathname === '/') return;
+  if (event.request.mode === 'navigate' || url.pathname.startsWith('/api/') || /\.(?:html|js|json)$/i.test(url.pathname) || url.pathname === '/') return;
 
   // Preserve the previous network-first behavior for non-critical assets.
   event.respondWith(fetch(event.request).catch(async () => {

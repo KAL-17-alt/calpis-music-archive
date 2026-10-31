@@ -42,12 +42,105 @@
 <body>
   <!-- Owner-only Quick Heart Edit Mode Banner (Hidden unless activated by 5 taps) -->
   <div class="fav-quick-edit-banner" id="favQuickEditBanner" role="status" aria-live="polite">
-    <span class="fav-qe-left">
-      <span class="fav-qe-dot"></span>
-      <span class="fav-qe-text"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg> 高速ハート編集モード ON（丸アイコン1タップで好き設定）</span>
-    </span>
-    <button type="button" class="fav-qe-exit-btn" id="exitFavQuickEditBtn">完了して閉じる</button>
+    <div class="fav-qe-main-row">
+      <span class="fav-qe-left">
+        <span class="fav-qe-dot"></span>
+        <span class="fav-qe-text"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg> 高速ハート編集モード ON</span>
+        <span class="fav-qe-diff-badge" id="favQeDiffBadge">変更なし</span>
+      </span>
+      <span class="fav-qe-actions">
+        <button type="button" class="fav-qe-migrate-btn" id="openLegacyMigrateBtn" style="display:none;" title="この端末のlocalStorageにある既存ハート設定をサーバーへ移行">端末データ移行</button>
+        <button type="button" class="fav-qe-discard-btn" id="discardFavQuickEditBtn" style="display:none;" title="未保存の変更を破棄して編集前の状態に戻す">取消</button>
+        <button type="button" class="fav-qe-exit-btn" id="exitFavQuickEditBtn">完了して閉じる</button>
+      </span>
+    </div>
+    <div class="fav-qe-error-row" id="favQeErrorRow" style="display:none;" role="alert">
+      <span class="fav-qe-error-msg" id="favQeErrorMsg">保存に失敗しました。変更内容は端末内に保持されています。</span>
+      <span class="fav-qe-error-actions">
+        <button type="button" class="fav-qe-retry-btn" id="retryFavSaveBtn">再試行</button>
+        <button type="button" class="fav-qe-keep-close-btn" id="closeKeepDraftBtn">一時保存して閉じる</button>
+      </span>
+    </div>
   </div>
+
+  <!-- Unsaved Draft Recovery Banner (Shown if browser was closed mid-edit without pressing 完了して閉じる) -->
+  <div class="fav-draft-restore-banner" id="favDraftRestoreBanner" style="display:none;" role="status" aria-live="polite">
+    <span class="fav-draft-restore-text" id="favDraftRestoreText">前回の未保存のハート編集内容が端末に保持されています。</span>
+    <span class="fav-draft-restore-actions">
+      <button type="button" class="fav-draft-btn-primary" id="resumeFavDraftBtn">編集を再開</button>
+      <button type="button" class="fav-draft-btn-save" id="saveFavDraftNowBtn">今すぐ保存</button>
+      <button type="button" class="fav-draft-btn-discard" id="discardFavDraftBtn">破棄</button>
+    </span>
+  </div>
+
+  <!-- Initial localStorage -> Server Migration Modal -->
+  <div class="about-modal-overlay fav-sync-modal-overlay" id="favMigrationModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="favMigrationTitle">
+    <div class="about-modal-card fav-sync-modal-card">
+      <div class="about-modal-header">
+        <div class="about-modal-title-wrap">
+          <span class="about-modal-icon">❤</span>
+          <h2 class="about-modal-title" id="favMigrationTitle">既存の「かるのオススメ」サーバー初回移行</h2>
+        </div>
+        <button type="button" class="about-modal-close" id="closeFavMigrationModalBtn" aria-label="閉じる">✕</button>
+      </div>
+      <div class="about-modal-body fav-sync-modal-body">
+        <p class="fav-sync-lead" id="favMigrationLead">この端末に保存されている既存のハート設定をサーバーへ移行し、PC・スマホ・PWA・全閲覧者間で共有できるようにします。</p>
+        <div class="fav-sync-preview-box">
+          <div class="fav-sync-preview-header">
+            <span>この端末の既存ハート設定</span>
+            <strong id="favMigrationCountBadge">0 名義</strong>
+          </div>
+          <div class="fav-sync-preview-list" id="favMigrationPreviewList"></div>
+        </div>
+        <div class="fav-sync-error-box" id="favMigrationErrorBox" style="display:none;" role="alert"></div>
+        <div class="fav-sync-modal-actions">
+          <button type="button" class="fav-sync-btn fav-sync-btn-primary" id="confirmFavMigrationBtn">確認してこの端末からサーバーへ移行する</button>
+          <button type="button" class="fav-sync-btn fav-sync-btn-secondary" id="postponeFavMigrationBtn">あとで（今は移行しない）</button>
+          <button type="button" class="fav-sync-btn fav-sync-btn-ghost" id="skipDeviceFavMigrationBtn">この端末からは移行しない（別端末から移行する）</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-Device Conflict Resolution Modal -->
+  <div class="about-modal-overlay fav-sync-modal-overlay" id="favConflictModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="favConflictTitle">
+    <div class="about-modal-card fav-sync-modal-card">
+      <div class="about-modal-header">
+        <div class="about-modal-title-wrap">
+          <span class="about-modal-icon">!</span>
+          <h2 class="about-modal-title" id="favConflictTitle">他端末での更新を検出しました（上書き防止）</h2>
+        </div>
+        <button type="button" class="about-modal-close" id="closeFavConflictModalBtn" aria-label="閉じる">✕</button>
+      </div>
+      <div class="about-modal-body fav-sync-modal-body">
+        <p class="fav-sync-lead">この端末で編集している間に、別の端末から「かるのオススメ」が更新されました。意図しない上書きを防ぐため、保存方法を選択してください。</p>
+        <div class="fav-conflict-grid">
+          <div class="fav-sync-preview-box">
+            <div class="fav-sync-preview-header">
+              <span>この端末での変更内容</span>
+              <strong id="favConflictLocalSummary">0 名義</strong>
+            </div>
+            <div class="fav-sync-preview-list" id="favConflictLocalDetail"></div>
+          </div>
+          <div class="fav-sync-preview-box">
+            <div class="fav-sync-preview-header">
+              <span>サーバーの最新データ</span>
+              <strong id="favConflictServerSummary">0 名義</strong>
+            </div>
+            <div class="fav-sync-preview-list" id="favConflictServerDetail"></div>
+          </div>
+        </div>
+        <div class="fav-sync-modal-actions">
+          <button type="button" class="fav-sync-btn fav-sync-btn-primary" id="conflictMergeSaveBtn">両方の変更を合体して保存（推奨）</button>
+          <button type="button" class="fav-sync-btn fav-sync-btn-secondary" id="conflictForceOverwriteBtn">この端末の内容でそのまま上書き保存</button>
+          <button type="button" class="fav-sync-btn fav-sync-btn-ghost" id="conflictLoadServerBtn">サーバーの最新データを反映（今回の変更を破棄）</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightweight Sync Status Toast -->
+  <div class="fav-sync-toast" id="favSyncToast" role="status" aria-live="polite" aria-atomic="true"></div>
   <!-- ① Simplified Clean Mobile Top Header Bar (with Home Reset & Search) -->
   <header class="mobile-top-bar">
     <div class="mobile-top-left">

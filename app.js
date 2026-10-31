@@ -34,73 +34,280 @@
   const VALID_FONT_SCALES = [100, 125, 150, 175];
   const FONT_SCALE_STORAGE_KEY = "calpis_pc_font_scale";
   const RECOMMENDED_STORAGE_KEY = "calpis_recommended_artists_v1";
+  const RECOMMENDED_BACKUP_KEY = "calpis_recommended_artists_v1_backup";
+  const FAV_SERVER_CACHE_KEY = "calpis_fav_server_cache_v1";
+  const FAV_UNSAVED_DRAFT_KEY = "calpis_fav_unsaved_draft_v1";
+  const FAV_MIGRATION_STATE_KEY = "calpis_fav_migration_state_v1";
+  const FAV_API_ENDPOINT = "./api/favorites";
 
-  // Recommended ("かるのオススメ" / 好き設定) Set: merges master `a.rec` flags + browser localStorage
-  const recommendedSet = new Set();
+  // Build stable Artist Identifier (`aid`) maps so renames or sort order changes never break hearts
+  const AID_TO_ARTIST = new Map();
+  const NAME_TO_AID = new Map();
+  const NORM_NAME_TO_AID = new Map();
+
+  function normLookupKey(s) {
+    return String(s || "").trim().replace(/[\s\u3000]+/g, " ").toLowerCase();
+  }
+
+  DATA.forEach((a, idx) => {
+    if (!a) return;
+    if (!a.aid || typeof a.aid !== "string") {
+      a.aid = "a_" + String(idx + 1).padStart(4, "0");
+    }
+    AID_TO_ARTIST.set(a.aid, a);
+    if (a.name) {
+      NAME_TO_AID.set(a.name, a.aid);
+      NORM_NAME_TO_AID.set(normLookupKey(a.name), a.aid);
+    }
+    if (Array.isArray(a.al)) {
+      a.al.forEach(alias => {
+        if (typeof alias === "string" && alias.trim()) {
+          const nk = normLookupKey(alias);
+          if (!NORM_NAME_TO_AID.has(nk)) NORM_NAME_TO_AID.set(nk, a.aid);
+        }
+      });
+    }
+  });
+
+  function resolveToAid(nameOrAid) {
+    if (!nameOrAid || typeof nameOrAid !== "string") return null;
+    const t = nameOrAid.trim();
+    if (!t) return null;
+    if (AID_TO_ARTIST.has(t)) return t;
+    if (NAME_TO_AID.has(t)) return NAME_TO_AID.get(t);
+    const nk = normLookupKey(t);
+    if (NORM_NAME_TO_AID.has(nk)) return NORM_NAME_TO_AID.get(nk);
+    return null;
+  }
+
+  function resolveAidToName(aid) {
+    const a = AID_TO_ARTIST.get(aid);
+    return a ? a.name : null;
+  }
+
+  // Active set of recommended artist stable IDs (`aid`)
+  const recommendedAidSet = new Set();
   let favQuickEditMode = false;
+  let isSavingFavorites = false;
 
-  function loadRecommendedArtists() {
-    recommendedSet.clear();
+  // Server synchronization & optimistic concurrency tracking
+  let serverFavIds = [];         // Sorted array of `aid`s confirmed on server
+  let serverVersion = 0;         // Server version integer (0 = uninitialized)
+  let serverConfigured = true;   // Whether server storage backend is configured
+  let hasFetchedServerOnce = false;
+  let lastServerFetchAt = 0;
+
+  // Edit session baseline snapshot (captured when entering edit mode)
+  let editSessionBaseIds = [];
+  let editSessionBaseVersion = 0;
+
+  function getSortedCurrentAids() {
+    const arr = [];
     DATA.forEach(a => {
-      if (a && a.rec) recommendedSet.add(a.name);
+      if (a && a.aid && recommendedAidSet.has(a.aid)) {
+        arr.push(a.aid);
+      }
+    });
+    arr.sort();
+    return arr;
+  }
+
+  function areAidArraysEqual(a, b) {
+    if (!Array.isArray(a) || !Array.isArray(b)) return false;
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  }
+
+  function setRecommendedFromAids(aids) {
+    recommendedAidSet.clear();
+    if (!Array.isArray(aids)) return;
+    aids.forEach(item => {
+      const aid = resolveToAid(item);
+      if (aid) recommendedAidSet.add(aid);
+    });
+  }
+
+  /**
+   * Reads legacy `calpis_recommended_artists_v1` from localStorage without modifying or deleting it.
+   * Returns an array of resolved `aid`s.
+   */
+  function getLegacyLocalStorageAids() {
+    const tempSet = new Set();
+    DATA.forEach(a => {
+      if (a && a.rec && a.aid) tempSet.add(a.aid);
     });
     try {
-      const raw = localStorage.getItem(RECOMMENDED_STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) {
-          parsed.forEach(name => {
-            if (typeof name === "string" && name.trim()) {
-              if (name.startsWith("-")) {
-                recommendedSet.delete(name.slice(1));
-              } else {
-                recommendedSet.add(name.trim());
-              }
-            }
-          });
+      const raw = localStorage.getItem(RECOMMENDED_STORAGE_KEY) || localStorage.getItem(RECOMMENDED_BACKUP_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+      parsed.forEach(entry => {
+        if (typeof entry === "string" && entry.trim()) {
+          if (entry.startsWith("-")) {
+            const aid = resolveToAid(entry.slice(1));
+            if (aid) tempSet.delete(aid);
+          } else {
+            const aid = resolveToAid(entry.trim());
+            if (aid) tempSet.add(aid);
+          }
         }
+      });
+    } catch (e) {
+      return [];
+    }
+    return Array.from(tempSet).sort();
+  }
+
+  function loadFavServerCache() {
+    try {
+      const raw = localStorage.getItem(FAV_SERVER_CACHE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.ids)) {
+        const cleanIds = [];
+        const seen = new Set();
+        parsed.ids.forEach(x => {
+          const aid = resolveToAid(x);
+          if (aid && !seen.has(aid)) {
+            seen.add(aid);
+            cleanIds.push(aid);
+          }
+        });
+        cleanIds.sort();
+        return {
+          ids: cleanIds,
+          version: typeof parsed.version === "number" ? parsed.version : 0,
+          updatedAt: parsed.updatedAt || null
+        };
       }
     } catch (e) {}
+    return null;
   }
 
-  function saveRecommendedArtists() {
+  function saveFavServerCache(ids, version, updatedAt) {
     try {
-      const overrides = [];
-      DATA.forEach(a => {
-        const inSet = recommendedSet.has(a.name);
-        if (inSet && !a.rec) overrides.push(a.name);
-        else if (!inSet && a.rec) overrides.push("-" + a.name);
-      });
-      recommendedSet.forEach(name => {
-        if (! overrides.includes(name)) {
-          const a = DATA.find(x => x.name === name);
-          if (!a || !a.rec) overrides.push(name);
-        }
-      });
-      localStorage.setItem(RECOMMENDED_STORAGE_KEY, JSON.stringify(Array.from(new Set(overrides))));
+      localStorage.setItem(FAV_SERVER_CACHE_KEY, JSON.stringify({
+        ids: Array.isArray(ids) ? ids : [],
+        version: typeof version === "number" ? version : 0,
+        updatedAt: updatedAt || new Date().toISOString(),
+        cachedAt: Date.now()
+      }));
     } catch (e) {}
   }
 
-  function isRecommendedArtist(name) {
-    return Boolean(name && recommendedSet.has(name));
+  function loadUnsavedDraft() {
+    try {
+      const raw = localStorage.getItem(FAV_UNSAVED_DRAFT_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.ids)) return null;
+      const cleanIds = [];
+      const seen = new Set();
+      parsed.ids.forEach(x => {
+        const aid = resolveToAid(x);
+        if (aid && !seen.has(aid)) {
+          seen.add(aid);
+          cleanIds.push(aid);
+        }
+      });
+      cleanIds.sort();
+      const baseIds = Array.isArray(parsed.baseIds)
+        ? parsed.baseIds.map(resolveToAid).filter(Boolean).sort()
+        : [];
+      return {
+        ids: cleanIds,
+        baseIds,
+        baseVersion: typeof parsed.baseVersion === "number" ? parsed.baseVersion : 0,
+        updatedAt: parsed.updatedAt || Date.now()
+      };
+    } catch (e) {}
+    return null;
+  }
+
+  function saveUnsavedDraft() {
+    try {
+      const currentIds = getSortedCurrentAids();
+      if (areAidArraysEqual(currentIds, editSessionBaseIds)) {
+        localStorage.removeItem(FAV_UNSAVED_DRAFT_KEY);
+        return;
+      }
+      localStorage.setItem(FAV_UNSAVED_DRAFT_KEY, JSON.stringify({
+        ids: currentIds,
+        baseIds: editSessionBaseIds,
+        baseVersion: editSessionBaseVersion,
+        updatedAt: Date.now()
+      }));
+    } catch (e) {}
+  }
+
+  function clearUnsavedDraft() {
+    try {
+      localStorage.removeItem(FAV_UNSAVED_DRAFT_KEY);
+    } catch (e) {}
+  }
+
+  function hasActiveUnsavedDraft() {
+    const d = loadUnsavedDraft();
+    if (!d) return false;
+    return !areAidArraysEqual(d.ids, d.baseIds);
+  }
+
+  // Initial synchronous boot load (0ms blocking)
+  function loadRecommendedArtists() {
+    const cachedServer = loadFavServerCache();
+    const unsavedDraft = loadUnsavedDraft();
+    const legacyAids = getLegacyLocalStorageAids();
+
+    if (cachedServer && (cachedServer.version > 0 || cachedServer.ids.length > 0)) {
+      serverFavIds = cachedServer.ids;
+      serverVersion = cachedServer.version;
+      setRecommendedFromAids(serverFavIds);
+    } else if (legacyAids.length > 0) {
+      // Display local legacy hearts until server responds
+      setRecommendedFromAids(legacyAids);
+    } else {
+      setRecommendedFromAids([]);
+    }
+
+    // If there is an uncommitted draft from a previous session, keep it protected and visible
+    if (unsavedDraft && !areAidArraysEqual(unsavedDraft.ids, unsavedDraft.baseIds)) {
+      editSessionBaseIds = unsavedDraft.baseIds;
+      editSessionBaseVersion = unsavedDraft.baseVersion;
+      setRecommendedFromAids(unsavedDraft.ids);
+    } else {
+      editSessionBaseIds = [...serverFavIds];
+      editSessionBaseVersion = serverVersion;
+    }
+  }
+
+  function isRecommendedArtist(nameOrAid) {
+    const aid = resolveToAid(nameOrAid);
+    return Boolean(aid && recommendedAidSet.has(aid));
   }
 
   function getRecommendedCount() {
     let cnt = 0;
     DATA.forEach(a => {
-      if (recommendedSet.has(a.name)) cnt++;
+      if (a && a.aid && recommendedAidSet.has(a.aid)) cnt++;
     });
     return cnt;
   }
 
+  // Toggling in Quick-Heart Edit Mode ONLY updates screen + localStorage draft (NO server request!)
   function toggleRecommendedArtist(name) {
-    if (!name || !ARTIST_MAP.has(name)) return;
-    if (recommendedSet.has(name)) {
-      recommendedSet.delete(name);
+    if (isSavingFavorites) return;
+    const aid = resolveToAid(name);
+    if (!aid) return;
+    if (recommendedAidSet.has(aid)) {
+      recommendedAidSet.delete(aid);
     } else {
-      recommendedSet.add(name);
+      recommendedAidSet.add(aid);
     }
-    saveRecommendedArtists();
+    saveUnsavedDraft();
+    updateFavEditBannerStatus();
     renderStaticStats();
     updateUI(false);
     renderDetailPanel(false);
@@ -2869,9 +3076,502 @@
 
 
 
-    // Secret 5-tap on top-left logo (.brand-disc-icon or .mobile-top-left) to toggle Quick-Heart Edit Mode
-    // (When active, tapping any artist's circular icon in the main list toggles ♥ in 1 tap;
-    //  also copies the JSON array of recommended artist names to clipboard for optional GitHub sync)
+    // =========================================================================
+    // V47: SERVER-SHARED FAVORITES ("かるのオススメ") SYNC, MIGRATION & EDIT CONTROLLER
+    // =========================================================================
+    let favToastTimer = null;
+    function showFavSyncToast(message, isWarn = false, durationMs = 3400) {
+      const toastEl = document.getElementById("favSyncToast");
+      if (!toastEl) return;
+      toastEl.textContent = message;
+      toastEl.classList.toggle("toast-warn", Boolean(isWarn));
+      toastEl.classList.add("show");
+      if (favToastTimer) clearTimeout(favToastTimer);
+      favToastTimer = setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, durationMs);
+    }
+
+    function computeDiffCounts(baseIds, currentIds) {
+      const baseSet = new Set(baseIds || []);
+      const curSet = new Set(currentIds || []);
+      const added = [];
+      const removed = [];
+      curSet.forEach(id => {
+        if (!baseSet.has(id)) added.push(id);
+      });
+      baseSet.forEach(id => {
+        if (!curSet.has(id)) removed.push(id);
+      });
+      return { added, removed, hasChanges: added.length > 0 || removed.length > 0 };
+    }
+
+    function updateFavEditBannerStatus() {
+      const diffBadge = document.getElementById("favQeDiffBadge");
+      const discardBtn = document.getElementById("discardFavQuickEditBtn");
+      const migrateBtn = document.getElementById("openLegacyMigrateBtn");
+      const exitBtn = document.getElementById("exitFavQuickEditBtn");
+      const currentIds = getSortedCurrentAids();
+      const diff = computeDiffCounts(editSessionBaseIds, currentIds);
+
+      if (diffBadge) {
+        if (!diff.hasChanges) {
+          diffBadge.textContent = `変更なし (${currentIds.length}名義)`;
+          diffBadge.classList.remove("has-changes");
+        } else {
+          const parts = [];
+          if (diff.added.length > 0) parts.push(`+${diff.added.length}`);
+          if (diff.removed.length > 0) parts.push(`-${diff.removed.length}`);
+          diffBadge.textContent = `未保存の変更: ${parts.join(" / ")} (計${currentIds.length}名義)`;
+          diffBadge.classList.add("has-changes");
+        }
+      }
+      if (discardBtn) {
+        discardBtn.style.display = diff.hasChanges && !isSavingFavorites ? "inline-flex" : "none";
+      }
+      if (migrateBtn) {
+        const legacyAids = getLegacyLocalStorageAids();
+        const migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY);
+        migrateBtn.style.display = (legacyAids.length > 0 && migState !== "migrated" && !isSavingFavorites)
+          ? "inline-flex"
+          : "none";
+        if (legacyAids.length > 0) {
+          migrateBtn.textContent = `端末の既存ハート(${legacyAids.length}件)を移行`;
+        }
+      }
+      if (exitBtn && !isSavingFavorites) {
+        exitBtn.disabled = false;
+        exitBtn.textContent = "完了して閉じる";
+      }
+    }
+
+    function hideFavEditError() {
+      const errRow = document.getElementById("favQeErrorRow");
+      if (errRow) errRow.style.display = "none";
+    }
+
+    function showFavEditError(msg) {
+      const errRow = document.getElementById("favQeErrorRow");
+      const errMsg = document.getElementById("favQeErrorMsg");
+      if (errMsg) errMsg.textContent = msg || "サーバーへの保存に失敗しました。変更内容は端末内に保持されています。";
+      if (errRow) errRow.style.display = "flex";
+    }
+
+    function updateDraftRestoreBannerUI() {
+      const banner = document.getElementById("favDraftRestoreBanner");
+      const textEl = document.getElementById("favDraftRestoreText");
+      if (!banner) return;
+      if (favQuickEditMode) {
+        banner.style.display = "none";
+        return;
+      }
+      const draft = loadUnsavedDraft();
+      if (draft && !areAidArraysEqual(draft.ids, draft.baseIds)) {
+        const diff = computeDiffCounts(draft.baseIds, draft.ids);
+        if (textEl) {
+          textEl.textContent = `前回の未保存のハート編集内容（+${diff.added.length} / -${diff.removed.length}、計${draft.ids.length}名義）が端末に残っています。`;
+        }
+        banner.style.display = "flex";
+      } else {
+        banner.style.display = "none";
+      }
+    }
+
+    function enterFavQuickEditMode() {
+      if (favQuickEditMode) return;
+      const existingDraft = loadUnsavedDraft();
+      if (existingDraft && !areAidArraysEqual(existingDraft.ids, existingDraft.baseIds)) {
+        editSessionBaseIds = existingDraft.baseIds;
+        editSessionBaseVersion = existingDraft.baseVersion;
+        setRecommendedFromAids(existingDraft.ids);
+      } else {
+        editSessionBaseIds = hasFetchedServerOnce ? [...serverFavIds] : getSortedCurrentAids();
+        editSessionBaseVersion = serverVersion;
+      }
+      favQuickEditMode = true;
+      hideFavEditError();
+      document.body.classList.add("fav-quick-edit-mode");
+      updateDraftRestoreBannerUI();
+      updateFavEditBannerStatus();
+      renderStaticStats();
+      updateUI(false);
+      renderDetailPanel(false);
+
+      // Refresh baseline quietly if no changes have been made yet in this edit session
+      fetchServerFavorites({ silent: true, fresh: true });
+    }
+
+    function closeFavQuickEditModeCleanly() {
+      favQuickEditMode = false;
+      isSavingFavorites = false;
+      hideFavEditError();
+      document.body.classList.remove("fav-quick-edit-mode");
+      updateDraftRestoreBannerUI();
+      updateFavEditBannerStatus();
+    }
+
+    // Save changes to server ONLY when pressing 「完了して閉じる」
+    async function saveFavoritesToServer(options = {}) {
+      if (isSavingFavorites) return;
+      const forceOverwrite = Boolean(options.forceOverwrite);
+      const customIds = Array.isArray(options.customIds) ? options.customIds : null;
+      const customBaseVersion = typeof options.customBaseVersion === "number" ? options.customBaseVersion : editSessionBaseVersion;
+
+      const targetIds = customIds ? [...customIds].sort() : getSortedCurrentAids();
+
+      // Requirement 1-5: Skip server write if there are no changes
+      if (!forceOverwrite && areAidArraysEqual(targetIds, editSessionBaseIds) && (!hasFetchedServerOnce || areAidArraysEqual(targetIds, serverFavIds))) {
+        clearUnsavedDraft();
+        closeFavQuickEditModeCleanly();
+        showFavSyncToast("変更はありませんでした（編集モードを終了しました）");
+        return;
+      }
+
+      isSavingFavorites = true;
+      hideFavEditError();
+      const exitBtn = document.getElementById("exitFavQuickEditBtn");
+      const discardBtn = document.getElementById("discardFavQuickEditBtn");
+      if (exitBtn) {
+        exitBtn.disabled = true;
+        exitBtn.textContent = "保存中...";
+      }
+      if (discardBtn) discardBtn.style.display = "none";
+
+      const clientRequestId = `req_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
+      try {
+        const resp = await fetch(FAV_API_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Calpis-Client": "archive-v1",
+            "X-Calpis-Edit-Intent": "1"
+          },
+          body: JSON.stringify({
+            action: "save",
+            ids: targetIds,
+            baseVersion: customBaseVersion,
+            forceOverwrite,
+            clientRequestId
+          }),
+          cache: "no-store"
+        });
+
+        const data = await resp.json().catch(() => null);
+
+        if (resp.status === 409 && data && data.serverData) {
+          // Conflict detected! Do not overwrite silently; open Conflict Resolution Modal
+          isSavingFavorites = false;
+          updateFavEditBannerStatus();
+          openFavConflictModal(data.serverData);
+          return;
+        }
+
+        if (!resp.ok || !data || !data.ok) {
+          const errMsg = (data && data.message)
+            ? data.message
+            : `サーバー保存エラー (HTTP ${resp.status})。変更内容は維持されています。`;
+          throw new Error(errMsg);
+        }
+
+        // Success! Update confirmed server baseline and clear local draft
+        const savedIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean).sort() : targetIds;
+        serverFavIds = savedIds;
+        serverVersion = typeof data.version === "number" ? data.version : (customBaseVersion + 1);
+        hasFetchedServerOnce = true;
+        editSessionBaseIds = [...serverFavIds];
+        editSessionBaseVersion = serverVersion;
+
+        setRecommendedFromAids(serverFavIds);
+        saveFavServerCache(serverFavIds, serverVersion, data.updatedAt);
+        clearUnsavedDraft();
+
+        // Once saved to server, mark device migration state so old localStorage never prompts again
+        try {
+          const rawLegacy = localStorage.getItem(RECOMMENDED_STORAGE_KEY);
+          if (rawLegacy && !localStorage.getItem(RECOMMENDED_BACKUP_KEY)) {
+            localStorage.setItem(RECOMMENDED_BACKUP_KEY, rawLegacy);
+          }
+          localStorage.setItem(FAV_MIGRATION_STATE_KEY, "migrated");
+        } catch (e) {}
+
+        closeFavQuickEditModeCleanly();
+        renderStaticStats();
+        updateUI(false);
+        renderDetailPanel(false);
+        showFavSyncToast(`「かるのオススメ」（${serverFavIds.length}名義）をサーバーに保存しました`);
+      } catch (err) {
+        // Save failed: keep edit mode open, preserve changes in recommendedAidSet & localStorage draft
+        isSavingFavorites = false;
+        saveUnsavedDraft();
+        updateFavEditBannerStatus();
+        const exitBtnRetry = document.getElementById("exitFavQuickEditBtn");
+        if (exitBtnRetry) {
+          exitBtnRetry.disabled = false;
+          exitBtnRetry.textContent = "再試行して保存";
+        }
+        showFavEditError(err && err.message ? err.message : "通信エラーのため保存できませんでした。変更内容は保持されています。");
+      }
+    }
+
+    // Fetch shared favorites from server (startup + visibility/periodic check)
+    async function fetchServerFavorites(options = {}) {
+      const isInitial = Boolean(options.isInitial);
+      const silent = Boolean(options.silent);
+      const fresh = Boolean(options.fresh);
+
+      lastServerFetchAt = Date.now();
+      const url = `${FAV_API_ENDPOINT}?_t=${Date.now()}${fresh ? "&fresh=1" : ""}`;
+
+      try {
+        const resp = await fetch(url, {
+          method: "GET",
+          headers: { "Accept": "application/json" },
+          cache: "no-store"
+        });
+        if (!resp.ok) {
+          throw new Error(`HTTP ${resp.status}`);
+        }
+        const data = await resp.json();
+        if (!data || !data.ok) {
+          throw new Error((data && data.message) || "Invalid response");
+        }
+
+        const fetchedIds = Array.isArray(data.ids)
+          ? data.ids.map(resolveToAid).filter(Boolean).sort()
+          : [];
+        const fetchedVersion = typeof data.version === "number" ? data.version : 0;
+        serverConfigured = data.configured !== false;
+        hasFetchedServerOnce = true;
+
+        serverFavIds = fetchedIds;
+        serverVersion = fetchedVersion;
+        saveFavServerCache(serverFavIds, serverVersion, data.updatedAt);
+
+        const currentIds = getSortedCurrentAids();
+        const isEditingWithChanges = favQuickEditMode && !areAidArraysEqual(currentIds, editSessionBaseIds);
+        const hasPendingDraft = hasActiveUnsavedDraft();
+
+        if (isEditingWithChanges || hasPendingDraft) {
+          // Never overwrite unsaved user edits during background polling!
+          // If the user is in edit mode but hasn't changed any hearts yet, keep baseline synced
+          if (favQuickEditMode && areAidArraysEqual(currentIds, editSessionBaseIds)) {
+            editSessionBaseIds = [...serverFavIds];
+            editSessionBaseVersion = serverVersion;
+            setRecommendedFromAids(serverFavIds);
+            updateFavEditBannerStatus();
+            renderStaticStats();
+            updateUI(false);
+            renderDetailPanel(false);
+          } else {
+            updateDraftRestoreBannerUI();
+          }
+          return;
+        }
+
+        if (serverVersion > 0) {
+          // Server has shared data: treat server as the single source of truth
+          editSessionBaseIds = [...serverFavIds];
+          editSessionBaseVersion = serverVersion;
+          if (!areAidArraysEqual(currentIds, serverFavIds)) {
+            setRecommendedFromAids(serverFavIds);
+            renderStaticStats();
+            updateUI(false);
+            renderDetailPanel(false);
+          }
+        } else {
+          // Server version is 0 (not yet initialized on server)
+          const legacyAids = getLegacyLocalStorageAids();
+          const migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY);
+          if (legacyAids.length > 0 && migState !== "skipped" && migState !== "migrated") {
+            // Keep showing local legacy hearts on this device and offer explicit 1-time migration
+            setRecommendedFromAids(legacyAids);
+            renderStaticStats();
+            updateUI(false);
+            renderDetailPanel(false);
+            if (isInitial && serverConfigured) {
+              openFavMigrationModal();
+            }
+          } else {
+            setRecommendedFromAids([]);
+            renderStaticStats();
+            updateUI(false);
+            renderDetailPanel(false);
+          }
+        }
+      } catch (err) {
+        if (isInitial && !silent) {
+          showFavSyncToast("共有データの取得に失敗したため、端末内のデータを表示しています", true, 4200);
+        }
+      }
+    }
+
+    // ==================== Initial localStorage Migration Modal ====================
+    const favMigrationModal = document.getElementById("favMigrationModal");
+    function openFavMigrationModal() {
+      const legacyAids = getLegacyLocalStorageAids();
+      if (!favMigrationModal || legacyAids.length === 0) return;
+      const countBadge = document.getElementById("favMigrationCountBadge");
+      const previewList = document.getElementById("favMigrationPreviewList");
+      const errBox = document.getElementById("favMigrationErrorBox");
+      if (countBadge) countBadge.textContent = `${legacyAids.length} 名義`;
+      if (previewList) {
+        const names = legacyAids.map(resolveAidToName).filter(Boolean);
+        previewList.textContent = names.join("、");
+      }
+      if (errBox) errBox.style.display = "none";
+      favMigrationModal.classList.add("open");
+      favMigrationModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeFavMigrationModal() {
+      if (!favMigrationModal) return;
+      favMigrationModal.classList.remove("open");
+      favMigrationModal.setAttribute("aria-hidden", "true");
+    }
+
+    async function executeLegacyMigration(forceOverwrite = false) {
+      const legacyAids = getLegacyLocalStorageAids();
+      if (legacyAids.length === 0) {
+        closeFavMigrationModal();
+        return;
+      }
+      const confirmBtn = document.getElementById("confirmFavMigrationBtn");
+      const errBox = document.getElementById("favMigrationErrorBox");
+      if (confirmBtn) {
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = "サーバーへ移行中...";
+      }
+      if (errBox) errBox.style.display = "none";
+
+      try {
+        const resp = await fetch(FAV_API_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Calpis-Client": "archive-v1",
+            "X-Calpis-Edit-Intent": "1"
+          },
+          body: JSON.stringify({
+            action: "migrate",
+            ids: legacyAids,
+            baseVersion: serverVersion,
+            forceOverwrite,
+            clientRequestId: `mig_${Date.now()}`
+          }),
+          cache: "no-store"
+        });
+        const data = await resp.json().catch(() => null);
+
+        if (resp.status === 409 && data && data.serverData) {
+          // Server already has data! Ask before overwriting
+          serverFavIds = (data.serverData.ids || []).map(resolveToAid).filter(Boolean).sort();
+          serverVersion = data.serverData.version || 1;
+          if (confirmBtn) {
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = "サーバーの既存データを上書きしてこの端末から移行する";
+            confirmBtn.dataset.forceOverwrite = "1";
+          }
+          if (errBox) {
+            errBox.textContent = `サーバーには既に共有データ（${serverFavIds.length}名義・v${serverVersion}）が存在します。この端末のデータ（${legacyAids.length}名義）で上書きする場合はもう一度ボタンを押してください。`;
+            errBox.style.display = "block";
+          }
+          return;
+        }
+
+        if (!resp.ok || !data || !data.ok) {
+          throw new Error((data && data.message) || `移行エラー (HTTP ${resp.status})`);
+        }
+
+        // Migration succeeded! Backup localStorage key without losing data, mark migrated
+        try {
+          const rawOrig = localStorage.getItem(RECOMMENDED_STORAGE_KEY);
+          if (rawOrig) localStorage.setItem(RECOMMENDED_BACKUP_KEY, rawOrig);
+          localStorage.setItem(FAV_MIGRATION_STATE_KEY, "migrated");
+        } catch (e) {}
+
+        serverFavIds = (data.ids || legacyAids).map(resolveToAid).filter(Boolean).sort();
+        serverVersion = typeof data.version === "number" ? data.version : 1;
+        hasFetchedServerOnce = true;
+        editSessionBaseIds = [...serverFavIds];
+        editSessionBaseVersion = serverVersion;
+
+        setRecommendedFromAids(serverFavIds);
+        saveFavServerCache(serverFavIds, serverVersion, data.updatedAt);
+        clearUnsavedDraft();
+
+        if (confirmBtn) {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = "確認してこの端末からサーバーへ移行する";
+          delete confirmBtn.dataset.forceOverwrite;
+        }
+        closeFavMigrationModal();
+        updateFavEditBannerStatus();
+        renderStaticStats();
+        updateUI(false);
+        renderDetailPanel(false);
+        showFavSyncToast(`既存の「かるのオススメ」（${serverFavIds.length}名義）をサーバーへ移行しました`);
+      } catch (err) {
+        // Migration failed: preserve existing localStorage untouched!
+        if (confirmBtn) {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = "再試行：この端末からサーバーへ移行する";
+        }
+        if (errBox) {
+          errBox.textContent = `${err && err.message ? err.message : "通信エラーが発生しました。"}（既存のハート設定は端末内に安全に保持されています）`;
+          errBox.style.display = "block";
+        }
+      }
+    }
+
+    // ==================== Conflict Resolution Modal ====================
+    const favConflictModal = document.getElementById("favConflictModal");
+    let lastConflictServerData = null;
+
+    function openFavConflictModal(serverData) {
+      if (!favConflictModal || !serverData) return;
+      lastConflictServerData = {
+        ids: (serverData.ids || []).map(resolveToAid).filter(Boolean).sort(),
+        version: typeof serverData.version === "number" ? serverData.version : 1,
+        updatedAt: serverData.updatedAt || null
+      };
+
+      const currentIds = getSortedCurrentAids();
+      const localDiff = computeDiffCounts(editSessionBaseIds, currentIds);
+      const serverDiff = computeDiffCounts(editSessionBaseIds, lastConflictServerData.ids);
+
+      const localSumEl = document.getElementById("favConflictLocalSummary");
+      const localDetEl = document.getElementById("favConflictLocalDetail");
+      const srvSumEl = document.getElementById("favConflictServerSummary");
+      const srvDetEl = document.getElementById("favConflictServerDetail");
+
+      if (localSumEl) localSumEl.textContent = `計 ${currentIds.length} 名義 (+${localDiff.added.length} / -${localDiff.removed.length})`;
+      if (localDetEl) {
+        const lines = [];
+        if (localDiff.added.length > 0) lines.push(`【追加】${localDiff.added.map(resolveAidToName).filter(Boolean).join("、")}`);
+        if (localDiff.removed.length > 0) lines.push(`【解除】${localDiff.removed.map(resolveAidToName).filter(Boolean).join("、")}`);
+        localDetEl.textContent = lines.length > 0 ? lines.join(" / ") : "変更なし";
+      }
+
+      if (srvSumEl) srvSumEl.textContent = `計 ${lastConflictServerData.ids.length} 名義 (v${lastConflictServerData.version})`;
+      if (srvDetEl) {
+        const sLines = [];
+        if (serverDiff.added.length > 0) sLines.push(`【他端末で追加】${serverDiff.added.map(resolveAidToName).filter(Boolean).join("、")}`);
+        if (serverDiff.removed.length > 0) sLines.push(`【他端末で解除】${serverDiff.removed.map(resolveAidToName).filter(Boolean).join("、")}`);
+        srvDetEl.textContent = sLines.length > 0 ? sLines.join(" / ") : `登録名義: ${lastConflictServerData.ids.slice(0, 15).map(resolveAidToName).filter(Boolean).join("、")}${lastConflictServerData.ids.length > 15 ? " ほか" : ""}`;
+      }
+
+      favConflictModal.classList.add("open");
+      favConflictModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeFavConflictModal() {
+      if (!favConflictModal) return;
+      favConflictModal.classList.remove("open");
+      favConflictModal.setAttribute("aria-hidden", "true");
+    }
+
+    // Secret 5-tap on top-left logo (.brand-disc-icon or .mobile-top-left)
     let secretLogoTapCount = 0;
     let secretLogoTapTimer = null;
     function handleSecretLogoTap() {
@@ -2879,14 +3579,12 @@
       if (secretLogoTapTimer) clearTimeout(secretLogoTapTimer);
       if (secretLogoTapCount >= 5) {
         secretLogoTapCount = 0;
-        favQuickEditMode = !favQuickEditMode;
-        document.body.classList.toggle("fav-quick-edit-mode", favQuickEditMode);
-        try {
-          const favArray = DATA.filter(a => recommendedSet.has(a.name)).map(a => a.name);
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(JSON.stringify(favArray, null, 2)).catch(() => {});
-          }
-        } catch (err) {}
+        if (!favQuickEditMode) {
+          enterFavQuickEditMode();
+        } else {
+          // When already in edit mode, 5-tap triggers the same "完了して閉じる" save flow
+          saveFavoritesToServer();
+        }
       } else {
         secretLogoTapTimer = setTimeout(() => { secretLogoTapCount = 0; }, 1200);
       }
@@ -2895,19 +3593,194 @@
     if (brandIconEl) brandIconEl.addEventListener("click", handleSecretLogoTap);
     const mobTopLeftEl = document.querySelector(".mobile-top-left");
     if (mobTopLeftEl) mobTopLeftEl.addEventListener("click", handleSecretLogoTap);
+
+    // 「完了して閉じる」 button
     const exitFavQeBtn = document.getElementById("exitFavQuickEditBtn");
     if (exitFavQeBtn) {
       exitFavQeBtn.addEventListener("click", () => {
-        favQuickEditMode = false;
-        document.body.classList.remove("fav-quick-edit-mode");
-        try {
-          const favArray = DATA.filter(a => recommendedSet.has(a.name)).map(a => a.name);
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(JSON.stringify(favArray, null, 2)).catch(() => {});
-          }
-        } catch (err) {}
+        saveFavoritesToServer();
       });
     }
+
+    // 「取消」 button in edit banner (discards unsaved changes and reverts to editSessionBaseIds)
+    const discardFavQeBtn = document.getElementById("discardFavQuickEditBtn");
+    if (discardFavQeBtn) {
+      discardFavQeBtn.addEventListener("click", () => {
+        if (isSavingFavorites) return;
+        setRecommendedFromAids(editSessionBaseIds);
+        clearUnsavedDraft();
+        closeFavQuickEditModeCleanly();
+        renderStaticStats();
+        updateUI(false);
+        renderDetailPanel(false);
+        showFavSyncToast("未保存の変更を取り消しました");
+      });
+    }
+
+    // Error row buttons ("再試行" & "一時保存して閉じる")
+    const retryFavSaveBtn = document.getElementById("retryFavSaveBtn");
+    if (retryFavSaveBtn) {
+      retryFavSaveBtn.addEventListener("click", () => {
+        saveFavoritesToServer();
+      });
+    }
+    const closeKeepDraftBtn = document.getElementById("closeKeepDraftBtn");
+    if (closeKeepDraftBtn) {
+      closeKeepDraftBtn.addEventListener("click", () => {
+        saveUnsavedDraft();
+        closeFavQuickEditModeCleanly();
+        showFavSyncToast("未保存の編集内容を端末に一時保存しました（次回編集時に復元されます）", true);
+      });
+    }
+
+    // Unsaved Draft Restore Banner buttons
+    const resumeFavDraftBtn = document.getElementById("resumeFavDraftBtn");
+    if (resumeFavDraftBtn) {
+      resumeFavDraftBtn.addEventListener("click", () => {
+        enterFavQuickEditMode();
+      });
+    }
+    const saveFavDraftNowBtn = document.getElementById("saveFavDraftNowBtn");
+    if (saveFavDraftNowBtn) {
+      saveFavDraftNowBtn.addEventListener("click", () => {
+        enterFavQuickEditMode();
+        saveFavoritesToServer();
+      });
+    }
+    const discardFavDraftBtn = document.getElementById("discardFavDraftBtn");
+    if (discardFavDraftBtn) {
+      discardFavDraftBtn.addEventListener("click", () => {
+        clearUnsavedDraft();
+        setRecommendedFromAids(serverFavIds);
+        editSessionBaseIds = [...serverFavIds];
+        editSessionBaseVersion = serverVersion;
+        updateDraftRestoreBannerUI();
+        renderStaticStats();
+        updateUI(false);
+        renderDetailPanel(false);
+        showFavSyncToast("未保存の編集データを破棄し、サーバーの状態に戻しました");
+      });
+    }
+
+    // Migration Modal buttons
+    const openLegacyMigrateBtn = document.getElementById("openLegacyMigrateBtn");
+    if (openLegacyMigrateBtn) {
+      openLegacyMigrateBtn.addEventListener("click", openFavMigrationModal);
+    }
+    const closeFavMigrationModalBtn = document.getElementById("closeFavMigrationModalBtn");
+    if (closeFavMigrationModalBtn) {
+      closeFavMigrationModalBtn.addEventListener("click", closeFavMigrationModal);
+    }
+    const postponeFavMigrationBtn = document.getElementById("postponeFavMigrationBtn");
+    if (postponeFavMigrationBtn) {
+      postponeFavMigrationBtn.addEventListener("click", closeFavMigrationModal);
+    }
+    const skipDeviceFavMigrationBtn = document.getElementById("skipDeviceFavMigrationBtn");
+    if (skipDeviceFavMigrationBtn) {
+      skipDeviceFavMigrationBtn.addEventListener("click", () => {
+        try {
+          localStorage.setItem(FAV_MIGRATION_STATE_KEY, "skipped");
+        } catch (e) {}
+        closeFavMigrationModal();
+        if (hasFetchedServerOnce) {
+          setRecommendedFromAids(serverFavIds);
+          renderStaticStats();
+          updateUI(false);
+          renderDetailPanel(false);
+        }
+        showFavSyncToast("この端末からの初回移行をスキップしました");
+      });
+    }
+    const confirmFavMigrationBtn = document.getElementById("confirmFavMigrationBtn");
+    if (confirmFavMigrationBtn) {
+      confirmFavMigrationBtn.addEventListener("click", () => {
+        const force = confirmFavMigrationBtn.dataset.forceOverwrite === "1";
+        executeLegacyMigration(force);
+      });
+    }
+
+    // Conflict Modal buttons
+    const closeFavConflictModalBtn = document.getElementById("closeFavConflictModalBtn");
+    if (closeFavConflictModalBtn) {
+      closeFavConflictModalBtn.addEventListener("click", closeFavConflictModal);
+    }
+    const conflictMergeSaveBtn = document.getElementById("conflictMergeSaveBtn");
+    if (conflictMergeSaveBtn) {
+      conflictMergeSaveBtn.addEventListener("click", () => {
+        if (!lastConflictServerData) return;
+        const currentIds = getSortedCurrentAids();
+        const diff = computeDiffCounts(editSessionBaseIds, currentIds);
+        const mergedSet = new Set(lastConflictServerData.ids);
+        diff.added.forEach(id => mergedSet.add(id));
+        diff.removed.forEach(id => mergedSet.delete(id));
+        const mergedIds = Array.from(mergedSet).sort();
+
+        serverFavIds = [...lastConflictServerData.ids];
+        serverVersion = lastConflictServerData.version;
+        editSessionBaseIds = [...lastConflictServerData.ids];
+        editSessionBaseVersion = lastConflictServerData.version;
+        setRecommendedFromAids(mergedIds);
+        saveUnsavedDraft();
+        closeFavConflictModal();
+        renderStaticStats();
+        updateUI(false);
+        renderDetailPanel(false);
+        saveFavoritesToServer({ customIds: mergedIds, customBaseVersion: lastConflictServerData.version });
+      });
+    }
+    const conflictForceOverwriteBtn = document.getElementById("conflictForceOverwriteBtn");
+    if (conflictForceOverwriteBtn) {
+      conflictForceOverwriteBtn.addEventListener("click", () => {
+        if (!lastConflictServerData) return;
+        const currentIds = getSortedCurrentAids();
+        editSessionBaseVersion = lastConflictServerData.version;
+        closeFavConflictModal();
+        saveFavoritesToServer({
+          customIds: currentIds,
+          customBaseVersion: lastConflictServerData.version,
+          forceOverwrite: true
+        });
+      });
+    }
+    const conflictLoadServerBtn = document.getElementById("conflictLoadServerBtn");
+    if (conflictLoadServerBtn) {
+      conflictLoadServerBtn.addEventListener("click", () => {
+        if (!lastConflictServerData) return;
+        serverFavIds = [...lastConflictServerData.ids];
+        serverVersion = lastConflictServerData.version;
+        editSessionBaseIds = [...serverFavIds];
+        editSessionBaseVersion = serverVersion;
+        setRecommendedFromAids(serverFavIds);
+        saveFavServerCache(serverFavIds, serverVersion, lastConflictServerData.updatedAt);
+        clearUnsavedDraft();
+        closeFavConflictModal();
+        closeFavQuickEditModeCleanly();
+        renderStaticStats();
+        updateUI(false);
+        renderDetailPanel(false);
+        showFavSyncToast("サーバーの最新データを反映しました");
+      });
+    }
+
+    // Startup non-blocking fetch + visibilitychange & gentle periodic check
+    updateDraftRestoreBannerUI();
+    fetchServerFavorites({ isInitial: true });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && Date.now() - lastServerFetchAt > 15000) {
+        fetchServerFavorites({ silent: true });
+      }
+    });
+    window.addEventListener("focus", () => {
+      if (Date.now() - lastServerFetchAt > 15000) {
+        fetchServerFavorites({ silent: true });
+      }
+    });
+    setInterval(() => {
+      if (document.visibilityState === "visible" && !favQuickEditMode) {
+        fetchServerFavorites({ silent: true });
+      }
+    }, 180000);
 
     document.getElementById("detailScrollContent").addEventListener("click", e => {
       const openArtistBtn = e.target.closest("[data-open-artist]");
