@@ -300,11 +300,11 @@
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </button>
               </div>
-              <div class="sort-wrap">
+              <div class="sort-wrap" id="sortWrapContainer">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="16" y1="6" y2="6"></line><line x1="4" x2="12" y1="12" y2="12"></line><line x1="4" x2="8" y1="18" y2="18"></line><polyline points="15 15 18 18 21 15"></polyline><line x1="18" x2="18" y1="10" y2="18"></line></svg>
                 <select id="pcSortSelect" class="sort-select" aria-label="並び替え">
-                  <option value="countDesc">曲数が多い順</option>
-                  <option value="countAsc">曲数が少ない順</option>
+                  <option value="countDesc">登録曲数が多い順</option>
+                  <option value="countAsc">登録曲数が少ない順</option>
                   <option value="kanaAsc">五十音順</option>
                   <option value="alphaAsc">アルファベット順</option>
                   <option value="nameAsc">名前：昇順</option>
@@ -312,6 +312,16 @@
                   <option value="subDesc">登録者数が多い順</option>
                   <option value="subAsc">登録者数が少ない順</option>
                 </select>
+                <div class="custom-sort-menu" id="customSortMenu" role="listbox" aria-label="並び替えメニュー">
+                  <button type="button" class="custom-sort-option active" data-sort-value="countDesc" role="option" aria-selected="true">登録曲数が多い順</button>
+                  <button type="button" class="custom-sort-option" data-sort-value="countAsc" role="option" aria-selected="false">登録曲数が少ない順</button>
+                  <button type="button" class="custom-sort-option" data-sort-value="kanaAsc" role="option" aria-selected="false">五十音順</button>
+                  <button type="button" class="custom-sort-option" data-sort-value="alphaAsc" role="option" aria-selected="false">アルファベット順</button>
+                  <button type="button" class="custom-sort-option" data-sort-value="nameAsc" role="option" aria-selected="false">名前：昇順</button>
+                  <button type="button" class="custom-sort-option" data-sort-value="nameDesc" role="option" aria-selected="false">名前：降順</button>
+                  <button type="button" class="custom-sort-option" data-sort-value="subDesc" role="option" aria-selected="false">登録者数が多い順</button>
+                  <button type="button" class="custom-sort-option" data-sort-value="subAsc" role="option" aria-selected="false">登録者数が少ない順</button>
+                </div>
               </div>
 
               <button type="button" class="filter-toggle-btn" id="pcFilterToggleBtn">
@@ -373,7 +383,7 @@
     <div class="sheet-drag-handle" aria-hidden="true"></div>
     <div class="mob-sheet-header">
       <div class="mob-sheet-title">絞り込み条件</div>
-      <button type="button" class="detail-close-btn" id="closeMobFilterBtn" aria-label="閉じる">×</button>
+      <button type="button" class="detail-close-btn" id="closeMobFilterBtn" aria-label="閉じる"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg></button>
     </div>
     <div class="mob-sheet-body" id="mobFilterSheetBody"></div>
     <div class="mob-sheet-footer">
@@ -463,7 +473,8 @@
         <section class="about-item-card">
           <h3 class="about-item-heading">5. サイト内の誤りについて：</h3>
           <div class="about-item-lines">
-            <p class="about-line">さすがに数が多すぎて、分類とかリンクとか全然間違っててもおかしくないから許してください。間違いに気づいたら教えてください。</p>
+            <p class="about-line">さすがに数が多すぎて、分類とかリンクとか全然間違っててもおかしくないから許してください。(リンク以外の)間違いに気づいたら教えてください。</p>
+            <p class="about-line">特に<span class="about-green-text">代表曲</span>とその<span class="about-green-text">リンク</span>は間違ってる可能性高め。逆に<span class="about-green-text">YouTubeチャンネル</span>のリンクはほぼ合ってると思います。</p>
           </div>
         </section>
       </div>
