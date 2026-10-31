@@ -3,9 +3,10 @@
   "initialized": true,
   "initializedAt": "2026-10-31T10:52:35Z",
   "baselineVideoCount": 3118,
-  "totalTrackedCount": 8162,
   "playlistIds": [
     "PL0lpRpQs2Mb03ovDMpqm4rbHkTWUTLyJp"
   ],
-  "lastSyncAt": "2026-10-31T10:52:35Z"
+  "lastSyncAt": "2026-10-31T23:53:15Z",
+  "totalTrackedCount": 8162,
+  "lastActiveGeminiModel": "gemini-3.5-flash-lite"
 }

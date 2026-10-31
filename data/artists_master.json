@@ -5104,6 +5104,92 @@
     "aid": "a_07a34d60"
   },
   {
+    "name": "MAISONdes",
+    "cat": 1,
+    "count": 20,
+    "reading": "maisondes",
+    "kana": "",
+    "row": "",
+    "alpha": "M",
+    "img": "https://yt3.googleusercontent.com/OCsAo7cgAyeOHcBTD32tYC2iBxgib0Bj1-RLiocxZkgfNCdovJPfV0pPozpr0Ggi5RM6R0EfJr8=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "春紛い",
+      "なんもない (feat. 星街すいせい, sakuma.)",
+      "ラリー、ラリー",
+      "アイワナムチュー",
+      "アイウエ",
+      "ヨワネハキ",
+      "いたいの、いたいの、とんでいけ (feat. 『ユイカ』, KAFUNÉ)",
+      "ならない日々",
+      "超弩級フロンティア",
+      "噓偽りのラプソディ",
+      "モドキステップ！",
+      "YOU",
+      "カラフルパレット",
+      "バケバケ",
+      "アイズ",
+      "なっていく。",
+      "恋のいうとおり",
+      "君にふさわしい奇跡",
+      "ふり",
+      "薔薇ノ香"
+    ],
+    "topSongs": [
+      "ヨワネハキ feat. 和ぬか, asmi",
+      "トウキョウ・シャンディ・ランデヴ feat. 花譜, ツミキ",
+      "アイウエ feat. 美波, SAKURAmoti",
+      "アイワナムチュー feat. asmi, すりぃ",
+      "なんもない feat. 星街すいせい, sakuma."
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "めぞんで",
+      "メゾンデ",
+      "日曜日のメゾンデ",
+      "にちようびのめぞんで",
+      "ニチヨウビノメゾンデ",
+      "Nichiyoubi no Maisondes",
+      "nichiyoubinomezonde",
+      "nitiyoubinomezonde"
+    ],
+    "role": "音楽グループ",
+    "imgType": "youtube_official",
+    "sub": 421000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "npP2NNUzkLo",
+      "REn8FJYWltc",
+      "fwzRR6Bsro4",
+      "OYSOYPRQsWs",
+      "HpZUkwUvv30"
+    ],
+    "subDate": "2026-10-27",
+    "vocal": "",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(アニゲー関連)",
+    "roles": [
+      "音楽グループ"
+    ],
+    "profileBio": "MAISONdes（メゾン・デ ／ 日曜日のメゾンデ）は、「どこかにある六畳半アパートの、各部屋の住人の歌」をコンセプトに掲げる音楽プロジェクト。楽曲ごとに気鋭のコンポーザーと多彩なシンガーがタッグを組み、『ヨワネハキ』『トウキョウ・シャンディ・ランデヴ』『アイウエ』『今あいらびゅ』など数々の話題曲を世に送り出している。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UC2Kaq_xADsJSi97iWbttPlQ",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UC2Kaq_xADsJSi97iWbttPlQ",
+    "aid": "a_d311c8cf"
+  },
+  {
     "name": "shallm",
     "cat": 1,
     "count": 20,
@@ -12415,92 +12501,6 @@
     "aid": "a_b064df38"
   },
   {
-    "name": "MAISONdes",
-    "cat": 1,
-    "count": 20,
-    "reading": "maisondes",
-    "kana": "",
-    "row": "",
-    "alpha": "M",
-    "img": "https://yt3.googleusercontent.com/OCsAo7cgAyeOHcBTD32tYC2iBxgib0Bj1-RLiocxZkgfNCdovJPfV0pPozpr0Ggi5RM6R0EfJr8=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "春紛い",
-      "なんもない (feat. 星街すいせい, sakuma.)",
-      "ラリー、ラリー",
-      "アイワナムチュー",
-      "アイウエ",
-      "ヨワネハキ",
-      "いたいの、いたいの、とんでいけ (feat. 『ユイカ』, KAFUNÉ)",
-      "ならない日々",
-      "超弩級フロンティア",
-      "噓偽りのラプソディ",
-      "モドキステップ！",
-      "YOU",
-      "カラフルパレット",
-      "バケバケ",
-      "アイズ",
-      "なっていく。",
-      "恋のいうとおり",
-      "君にふさわしい奇跡",
-      "ふり",
-      "薔薇ノ香"
-    ],
-    "topSongs": [
-      "ヨワネハキ feat. 和ぬか, asmi",
-      "トウキョウ・シャンディ・ランデヴ feat. 花譜, ツミキ",
-      "アイウエ feat. 美波, SAKURAmoti",
-      "アイワナムチュー feat. asmi, すりぃ",
-      "なんもない feat. 星街すいせい, sakuma."
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "めぞんで",
-      "メゾンデ",
-      "日曜日のメゾンデ",
-      "にちようびのめぞんで",
-      "ニチヨウビノメゾンデ",
-      "Nichiyoubi no Maisondes",
-      "nichiyoubinomezonde",
-      "nitiyoubinomezonde"
-    ],
-    "role": "音楽グループ",
-    "imgType": "youtube_official",
-    "sub": 421000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "npP2NNUzkLo",
-      "REn8FJYWltc",
-      "fwzRR6Bsro4",
-      "OYSOYPRQsWs",
-      "HpZUkwUvv30"
-    ],
-    "subDate": "2026-10-27",
-    "vocal": "",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(アニゲー関連)",
-    "roles": [
-      "音楽グループ"
-    ],
-    "profileBio": "MAISONdes（メゾン・デ ／ 日曜日のメゾンデ）は、「どこかにある六畳半アパートの、各部屋の住人の歌」をコンセプトに掲げる音楽プロジェクト。楽曲ごとに気鋭のコンポーザーと多彩なシンガーがタッグを組み、『ヨワネハキ』『トウキョウ・シャンディ・ランデヴ』『アイウエ』『今あいらびゅ』など数々の話題曲を世に送り出している。",
-    "ytChannelUrl": "https://www.youtube.com/channel/UC2Kaq_xADsJSi97iWbttPlQ",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UC2Kaq_xADsJSi97iWbttPlQ",
-    "aid": "a_d311c8cf"
-  },
-  {
     "name": "THE BINARY",
     "cat": 1,
     "count": 8,
@@ -17623,69 +17623,6 @@
     "aid": "a_276ebade"
   },
   {
-    "name": "波羅ノ鬼",
-    "cat": 1,
-    "count": 5,
-    "reading": "はらのき",
-    "kana": "は",
-    "row": "は",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/ytc/AIdro_kfNHJZyJ2mlvAVB0macKHfu_9IlaJ430XMTp-ztK1wQg=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "ねがいごと",
-      "余命宣告",
-      "春恋",
-      "トラウマ",
-      "サイレン"
-    ],
-    "topSongs": [
-      "ねがいごと",
-      "余命宣告",
-      "春恋",
-      "トラウマ",
-      "サイレン"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "haranoki"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 161000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "L-RLs01ul64",
-      "j5knSK8a5mM",
-      "L1sPc2ivQMM",
-      "7GEan3dgcUA",
-      "XNEDo9pr1vM"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCMkILyjhk3YhIa-W1lxInNA",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCMkILyjhk3YhIa-W1lxInNA",
-    "aid": "a_51c6283a"
-  },
-  {
     "name": "未完成モノローグ",
     "cat": 1,
     "count": 6,
@@ -18918,73 +18855,6 @@
     "aid": "a_318e9245"
   },
   {
-    "name": "愛蕾 / Mele",
-    "cat": 1,
-    "count": 5,
-    "reading": "めれ",
-    "kana": "め",
-    "row": "ま",
-    "alpha": "M",
-    "img": "https://i.ytimg.com/vi/q0WEhYsVmB8/hqdefault.jpg",
-    "songs": [
-      "SUMMER SONG",
-      "憂、燦々",
-      "うるわしきひと",
-      "路傍の真夏",
-      "プラトニック・ラヴ"
-    ],
-    "topSongs": [
-      "SUMMER SONG",
-      "憂、燦々",
-      "うるわしきひと",
-      "Kawaii Kaiwai",
-      "プラトニック・ラヴ"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "aira",
-      "愛蕾",
-      "Mele",
-      "めれ",
-      "あいら"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 11200,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "q0WEhYsVmB8",
-      "2TkO3bQQERo",
-      "85ghKMAKy_o",
-      "p1_IwkGJnqk",
-      "HSUyPNgiJeo"
-    ],
-    "subDate": "2026-10-28",
-    "youtubeChannelUrl": "https://www.youtube.com/@mele_dream",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@mele_dream",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_31166636"
-  },
-  {
     "name": "明石繆",
     "cat": 1,
     "count": 5,
@@ -20107,6 +19977,69 @@
     "aid": "a_e1efad46"
   },
   {
+    "name": "波羅ノ鬼",
+    "cat": 1,
+    "count": 5,
+    "reading": "はらのき",
+    "kana": "は",
+    "row": "は",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/ytc/AIdro_kfNHJZyJ2mlvAVB0macKHfu_9IlaJ430XMTp-ztK1wQg=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "ねがいごと",
+      "余命宣告",
+      "春恋",
+      "トラウマ",
+      "サイレン"
+    ],
+    "topSongs": [
+      "ねがいごと",
+      "余命宣告",
+      "春恋",
+      "トラウマ",
+      "サイレン"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "haranoki"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 161000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "L-RLs01ul64",
+      "j5knSK8a5mM",
+      "L1sPc2ivQMM",
+      "7GEan3dgcUA",
+      "XNEDo9pr1vM"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCMkILyjhk3YhIa-W1lxInNA",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCMkILyjhk3YhIa-W1lxInNA",
+    "aid": "a_51c6283a"
+  },
+  {
     "name": "緋月ゆい",
     "cat": 1,
     "count": 5,
@@ -20305,6 +20238,73 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/@mizuki_nana",
     "aid": "a_186eef9e"
+  },
+  {
+    "name": "愛蕾 / Mele",
+    "cat": 1,
+    "count": 5,
+    "reading": "めれ",
+    "kana": "め",
+    "row": "ま",
+    "alpha": "M",
+    "img": "https://i.ytimg.com/vi/q0WEhYsVmB8/hqdefault.jpg",
+    "songs": [
+      "SUMMER SONG",
+      "憂、燦々",
+      "うるわしきひと",
+      "路傍の真夏",
+      "プラトニック・ラヴ"
+    ],
+    "topSongs": [
+      "SUMMER SONG",
+      "憂、燦々",
+      "うるわしきひと",
+      "Kawaii Kaiwai",
+      "プラトニック・ラヴ"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "aira",
+      "愛蕾",
+      "Mele",
+      "めれ",
+      "あいら"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 11200,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "q0WEhYsVmB8",
+      "2TkO3bQQERo",
+      "85ghKMAKy_o",
+      "p1_IwkGJnqk",
+      "HSUyPNgiJeo"
+    ],
+    "subDate": "2026-10-28",
+    "youtubeChannelUrl": "https://www.youtube.com/@mele_dream",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@mele_dream",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_31166636"
   },
   {
     "name": "メーメントヴァニタス",
@@ -24912,66 +24912,6 @@
     "aid": "a_0b6987b3"
   },
   {
-    "name": "藤田咲",
-    "cat": 1,
-    "count": 3,
-    "reading": "ふじたさき",
-    "kana": "ふ",
-    "row": "は",
-    "alpha": "",
-    "img": "https://i.ytimg.com/vi/yTntztSFT1M/hqdefault.jpg",
-    "songs": [
-      "契り歌",
-      "三日月ライダー",
-      "Days"
-    ],
-    "topSongs": [
-      "契り歌",
-      "三日月ライダー",
-      "Days",
-      "叶歌 (Saki X Jun)"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "saki",
-      "咲",
-      "fujitasaki"
-    ],
-    "role": "歌い手",
-    "imgType": "artist_official",
-    "sub": 6500,
-    "subBucket": "under10k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "yTntztSFT1M",
-      "",
-      "",
-      "G3558qSVabg"
-    ],
-    "subDate": "2026-10-28",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCgUGZMVT5ViQvJOrjjPn6PA",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCgUGZMVT5ViQvJOrjjPn6PA",
-    "aid": "a_8256a024"
-  },
-  {
     "name": "佐々木李子",
     "cat": 1,
     "count": 3,
@@ -26318,6 +26258,66 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UCMGMFLZlNZXwvKCHoA91ASA",
     "aid": "a_afc49225"
+  },
+  {
+    "name": "藤田咲",
+    "cat": 1,
+    "count": 3,
+    "reading": "ふじたさき",
+    "kana": "ふ",
+    "row": "は",
+    "alpha": "",
+    "img": "https://i.ytimg.com/vi/yTntztSFT1M/hqdefault.jpg",
+    "songs": [
+      "契り歌",
+      "三日月ライダー",
+      "Days"
+    ],
+    "topSongs": [
+      "契り歌",
+      "三日月ライダー",
+      "Days",
+      "叶歌 (Saki X Jun)"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "saki",
+      "咲",
+      "fujitasaki"
+    ],
+    "role": "歌い手",
+    "imgType": "artist_official",
+    "sub": 6500,
+    "subBucket": "under10k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "yTntztSFT1M",
+      "",
+      "",
+      "G3558qSVabg"
+    ],
+    "subDate": "2026-10-28",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCgUGZMVT5ViQvJOrjjPn6PA",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCgUGZMVT5ViQvJOrjjPn6PA",
+    "aid": "a_8256a024"
   },
   {
     "name": "宝鐘マリン",
@@ -33622,6 +33622,68 @@
     "aid": "a_f050748c"
   },
   {
+    "name": "Lisa Chikafuji",
+    "cat": 1,
+    "count": 1,
+    "reading": "lisa chikafuji",
+    "kana": "",
+    "row": "",
+    "alpha": "L",
+    "img": "https://yt3.googleusercontent.com/dak0AZWbw5Yjnu-728_03voFYkdtPu5iroBvDwpLdaNFPsm5roH1j_kKLQ62b8US8XuqaxahNw=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Stellar Stellar"
+    ],
+    "topSongs": [
+      "All the Small Things",
+      "Entertainment",
+      "Change",
+      "Everglow",
+      "Sound Asleep"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "kondourisa",
+      "近藤リサ",
+      "こんどうりさ",
+      "ちかふじりさ"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 67000,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "wkfNQqEfhXs",
+      "iUBuKXoCG5w",
+      "yeW7k67aGTE",
+      "k9gEZ7sNfdw",
+      "wKrXckGnulE"
+    ],
+    "subDate": "2026-10-28",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCdureux7B_V-xhM7tYImASQ",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCdureux7B_V-xhM7tYImASQ",
+    "aid": "a_6376cd65"
+  },
+  {
     "name": "Lyn",
     "cat": 1,
     "count": 1,
@@ -40258,68 +40320,6 @@
     "ytChannelType": "topic",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UCWW0oXDCp_Smv8cpiawCqLQ",
     "aid": "a_3dd1eb6b"
-  },
-  {
-    "name": "Lisa Chikafuji",
-    "cat": 1,
-    "count": 1,
-    "reading": "lisa chikafuji",
-    "kana": "",
-    "row": "",
-    "alpha": "L",
-    "img": "https://yt3.googleusercontent.com/dak0AZWbw5Yjnu-728_03voFYkdtPu5iroBvDwpLdaNFPsm5roH1j_kKLQ62b8US8XuqaxahNw=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Stellar Stellar"
-    ],
-    "topSongs": [
-      "All the Small Things",
-      "Entertainment",
-      "Change",
-      "Everglow",
-      "Sound Asleep"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "kondourisa",
-      "近藤リサ",
-      "こんどうりさ",
-      "ちかふじりさ"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 67000,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "wkfNQqEfhXs",
-      "iUBuKXoCG5w",
-      "yeW7k67aGTE",
-      "k9gEZ7sNfdw",
-      "wKrXckGnulE"
-    ],
-    "subDate": "2026-10-28",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCdureux7B_V-xhM7tYImASQ",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCdureux7B_V-xhM7tYImASQ",
-    "aid": "a_6376cd65"
   },
   {
     "name": "サカグチアミ",
@@ -48206,67 +48206,6 @@
     "aid": "a_d44af6aa"
   },
   {
-    "name": "ゆーり",
-    "cat": 1,
-    "count": 1,
-    "reading": "ゆーり",
-    "kana": "ゆ",
-    "row": "や",
-    "alpha": "",
-    "img": "https://lh3.googleusercontent.com/PRyxXyfIyZr4_ddlAMqKqr-HRN0Pu-PUfwUmqU4xtHiXWqCsvViJmw4Fz2sH6_q81TfPWNwrI2xo0dY=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "隙"
-    ],
-    "topSongs": [
-      "隙",
-      "Good Night Star",
-      "よこがお",
-      "碧青グラデーション",
-      "LetteR"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "yuuri",
-      "優莉",
-      "ゆうり"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 7560,
-    "subBucket": "under10k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "-yueHrRNouA",
-      "CiKHlWkIJYc",
-      "lwJQEJwHJAE",
-      "t4cpcD3rBqM",
-      "pMq_OU8pc_o"
-    ],
-    "subDate": "2026-10-28",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCfKA1OFAOHIpL-s4DCaA8iw",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCfKA1OFAOHIpL-s4DCaA8iw",
-    "aid": "a_6b28701e"
-  },
-  {
     "name": "雪花ラミィ",
     "cat": 1,
     "count": 1,
@@ -48800,6 +48739,67 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UCjKPgy9YPt16z8AFMi-TLeA",
     "aid": "a_b838189a"
+  },
+  {
+    "name": "ゆーり",
+    "cat": 1,
+    "count": 1,
+    "reading": "ゆーり",
+    "kana": "ゆ",
+    "row": "や",
+    "alpha": "",
+    "img": "https://lh3.googleusercontent.com/PRyxXyfIyZr4_ddlAMqKqr-HRN0Pu-PUfwUmqU4xtHiXWqCsvViJmw4Fz2sH6_q81TfPWNwrI2xo0dY=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "隙"
+    ],
+    "topSongs": [
+      "隙",
+      "Good Night Star",
+      "よこがお",
+      "碧青グラデーション",
+      "LetteR"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "yuuri",
+      "優莉",
+      "ゆうり"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 7560,
+    "subBucket": "under10k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "-yueHrRNouA",
+      "CiKHlWkIJYc",
+      "lwJQEJwHJAE",
+      "t4cpcD3rBqM",
+      "pMq_OU8pc_o"
+    ],
+    "subDate": "2026-10-28",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCfKA1OFAOHIpL-s4DCaA8iw",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCfKA1OFAOHIpL-s4DCaA8iw",
+    "aid": "a_6b28701e"
   },
   {
     "name": "陽子",
@@ -54242,76 +54242,6 @@
     "aid": "a_339a28dc"
   },
   {
-    "name": "Faylan (飛蘭)",
-    "cat": 2,
-    "count": 8,
-    "reading": "ふぇいらん",
-    "kana": "ふ",
-    "row": "は",
-    "alpha": "F",
-    "img": "https://i.ytimg.com/vi/movTaA40TcY/hqdefault.jpg",
-    "imgType": "youtube_official",
-    "songs": [
-      "Blood teller",
-      "Dead END",
-      "終末のフラクタル",
-      "RED decision",
-      "【Switch版セレクトオブリージュ新主題歌】With my Brave【公式・FULL】ボーカル：Faylan",
-      "紫電 ～円環の絆～",
-      "Live in Despair",
-      "レコンキスタ"
-    ],
-    "topSongs": [
-      "終末のフラクタル",
-      "mind as Judgment",
-      "Blood teller",
-      "Dead END",
-      "RED decision"
-    ],
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "nFAiSfrFGNI",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "歌手",
-    "sub": 12000,
-    "subBucket": "10kTo100k",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [
-      "フェイラン",
-      "飛蘭",
-      "Faylan",
-      "faylan"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌手"
-    ],
-    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。『終末のフラクタル』や『mind as Judgment』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCllT3g_dFsmGZQpLfFXPU0Q",
-    "ytChannelLabel": "YouTubeチャンネル（トピック） →",
-    "ytChannelType": "topic",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCllT3g_dFsmGZQpLfFXPU0Q",
-    "aid": "a_69d7ea9f"
-  },
-  {
     "name": "星見プロダクション",
     "cat": 2,
     "count": 10,
@@ -55181,6 +55111,76 @@
     "aid": "a_5c4a0ac6"
   },
   {
+    "name": "Faylan (飛蘭)",
+    "cat": 2,
+    "count": 8,
+    "reading": "ふぇいらん",
+    "kana": "ふ",
+    "row": "は",
+    "alpha": "F",
+    "img": "https://i.ytimg.com/vi/movTaA40TcY/hqdefault.jpg",
+    "imgType": "youtube_official",
+    "songs": [
+      "Blood teller",
+      "Dead END",
+      "終末のフラクタル",
+      "RED decision",
+      "【Switch版セレクトオブリージュ新主題歌】With my Brave【公式・FULL】ボーカル：Faylan",
+      "紫電 ～円環の絆～",
+      "Live in Despair",
+      "レコンキスタ"
+    ],
+    "topSongs": [
+      "終末のフラクタル",
+      "mind as Judgment",
+      "Blood teller",
+      "Dead END",
+      "RED decision"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "nFAiSfrFGNI",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "歌手",
+    "sub": 12000,
+    "subBucket": "10kTo100k",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [
+      "フェイラン",
+      "飛蘭",
+      "Faylan",
+      "faylan"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌手"
+    ],
+    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。『終末のフラクタル』や『mind as Judgment』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCllT3g_dFsmGZQpLfFXPU0Q",
+    "ytChannelLabel": "YouTubeチャンネル（トピック） →",
+    "ytChannelType": "topic",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCllT3g_dFsmGZQpLfFXPU0Q",
+    "aid": "a_69d7ea9f"
+  },
+  {
     "name": "ヨルシカ",
     "cat": 2,
     "count": 8,
@@ -55524,6 +55524,76 @@
     "ytChannelLabel": "YouTubeチャンネル →",
     "ytChannelType": "official",
     "aid": "a_8a10de5f"
+  },
+  {
+    "name": "DUSTCELL",
+    "cat": 2,
+    "count": 6,
+    "reading": "dustcell",
+    "kana": "",
+    "row": "",
+    "alpha": "D",
+    "img": "https://lh3.googleusercontent.com/BMdLSLywK0SE_Ts2rETnr5J5eE49hyveXIczScLvZWkocQO_hAbDcPSXpcmBUxB-G5hpwoZ311CrWvQ=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "CULT",
+      "狂う獣",
+      "表情差分",
+      "オルターエゴ",
+      "Void",
+      "青"
+    ],
+    "topSongs": [
+      "STIGMA",
+      "DERO",
+      "命の行方",
+      "アネモネ",
+      "独白"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "音楽グループ(その他)",
+    "imgType": "youtube_official",
+    "sub": 552000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "WBokwu1rdTw",
+      "iFKXsCZGV8A",
+      "p6Mw5nJZlqI",
+      "Bhwf0ClMiRQ",
+      "LdTuzZUHVv8"
+    ],
+    "subDate": "2026-10-27",
+    "vocal": "EMA",
+    "al": [
+      "EMA"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [
+      {
+        "text": "EMA",
+        "target": "EMA"
+      }
+    ],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(その他)",
+    "roles": [
+      "音楽グループ(その他)"
+    ],
+    "profileBio": "DUSTCELLは、ボーカルのEMAとコンポーザーのMisumiによって2019年10月に結成された2人組音楽ユニット。トラップやエレクトロニカ、オルタナティブロックを融合させたダークかつ重厚なトラックと、鋭利でエモーショナルなボーカルワークを武器に独自の音楽性を確立している。",
+    "ytChannelUrl": "https://www.youtube.com/@DUSTCELL",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@DUSTCELL",
+    "aid": "a_ce01e370"
   },
   {
     "name": "NANA",
@@ -56143,75 +56213,6 @@
     "ytChannelType": "topic",
     "youtubeChannelUrl": "https://www.youtube.com/results?search_query=AIKATSU%E2%98%86STARS%21%20-%20Topic&sp=EgIQAg%3D%3D",
     "aid": "a_fef24112"
-  },
-  {
-    "name": "DUSTCELL",
-    "cat": 2,
-    "count": 5,
-    "reading": "dustcell",
-    "kana": "",
-    "row": "",
-    "alpha": "D",
-    "img": "https://lh3.googleusercontent.com/BMdLSLywK0SE_Ts2rETnr5J5eE49hyveXIczScLvZWkocQO_hAbDcPSXpcmBUxB-G5hpwoZ311CrWvQ=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "CULT",
-      "狂う獣",
-      "表情差分",
-      "オルターエゴ",
-      "Void"
-    ],
-    "topSongs": [
-      "STIGMA",
-      "DERO",
-      "命の行方",
-      "アネモネ",
-      "独白"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "音楽グループ(その他)",
-    "imgType": "youtube_official",
-    "sub": 552000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "WBokwu1rdTw",
-      "iFKXsCZGV8A",
-      "p6Mw5nJZlqI",
-      "Bhwf0ClMiRQ",
-      "LdTuzZUHVv8"
-    ],
-    "subDate": "2026-10-27",
-    "vocal": "EMA",
-    "al": [
-      "EMA"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [
-      {
-        "text": "EMA",
-        "target": "EMA"
-      }
-    ],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(その他)",
-    "roles": [
-      "音楽グループ(その他)"
-    ],
-    "profileBio": "DUSTCELLは、ボーカルのEMAとコンポーザーのMisumiによって2019年10月に結成された2人組音楽ユニット。トラップやエレクトロニカ、オルタナティブロックを融合させたダークかつ重厚なトラックと、鋭利でエモーショナルなボーカルワークを武器に独自の音楽性を確立している。",
-    "ytChannelUrl": "https://www.youtube.com/@DUSTCELL",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@DUSTCELL",
-    "aid": "a_ce01e370"
   },
   {
     "name": "harmoe",
@@ -72911,74 +72912,6 @@
     "aid": "a_13e8d0d5"
   },
   {
-    "name": "7!!",
-    "cat": 2,
-    "count": 1,
-    "reading": "せぶんうっぷす",
-    "kana": "せ",
-    "row": "さ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/rDl7zykcjaPbVDlGF4k_frfcxEbC9Tejch7j0bLYlR2XnpgiysRhSyvIx5gcIP1de3KVsrRAcQ=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "オレンジ（オーケストラver.）"
-    ],
-    "topSongs": [
-      "オレンジ",
-      "ラヴァーズ",
-      "バイバイ",
-      "さよならメモリーズ",
-      "スウィート・ドライヴ"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "音楽グループ(その他)",
-    "imgType": "youtube_official",
-    "sub": 35800,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "nrEONh-u8Xo",
-      "48HKB2eXvXc",
-      "T33inmyLurY",
-      "QbkGVQSJlHg",
-      "OWTDCEEgNcg"
-    ],
-    "subDate": "2026-10-28",
-    "vocal": "NANAE",
-    "al": [
-      "NANAE",
-      "seven oops",
-      "セブンウップス",
-      "7oops"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [
-      {
-        "text": "NANAE",
-        "target": null
-      }
-    ],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(その他)",
-    "roles": [
-      "音楽グループ(その他)"
-    ],
-    "profileBio": "7!!（セブンウップス / seven oops）は、沖縄県出身のロックバンド。2011年に「7!!」としてメジャーデビューし、『ラヴァーズ』『オレンジ』などのヒット曲を発表。NANAEの太陽のように明るく切ない歌声と、ストレートな青春ロック・バラードで愛されている。",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCc6leg-cp1ai58AjpSsL-wQ",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCc6leg-cp1ai58AjpSsL-wQ",
-    "aid": "a_7dd25e4a"
-  },
-  {
     "name": "SHADE OF SPADE",
     "cat": 2,
     "count": 1,
@@ -82010,6 +81943,74 @@
     "ytChannelType": "",
     "youtubeChannelUrl": "",
     "aid": "a_c2b90565"
+  },
+  {
+    "name": "7!!",
+    "cat": 2,
+    "count": 1,
+    "reading": "せぶんうっぷす",
+    "kana": "せ",
+    "row": "さ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/rDl7zykcjaPbVDlGF4k_frfcxEbC9Tejch7j0bLYlR2XnpgiysRhSyvIx5gcIP1de3KVsrRAcQ=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "オレンジ（オーケストラver.）"
+    ],
+    "topSongs": [
+      "オレンジ",
+      "ラヴァーズ",
+      "バイバイ",
+      "さよならメモリーズ",
+      "スウィート・ドライヴ"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "音楽グループ(その他)",
+    "imgType": "youtube_official",
+    "sub": 35800,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "nrEONh-u8Xo",
+      "48HKB2eXvXc",
+      "T33inmyLurY",
+      "QbkGVQSJlHg",
+      "OWTDCEEgNcg"
+    ],
+    "subDate": "2026-10-28",
+    "vocal": "NANAE",
+    "al": [
+      "NANAE",
+      "seven oops",
+      "セブンウップス",
+      "7oops"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [
+      {
+        "text": "NANAE",
+        "target": null
+      }
+    ],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(その他)",
+    "roles": [
+      "音楽グループ(その他)"
+    ],
+    "profileBio": "7!!（セブンウップス / seven oops）は、沖縄県出身のロックバンド。2011年に「7!!」としてメジャーデビューし、『ラヴァーズ』『オレンジ』などのヒット曲を発表。NANAEの太陽のように明るく切ない歌声と、ストレートな青春ロック・バラードで愛されている。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCc6leg-cp1ai58AjpSsL-wQ",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCc6leg-cp1ai58AjpSsL-wQ",
+    "aid": "a_7dd25e4a"
   },
   {
     "name": "Senrei",
