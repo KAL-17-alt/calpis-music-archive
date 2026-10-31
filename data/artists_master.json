@@ -55110,6 +55110,75 @@
     "ytChannelType": "official"
   },
   {
+    "name": "DUSTCELL",
+    "cat": 2,
+    "count": 6,
+    "reading": "dustcell",
+    "kana": "",
+    "row": "",
+    "alpha": "D",
+    "img": "https://lh3.googleusercontent.com/BMdLSLywK0SE_Ts2rETnr5J5eE49hyveXIczScLvZWkocQO_hAbDcPSXpcmBUxB-G5hpwoZ311CrWvQ=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "CULT",
+      "狂う獣",
+      "表情差分",
+      "オルターエゴ",
+      "Void",
+      "青"
+    ],
+    "topSongs": [
+      "STIGMA",
+      "DERO",
+      "命の行方",
+      "アネモネ",
+      "独白"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "音楽グループ(その他)",
+    "imgType": "youtube_official",
+    "sub": 552000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "orig",
+      "orig",
+      "orig",
+      "orig",
+      "orig"
+    ],
+    "topLinks": [
+      "WBokwu1rdTw",
+      "iFKXsCZGV8A",
+      "p6Mw5nJZlqI",
+      "Bhwf0ClMiRQ",
+      "LdTuzZUHVv8"
+    ],
+    "subDate": "2026-10-27",
+    "vocal": "EMA",
+    "al": [
+      "EMA"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [
+      {
+        "text": "EMA",
+        "target": "EMA"
+      }
+    ],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(その他)",
+    "roles": [
+      "音楽グループ(その他)"
+    ],
+    "profileBio": "DUSTCELLは、ボーカルのEMAとコンポーザーのMisumiによって2019年10月に結成された2人組音楽ユニット。トラップやエレクトロニカ、オルタナティブロックを融合させたダークかつ重厚なトラックと、鋭利でエモーショナルなボーカルワークを武器に独自の音楽性を確立している。",
+    "ytChannelUrl": "https://www.youtube.com/@DUSTCELL",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@DUSTCELL"
+  },
+  {
     "name": "NANA",
     "cat": 2,
     "count": 6,
@@ -55702,74 +55771,6 @@
     "ytChannelLabel": "YouTubeチャンネル（トピック） →",
     "ytChannelType": "topic",
     "youtubeChannelUrl": "https://www.youtube.com/results?search_query=AIKATSU%E2%98%86STARS%21%20-%20Topic&sp=EgIQAg%3D%3D"
-  },
-  {
-    "name": "DUSTCELL",
-    "cat": 2,
-    "count": 5,
-    "reading": "dustcell",
-    "kana": "",
-    "row": "",
-    "alpha": "D",
-    "img": "https://lh3.googleusercontent.com/BMdLSLywK0SE_Ts2rETnr5J5eE49hyveXIczScLvZWkocQO_hAbDcPSXpcmBUxB-G5hpwoZ311CrWvQ=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "CULT",
-      "狂う獣",
-      "表情差分",
-      "オルターエゴ",
-      "Void"
-    ],
-    "topSongs": [
-      "STIGMA",
-      "DERO",
-      "命の行方",
-      "アネモネ",
-      "独白"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "音楽グループ(その他)",
-    "imgType": "youtube_official",
-    "sub": 552000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "orig",
-      "orig",
-      "orig",
-      "orig",
-      "orig"
-    ],
-    "topLinks": [
-      "WBokwu1rdTw",
-      "iFKXsCZGV8A",
-      "p6Mw5nJZlqI",
-      "Bhwf0ClMiRQ",
-      "LdTuzZUHVv8"
-    ],
-    "subDate": "2026-10-27",
-    "vocal": "EMA",
-    "al": [
-      "EMA"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [
-      {
-        "text": "EMA",
-        "target": "EMA"
-      }
-    ],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(その他)",
-    "roles": [
-      "音楽グループ(その他)"
-    ],
-    "profileBio": "DUSTCELLは、ボーカルのEMAとコンポーザーのMisumiによって2019年10月に結成された2人組音楽ユニット。トラップやエレクトロニカ、オルタナティブロックを融合させたダークかつ重厚なトラックと、鋭利でエモーショナルなボーカルワークを武器に独自の音楽性を確立している。",
-    "ytChannelUrl": "https://www.youtube.com/@DUSTCELL",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@DUSTCELL"
   },
   {
     "name": "harmoe",

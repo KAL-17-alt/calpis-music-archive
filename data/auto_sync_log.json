@@ -1,6 +1,15 @@
 [
   {
     "date": "2026-10-31",
+    "action": "auto_added_song",
+    "artist": "DUSTCELL",
+    "song": "青",
+    "type": "orig",
+    "confidence": 0.98,
+    "videoId": "41UYWheCkQc"
+  },
+  {
+    "date": "2026-10-31",
     "timestamp": "2026-10-31T04:56:11Z",
     "action": "baseline_initialized",
     "playlistVideoCount": 3118,
