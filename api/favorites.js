@@ -341,7 +341,7 @@ function normalizeStateObject(raw) {
       validIds.push(aid);
     }
   }
-  validIds.sort();
+  // Preserve custom artist order
 
   const rawSongFavs = Array.isArray(raw.songFavs) ? raw.songFavs : [];
   const validSongFavs = [];
@@ -353,7 +353,7 @@ function normalizeStateObject(raw) {
       validSongFavs.push(key);
     }
   }
-  validSongFavs.sort();
+  // Preserve custom song order
 
   const rawCustomSongs = Array.isArray(raw.customSongs) ? raw.customSongs : [];
   const validCustomSongs = [];
@@ -944,7 +944,7 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  normalizedAids.sort();
+  // Preserve custom artist order
 
   const normalizedSongFavs = [];
   const seenSongFavs = new Set();
@@ -965,7 +965,7 @@ module.exports = async function handler(req, res) {
       normalizedSongFavs.push(key);
     }
   }
-  normalizedSongFavs.sort();
+  // Preserve custom song order
 
   const normalizedCustomSongs = [];
   const seenCustomSongs = new Set();
