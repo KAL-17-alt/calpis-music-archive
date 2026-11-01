@@ -2302,6 +2302,12 @@
       scrollEl.scrollTop = 0;
     }
 
+    const recSwitchSlot = document.getElementById("recommendSwitchBarSlot");
+    if (recSwitchSlot && state.view !== "recommend") {
+      recSwitchSlot.style.display = "none";
+      recSwitchSlot.innerHTML = "";
+    }
+
     const groupsHTML = (state.view === "search" && currentMatchedGroups.length > 0)
       ? buildSearchGroupsSectionHTML(currentMatchedGroups)
       : "";
@@ -2325,7 +2331,7 @@
       const recSongCnt = getRecommendedSongCount();
       const isSongTab = state.recommendTab === "song";
 
-      const switchBarHTML = `
+      const switchBarInnerHTML = `
         <div class="recommend-switch-bar">
           <div class="recommend-switch-tabs" role="tablist" aria-label="かるのオススメ表示切り替え">
             <button type="button" class="recommend-switch-tab ${!isSongTab ? "active" : ""}" data-recommend-tab="artist" role="tab" aria-selected="${!isSongTab}">
@@ -2341,6 +2347,11 @@
           </div>
         </div>
       `;
+      if (recSwitchSlot) {
+        recSwitchSlot.style.display = "block";
+        recSwitchSlot.innerHTML = switchBarInnerHTML;
+      }
+      const switchBarHTML = recSwitchSlot ? "" : switchBarInnerHTML;
 
       const roleOrder = [
         "Vsinger",
@@ -3538,6 +3549,19 @@
       updateUI(true);
     }
 
+    const recSwitchSlotEl = document.getElementById("recommendSwitchBarSlot");
+    if (recSwitchSlotEl) {
+      recSwitchSlotEl.addEventListener("click", e => {
+        const recTabBtn = e.target.closest("[data-recommend-tab]");
+        if (!recTabBtn) return;
+        const nextTab = recTabBtn.getAttribute("data-recommend-tab") || "artist";
+        if (state.recommendTab !== nextTab) {
+          state.recommendTab = nextTab;
+          updateUI(false);
+        }
+      });
+    }
+
     const candBar = document.getElementById("searchCandidatesBar");
     if (candBar) {
       candBar.addEventListener("click", e => {
@@ -3629,6 +3653,40 @@
       updateFavEditBannerStatus();
     }
 
+    function updateDragPlaceholderAndGhostRank(section, placeholderRow, ghostEl) {
+      const rows = Array.from(section.querySelectorAll(".artist-row"));
+      let targetRank = 1;
+      rows.forEach((r, idx) => {
+        const num = idx + 1;
+        const rankEl = r.querySelector(".row-rank");
+        if (rankEl) rankEl.textContent = String(num);
+        if (r === placeholderRow) targetRank = num;
+      });
+      placeholderRow.setAttribute("data-drop-target-label", `ここに移動（#${targetRank}）`);
+      if (ghostEl) {
+        const ghostRankEl = ghostEl.querySelector(".row-rank");
+        if (ghostRankEl) ghostRankEl.textContent = `${targetRank}`;
+      }
+    }
+
+    function animateSectionRowsFLIP(section, prevTopsMap, skipRow) {
+      const rows = Array.from(section.querySelectorAll(".artist-row"));
+      rows.forEach(r => {
+        if (r === skipRow) return;
+        const prevTop = prevTopsMap.get(r);
+        if (typeof prevTop !== "number") return;
+        const newTop = r.getBoundingClientRect().top;
+        const dy = prevTop - newTop;
+        if (Math.abs(dy) > 1) {
+          r.style.transition = "none";
+          r.style.transform = `translateY(${dy}px)`;
+          void r.offsetWidth;
+          r.style.transition = "transform 0.16s cubic-bezier(0.22, 1, 0.36, 1)";
+          r.style.transform = "";
+        }
+      });
+    }
+
     listContainer.addEventListener("pointerdown", e => {
       if (!favQuickEditMode || state.view !== "recommend") return;
       const handle = e.target.closest("[data-drag-handle]");
@@ -3643,12 +3701,35 @@
         handle.setPointerCapture(e.pointerId);
       } catch (_e) {}
 
-      row.classList.add("is-dragging-row");
+      const rowRect = row.getBoundingClientRect();
+      const pointerOffsetY = e.clientY - rowRect.top;
+
+      // Create floating drag card that follows the pointer smoothly
+      const ghostEl = row.cloneNode(true);
+      ghostEl.classList.add("drag-floating-card");
+      ghostEl.style.position = "fixed";
+      ghostEl.style.left = `${rowRect.left}px`;
+      ghostEl.style.top = `${rowRect.top}px`;
+      ghostEl.style.width = `${rowRect.width}px`;
+      ghostEl.style.height = `${rowRect.height}px`;
+      ghostEl.style.margin = "0";
+      ghostEl.style.zIndex = "9995";
+      ghostEl.style.pointerEvents = "none";
+      document.body.appendChild(ghostEl);
+
+      // Turn the in-list row into a clear recessed drop slot placeholder
+      row.classList.add("is-dragging-row", "is-drag-placeholder");
+      updateDragPlaceholderAndGhostRank(section, row, ghostEl);
+
       activeDragState = {
         pointerId: e.pointerId,
         row,
         section,
         handle,
+        ghostEl,
+        startTop: rowRect.top,
+        pointerOffsetY,
+        rowHeight: rowRect.height,
         moved: false
       };
     });
@@ -3656,47 +3737,82 @@
     listContainer.addEventListener("pointermove", e => {
       if (!activeDragState || e.pointerId !== activeDragState.pointerId) return;
       e.preventDefault();
-      const { row, section } = activeDragState;
+      const { row, section, ghostEl, pointerOffsetY, rowHeight } = activeDragState;
+
+      // Move floating card smoothly with finger/cursor, clamped to the current Activity Role section bounds
+      const secRect = section.getBoundingClientRect();
+      const headerEl = section.querySelector(".recommend-role-group-header");
+      const minTop = headerEl ? headerEl.getBoundingClientRect().bottom + 2 : secRect.top;
+      const maxTop = secRect.bottom - rowHeight + 4;
+      const desiredTop = Math.max(minTop, Math.min(maxTop, e.clientY - pointerOffsetY));
+      if (ghostEl) {
+        ghostEl.style.top = `${desiredTop}px`;
+      }
+
+      // Gentle auto-scroll if dragging near top/bottom edge of #centerScrollArea
+      const scrollEl = document.getElementById("centerScrollArea");
+      if (scrollEl) {
+        const sRect = scrollEl.getBoundingClientRect();
+        if (e.clientY < sRect.top + 48) {
+          scrollEl.scrollTop -= 6;
+        } else if (e.clientY > sRect.bottom - 48) {
+          scrollEl.scrollTop += 6;
+        }
+      }
+
       const siblings = Array.from(section.querySelectorAll(".artist-row"));
       if (siblings.length <= 1) return;
 
-      const y = e.clientY;
+      // Record current tops for smooth FLIP transition if slot moves
+      const prevTopsMap = new Map();
+      siblings.forEach(r => prevTopsMap.set(r, r.getBoundingClientRect().top));
+
+      const dragCenterY = desiredTop + rowHeight / 2;
+      let slotMoved = false;
+
       for (let i = 0; i < siblings.length; i++) {
         const sib = siblings[i];
         if (sib === row) continue;
         const rect = sib.getBoundingClientRect();
         const midY = rect.top + rect.height / 2;
-        if (y < midY) {
+        if (dragCenterY < midY) {
           if (sib.previousElementSibling !== row) {
             section.insertBefore(row, sib);
-            activeDragState.moved = true;
-            Array.from(section.querySelectorAll(".artist-row")).forEach((r, idx) => {
-              const rankEl = r.querySelector(".row-rank");
-              if (rankEl) rankEl.textContent = String(idx + 1);
-            });
+            slotMoved = true;
           }
-          return;
+          break;
+        }
+        if (i === siblings.length - 1) {
+          if (sib !== row) {
+            section.appendChild(row);
+            slotMoved = true;
+          }
         }
       }
-      const lastSib = siblings[siblings.length - 1];
-      if (lastSib && lastSib !== row) {
-        section.appendChild(row);
+
+      if (slotMoved) {
         activeDragState.moved = true;
-        Array.from(section.querySelectorAll(".artist-row")).forEach((r, idx) => {
-          const rankEl = r.querySelector(".row-rank");
-          if (rankEl) rankEl.textContent = String(idx + 1);
-        });
+        updateDragPlaceholderAndGhostRank(section, row, ghostEl);
+        animateSectionRowsFLIP(section, prevTopsMap, row);
       }
     });
 
     function finishRecommendDrag(e) {
       if (!activeDragState) return;
       if (e && e.pointerId !== undefined && e.pointerId !== activeDragState.pointerId) return;
-      const { row, section, handle, moved } = activeDragState;
+      const { row, section, handle, ghostEl, moved } = activeDragState;
       try {
         if (handle && e && e.pointerId !== undefined) handle.releasePointerCapture(e.pointerId);
       } catch (_e) {}
-      row.classList.remove("is-dragging-row");
+      if (ghostEl && ghostEl.parentNode) {
+        ghostEl.parentNode.removeChild(ghostEl);
+      }
+      row.classList.remove("is-dragging-row", "is-drag-placeholder");
+      row.removeAttribute("data-drop-target-label");
+      Array.from(section.querySelectorAll(".artist-row")).forEach(r => {
+        r.style.transition = "";
+        r.style.transform = "";
+      });
       activeDragState = null;
       suppressNextRowClick = true;
       setTimeout(() => { suppressNextRowClick = false; }, 80);
