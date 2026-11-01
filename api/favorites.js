@@ -81,8 +81,17 @@ function resolveIdentifierToAid(rawId) {
   if (ALIAS_TO_AID[trimmed]) return ALIAS_TO_AID[trimmed];
   const nk = normalizeKey(trimmed);
   if (NORM_TO_AID[nk]) return NORM_TO_AID[nk];
+  if (/^a_[0-9a-f]{8}(?:_\d+)?$/.test(trimmed)) return trimmed;
   return null;
 }
+
+const SERVER_SONG_RENAME_MAP = {
+  "Emily To Juugono Yakusoku": "エミリーと15の約束",
+  "Nouriueno Cracker": "脳裏上のクラッカー",
+  "Haru Koizakura": "春、恋桜。",
+  "わたしね": "わたしね、、",
+  "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]"
+};
 
 /**
  * Normalizes a song entry (`"aid\tsongTitle"` or `{ aid, song }`) into canonical `"aid\tsongTitle"`.
@@ -107,8 +116,11 @@ function resolveSongEntry(rawEntry) {
   const aid = resolveIdentifierToAid(rawArtist);
   if (!aid) return null;
 
-  const cleanSong = rawSong.replace(/[\r\n\t]+/g, " ").trim();
+  let cleanSong = rawSong.replace(/[\r\n\t]+/g, " ").trim();
   if (!cleanSong || cleanSong.length > 180) return null;
+  if (SERVER_SONG_RENAME_MAP[cleanSong]) {
+    cleanSong = SERVER_SONG_RENAME_MAP[cleanSong];
+  }
 
   return `${aid}\t${cleanSong}`;
 }
