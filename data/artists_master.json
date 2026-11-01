@@ -3609,13 +3609,13 @@
     "alpha": "M",
     "img": "https://yt3.googleusercontent.com/sFE_KX3vJX03zocjiKkd8YcIgmOiegVF610pK8hew2t-my1czlxr5f0mZir-st3eXUoPMyS7OyU=s240-c-k-c0x00ffffff-no-rj",
     "songs": [
-      "Emily To Juugono Yakusoku",
+      "エミリーと15の約束",
       "Hibiwareta Sekai",
       "君に最後の口づけを",
       "クライクライ",
       "Kuruoshiihodo Bokuniwa Utsukushii",
       "Koe",
-      "Haru Koizakura",
+      "春、恋桜。",
       "さよならミッドナイト",
       "リボン",
       "アマデウス",
@@ -7411,7 +7411,9 @@
     "vocalParts": [],
     "agencyGroupCount": 0,
     "agencyClickable": false,
-    "memberOf": [],
+    "memberOf": [
+      "花降る日々"
+    ],
     "groupSubRole": "",
     "roles": [
       "歌い手"
@@ -16758,7 +16760,7 @@
     "img": "https://yt3.googleusercontent.com/OOL6DTwOKHzViVhVFYGGAQ2-1Q2evyb2jz5PHeIAcd1kCQwte9zni0J-JS_oNP-ZWt2K0faAhw=s240-c-k-c0x00ffffff-no-rj",
     "songs": [
       "桜ノ雨",
-      "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]",
+      "kick [試唱]",
       "死ぬとき死ねばいい 【歌ってみた】 Alfakyun. - I should die when I die",
       "Our sympathy",
       "Dokie Doggy Night",
@@ -26564,7 +26566,9 @@
     "vocalParts": [],
     "agencyGroupCount": 0,
     "agencyClickable": false,
-    "memberOf": [],
+    "memberOf": [
+      "花降る日々"
+    ],
     "groupSubRole": "",
     "roles": [
       "歌い手"
@@ -31960,6 +31964,63 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UC8hGV6UGvtlC4k2McpRgBvw",
     "aid": "a_ad5ce8d7"
+  },
+  {
+    "aid": "a_3408025f",
+    "name": "わん子 (綰子 /Wanko)",
+    "cat": 1,
+    "count": 2,
+    "reading": "わんこ",
+    "kana": "わ",
+    "row": "わ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/seAUw4pKG3PB4Wsg5sslqFqFdD24vqvJk57jZMo8hdnRrwbebPdc9JnFX1MulRhgD-NS3tdH=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "みにまむ",
+      "もでらーと"
+    ],
+    "topSongs": [
+      "みにまむ",
+      "もでらーと"
+    ],
+    "topLinks": [
+      "S2AhFrGXa8I",
+      "wKusc39aDLA"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル"
+    ],
+    "role": "歌い手",
+    "roles": [
+      "歌い手"
+    ],
+    "groupSubRole": "",
+    "sub": null,
+    "subBucket": "unknown",
+    "subDate": "2026-11-01",
+    "al": [
+      "わん子",
+      "綰子",
+      "綰子 /Wanko",
+      "綰子/wanko",
+      "Wanko",
+      "wanko",
+      "わんこ",
+      "ワンコ",
+      "UClDId0k74ZpDwRXJzrb-jIQ"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocal": "",
+    "vocalParts": [],
+    "memberOf": [],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UClDId0k74ZpDwRXJzrb-jIQ",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "agencyGroupCount": 0,
+    "agencyClickable": false
   },
   {
     "name": "Airots",
@@ -43453,6 +43514,60 @@
     "aid": "a_a6eb5c45"
   },
   {
+    "aid": "a_aba2a431",
+    "name": "TORi (torry)",
+    "cat": 1,
+    "count": 1,
+    "reading": "とり",
+    "kana": "と",
+    "row": "た",
+    "alpha": "T",
+    "img": "https://yt3.googleusercontent.com/gc-pVzesz1KF8zE5IAN_lfhlr0HLD-a_Im-KpEyeTkntdUZDi47s5JHRvCEWpfnDCnTILMbJCMU=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "菜の花のように"
+    ],
+    "topSongs": [
+      "菜の花のように",
+      "だきしめること。"
+    ],
+    "topLinks": [
+      "SIW7cNyQPak",
+      "5RSzx4zMF2U"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル"
+    ],
+    "role": "歌い手",
+    "roles": [
+      "歌い手"
+    ],
+    "groupSubRole": "",
+    "sub": 10600,
+    "subBucket": "10kTo100k",
+    "subDate": "2026-11-01",
+    "al": [
+      "TORi",
+      "torry",
+      "tori",
+      "とり",
+      "トリ",
+      "鳥",
+      "UCHeUUDWr8oXbdublNQtJbNQ"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocal": "",
+    "vocalParts": [],
+    "memberOf": [],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCHeUUDWr8oXbdublNQtJbNQ",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "agencyGroupCount": 0,
+    "agencyClickable": false
+  },
+  {
     "name": "中川翔子",
     "cat": 1,
     "count": 1,
@@ -47073,6 +47188,55 @@
     "aid": "a_858fef82"
   },
   {
+    "aid": "a_10842e73",
+    "name": "miri (璃Miri)",
+    "cat": 1,
+    "count": 1,
+    "reading": "みり",
+    "kana": "み",
+    "row": "ま",
+    "alpha": "M",
+    "img": "https://yt3.googleusercontent.com/erJlmpAFYLgcsBlRl4nSKFV3B0lD1sk6ZlXp6JEWe_n9fWynvli9aAhiL-oFqIfXFkdcba7S3Q=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "レイラ"
+    ],
+    "topSongs": [
+      "レイラ"
+    ],
+    "topLinks": [
+      "gqWAui-okAM"
+    ],
+    "topTypes": [
+      "オリジナル"
+    ],
+    "role": "Vtuber",
+    "roles": [
+      "Vtuber"
+    ],
+    "groupSubRole": "",
+    "sub": 34700,
+    "subBucket": "10kTo100k",
+    "subDate": "2026-11-01",
+    "al": [
+      "miri",
+      "璃Miri",
+      "みり",
+      "ミリ",
+      "UCHCnxECJBxKrMByroUWSgcw"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocal": "",
+    "vocalParts": [],
+    "memberOf": [],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCHCnxECJBxKrMByroUWSgcw",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "agencyGroupCount": 0,
+    "agencyClickable": false
+  },
+  {
     "name": "ミーシア・バットフォード",
     "cat": 1,
     "count": 1,
@@ -49592,6 +49756,55 @@
     "ytChannelType": "",
     "youtubeChannelUrl": "",
     "aid": "a_37cfa877"
+  },
+  {
+    "aid": "a_407a13ad",
+    "name": "rei sirose",
+    "cat": 1,
+    "count": 1,
+    "reading": "れいしろせ",
+    "kana": "れ",
+    "row": "ら",
+    "alpha": "R",
+    "img": "https://i.ytimg.com/vi/j1ArobXFdyQ/hqdefault.jpg",
+    "songs": [
+      "贖罪"
+    ],
+    "topSongs": [
+      "贖罪"
+    ],
+    "topLinks": [
+      "j1ArobXFdyQ"
+    ],
+    "topTypes": [
+      "cover"
+    ],
+    "role": "歌い手",
+    "roles": [
+      "歌い手"
+    ],
+    "groupSubRole": "",
+    "sub": null,
+    "subBucket": "unknown",
+    "subDate": "2026-11-01",
+    "al": [
+      "reisirose",
+      "白瀬怜",
+      "れいしろせ",
+      "レイシロセ",
+      "UCyqaJxeEZLd7AfebCpxu06g"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocal": "",
+    "vocalParts": [],
+    "memberOf": [],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCyqaJxeEZLd7AfebCpxu06g",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "agencyGroupCount": 0,
+    "agencyClickable": false
   },
   {
     "name": "零奈",
@@ -55526,76 +55739,6 @@
     "aid": "a_8a10de5f"
   },
   {
-    "name": "DUSTCELL",
-    "cat": 2,
-    "count": 6,
-    "reading": "dustcell",
-    "kana": "",
-    "row": "",
-    "alpha": "D",
-    "img": "https://lh3.googleusercontent.com/BMdLSLywK0SE_Ts2rETnr5J5eE49hyveXIczScLvZWkocQO_hAbDcPSXpcmBUxB-G5hpwoZ311CrWvQ=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "CULT",
-      "狂う獣",
-      "表情差分",
-      "オルターエゴ",
-      "Void",
-      "青"
-    ],
-    "topSongs": [
-      "STIGMA",
-      "DERO",
-      "命の行方",
-      "アネモネ",
-      "独白"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "音楽グループ(その他)",
-    "imgType": "youtube_official",
-    "sub": 552000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "WBokwu1rdTw",
-      "iFKXsCZGV8A",
-      "p6Mw5nJZlqI",
-      "Bhwf0ClMiRQ",
-      "LdTuzZUHVv8"
-    ],
-    "subDate": "2026-10-27",
-    "vocal": "EMA",
-    "al": [
-      "EMA"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [
-      {
-        "text": "EMA",
-        "target": "EMA"
-      }
-    ],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(その他)",
-    "roles": [
-      "音楽グループ(その他)"
-    ],
-    "profileBio": "DUSTCELLは、ボーカルのEMAとコンポーザーのMisumiによって2019年10月に結成された2人組音楽ユニット。トラップやエレクトロニカ、オルタナティブロックを融合させたダークかつ重厚なトラックと、鋭利でエモーショナルなボーカルワークを武器に独自の音楽性を確立している。",
-    "ytChannelUrl": "https://www.youtube.com/@DUSTCELL",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@DUSTCELL",
-    "aid": "a_ce01e370"
-  },
-  {
     "name": "NANA",
     "cat": 2,
     "count": 6,
@@ -56215,6 +56358,75 @@
     "aid": "a_fef24112"
   },
   {
+    "name": "DUSTCELL",
+    "cat": 2,
+    "count": 5,
+    "reading": "dustcell",
+    "kana": "",
+    "row": "",
+    "alpha": "D",
+    "img": "https://lh3.googleusercontent.com/BMdLSLywK0SE_Ts2rETnr5J5eE49hyveXIczScLvZWkocQO_hAbDcPSXpcmBUxB-G5hpwoZ311CrWvQ=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "CULT",
+      "狂う獣",
+      "表情差分",
+      "オルターエゴ",
+      "Void"
+    ],
+    "topSongs": [
+      "STIGMA",
+      "DERO",
+      "命の行方",
+      "アネモネ",
+      "独白"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "音楽グループ(その他)",
+    "imgType": "youtube_official",
+    "sub": 552000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "WBokwu1rdTw",
+      "iFKXsCZGV8A",
+      "p6Mw5nJZlqI",
+      "Bhwf0ClMiRQ",
+      "LdTuzZUHVv8"
+    ],
+    "subDate": "2026-10-27",
+    "vocal": "EMA",
+    "al": [
+      "EMA"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [
+      {
+        "text": "EMA",
+        "target": "EMA"
+      }
+    ],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(その他)",
+    "roles": [
+      "音楽グループ(その他)"
+    ],
+    "profileBio": "DUSTCELLは、ボーカルのEMAとコンポーザーのMisumiによって2019年10月に結成された2人組音楽ユニット。トラップやエレクトロニカ、オルタナティブロックを融合させたダークかつ重厚なトラックと、鋭利でエモーショナルなボーカルワークを武器に独自の音楽性を確立している。",
+    "ytChannelUrl": "https://www.youtube.com/@DUSTCELL",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@DUSTCELL",
+    "aid": "a_ce01e370"
+  },
+  {
     "name": "harmoe",
     "cat": 2,
     "count": 5,
@@ -56600,81 +56812,6 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UC6alNEdx7pecMJRtlkwu1uw",
     "aid": "a_364405a1"
-  },
-  {
-    "name": "ずっと真夜中でいいのに。",
-    "cat": 2,
-    "count": 5,
-    "reading": "ずっとまよなかでいいのに",
-    "kana": "す",
-    "row": "さ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/i5_2QoyreWMcR6Agwm5voivSl9Z6Ye_8qUqHYobhPwOnjHwPtjUOuQLNkspMqsrK1Uyl_s4ijg=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Nouriueno Cracker",
-      "Kan Saete Kuyashiiwa",
-      "Saturn",
-      "脳裏上のクラッカー",
-      "Time Left"
-    ],
-    "topSongs": [
-      "秒針を噛む",
-      "お勉強しといてよ",
-      "残機",
-      "正しくなれない",
-      "あいつら全員同窓会"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "ZUTOMAYO",
-      "Zutto Mayonaka de Iinoni",
-      "ずっとまよなかでいいのに",
-      "ずとまよ",
-      "ズットマヨナカデイイノニ",
-      "ズトマヨ",
-      "ACAね"
-    ],
-    "role": "音楽グループ(その他)",
-    "imgType": "youtube_official",
-    "sub": 3430000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "GJI4Gv7NbmE",
-      "Atvsg_zogxo",
-      "GNFjhvFnnDY",
-      "8UP7V0UGR4c",
-      "ZUwaudw8ht0"
-    ],
-    "subDate": "2026-10-27",
-    "vocal": "ACAね",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [
-      {
-        "text": "ACAね",
-        "target": null
-      }
-    ],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(その他)",
-    "roles": [
-      "音楽グループ(その他)"
-    ],
-    "profileBio": "ずっと真夜中でいいのに。は、作詞・作曲・ボーカルを担うACAねを中心に結成された、特定の形を持たない音楽バンド。2018年に『秒針を噛む』のMV投稿で始動し、緻密なベースラインやピアノが疾走するオルタナティブロックと、独創的な言葉遊びを織り交ぜた詞世界で高い支持を集めている。",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCv6P5nsS9rP4tDtFlqLU_QQ",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCv6P5nsS9rP4tDtFlqLU_QQ",
-    "aid": "a_bee524d0"
   },
   {
     "name": "Saint Snow",
@@ -57775,13 +57912,13 @@
     "imgType": "youtube_official",
     "songs": [
       "New world",
-      "わたしね",
+      "わたしね、、",
       "青空なんて飛びたくなかった",
       "Blue Bird"
     ],
     "topSongs": [
       "New world",
-      "わたしね",
+      "わたしね、、",
       "青空なんて飛びたくなかった",
       "Blue Bird"
     ],
@@ -57816,7 +57953,7 @@
     "roles": [
       "歌手"
     ],
-    "profileBio": "くまみゆは、PCゲーム・アニメ主題歌やインディー・同人音楽シーンを中心に活躍する女性シンガー。作品の物語世界に寄り添う表現力豊かなボーカルを特徴とし、『New world』『わたしね』をはじめとする数々のボーカル楽曲で根強い支持を集めている。",
+    "profileBio": "くまみゆは、PCゲーム・アニメ主題歌やインディー・同人音楽シーンを中心に活躍する女性シンガー。作品の物語世界に寄り添う表現力豊かなボーカルを特徴とし、『New world』『わたしね、、』をはじめとする数々のボーカル楽曲で根強い支持を集めている。",
     "ytChannelUrl": "",
     "ytChannelLabel": "",
     "ytChannelType": "",
@@ -57882,6 +58019,80 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/@keisugawara",
     "aid": "a_26f1a15e"
+  },
+  {
+    "name": "ずっと真夜中でいいのに。",
+    "cat": 2,
+    "count": 4,
+    "reading": "ずっとまよなかでいいのに",
+    "kana": "す",
+    "row": "さ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/i5_2QoyreWMcR6Agwm5voivSl9Z6Ye_8qUqHYobhPwOnjHwPtjUOuQLNkspMqsrK1Uyl_s4ijg=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "脳裏上のクラッカー",
+      "Kan Saete Kuyashiiwa",
+      "Saturn",
+      "Time Left"
+    ],
+    "topSongs": [
+      "秒針を噛む",
+      "お勉強しといてよ",
+      "残機",
+      "正しくなれない",
+      "あいつら全員同窓会"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "ZUTOMAYO",
+      "Zutto Mayonaka de Iinoni",
+      "ずっとまよなかでいいのに",
+      "ずとまよ",
+      "ズットマヨナカデイイノニ",
+      "ズトマヨ",
+      "ACAね"
+    ],
+    "role": "音楽グループ(その他)",
+    "imgType": "youtube_official",
+    "sub": 3430000,
+    "subBucket": "over1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "GJI4Gv7NbmE",
+      "Atvsg_zogxo",
+      "GNFjhvFnnDY",
+      "8UP7V0UGR4c",
+      "ZUwaudw8ht0"
+    ],
+    "subDate": "2026-10-27",
+    "vocal": "ACAね",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [
+      {
+        "text": "ACAね",
+        "target": null
+      }
+    ],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(その他)",
+    "roles": [
+      "音楽グループ(その他)"
+    ],
+    "profileBio": "ずっと真夜中でいいのに。は、作詞・作曲・ボーカルを担うACAねを中心に結成された、特定の形を持たない音楽バンド。2018年に『秒針を噛む』のMV投稿で始動し、緻密なベースラインやピアノが疾走するオルタナティブロックと、独創的な言葉遊びを織り交ぜた詞世界で高い支持を集めている。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCv6P5nsS9rP4tDtFlqLU_QQ",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCv6P5nsS9rP4tDtFlqLU_QQ",
+    "aid": "a_bee524d0"
   },
   {
     "name": "月が綺麗じゃなくたって。",
@@ -78578,7 +78789,7 @@
     "aid": "a_8919af78"
   },
   {
-    "name": "きみどり",
+    "name": "≡君彩≡",
     "cat": 2,
     "count": 1,
     "reading": "きみどり",
@@ -78595,7 +78806,11 @@
     ],
     "topStatus": "completed_5_songs",
     "al": [
-      "kimidori"
+      "kimidori",
+      "Kimidori",
+      "きみどり",
+      "君彩",
+      "≡君彩≡"
     ],
     "role": "音楽グループ(アニゲー関連)",
     "imgType": "youtube_official",
@@ -81544,6 +81759,69 @@
     "aid": "a_75a66c53"
   },
   {
+    "aid": "a_f14dff12",
+    "name": "鈴木愛理",
+    "cat": 2,
+    "count": 1,
+    "reading": "すずきあいり",
+    "kana": "す",
+    "row": "さ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/yCgi8G0wytpJvWlC9hOtxrGxuafnWRwL0lJs_ocp4kUHB-MBnqidC_bKSPcIc6kARjld6plFqA=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "空は二度燃える"
+    ],
+    "topSongs": [
+      "空は二度燃える",
+      "初恋サイダー",
+      "最強の推し！",
+      "恋におちたら feat. 空音 & Taku Takahashi",
+      "Distance"
+    ],
+    "topLinks": [
+      "pKuhQACie_k",
+      "rhfZq9b9h6I",
+      "",
+      "xU07Dte4JhE",
+      ""
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "role": "歌手",
+    "roles": [
+      "歌手"
+    ],
+    "groupSubRole": "",
+    "sub": 444000,
+    "subBucket": "100kTo1m",
+    "subDate": "2026-11-01",
+    "al": [
+      "Airi Suzuki",
+      "Suzuki Airi",
+      "suzukiairi",
+      "スズキアイリ",
+      "Buono!",
+      "℃-ute",
+      "UCRkCifCbAw0qwu7XzOa9d7w"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocal": "",
+    "vocalParts": [],
+    "memberOf": [],
+    "profileBio": "圧倒的な歌唱力と表現力で知られるソロヴォーカリスト。℃-uteやBuono!での活動を経て2018年にソロデビューし、アニメ主題歌や『空は二度燃える』など幅広い楽曲で輝きを放っている。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCRkCifCbAw0qwu7XzOa9d7w",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "agencyGroupCount": 0,
+    "agencyClickable": false
+  },
+  {
     "name": "鈴木羽那 (コメティック)",
     "cat": 2,
     "count": 1,
@@ -82371,6 +82649,67 @@
     "aid": "a_33818bbe"
   },
   {
+    "aid": "a_453a93b8",
+    "name": "平葵",
+    "cat": 2,
+    "count": 1,
+    "reading": "たいらあおい",
+    "kana": "た",
+    "row": "た",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/tHF4W2ea5vj9y-r4copsa5jbbo6QHzdONdb-K4kcHyky2V2YSc997u8PXmhjnOewdZhjWjO6=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "案山子"
+    ],
+    "topSongs": [
+      "案山子",
+      "canfull",
+      "×",
+      "progress",
+      "燐光って"
+    ],
+    "topLinks": [
+      "cAlhOMda-Xs",
+      "",
+      "t8LT72qrRjo",
+      "sPqQHgqk_Uk",
+      "si5-RddQoxg"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "role": "歌手",
+    "roles": [
+      "歌手"
+    ],
+    "groupSubRole": "",
+    "sub": null,
+    "subBucket": "unknown",
+    "subDate": "2026-11-01",
+    "al": [
+      "Aoi Taira",
+      "Taira Aoi",
+      "tairaaoi",
+      "タイラアオイ",
+      "UC0JetkYdglzF70e8GffPhMg"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocal": "",
+    "vocalParts": [],
+    "memberOf": [],
+    "profileBio": "透明感と芯の強さを併せ持つ歌声で注目を集めるシンガー。『案山子』や『canfull』など、繊細な感情の揺れを描く楽曲を独自の表現力で歌い上げている。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UC0JetkYdglzF70e8GffPhMg",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "agencyGroupCount": 0,
+    "agencyClickable": false
+  },
+  {
     "name": "高槻翼",
     "cat": 2,
     "count": 1,
@@ -82521,6 +82860,67 @@
     "ytChannelType": "",
     "youtubeChannelUrl": "",
     "aid": "a_00829e32"
+  },
+  {
+    "aid": "a_62c07790",
+    "name": "瀧川ありさ",
+    "cat": 2,
+    "count": 1,
+    "reading": "たきがわありさ",
+    "kana": "た",
+    "row": "た",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/ytc/AIdro_kjdHAsXZLiPrVm666_V9VT5_azux5GVlz4O71207G0OQ=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "さよならのゆくえ"
+    ],
+    "topSongs": [
+      "さよならのゆくえ",
+      "Season",
+      "色褪せない瞳",
+      "わがまま",
+      "夏の花"
+    ],
+    "topLinks": [
+      "pe8_2tiHwfQ",
+      "8a1PBi2ROD0",
+      "TBmevKostw4",
+      "GBMuovsHDi8",
+      ""
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "role": "歌手",
+    "roles": [
+      "歌手"
+    ],
+    "groupSubRole": "",
+    "sub": 35800,
+    "subBucket": "10kTo100k",
+    "subDate": "2026-11-01",
+    "al": [
+      "Alisa Takigawa",
+      "Takigawa Alisa",
+      "takigawaarisa",
+      "タキガワアリサ",
+      "UCfeGaWl3hge2_4BXrXSqEyw"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocal": "",
+    "vocalParts": [],
+    "memberOf": [],
+    "profileBio": "伸びやかで情感豊かな歌声を持つシンガーソングライター。TVアニメ『七つの大罪』EDテーマ『Season』でメジャーデビューし、『終物語』EDテーマ『さよならのゆくえ』など数々のアニメ主題歌を手掛けている。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCfeGaWl3hge2_4BXrXSqEyw",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "agencyGroupCount": 0,
+    "agencyClickable": false
   },
   {
     "name": "たこやきレインボー",
@@ -85038,6 +85438,79 @@
     "ytChannelType": "",
     "youtubeChannelUrl": "",
     "aid": "a_16b704d8"
+  },
+  {
+    "aid": "a_003d0cad",
+    "name": "花降る日々",
+    "cat": 2,
+    "count": 1,
+    "reading": "はなふるひび",
+    "kana": "は",
+    "row": "は",
+    "alpha": "",
+    "img": "https://i.ytimg.com/vi/c0TtCowqHC0/hqdefault.jpg",
+    "songs": [
+      "ひとりじゃないじゃん"
+    ],
+    "topSongs": [
+      "ひとりじゃないじゃん",
+      "muguet",
+      "花降る日々",
+      "紫陽花、まばたき、梅雨の日。"
+    ],
+    "topLinks": [
+      "",
+      "c0TtCowqHC0",
+      "jm1ZozgaGQw",
+      "ET92gzWWYbU"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "role": "音楽グループ(その他)",
+    "roles": [
+      "音楽グループ(その他)"
+    ],
+    "groupSubRole": "音楽グループ(その他)",
+    "sub": null,
+    "subBucket": "unknown",
+    "subDate": "2026-11-01",
+    "al": [
+      "、花降る日々",
+      "花降る日々、",
+      "hanafuruhibi",
+      "hanahuruhibi",
+      "ハナフルヒビ",
+      "鎖那・000・めありー",
+      "UCVd0lHzInoR_wocMXR74fTA"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocal": "鎖那・000・めありー",
+    "vocalParts": [
+      {
+        "text": "鎖那",
+        "target": "鎖那"
+      },
+      {
+        "text": "・000・",
+        "target": null
+      },
+      {
+        "text": "めありー",
+        "target": "めありー"
+      }
+    ],
+    "memberOf": [],
+    "profileBio": "鎖那・000・めありーの3人による音楽ユニット。繊細で透明感のあるボーカルアンサンブルとアコースティックな温かみのあるサウンドで、『ひとりじゃないじゃん』や『muguet』などの楽曲を発表している。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCVd0lHzInoR_wocMXR74fTA",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "agencyGroupCount": 0,
+    "agencyClickable": false
   },
   {
     "name": "遥",
