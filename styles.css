@@ -5122,7 +5122,6 @@ body.fav-quick-edit-mode .custom-song-del-btn {
   font-size: 9.5px;
   z-index: 4;
   pointer-events: none;
-  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 .detail-avatar-heart-badge {
@@ -5190,6 +5189,7 @@ body.fav-quick-edit-mode .detail-hero.detail-artist-is-fav .detail-avatar-wrap {
   color: rgba(255, 255, 255, 0.22) !important;
   background: rgba(255, 255, 255, 0.04) !important;
   border: 1.5px dashed rgba(255, 255, 255, 0.24) !important;
+  transition: none !important;
 }
 
 .song-edit-heart-indicator.is-fav {
@@ -5197,11 +5197,12 @@ body.fav-quick-edit-mode .detail-hero.detail-artist-is-fav .detail-avatar-wrap {
   background: #f43f5e !important;
   border: 1.5px solid #fda4af !important;
   box-shadow: 0 2px 8px rgba(244, 63, 94, 0.5) !important;
+  transition: none !important;
 }
 
 body.fav-quick-edit-mode .detail-song-item {
   border: 1px dashed rgba(255, 255, 255, 0.18) !important;
-  transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.1s ease;
+  transition: transform 0.1s ease;
 }
 
 body.fav-quick-edit-mode .detail-song-item:active {
@@ -5335,5 +5336,147 @@ body.song-list-mode .artist-row .row-count,
 
   .center-scroll.mob-search-screen-enter {
     animation: mobSearchScreenEnter 0.21s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+}
+
+
+/* ==========================================================================
+   V51 UPDATES:
+   1) REMOVE AVATAR BOTTOM-RIGHT HEART BADGE & POP/SCALE ANIMATIONS IN EDIT MODE
+   2) SMARTPHONE SEARCH TARGET TABS: UNIFORM PADDING BY CHARACTER LENGTH
+   3) "かるのオススメ" 1-BASED NUMBERING PER ROLE & RIGHT-EDGE DRAG HANDLE IN EDIT MODE
+   4) SMARTPHONE BOTTOM NAV "検索" FULL-HEIGHT PRESS HIGHLIGHT (NO TOP/BOTTOM GAP)
+   5) SMARTPHONE SCROLLBAR & LAST ROW CLEARANCE ABOVE .mobile-bottom-nav
+   ========================================================================== */
+
+/* 1. Hide avatar heart badge & disable pop/scale animations in Edit Mode */
+.avatar-edit-heart-badge,
+.detail-avatar-heart-badge {
+  display: none !important;
+}
+
+.edit-heart-pop {
+  animation: none !important;
+}
+
+body.fav-quick-edit-mode .detail-song-item,
+body.fav-quick-edit-mode .detail-song-item:active {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* 2. Smartphone Search Target Tabs ("すべて" / "アーティスト" / "楽曲" / "グループ"):
+      Use flex: 1 0 auto so horizontal green padding around text is equal across all 4 tabs */
+@media (max-width: 900px) {
+  .search-target-tabs {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 4px !important;
+    padding: 4px !important;
+  }
+
+  .search-target-tab {
+    flex: 1 0 auto !important;
+    padding: 6px 8px !important;
+    font-size: 12px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* 3. "かるのオススメ" Drag Handle on Right Edge in Edit Mode & 1-Based Row Numbering */
+.row-drag-handle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 32px;
+  border-radius: 7px;
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.row-drag-handle:hover,
+.row-drag-handle:active {
+  color: #ffffff;
+  background: rgba(251, 113, 133, 0.25);
+  border-color: #fb7185;
+}
+
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-handle {
+  display: inline-flex !important;
+}
+
+.artist-row.is-dragging-row {
+  background: rgba(244, 63, 94, 0.28) !important;
+  outline: 1.5px solid #fb7185 !important;
+  z-index: 10;
+  position: relative;
+}
+
+@media (min-width: 901px) {
+  body.fav-quick-edit-mode[data-current-view="recommend"]:not(.song-list-mode) .artist-row.recommend-artist-row {
+    grid-template-columns: 44px 44px minmax(170px, 1.45fr) 110px 128px 110px 80px 34px !important;
+  }
+  body.fav-quick-edit-mode[data-current-view="recommend"].song-list-mode .artist-row.recommend-song-row {
+    grid-template-columns: 44px 44px minmax(220px, 1.85fr) 110px 128px 110px 34px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  body.fav-quick-edit-mode[data-current-view="recommend"]:not(.song-list-mode) .artist-row.recommend-artist-row {
+    grid-template-columns: 24px 38px minmax(0, 1fr) auto 32px !important;
+    gap: 6px !important;
+  }
+  body.fav-quick-edit-mode[data-current-view="recommend"].song-list-mode .artist-row.recommend-song-row {
+    grid-template-columns: 24px 38px minmax(0, 1fr) 32px !important;
+    gap: 6px !important;
+  }
+
+  /* 4. Smartphone Bottom Bar ("検索" button): Fill full vertical height of .mobile-bottom-nav with zero top/bottom gap */
+  .mobile-bottom-nav {
+    align-items: stretch !important;
+  }
+
+  .mob-nav-item {
+    height: 100% !important;
+    align-self: stretch !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .mob-nav-item[data-nav-view="search"]:active,
+  .mob-nav-item[data-nav-view="search"].mob-search-tap-active {
+    background-color: rgba(29, 185, 84, 0.22) !important;
+    color: #1ed760 !important;
+    transform: none !important;
+  }
+
+  /* 5. Smartphone Scrollbar & Last Row Clearance Above .mobile-bottom-nav:
+        Stop .app-shell and .center-scroll right at the top border of .mobile-bottom-nav
+        so the scrollbar track never hides behind the bottom bar and the last row stays completely visible */
+  .app-shell,
+  .app-shell.detail-closed {
+    height: calc(100dvh - 57px - 60px - env(safe-area-inset-bottom, 0px)) !important;
+    max-height: calc(100dvh - 57px - 60px - env(safe-area-inset-bottom, 0px)) !important;
+    margin-bottom: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .center-scroll {
+    padding-bottom: 4px !important;
+  }
+
+  .artist-list {
+    padding: 4px 4px 6px !important;
   }
 }
