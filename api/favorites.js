@@ -135,7 +135,15 @@ const SERVER_SONG_RENAME_MAP = {
   "Give Me Life": "命をくれよ",
   "I’ｍ here": "運命の華",
   "I'm here": "運命の華",
-  "I’m here": "運命の華"
+  "ツギハギスタッカートを": "ツギハギスタッカート",
+  "Himawari": "向日葵",
+  "Blue": "夜に藍",
+  "OVER / Just Be Friends-piano.ver-": "OVER",
+  "エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌)": "エテルネル",
+  "エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）": "エテルネル",
+  "エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）": "エテルネル",
+  "エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌)": "エテルネル",
+  "エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌) / エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）": "エテルネル"
 };
 
 /**
