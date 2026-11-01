@@ -7003,3 +7003,81 @@ body.fav-quick-edit-mode[data-current-view="recommend"] #listColTotalHeartLabel 
   background: linear-gradient(135deg, rgba(225, 29, 72, 1), rgba(244, 63, 94, 0.95));
   box-shadow: 0 3px 12px rgba(244, 63, 94, 0.42);
 }
+
+
+/* ==========================================================================
+   v64 Updates:
+   PC Edit Mode in "かるのオススメ" -> "アーティスト" tab:
+   Show "高評価曲数" (.row-fav-song-count) and "総ハート数" (.row-total-heart-count)
+   cleanly to the left of the right-edge drag handle (.row-drag-handle) without overlapping,
+   and align #listColHeader columns ("アーティスト", "高評価曲数", "総ハート数").
+   Smartphone and "楽曲" tab remain unchanged.
+   ========================================================================== */
+
+@media (min-width: 901px) {
+  /* 1. Align #listColHeader and .artist-row.recommend-artist-row into 6 columns on PC Edit Mode (Artist tab only) */
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) #listColHeader,
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) .artist-row.recommend-artist-row,
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) .drag-floating-card.recommend-artist-row {
+    grid-template-columns:
+      calc(32px + (var(--fs) - 1) * 12px)
+      46px
+      minmax(0, 1fr)
+      calc(68px + (var(--fs) - 1) * 42px)
+      calc(68px + (var(--fs) - 1) * 42px)
+      36px !important;
+    gap: 10px !important;
+    padding-right: 12px !important;
+  }
+
+  /* 2. Hide unused middle columns in #listColHeader during PC Edit Mode on "かるのオススメ" */
+  body.fav-quick-edit-mode[data-current-view="recommend"] #listColHeader > span:nth-child(4),
+  body.fav-quick-edit-mode[data-current-view="recommend"] #listColHeader > span:nth-child(5),
+  body.fav-quick-edit-mode[data-current-view="recommend"] #listColHeader > span:nth-child(6),
+  body.fav-quick-edit-mode[data-current-view="recommend"] #listColCountLabel {
+    display: none !important;
+  }
+
+  /* 3. Show "高評価曲数" & "総ハート数" headers and cells in Columns 4 & 5 on PC Edit Mode (Artist tab only) */
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) #listColFavCountLabel {
+    display: inline-block !important;
+    grid-column: 4 !important;
+    text-align: right !important;
+    padding-right: 0 !important;
+  }
+
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) #listColTotalHeartLabel {
+    display: inline-block !important;
+    grid-column: 5 !important;
+    text-align: right !important;
+    padding-right: 0 !important;
+  }
+
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) #listColHeader::after {
+    content: "";
+    display: block;
+    grid-column: 6;
+    width: 36px;
+  }
+
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) .artist-row.recommend-artist-row > .row-fav-song-count,
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) .drag-floating-card.recommend-artist-row > .row-fav-song-count {
+    display: block !important;
+    grid-column: 4 !important;
+    text-align: right !important;
+  }
+
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) .artist-row.recommend-artist-row > .row-total-heart-count,
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) .drag-floating-card.recommend-artist-row > .row-total-heart-count {
+    display: inline-flex !important;
+    grid-column: 5 !important;
+    justify-content: flex-end !important;
+    text-align: right !important;
+  }
+
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) .artist-row.recommend-artist-row > .row-drag-handle,
+  body.fav-quick-edit-mode[data-current-view="recommend"].recommend-artist-mode:not(.song-list-mode) .drag-floating-card.recommend-artist-row > .row-drag-handle {
+    grid-column: 6 !important;
+    margin-left: 2px !important;
+  }
+}
