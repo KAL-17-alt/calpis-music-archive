@@ -71,7 +71,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/artists_master.json data/processed_videos.json data/sync_state.json data/pending_review.json data/recommended_artists.json data/auto_sync_log.json PENDING_REVIEW.md data.js calpis-music-archive.html || true
+          git add data/artists_master.json data/mugen2_state.json data/processed_videos.json data/sync_state.json data/pending_review.json data/recommended_artists.json data/auto_sync_log.json PENDING_REVIEW.md data.js assets/data.js api/_artists_index.js calpis-music-archive.html || true
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
