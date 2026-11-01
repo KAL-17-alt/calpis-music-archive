@@ -49,8 +49,6 @@
         <span class="fav-qe-diff-badge" id="favQeDiffBadge">変更なし</span>
       </span>
       <span class="fav-qe-actions">
-        <button type="button" class="fav-qe-history-btn" data-history-action="undo" title="直前の操作を取り消す（戻る）" aria-label="戻る" disabled>↶</button>
-        <button type="button" class="fav-qe-history-btn" data-history-action="redo" title="取り消した操作をやり直す" aria-label="やり直す" disabled>↷</button>
         <button type="button" class="fav-qe-migrate-btn" id="openLegacyMigrateBtn" style="display:none;" title="この端末のlocalStorageにある既存ハート設定をサーバーへ移行">端末データ移行</button>
         <button type="button" class="fav-qe-discard-btn" id="discardFavQuickEditBtn" style="display:none;" title="未保存の変更を破棄して編集前の状態に戻す">取消</button>
         <button type="button" class="fav-qe-exit-btn" id="exitFavQuickEditBtn">完了して閉じる</button>
@@ -154,6 +152,9 @@
       <div class="mobile-top-title" id="mobileTopTitle">すべて</div>
     </div>
     <div class="mobile-top-actions">
+      <button type="button" class="mob-icon-circle-btn mob-message-btn" id="mobMessageBtn" aria-label="メッセージを送る" title="メッセージを送る">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      </button>
       <button type="button" class="mob-icon-circle-btn mob-about-btn" id="mobAboutBtn" aria-label="当サイトについてを表示" title="当サイトについて">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"></circle><path d="M9.2 9.2a2.8 2.8 0 0 1 5.45.95c0 1.9-2.65 2.45-2.65 4.05"></path><circle cx="12" cy="17.3" r="0.65" fill="currentColor"></circle></svg>
       </button>
@@ -234,6 +235,10 @@
 
       <!-- Fixed-Position Footer: #pcFontScaleBox never shifts by even 1px across 100%-175% -->
       <div class="sidebar-footer" id="pcSidebarFooter">
+        <button type="button" class="pc-about-site-btn pc-message-site-btn" id="pcMessageBtn" aria-label="メッセージを送る" title="メッセージを送る">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          <span>メッセージを送る</span>
+        </button>
         <button type="button" class="pc-about-site-btn" id="pcAboutBtn" aria-label="当サイトについてを表示" title="当サイトについて">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"></circle><path d="M9.2 9.2a2.8 2.8 0 0 1 5.45.95c0 1.9-2.65 2.45-2.65 4.05"></path><circle cx="12" cy="17.3" r="0.65" fill="currentColor"></circle></svg>
           <span>当サイトについて</span>
@@ -403,20 +408,18 @@
                 <select id="pcSortSelect" class="sort-select" aria-label="並び替え">
                   <option value="countDesc">登録曲数が多い順</option>
                   <option value="countAsc">登録曲数が少ない順</option>
+                  <option value="favCountDesc">高評価曲数が多い順</option>
                   <option value="kanaAsc">五十音順</option>
                   <option value="alphaAsc">アルファベット順</option>
-                  <option value="nameAsc">名前：昇順</option>
-                  <option value="nameDesc">名前：降順</option>
                   <option value="subDesc">登録者数が多い順</option>
                   <option value="subAsc">登録者数が少ない順</option>
                 </select>
                 <div class="custom-sort-menu" id="customSortMenu" role="listbox" aria-label="並び替えメニュー">
                   <button type="button" class="custom-sort-option active" data-sort-value="countDesc" role="option" aria-selected="true">登録曲数が多い順</button>
                   <button type="button" class="custom-sort-option" data-sort-value="countAsc" role="option" aria-selected="false">登録曲数が少ない順</button>
+                  <button type="button" class="custom-sort-option" data-sort-value="favCountDesc" role="option" aria-selected="false">高評価曲数が多い順</button>
                   <button type="button" class="custom-sort-option" data-sort-value="kanaAsc" role="option" aria-selected="false">五十音順</button>
                   <button type="button" class="custom-sort-option" data-sort-value="alphaAsc" role="option" aria-selected="false">アルファベット順</button>
-                  <button type="button" class="custom-sort-option" data-sort-value="nameAsc" role="option" aria-selected="false">名前：昇順</button>
-                  <button type="button" class="custom-sort-option" data-sort-value="nameDesc" role="option" aria-selected="false">名前：降順</button>
                   <button type="button" class="custom-sort-option" data-sort-value="subDesc" role="option" aria-selected="false">登録者数が多い順</button>
                   <button type="button" class="custom-sort-option" data-sort-value="subAsc" role="option" aria-selected="false">登録者数が少ない順</button>
                 </div>
@@ -519,7 +522,7 @@
   <div class="about-modal-backdrop" id="aboutSiteModal" role="dialog" aria-modal="true" aria-labelledby="aboutSiteModalTitle" aria-hidden="true">
     <div class="about-modal-card">
       <div class="about-modal-header">
-        <div class="about-modal-title-wrap">
+        <div class="about-modal-title-wrap" id="aboutSiteModalTitleWrap">
           <svg class="about-modal-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"></circle><path d="M9.2 9.2a2.8 2.8 0 0 1 5.45.95c0 1.9-2.65 2.45-2.65 4.05"></path><circle cx="12" cy="17.3" r="0.65" fill="currentColor"></circle></svg>
           <h2 class="about-modal-title" id="aboutSiteModalTitle">当サイトについて</h2>
         </div>
@@ -532,6 +535,10 @@
         <section class="about-item-card">
           <h3 class="about-item-heading">1. 各種機能について：</h3>
           <div class="about-item-lines">
+            <div class="about-line about-heart-tier-guide" id="aboutHeartTierGuide">
+              <div class="about-heart-tier-main">かるが好きな順に<span class="artist-fav-heart heart-tier-3 about-inline-heart" aria-label="最上位ハート"><span class="heart-tier-pc"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span><span class="heart-tier-mob"><svg class="heart-soft-svg heart-mob-tier-3" viewBox="0 0 24 24"><path class="heart-mob-outer-ring" d="M12 21.4c-.38 0-.75-.13-1.08-.38C6.7 17.7 1.3 13.0 1.3 7.7 1.3 4.1 4.1 1.4 7.7 1.4c1.82 0 3.4.82 4.3 2.12C12.9 2.22 14.48 1.4 16.3 1.4 19.9 1.4 22.7 4.1 22.7 7.7c0 5.3-5.4 10.0-9.62 13.32-.33.25-.7.38-1.08.38Z" fill="none" stroke="#fda4af" stroke-width="1.65"/><path class="heart-mob-inner-core" d="M12 18.5c-.28 0-.55-.1-.78-.28C8.2 15.8 4.4 12.5 4.4 8.6 4.4 6.1 6.3 4.2 8.9 4.2c1.38 0 2.52.6 3.1 1.56.58-.96 1.72-1.56 3.1-1.56 2.6 0 4.5 1.9 4.5 4.4 0 3.9-3.8 7.2-6.82 9.62-.23.18-.5.28-.78.28Z" fill="#f43f5e"/></svg></span></span>＞<span class="artist-fav-heart heart-tier-2 about-inline-heart" aria-label="第2ハート"><span class="heart-tier-pc"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span><span class="heart-tier-mob"><svg class="heart-soft-svg heart-mob-tier-2" viewBox="0 0 24 24" fill="#fb7185"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span></span>＞<span class="artist-fav-heart heart-tier-1 about-inline-heart" aria-label="第1ハート"><span class="heart-tier-pc"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span><span class="heart-tier-mob"><svg class="heart-soft-svg heart-mob-tier-1" viewBox="0 0 24 24" fill="none" stroke="#fda4af" stroke-width="2.4"><path d="M12 20.2c-.35 0-.7-.12-1-.35C7.1 16.8 2.4 12.6 2.4 7.8 2.4 4.7 4.8 2.3 7.9 2.3c1.75 0 3.25.8 4.1 2.05C12.85 3.1 14.35 2.3 16.1 2.3c3.1 0 5.5 2.4 5.5 5.5 0 4.8-4.7 9-8.6 12.05-.3.23-.65.35-1 .35Z"/></svg></span></span>を付けている。</div>
+              <div class="about-heart-tier-sub">※付けてなくても好きだよ！</div>
+            </div>
             <p class="about-line"><span class="about-green-text">ホーム</span>：リセットボタン。選択解除し最初の画面に戻る。</p>
             <p class="about-line"><span class="about-green-text">検索</span>：登録名義や楽曲、ユニット名で検索できる。</p>
             <p class="about-line"><span class="about-green-text">ランキングリスト</span>：並び替えや絞り込みが可能。名義を押すとプロフィール画面が出てくる。「歌手」「声優」「音楽グループ」のみその人の説明文を記載。</p>
@@ -580,6 +587,62 @@
           </div>
         </section>
       </div>
+    </div>
+  </div>
+
+  <!-- Edit Mode Long-Press Heart Delete Confirmation Modal -->
+  <div class="about-modal-backdrop heart-delete-modal-overlay" id="heartDeleteConfirmModal" role="dialog" aria-modal="true" aria-labelledby="heartDeleteConfirmTitle" aria-hidden="true">
+    <div class="about-modal-card heart-delete-modal-card">
+      <div class="heart-delete-modal-title" id="heartDeleteConfirmTitle">ハートを削除しますか？</div>
+      <div class="heart-delete-modal-target" id="heartDeleteConfirmTarget"></div>
+      <div class="heart-delete-modal-actions">
+        <button type="button" class="heart-delete-cancel-btn" id="cancelHeartDeleteBtn">キャンセル</button>
+        <button type="button" class="heart-delete-confirm-btn" id="confirmHeartDeleteBtn">削除</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Send Message Modal (メッセージを送る) -->
+  <div class="about-modal-backdrop" id="sendMessageModal" role="dialog" aria-modal="true" aria-labelledby="sendMessageModalTitle" aria-hidden="true">
+    <div class="about-modal-card message-modal-card">
+      <div class="about-modal-header">
+        <div class="about-modal-title-wrap">
+          <svg class="about-modal-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          <h2 class="about-modal-title" id="sendMessageModalTitle">メッセージを送る</h2>
+        </div>
+        <button type="button" class="about-modal-close-btn" id="closeSendMessageModalBtn" aria-label="閉じる" title="閉じる">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="about-modal-body message-modal-body">
+        <div class="message-modal-notes">
+          <p>・このメッセージは<strong>かる</strong>に送られます。</p>
+          <p>・チャット形式ではなく別の場所に送られるため、<strong>他の人には一切見られません</strong>。</p>
+          <p>・名前は書いても書かなくても大丈夫です。</p>
+          <p>・返信機能のない<strong>一方通行</strong>のメッセージです（送信後、ここにメッセージは残りません）。</p>
+        </div>
+        <textarea id="visitorMessageInput" class="visitor-message-textarea" rows="4" maxlength="1500" placeholder="メッセージを入力..." aria-label="メッセージ入力欄"></textarea>
+        <div class="visitor-message-footer">
+          <span class="visitor-message-status" id="visitorMessageStatus" aria-live="polite"></span>
+          <button type="button" class="visitor-message-send-btn" id="submitVisitorMessageBtn">送る</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Owner-only Secret 5-Tap Messages Inbox Modal -->
+  <div class="about-modal-backdrop" id="ownerMessagesInboxModal" role="dialog" aria-modal="true" aria-labelledby="ownerMessagesInboxTitle" aria-hidden="true">
+    <div class="about-modal-card owner-inbox-modal-card">
+      <div class="about-modal-header">
+        <div class="about-modal-title-wrap">
+          <svg class="about-modal-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          <h2 class="about-modal-title" id="ownerMessagesInboxTitle">受信メッセージ一覧</h2>
+        </div>
+        <button type="button" class="about-modal-close-btn" id="closeOwnerInboxModalBtn" aria-label="閉じる" title="閉じる">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="about-modal-body owner-inbox-modal-body" id="ownerMessagesInboxList"></div>
     </div>
   </div>
 
