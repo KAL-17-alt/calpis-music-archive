@@ -719,7 +719,23 @@ CURATED_SONG_RENAME_MAP = {
     "Transparent Compass": "コンパスは透明",
     "空は高く風は歌う - Piano & Strings": "空は高く風は歌う",
     "空は高く風は歌う - Piano $ Strings": "空は高く風は歌う",
-    "かけぬけ★青春スパーキング！": "Love♡Vacation"
+    "かけぬけ★青春スパーキング！": "Love♡Vacation",
+    "Pattern of two hearts": "二人模様",
+    "Rokudougokan sanpo": "六道伍感さんぽ",
+    "What if": "碧いif",
+    "Answer to Extreme": "極私的極彩色アンサー",
+    "melt into the dark": "闇に溶けてく",
+    "Nameless Name": "名もなき何もかも",
+    "Against All Answers": "もう何もいらない未来",
+    "Roses in Thorns": "荊の薔薇",
+    "Meant to be": "蝶に結いた赤い糸",
+    "Belle papillon": "飛べない蝶は夢を見る",
+    "Fragile Violet": "薄采ディスプレイ",
+    "Mirage of the mind": "蜃気楼ニ問フ",
+    "Give Me Life": "命をくれよ",
+    "I’ｍ here": "運命の華",
+    "I'm here": "運命の華",
+    "I’m here": "運命の華"
 }
 
 CURATED_V56_ARTISTS = [
