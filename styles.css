@@ -5446,13 +5446,15 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-ha
     align-items: stretch !important;
   }
 
-  .mob-nav-item {
+  .mob-nav-item,
+  .mob-nav-item[data-nav-view="search"] {
     height: 100% !important;
     align-self: stretch !important;
     margin: 0 !important;
     padding: 0 !important;
     border-radius: 0 !important;
     box-sizing: border-box !important;
+    transition: none !important;
   }
 
   .mob-nav-item[data-nav-view="search"]:active,
@@ -5478,5 +5480,97 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-ha
 
   .artist-list {
     padding: 4px 4px 6px !important;
+  }
+}
+
+
+/* ==========================================================================
+   V52 UPDATES:
+   1) FLOATING DRAG CARD & OPEN DROP-SLOT PLACEHOLDER IN "かるのオススメ" EDIT MODE
+   2) "かるのオススメ" ARTIST / SONG SWITCHER BAR PLACED ABOVE .list-col-header
+   3) SLIGHTLY LARGER PROFILE BIO FONT SIZE ON SMARTPHONE
+   ========================================================================== */
+
+/* 1A. Floating drag card that follows the finger/cursor smoothly */
+.drag-floating-card {
+  background: rgba(34, 16, 24, 0.90) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1.5px solid #fb7185 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.72), 0 0 14px rgba(244, 63, 94, 0.38) !important;
+  opacity: 0.92 !important;
+  transform: scale(1.012);
+  pointer-events: none !important;
+  box-sizing: border-box !important;
+}
+
+.drag-floating-card .row-rank {
+  color: #fda4af !important;
+  font-weight: 900 !important;
+}
+
+.drag-floating-card .row-drag-handle {
+  color: #ffffff !important;
+  background: #f43f5e !important;
+  border-color: #fda4af !important;
+}
+
+/* 1B. Recessed open drop-slot placeholder in the list so neighbor rows part cleanly
+       and the user always sees the exact landing slot ("ここに移動（#N）") */
+.artist-row.is-drag-placeholder {
+  background: rgba(244, 63, 94, 0.08) !important;
+  border: 2px dashed rgba(251, 113, 133, 0.85) !important;
+  border-radius: 10px !important;
+  outline: none !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+.artist-row.is-drag-placeholder > * {
+  opacity: 0.14 !important;
+}
+
+.artist-row.is-drag-placeholder::after {
+  content: attr(data-drop-target-label);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: rgba(244, 63, 94, 0.24);
+  border: 1px solid rgba(251, 113, 133, 0.7);
+  color: #ffe4e6;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* 2. "かるのオススメ" switcher slot placed ABOVE .list-col-header */
+.recommend-switch-bar-slot {
+  width: 100%;
+}
+
+.recommend-switch-bar-slot .recommend-switch-bar {
+  padding: 8px 14px 6px;
+}
+
+@media (max-width: 900px) {
+  .recommend-switch-bar-slot .recommend-switch-bar {
+    padding: 6px 10px 6px;
+  }
+
+  /* 3. Slightly larger profile bio font size on smartphone for comfortable reading */
+  .detail-profile-bio-heading {
+    font-size: 14.5px !important;
+  }
+
+  .detail-profile-bio-text {
+    font-size: 13.8px !important;
+    line-height: 1.75 !important;
   }
 }

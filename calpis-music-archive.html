@@ -5486,13 +5486,15 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-ha
     align-items: stretch !important;
   }
 
-  .mob-nav-item {
+  .mob-nav-item,
+  .mob-nav-item[data-nav-view="search"] {
     height: 100% !important;
     align-self: stretch !important;
     margin: 0 !important;
     padding: 0 !important;
     border-radius: 0 !important;
     box-sizing: border-box !important;
+    transition: none !important;
   }
 
   .mob-nav-item[data-nav-view="search"]:active,
@@ -5518,6 +5520,98 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-ha
 
   .artist-list {
     padding: 4px 4px 6px !important;
+  }
+}
+
+
+/* ==========================================================================
+   V52 UPDATES:
+   1) FLOATING DRAG CARD & OPEN DROP-SLOT PLACEHOLDER IN "かるのオススメ" EDIT MODE
+   2) "かるのオススメ" ARTIST / SONG SWITCHER BAR PLACED ABOVE .list-col-header
+   3) SLIGHTLY LARGER PROFILE BIO FONT SIZE ON SMARTPHONE
+   ========================================================================== */
+
+/* 1A. Floating drag card that follows the finger/cursor smoothly */
+.drag-floating-card {
+  background: rgba(34, 16, 24, 0.90) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1.5px solid #fb7185 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.72), 0 0 14px rgba(244, 63, 94, 0.38) !important;
+  opacity: 0.92 !important;
+  transform: scale(1.012);
+  pointer-events: none !important;
+  box-sizing: border-box !important;
+}
+
+.drag-floating-card .row-rank {
+  color: #fda4af !important;
+  font-weight: 900 !important;
+}
+
+.drag-floating-card .row-drag-handle {
+  color: #ffffff !important;
+  background: #f43f5e !important;
+  border-color: #fda4af !important;
+}
+
+/* 1B. Recessed open drop-slot placeholder in the list so neighbor rows part cleanly
+       and the user always sees the exact landing slot ("ここに移動（#N）") */
+.artist-row.is-drag-placeholder {
+  background: rgba(244, 63, 94, 0.08) !important;
+  border: 2px dashed rgba(251, 113, 133, 0.85) !important;
+  border-radius: 10px !important;
+  outline: none !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+.artist-row.is-drag-placeholder > * {
+  opacity: 0.14 !important;
+}
+
+.artist-row.is-drag-placeholder::after {
+  content: attr(data-drop-target-label);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: rgba(244, 63, 94, 0.24);
+  border: 1px solid rgba(251, 113, 133, 0.7);
+  color: #ffe4e6;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* 2. "かるのオススメ" switcher slot placed ABOVE .list-col-header */
+.recommend-switch-bar-slot {
+  width: 100%;
+}
+
+.recommend-switch-bar-slot .recommend-switch-bar {
+  padding: 8px 14px 6px;
+}
+
+@media (max-width: 900px) {
+  .recommend-switch-bar-slot .recommend-switch-bar {
+    padding: 6px 10px 6px;
+  }
+
+  /* 3. Slightly larger profile bio font size on smartphone for comfortable reading */
+  .detail-profile-bio-heading {
+    font-size: 14.5px !important;
+  }
+
+  .detail-profile-bio-text {
+    font-size: 13.8px !important;
+    line-height: 1.75 !important;
   }
 }
 
@@ -5909,6 +6003,9 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-ha
         <!-- PC Collapsible Filter Drawer (Placed in normal scroll flow so scrolling down scrolls it up out of view) -->
         <div class="pc-filter-drawer" id="pcFilterDrawer"></div>
 
+        <!-- "かるのオススメ" Artist / Song Switcher Slot (Placed ABOVE list-col-header) -->
+        <div class="recommend-switch-bar-slot" id="recommendSwitchBarSlot" style="display:none;"></div>
+
         <!-- Ranking List Column Header (PC: 6 columns / Smartphone: 4 columns) -->
         <div class="list-col-header" id="listColHeader">
           <span class="list-col-rank" id="listColRankLabel" style="text-align:center;">#</span>
@@ -6111,7 +6208,9 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
     if (!a.aid || typeof a.aid !== "string") {
       a.aid = "a_" + String(idx + 1).padStart(4, "0");
     }
-    a._staticBaseSongs = Array.isArray(a.songs) ? [...a.songs] : [];
+    // The playlist sync compacts empty arrays; keep a.songs an array for every artist.
+    if (!Array.isArray(a.songs)) a.songs = [];
+    a._staticBaseSongs = [...a.songs];
     AID_TO_ARTIST.set(a.aid, a);
     if (a.name) {
       NAME_TO_AID.set(a.name, a.aid);
@@ -6245,6 +6344,7 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
       if (!a || !a.aid) return;
       const baseSongs = Array.isArray(a._staticBaseSongs) ? a._staticBaseSongs : [];
       const extraSongs = customByAid.get(a.aid) || [];
+      if (!Array.isArray(a.songs)) a.songs = [...baseSongs];
       if (extraSongs.length === 0) {
         if (a.songs.length !== baseSongs.length) {
           a.songs = [...baseSongs];
@@ -8354,6 +8454,12 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
       scrollEl.scrollTop = 0;
     }
 
+    const recSwitchSlot = document.getElementById("recommendSwitchBarSlot");
+    if (recSwitchSlot && state.view !== "recommend") {
+      recSwitchSlot.style.display = "none";
+      recSwitchSlot.innerHTML = "";
+    }
+
     const groupsHTML = (state.view === "search" && currentMatchedGroups.length > 0)
       ? buildSearchGroupsSectionHTML(currentMatchedGroups)
       : "";
@@ -8377,7 +8483,7 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
       const recSongCnt = getRecommendedSongCount();
       const isSongTab = state.recommendTab === "song";
 
-      const switchBarHTML = `
+      const switchBarInnerHTML = `
         <div class="recommend-switch-bar">
           <div class="recommend-switch-tabs" role="tablist" aria-label="かるのオススメ表示切り替え">
             <button type="button" class="recommend-switch-tab ${!isSongTab ? "active" : ""}" data-recommend-tab="artist" role="tab" aria-selected="${!isSongTab}">
@@ -8393,6 +8499,11 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
           </div>
         </div>
       `;
+      if (recSwitchSlot) {
+        recSwitchSlot.style.display = "block";
+        recSwitchSlot.innerHTML = switchBarInnerHTML;
+      }
+      const switchBarHTML = recSwitchSlot ? "" : switchBarInnerHTML;
 
       const roleOrder = [
         "Vsinger",
@@ -9590,6 +9701,19 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
       updateUI(true);
     }
 
+    const recSwitchSlotEl = document.getElementById("recommendSwitchBarSlot");
+    if (recSwitchSlotEl) {
+      recSwitchSlotEl.addEventListener("click", e => {
+        const recTabBtn = e.target.closest("[data-recommend-tab]");
+        if (!recTabBtn) return;
+        const nextTab = recTabBtn.getAttribute("data-recommend-tab") || "artist";
+        if (state.recommendTab !== nextTab) {
+          state.recommendTab = nextTab;
+          updateUI(false);
+        }
+      });
+    }
+
     const candBar = document.getElementById("searchCandidatesBar");
     if (candBar) {
       candBar.addEventListener("click", e => {
@@ -9681,6 +9805,40 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
       updateFavEditBannerStatus();
     }
 
+    function updateDragPlaceholderAndGhostRank(section, placeholderRow, ghostEl) {
+      const rows = Array.from(section.querySelectorAll(".artist-row"));
+      let targetRank = 1;
+      rows.forEach((r, idx) => {
+        const num = idx + 1;
+        const rankEl = r.querySelector(".row-rank");
+        if (rankEl) rankEl.textContent = String(num);
+        if (r === placeholderRow) targetRank = num;
+      });
+      placeholderRow.setAttribute("data-drop-target-label", `ここに移動（#${targetRank}）`);
+      if (ghostEl) {
+        const ghostRankEl = ghostEl.querySelector(".row-rank");
+        if (ghostRankEl) ghostRankEl.textContent = `${targetRank}`;
+      }
+    }
+
+    function animateSectionRowsFLIP(section, prevTopsMap, skipRow) {
+      const rows = Array.from(section.querySelectorAll(".artist-row"));
+      rows.forEach(r => {
+        if (r === skipRow) return;
+        const prevTop = prevTopsMap.get(r);
+        if (typeof prevTop !== "number") return;
+        const newTop = r.getBoundingClientRect().top;
+        const dy = prevTop - newTop;
+        if (Math.abs(dy) > 1) {
+          r.style.transition = "none";
+          r.style.transform = `translateY(${dy}px)`;
+          void r.offsetWidth;
+          r.style.transition = "transform 0.16s cubic-bezier(0.22, 1, 0.36, 1)";
+          r.style.transform = "";
+        }
+      });
+    }
+
     listContainer.addEventListener("pointerdown", e => {
       if (!favQuickEditMode || state.view !== "recommend") return;
       const handle = e.target.closest("[data-drag-handle]");
@@ -9695,12 +9853,35 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
         handle.setPointerCapture(e.pointerId);
       } catch (_e) {}
 
-      row.classList.add("is-dragging-row");
+      const rowRect = row.getBoundingClientRect();
+      const pointerOffsetY = e.clientY - rowRect.top;
+
+      // Create floating drag card that follows the pointer smoothly
+      const ghostEl = row.cloneNode(true);
+      ghostEl.classList.add("drag-floating-card");
+      ghostEl.style.position = "fixed";
+      ghostEl.style.left = `${rowRect.left}px`;
+      ghostEl.style.top = `${rowRect.top}px`;
+      ghostEl.style.width = `${rowRect.width}px`;
+      ghostEl.style.height = `${rowRect.height}px`;
+      ghostEl.style.margin = "0";
+      ghostEl.style.zIndex = "9995";
+      ghostEl.style.pointerEvents = "none";
+      document.body.appendChild(ghostEl);
+
+      // Turn the in-list row into a clear recessed drop slot placeholder
+      row.classList.add("is-dragging-row", "is-drag-placeholder");
+      updateDragPlaceholderAndGhostRank(section, row, ghostEl);
+
       activeDragState = {
         pointerId: e.pointerId,
         row,
         section,
         handle,
+        ghostEl,
+        startTop: rowRect.top,
+        pointerOffsetY,
+        rowHeight: rowRect.height,
         moved: false
       };
     });
@@ -9708,47 +9889,82 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
     listContainer.addEventListener("pointermove", e => {
       if (!activeDragState || e.pointerId !== activeDragState.pointerId) return;
       e.preventDefault();
-      const { row, section } = activeDragState;
+      const { row, section, ghostEl, pointerOffsetY, rowHeight } = activeDragState;
+
+      // Move floating card smoothly with finger/cursor, clamped to the current Activity Role section bounds
+      const secRect = section.getBoundingClientRect();
+      const headerEl = section.querySelector(".recommend-role-group-header");
+      const minTop = headerEl ? headerEl.getBoundingClientRect().bottom + 2 : secRect.top;
+      const maxTop = secRect.bottom - rowHeight + 4;
+      const desiredTop = Math.max(minTop, Math.min(maxTop, e.clientY - pointerOffsetY));
+      if (ghostEl) {
+        ghostEl.style.top = `${desiredTop}px`;
+      }
+
+      // Gentle auto-scroll if dragging near top/bottom edge of #centerScrollArea
+      const scrollEl = document.getElementById("centerScrollArea");
+      if (scrollEl) {
+        const sRect = scrollEl.getBoundingClientRect();
+        if (e.clientY < sRect.top + 48) {
+          scrollEl.scrollTop -= 6;
+        } else if (e.clientY > sRect.bottom - 48) {
+          scrollEl.scrollTop += 6;
+        }
+      }
+
       const siblings = Array.from(section.querySelectorAll(".artist-row"));
       if (siblings.length <= 1) return;
 
-      const y = e.clientY;
+      // Record current tops for smooth FLIP transition if slot moves
+      const prevTopsMap = new Map();
+      siblings.forEach(r => prevTopsMap.set(r, r.getBoundingClientRect().top));
+
+      const dragCenterY = desiredTop + rowHeight / 2;
+      let slotMoved = false;
+
       for (let i = 0; i < siblings.length; i++) {
         const sib = siblings[i];
         if (sib === row) continue;
         const rect = sib.getBoundingClientRect();
         const midY = rect.top + rect.height / 2;
-        if (y < midY) {
+        if (dragCenterY < midY) {
           if (sib.previousElementSibling !== row) {
             section.insertBefore(row, sib);
-            activeDragState.moved = true;
-            Array.from(section.querySelectorAll(".artist-row")).forEach((r, idx) => {
-              const rankEl = r.querySelector(".row-rank");
-              if (rankEl) rankEl.textContent = String(idx + 1);
-            });
+            slotMoved = true;
           }
-          return;
+          break;
+        }
+        if (i === siblings.length - 1) {
+          if (sib !== row) {
+            section.appendChild(row);
+            slotMoved = true;
+          }
         }
       }
-      const lastSib = siblings[siblings.length - 1];
-      if (lastSib && lastSib !== row) {
-        section.appendChild(row);
+
+      if (slotMoved) {
         activeDragState.moved = true;
-        Array.from(section.querySelectorAll(".artist-row")).forEach((r, idx) => {
-          const rankEl = r.querySelector(".row-rank");
-          if (rankEl) rankEl.textContent = String(idx + 1);
-        });
+        updateDragPlaceholderAndGhostRank(section, row, ghostEl);
+        animateSectionRowsFLIP(section, prevTopsMap, row);
       }
     });
 
     function finishRecommendDrag(e) {
       if (!activeDragState) return;
       if (e && e.pointerId !== undefined && e.pointerId !== activeDragState.pointerId) return;
-      const { row, section, handle, moved } = activeDragState;
+      const { row, section, handle, ghostEl, moved } = activeDragState;
       try {
         if (handle && e && e.pointerId !== undefined) handle.releasePointerCapture(e.pointerId);
       } catch (_e) {}
-      row.classList.remove("is-dragging-row");
+      if (ghostEl && ghostEl.parentNode) {
+        ghostEl.parentNode.removeChild(ghostEl);
+      }
+      row.classList.remove("is-dragging-row", "is-drag-placeholder");
+      row.removeAttribute("data-drop-target-label");
+      Array.from(section.querySelectorAll(".artist-row")).forEach(r => {
+        r.style.transition = "";
+        r.style.transform = "";
+      });
       activeDragState = null;
       suppressNextRowClick = true;
       setTimeout(() => { suppressNextRowClick = false; }, 80);
