@@ -1349,7 +1349,7 @@
   const state = {
     view: "all",           // "all" | "cat1" | "cat2" | "search" | "recommend"
     recommendTab: "artist", // "artist" | "song"
-    recArtistSort: "recFavCountDesc", // "recFavCountDesc" (高評価曲が多い順, default) | "recCustomOrder" (かるが好きな順)
+    recArtistSort: (function() { try { const s = localStorage.getItem("calpis_rec_artist_sort_v1"); if (s === "recCustomOrder" || s === "recFavCountDesc") return s; } catch (_e) {} return "recFavCountDesc"; })(),
     recSongSort: "recCustomOrder",    // "recCustomOrder" (かるが好きな順, default) | "recFavCountDesc" (高評価曲が多い順)
     recFlatMode: false,               // True when "活動形態で分けない" is active in "かるのオススメ"
     searchScope: "all",    // "all" | "cat1" | "cat2"
@@ -1370,7 +1370,7 @@
     kanaChar: "",          // Optional sub-character when a single 50-on row is focused
     alphaChars: [],        // Selected alphabet letters e.g. ["A", "B"] (multi-select supported)
     selectedArtistName: null,
-    detailMode: "top5",    // "top5" (default when artist clicked) | "archive" (かるが聴いてる曲)
+    detailMode: "archive", // "archive" (かるが聴いてる曲, default) | "top5" (代表曲 TOP 5)
     songSort: "titleAsc",  // "titleAsc" (default, persisted across artist switches) | "regAsc"
     pcFilterOpen: false,
     mobFilterOpen: false,
@@ -1459,7 +1459,7 @@
     state.kanaChar = snap.kanaChar || "";
     state.alphaChars = [...(snap.alphaChars || [])];
     state.selectedArtistName = snap.selectedArtistName || null;
-    state.detailMode = snap.detailMode || "top5";
+    state.detailMode = snap.detailMode || "archive";
     state.songSort = snap.songSort || "titleAsc";
     // Never open the filter drawer on Undo or Redo
     state.pcFilterOpen = false;
@@ -3892,14 +3892,14 @@
       : "代表曲 TOP 5";
     const modeTabsHTML = `
       <div class="detail-mode-tabs" role="tablist" aria-label="表示楽曲の切り替え">
-        <button type="button" class="detail-mode-tab ${isTop5Mode ? "active" : ""}" data-detail-mode="top5" role="tab" aria-selected="${isTop5Mode}">
-          ${repHeadingLabel}
-        </button>
         ${hasArchiveSongs ? `
         <button type="button" class="detail-mode-tab ${!isTop5Mode ? "active" : ""}" data-detail-mode="archive" role="tab" aria-selected="${!isTop5Mode}">
           かるが聴いてる曲 (${fmtNum(artist.count)})
         </button>
         ` : ""}
+        <button type="button" class="detail-mode-tab ${isTop5Mode ? "active" : ""}" data-detail-mode="top5" role="tab" aria-selected="${isTop5Mode}">
+          ${repHeadingLabel}
+        </button>
       </div>
     `;
 
@@ -3959,10 +3959,6 @@
       `;
     } else {
       bodySectionHTML = `
-        <button type="button" class="back-to-top5-btn" data-detail-mode="top5">
-          <span>← ${repHeadingLabel} に戻る</span>
-        </button>
-
         <div class="detail-actions-row">
           <div class="detail-section-heading">かるが聴いてる曲（${fmtNum(artist.count)}曲）</div>
           <div style="display:flex;align-items:center;gap:6px;">
@@ -4139,6 +4135,7 @@
       }
       if (state.recArtistSort === newVal) return false;
       state.recArtistSort = newVal;
+      try { localStorage.setItem("calpis_rec_artist_sort_v1", newVal); } catch (_e) {}
       return true;
     }
     if (state.view === "search") {
@@ -4363,7 +4360,7 @@
   // Select / Open Artist Detail (Always defaults to Representative TOP 5, resets detail scroll, preserves list scroll & songSort)
   function selectArtist(name, fromProfileJump = false) {
     if (!name || !ARTIST_MAP.has(name)) return;
-    const defaultMode = favQuickEditMode ? "archive" : "top5";
+    const defaultMode = "archive";
     if (state.selectedArtistName !== name || state.detailMode !== defaultMode) {
       pushHistorySnapshot(fromProfileJump);
     }
@@ -4449,7 +4446,7 @@
     state.searchGroupSort = "groupCountDesc";
     state.searchSortOverride = false;
     state.selectedArtistName = null;
-    state.detailMode = "top5";
+    state.detailMode = "archive";
     state.pcFilterOpen = false;
     state.mobFilterOpen = false;
 
@@ -5055,77 +5052,98 @@
         state.recSongSort = "recCustomOrder";
         updateSortOptionLabelsForContext();
 
-        // Capture full visual song order across all visible sections so the exact screen order becomes "かるが好きな順"
-        const allDomSongRows = Array.from(listContainer.querySelectorAll(".recommend-role-section .artist-row"));
-        const domSongKeys = [];
-        const seenDomSongKeys = new Set();
-        allDomSongRows.forEach(r => {
+        // Extract exact song order inside the dragged `sectionEl` (`rows`) and perform in-place slot replacement
+        // in `recommendedSongMap` so multi-role artists (e.g. "Vsinger / 歌い手") in earlier sections NEVER overwrite this section's order!
+        const newSectionKeys = [];
+        const sectionKeySet = new Set();
+        rows.forEach(r => {
           const k = makeSongKey(r.getAttribute("data-artist-aid") || r.getAttribute("data-artist-name"), r.getAttribute("data-rec-song-title"));
-          if (k && !seenDomSongKeys.has(k)) {
-            seenDomSongKeys.add(k);
-            domSongKeys.push(k);
+          if (k && !sectionKeySet.has(k)) {
+            sectionKeySet.add(k);
+            newSectionKeys.push(k);
           }
         });
 
-        const prevSongMap = new Map(recommendedSongMap);
-        recommendedSongMap.clear();
-        domSongKeys.forEach(k => {
-          const tier = prevSongMap.get(k) || 3;
-          recommendedSongMap.set(k, tier);
-        });
-        prevSongMap.forEach((tier, k) => {
+        newSectionKeys.forEach(k => {
           if (!recommendedSongMap.has(k)) {
-            recommendedSongMap.set(k, tier);
+            recommendedSongMap.set(k, 3);
           }
         });
+
+        const allEntries = Array.from(recommendedSongMap.entries());
+        let repIdx = 0;
+        const nextEntries = allEntries.map(([k, tier]) => {
+          if (sectionKeySet.has(k)) {
+            const nextKey = newSectionKeys[repIdx++];
+            return [nextKey, recommendedSongMap.get(nextKey) || tier];
+          }
+          return [k, tier];
+        });
+        recommendedSongMap.clear();
+        nextEntries.forEach(([k, tier]) => recommendedSongMap.set(k, tier));
       } else {
         state.recArtistSort = "recCustomOrder";
+        try { localStorage.setItem("calpis_rec_artist_sort_v1", "recCustomOrder"); } catch (_e) {}
         updateSortOptionLabelsForContext();
 
-        // Capture full visual artist order across all visible sections (including auto-promoted artists!)
-        // so that all recommended artists have their exact "かるが好きな順" order persisted in `recommendedAidMap` (`ids`)
-        const allDomArtistRows = Array.from(listContainer.querySelectorAll(".recommend-role-section .artist-row"));
-        const domAids = [];
-        const seenDomAids = new Set();
-        allDomArtistRows.forEach(r => {
+        // 1. Extract the exact artist order inside the dragged `sectionEl` (`rows`)
+        const newSectionAids = [];
+        const sectionAidSet = new Set();
+        rows.forEach(r => {
           const aid = r.getAttribute("data-artist-aid") || resolveToAid(r.getAttribute("data-artist-name"));
-          if (aid && !seenDomAids.has(aid)) {
-            seenDomAids.add(aid);
-            domAids.push(aid);
+          if (aid && !sectionAidSet.has(aid)) {
+            sectionAidSet.add(aid);
+            newSectionAids.push(aid);
           }
         });
 
-        const prevAidMap = new Map(recommendedAidMap);
+        // 2. Cache current effective heart tiers before mutating `recommendedAidMap`
         const effTierCache = new Map();
-        domAids.forEach(aid => {
-          const effT = getArtistHeartTier(aid) || prevAidMap.get(aid) || 3;
-          effTierCache.set(aid, effT);
-        });
         DATA.forEach(a => {
-          if (a && a.aid && !effTierCache.has(a.aid)) {
+          if (a && a.aid) {
             const effT = getArtistHeartTier(a.aid);
             if (effT > 0) effTierCache.set(a.aid, effT);
           }
         });
-
-        recommendedAidMap.clear();
-        artistTierOrderMap.clear();
-        domAids.forEach(aid => {
-          const tier = effTierCache.get(aid) || 3;
-          recommendedAidMap.set(aid, tier);
-          artistTierOrderMap.set(aid, favOrderSeqCounter++);
+        newSectionAids.forEach(aid => {
+          if (!effTierCache.has(aid)) {
+            effTierCache.set(aid, getArtistHeartTier(aid) || recommendedAidMap.get(aid) || 3);
+          }
         });
-        prevAidMap.forEach((tier, aid) => {
+
+        // 3. Ensure every recommended artist (including auto-promoted artists) is present in `recommendedAidMap`
+        //    so all slots of `newSectionAids` exist in `recommendedAidMap`
+        newSectionAids.forEach(aid => {
           if (!recommendedAidMap.has(aid)) {
-            recommendedAidMap.set(aid, tier);
-            artistTierOrderMap.set(aid, favOrderSeqCounter++);
+            recommendedAidMap.set(aid, effTierCache.get(aid) || 3);
           }
         });
         effTierCache.forEach((tier, aid) => {
           if (!recommendedAidMap.has(aid)) {
             recommendedAidMap.set(aid, tier);
-            artistTierOrderMap.set(aid, favOrderSeqCounter++);
           }
+        });
+
+        // 4. Perform in-place slot replacement for `sectionAidSet` in `recommendedAidMap`!
+        //    Because the slots occupied by `sectionAidSet` have strictly increasing indices I_1 < I_2 < ... < I_k,
+        //    placing `newSectionAids[0..k-1]` into those exact slots guarantees 100% that `newSectionAids`
+        //    will sort in the exact order `newSectionAids[0], newSectionAids[1], ...` even for multi-role "歌い手" artists!
+        const allEntries = Array.from(recommendedAidMap.entries());
+        let repIdx = 0;
+        const nextEntries = allEntries.map(([aid, tier]) => {
+          if (sectionAidSet.has(aid)) {
+            const nextAid = newSectionAids[repIdx++];
+            const nextTier = effTierCache.get(nextAid) || recommendedAidMap.get(nextAid) || tier;
+            return [nextAid, nextTier];
+          }
+          return [aid, effTierCache.get(aid) || tier];
+        });
+
+        recommendedAidMap.clear();
+        artistTierOrderMap.clear();
+        nextEntries.forEach(([aid, tier]) => {
+          recommendedAidMap.set(aid, tier);
+          artistTierOrderMap.set(aid, favOrderSeqCounter++);
         });
       }
 
@@ -5724,6 +5742,30 @@
     if (aboutModal) {
       aboutModal.addEventListener("click", e => {
         if (e.target === aboutModal) closeAboutModal();
+      });
+    }
+    const openRecommendFromAbout = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      closeAboutModal();
+      pushHistorySnapshot(false);
+      if (window.innerWidth <= 900) {
+        state.selectedArtistName = null;
+      }
+      state.view = "recommend";
+      state.unitGroup = "";
+      state.agencyGroup = "";
+      state.pcFilterOpen = false;
+      state.mobFilterOpen = false;
+      updateUI(true);
+    };
+    const aboutOpenRecRow = document.getElementById("aboutOpenRecommendRow");
+    if (aboutOpenRecRow) {
+      aboutOpenRecRow.addEventListener("click", openRecommendFromAbout);
+      aboutOpenRecRow.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") openRecommendFromAbout(e);
       });
     }
 
@@ -6912,7 +6954,7 @@
     }
     if (topArtist) {
       state.selectedArtistName = topArtist.name;
-      state.detailMode = "top5";
+      state.detailMode = "archive";
     }
   }
   updateUI(true);
