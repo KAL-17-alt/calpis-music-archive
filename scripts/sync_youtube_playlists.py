@@ -707,11 +707,19 @@ def is_safe_for_auto_registration(
 
 
 CURATED_SONG_RENAME_MAP = {
-  "Emily To Juugono Yakusoku": "エミリーと15の約束",
-  "Nouriueno Cracker": "脳裏上のクラッカー",
-  "Haru Koizakura": "春、恋桜。",
-  "わたしね": "わたしね、、",
-  "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]"
+    "Emily To Juugono Yakusoku": "エミリーと15の約束",
+    "Nouriueno Cracker": "脳裏上のクラッカー",
+    "Haru Koizakura": "春、恋桜。",
+    "わたしね": "わたしね、、",
+    "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]",
+    "Hanabami": "花喰み",
+    "こゆび姫♡": "♡こゆび姫♡",
+    "No one": "ダレモ",
+    "刹那の誓い": "刹那の誓い (feat. 由崎司)",
+    "Transparent Compass": "コンパスは透明",
+    "空は高く風は歌う - Piano & Strings": "空は高く風は歌う",
+    "空は高く風は歌う - Piano $ Strings": "空は高く風は歌う",
+    "かけぬけ★青春スパーキング！": "Love♡Vacation"
 }
 
 CURATED_V56_ARTISTS = [
