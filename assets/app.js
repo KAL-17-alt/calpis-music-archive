@@ -56,7 +56,9 @@
     if (!a.aid || typeof a.aid !== "string") {
       a.aid = "a_" + String(idx + 1).padStart(4, "0");
     }
-    a._staticBaseSongs = Array.isArray(a.songs) ? [...a.songs] : [];
+    // The playlist sync compacts empty arrays; keep a.songs an array for every artist.
+    if (!Array.isArray(a.songs)) a.songs = [];
+    a._staticBaseSongs = [...a.songs];
     AID_TO_ARTIST.set(a.aid, a);
     if (a.name) {
       NAME_TO_AID.set(a.name, a.aid);
@@ -190,6 +192,7 @@
       if (!a || !a.aid) return;
       const baseSongs = Array.isArray(a._staticBaseSongs) ? a._staticBaseSongs : [];
       const extraSongs = customByAid.get(a.aid) || [];
+      if (!Array.isArray(a.songs)) a.songs = [...baseSongs];
       if (extraSongs.length === 0) {
         if (a.songs.length !== baseSongs.length) {
           a.songs = [...baseSongs];
