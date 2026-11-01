@@ -3,6 +3,114 @@
 
   const DATA = window.ARCHIVE_DATA || [];
 
+  const SONG_RENAME_MAP = {"Emily To Juugono Yakusoku": "エミリーと15の約束", "Nouriueno Cracker": "脳裏上のクラッカー", "Haru Koizakura": "春、恋桜。", "わたしね": "わたしね、、", "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]"};
+  const SONG_SEARCH_ALIASES_BY_NEW_TITLE = {"エミリーと15の約束": ["Emily To Juugono Yakusoku", "emilytojuugonoyakusoku", "えみりーと15のやくそく", "えみりーとじゅうごのやくそく"], "脳裏上のクラッカー": ["Nouriueno Cracker", "nouriuenocracker", "のうりじょうのくらっかー", "のうりうえのくらっかー"], "春、恋桜。": ["Haru Koizakura", "harukoizakura", "はるこいざくら", "はる、こいざくら。"], "わたしね、、": ["わたしね", "watashine"], "kick [試唱]": ["kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]", "Alfakyun. - kick (Cover)", "kick (Cover)"]};
+  const CURATED_V56_ARTISTS = [{"aid": "a_f14dff12", "name": "鈴木愛理", "cat": 2, "count": 1, "reading": "すずきあいり", "kana": "す", "row": "さ", "alpha": "", "img": "https://yt3.googleusercontent.com/yCgi8G0wytpJvWlC9hOtxrGxuafnWRwL0lJs_ocp4kUHB-MBnqidC_bKSPcIc6kARjld6plFqA=s240-c-k-c0x00ffffff-no-rj", "songs": ["空は二度燃える"], "topSongs": ["空は二度燃える", "初恋サイダー", "最強の推し！", "恋におちたら feat. 空音 & Taku Takahashi", "Distance"], "topLinks": ["pKuhQACie_k", "rhfZq9b9h6I", "", "xU07Dte4JhE", ""], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "歌手", "roles": ["歌手"], "groupSubRole": "", "sub": 444000, "subBucket": "100kTo1m", "subDate": "2026-11-01", "al": ["Airi Suzuki", "Suzuki Airi", "suzukiairi", "スズキアイリ", "Buono!", "℃-ute", "UCRkCifCbAw0qwu7XzOa9d7w"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "圧倒的な歌唱力と表現力で知られるソロヴォーカリスト。℃-uteやBuono!での活動を経て2018年にソロデビューし、アニメ主題歌や『空は二度燃える』など幅広い楽曲で輝きを放っている。", "ytChannelUrl": "https://www.youtube.com/channel/UCRkCifCbAw0qwu7XzOa9d7w", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_453a93b8", "name": "平葵", "cat": 2, "count": 1, "reading": "たいらあおい", "kana": "た", "row": "た", "alpha": "", "img": "https://yt3.googleusercontent.com/tHF4W2ea5vj9y-r4copsa5jbbo6QHzdONdb-K4kcHyky2V2YSc997u8PXmhjnOewdZhjWjO6=s240-c-k-c0x00ffffff-no-rj", "songs": ["案山子"], "topSongs": ["案山子", "canfull", "×", "progress", "燐光って"], "topLinks": ["cAlhOMda-Xs", "", "t8LT72qrRjo", "sPqQHgqk_Uk", "si5-RddQoxg"], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "歌手", "roles": ["歌手"], "groupSubRole": "", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["Aoi Taira", "Taira Aoi", "tairaaoi", "タイラアオイ", "UC0JetkYdglzF70e8GffPhMg"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "透明感と芯の強さを併せ持つ歌声で注目を集めるシンガー。『案山子』や『canfull』など、繊細な感情の揺れを描く楽曲を独自の表現力で歌い上げている。", "ytChannelUrl": "https://www.youtube.com/channel/UC0JetkYdglzF70e8GffPhMg", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_3408025f", "name": "わん子 (綰子 /Wanko)", "cat": 1, "count": 2, "reading": "わんこ", "kana": "わ", "row": "わ", "alpha": "", "img": "https://yt3.googleusercontent.com/seAUw4pKG3PB4Wsg5sslqFqFdD24vqvJk57jZMo8hdnRrwbebPdc9JnFX1MulRhgD-NS3tdH=s240-c-k-c0x00ffffff-no-rj", "songs": ["みにまむ", "もでらーと"], "topSongs": ["みにまむ", "もでらーと"], "topLinks": ["S2AhFrGXa8I", "wKusc39aDLA"], "topTypes": ["オリジナル", "オリジナル"], "role": "歌い手", "roles": ["歌い手"], "groupSubRole": "", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["わん子", "綰子", "綰子 /Wanko", "綰子/wanko", "Wanko", "wanko", "わんこ", "ワンコ", "UClDId0k74ZpDwRXJzrb-jIQ"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UClDId0k74ZpDwRXJzrb-jIQ", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_aba2a431", "name": "TORi (torry)", "cat": 1, "count": 1, "reading": "とり", "kana": "と", "row": "た", "alpha": "T", "img": "https://yt3.googleusercontent.com/gc-pVzesz1KF8zE5IAN_lfhlr0HLD-a_Im-KpEyeTkntdUZDi47s5JHRvCEWpfnDCnTILMbJCMU=s240-c-k-c0x00ffffff-no-rj", "songs": ["菜の花のように"], "topSongs": ["菜の花のように", "だきしめること。"], "topLinks": ["SIW7cNyQPak", "5RSzx4zMF2U"], "topTypes": ["オリジナル", "オリジナル"], "role": "歌い手", "roles": ["歌い手"], "groupSubRole": "", "sub": 10600, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["TORi", "torry", "tori", "とり", "トリ", "鳥", "UCHeUUDWr8oXbdublNQtJbNQ"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UCHeUUDWr8oXbdublNQtJbNQ", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_62c07790", "name": "瀧川ありさ", "cat": 2, "count": 1, "reading": "たきがわありさ", "kana": "た", "row": "た", "alpha": "", "img": "https://yt3.googleusercontent.com/ytc/AIdro_kjdHAsXZLiPrVm666_V9VT5_azux5GVlz4O71207G0OQ=s240-c-k-c0x00ffffff-no-rj", "songs": ["さよならのゆくえ"], "topSongs": ["さよならのゆくえ", "Season", "色褪せない瞳", "わがまま", "夏の花"], "topLinks": ["pe8_2tiHwfQ", "8a1PBi2ROD0", "TBmevKostw4", "GBMuovsHDi8", ""], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "歌手", "roles": ["歌手"], "groupSubRole": "", "sub": 35800, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["Alisa Takigawa", "Takigawa Alisa", "takigawaarisa", "タキガワアリサ", "UCfeGaWl3hge2_4BXrXSqEyw"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "伸びやかで情感豊かな歌声を持つシンガーソングライター。TVアニメ『七つの大罪』EDテーマ『Season』でメジャーデビューし、『終物語』EDテーマ『さよならのゆくえ』など数々のアニメ主題歌を手掛けている。", "ytChannelUrl": "https://www.youtube.com/channel/UCfeGaWl3hge2_4BXrXSqEyw", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_407a13ad", "name": "rei sirose", "cat": 1, "count": 1, "reading": "れいしろせ", "kana": "れ", "row": "ら", "alpha": "R", "img": "https://i.ytimg.com/vi/j1ArobXFdyQ/hqdefault.jpg", "songs": ["贖罪"], "topSongs": ["贖罪"], "topLinks": ["j1ArobXFdyQ"], "topTypes": ["cover"], "role": "歌い手", "roles": ["歌い手"], "groupSubRole": "", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["reisirose", "白瀬怜", "れいしろせ", "レイシロセ", "UCyqaJxeEZLd7AfebCpxu06g"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UCyqaJxeEZLd7AfebCpxu06g", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_003d0cad", "name": "花降る日々", "cat": 2, "count": 1, "reading": "はなふるひび", "kana": "は", "row": "は", "alpha": "", "img": "https://i.ytimg.com/vi/c0TtCowqHC0/hqdefault.jpg", "songs": ["ひとりじゃないじゃん"], "topSongs": ["ひとりじゃないじゃん", "muguet", "花降る日々", "紫陽花、まばたき、梅雨の日。"], "topLinks": ["", "c0TtCowqHC0", "jm1ZozgaGQw", "ET92gzWWYbU"], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "音楽グループ(その他)", "roles": ["音楽グループ(その他)"], "groupSubRole": "音楽グループ(その他)", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["、花降る日々", "花降る日々、", "hanafuruhibi", "hanahuruhibi", "ハナフルヒビ", "鎖那・000・めありー", "UCVd0lHzInoR_wocMXR74fTA"], "agency": "", "agencyGroup": "", "vocal": "鎖那・000・めありー", "vocalParts": [{"text": "鎖那", "target": "鎖那"}, {"text": "・000・", "target": null}, {"text": "めありー", "target": "めありー"}], "memberOf": [], "profileBio": "鎖那・000・めありーの3人による音楽ユニット。繊細で透明感のあるボーカルアンサンブルとアコースティックな温かみのあるサウンドで、『ひとりじゃないじゃん』や『muguet』などの楽曲を発表している。", "ytChannelUrl": "https://www.youtube.com/channel/UCVd0lHzInoR_wocMXR74fTA", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_10842e73", "name": "miri (璃Miri)", "cat": 1, "count": 1, "reading": "みり", "kana": "み", "row": "ま", "alpha": "M", "img": "https://yt3.googleusercontent.com/erJlmpAFYLgcsBlRl4nSKFV3B0lD1sk6ZlXp6JEWe_n9fWynvli9aAhiL-oFqIfXFkdcba7S3Q=s240-c-k-c0x00ffffff-no-rj", "songs": ["レイラ"], "topSongs": ["レイラ"], "topLinks": ["gqWAui-okAM"], "topTypes": ["オリジナル"], "role": "Vtuber", "roles": ["Vtuber"], "groupSubRole": "", "sub": 34700, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["miri", "璃Miri", "みり", "ミリ", "UCHCnxECJBxKrMByroUWSgcw"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UCHCnxECJBxKrMByroUWSgcw", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}];
+
+  (function applyRuntimeCuratedDataMigrations() {
+    if (!Array.isArray(DATA)) return;
+
+    // 1. Rename the 5 songs & deduplicate in-order
+    DATA.forEach(a => {
+      if (!a) return;
+      if (Array.isArray(a.songs)) {
+        const nextSongs = [];
+        const seen = new Set();
+        a.songs.forEach(s => {
+          const sc = String(s || "").trim();
+          const mapped = SONG_RENAME_MAP[sc] || sc;
+          if (mapped && !seen.has(mapped)) {
+            seen.add(mapped);
+            nextSongs.push(mapped);
+          }
+        });
+        a.songs = nextSongs;
+        a.count = nextSongs.length;
+      }
+      if (Array.isArray(a.topSongs)) {
+        a.topSongs = a.topSongs.map(s => {
+          const sc = String(s || "").trim();
+          return SONG_RENAME_MAP[sc] || sc;
+        });
+      }
+      if (a.name === "くまみゆ" && typeof a.profileBio === "string") {
+        a.profileBio = a.profileBio.replace("『わたしね』", "『わたしね、、』");
+      }
+    });
+
+    // 2. Rename Kimidori / きみどり -> ≡君彩≡ (a_31d1b2a3), merging if separate Kimidori exists
+    let kimidoriTarget = null;
+    const extraKimidoriIndices = [];
+    DATA.forEach((a, idx) => {
+      if (!a) return;
+      const nm = String(a.name || "").trim();
+      if (a.aid === "a_31d1b2a3" || nm === "きみどり" || nm === "≡君彩≡" || nm.toLowerCase() === "kimidori") {
+        if (!kimidoriTarget) {
+          kimidoriTarget = a;
+        } else {
+          extraKimidoriIndices.push(idx);
+        }
+      }
+    });
+    if (kimidoriTarget) {
+      kimidoriTarget.aid = "a_31d1b2a3";
+      kimidoriTarget.name = "≡君彩≡";
+      kimidoriTarget.reading = "きみどり";
+      kimidoriTarget.kana = "き";
+      kimidoriTarget.row = "か";
+      kimidoriTarget.alpha = "";
+      if (!Array.isArray(kimidoriTarget.al)) kimidoriTarget.al = [];
+      ["Kimidori", "kimidori", "きみどり", "君彩", "≡君彩≡"].forEach(al => {
+        if (!kimidoriTarget.al.includes(al)) kimidoriTarget.al.push(al);
+      });
+      if (!Array.isArray(kimidoriTarget.songs)) kimidoriTarget.songs = [];
+      for (let i = extraKimidoriIndices.length - 1; i >= 0; i--) {
+        const ex = DATA[extraKimidoriIndices[i]];
+        if (ex && Array.isArray(ex.songs)) {
+          ex.songs.forEach(s => {
+            if (!kimidoriTarget.songs.includes(s)) kimidoriTarget.songs.push(s);
+          });
+        }
+        DATA.splice(extraKimidoriIndices[i], 1);
+      }
+      kimidoriTarget.count = kimidoriTarget.songs.length;
+    }
+
+    // 3. Ensure all 8 curated artists and their songs exist
+    CURATED_V56_ARTISTS.forEach(cur => {
+      const cid = (cur.ytChannelUrl || "").split("/channel/").pop();
+      let found = DATA.find(a => a && (
+        a.aid === cur.aid ||
+        a.name === cur.name ||
+        (cid && String(a.ytChannelUrl || "").includes(cid))
+      ));
+      if (!found) {
+        DATA.push(JSON.parse(JSON.stringify(cur)));
+      } else {
+        found.name = cur.name;
+        if (!found.ytChannelUrl && cur.ytChannelUrl) found.ytChannelUrl = cur.ytChannelUrl;
+        if (!found.img && cur.img) found.img = cur.img;
+        if (!Array.isArray(found.songs)) found.songs = [];
+        cur.songs.forEach(s => {
+          if (!found.songs.includes(s)) found.songs.push(s);
+        });
+        found.count = found.songs.length;
+        if (!Array.isArray(found.al)) found.al = [];
+        (cur.al || []).forEach(al => {
+          if (!found.al.includes(al)) found.al.push(al);
+        });
+      }
+    });
+
+    // 4. Add 花降る日々 to memberOf of 鎖那 and めありー
+    DATA.forEach(a => {
+      if (a && (a.name === "鎖那" || a.name === "めありー")) {
+        if (!Array.isArray(a.memberOf)) a.memberOf = [];
+        if (!a.memberOf.includes("花降る日々")) a.memberOf.push("花降る日々");
+      }
+    });
+  })();
+
   // Calculate dynamic statistics strictly from Category 1 & 2 artists
   const countCat1 = DATA.filter(a => a.cat === 1).length;
   const countCat2 = DATA.filter(a => a.cat === 2).length;
@@ -38,6 +146,7 @@
   const FAV_SERVER_CACHE_KEY = "calpis_fav_server_cache_v1";
   const FAV_UNSAVED_DRAFT_KEY = "calpis_fav_unsaved_draft_v1";
   const FAV_MIGRATION_STATE_KEY = "calpis_fav_migration_state_v1";
+  const FAV_ORDER_MEMORY_KEY = "calpis_fav_order_memory_v1";
   const FAV_API_ENDPOINT = "./api/favorites";
 
   const HEART_SVG_INNER = `<svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg>`;
@@ -98,8 +207,11 @@
   function makeSongKey(aidOrName, songTitle) {
     const aid = resolveToAid(aidOrName);
     if (!aid) return null;
-    const cleanSong = String(songTitle || "").replace(/[\r\n\t]+/g, " ").trim();
+    let cleanSong = String(songTitle || "").replace(/[\r\n\t]+/g, " ").trim();
     if (!cleanSong) return null;
+    if (SONG_RENAME_MAP[cleanSong]) {
+      cleanSong = SONG_RENAME_MAP[cleanSong];
+    }
     return `${aid}\t${cleanSong}`;
   }
 
@@ -205,6 +317,8 @@
           if (typeof normSearch === "function" && typeof stripSpaces === "function") {
             a._normSongs = a.songs.map(s => normSearch(s));
             a._normSongsNoSpace = a._normSongs.map(s => stripSpaces(s));
+            a._normSongAliases = a.songs.map(s => (SONG_SEARCH_ALIASES_BY_NEW_TITLE[s] || []).map(al => normSearch(al)));
+            a._normSongAliasesNoSpace = a._normSongAliases.map(arr => arr.map(al => stripSpaces(al)));
           }
         }
         return;
@@ -222,6 +336,8 @@
       if (typeof normSearch === "function" && typeof stripSpaces === "function") {
         a._normSongs = a.songs.map(s => normSearch(s));
         a._normSongsNoSpace = a._normSongs.map(s => stripSpaces(s));
+        a._normSongAliases = a.songs.map(s => (SONG_SEARCH_ALIASES_BY_NEW_TITLE[s] || []).map(al => normSearch(al)));
+        a._normSongAliasesNoSpace = a._normSongAliases.map(arr => arr.map(al => stripSpaces(al)));
       }
     });
   }
@@ -267,7 +383,68 @@
     } catch (e) {
       return [];
     }
-    return Array.from(tempSet).sort();
+    return Array.from(tempSet);
+  }
+
+  function loadFavOrderMemory() {
+    try {
+      const raw = localStorage.getItem(FAV_ORDER_MEMORY_KEY);
+      if (!raw) return { ids: [], songFavs: [] };
+      const parsed = JSON.parse(raw);
+      return {
+        ids: Array.isArray(parsed && parsed.ids) ? parsed.ids.map(resolveToAid).filter(Boolean) : [],
+        songFavs: normalizeSongKeyArray(parsed && parsed.songFavs)
+      };
+    } catch (_e) {
+      return { ids: [], songFavs: [] };
+    }
+  }
+
+  function saveFavOrderMemory(ids, songFavs) {
+    try {
+      localStorage.setItem(FAV_ORDER_MEMORY_KEY, JSON.stringify({
+        ids: Array.isArray(ids) ? ids : getSortedCurrentAids(),
+        songFavs: Array.isArray(songFavs) ? songFavs : getSortedCurrentSongFavs(),
+        updatedAt: Date.now()
+      }));
+    } catch (_e) {}
+  }
+
+  function isStrictlyLexicographical(arr) {
+    if (!Array.isArray(arr) || arr.length <= 1) return false;
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i - 1] > arr[i]) return false;
+    }
+    return true;
+  }
+
+  /**
+   * Ensures that if an older server endpoint returned lexicographically sorted `ids`/`songFavs`,
+   * we preserve our known insertion/custom order and place any newly added items at the very end (bottom).
+   */
+  function reconcileOrderWithMemory(incomingArr, memoryArr) {
+    if (!Array.isArray(incomingArr) || incomingArr.length === 0) return [];
+    if (!Array.isArray(memoryArr) || memoryArr.length === 0) return incomingArr;
+    // Only override incoming order if incoming looks lexicographically sorted while memory had a different custom/insertion order
+    if (!isStrictlyLexicographical(incomingArr) && !areStringArraysEqual(incomingArr, memoryArr)) {
+      return incomingArr;
+    }
+    const incomingSet = new Set(incomingArr);
+    const ordered = [];
+    const seen = new Set();
+    memoryArr.forEach(item => {
+      if (incomingSet.has(item) && !seen.has(item)) {
+        seen.add(item);
+        ordered.push(item);
+      }
+    });
+    incomingArr.forEach(item => {
+      if (!seen.has(item)) {
+        seen.add(item);
+        ordered.push(item);
+      }
+    });
+    return ordered;
   }
 
   function loadFavServerCache() {
@@ -383,13 +560,23 @@
     return Boolean(key && recommendedSongSet.has(key));
   }
 
+  function getRecommendedSongsForArtist(artist) {
+    if (!artist || !artist.aid) return [];
+    const pool = [];
+    const seen = new Set();
+    [...(artist.songs || []), ...(artist.topSongs || [])].forEach(s => {
+      if (s && !seen.has(s)) {
+        seen.add(s);
+        pool.push(s);
+      }
+    });
+    return pool.filter(s => recommendedSongSet.has(`${artist.aid}\t${s}`));
+  }
+
   function getRecommendedSongCount() {
     let cnt = 0;
     DATA.forEach(a => {
-      if (!a || !a.aid || !Array.isArray(a.songs)) return;
-      a.songs.forEach(s => {
-        if (recommendedSongSet.has(`${a.aid}\t${s}`)) cnt++;
-      });
+      cnt += getRecommendedSongsForArtist(a).length;
     });
     return cnt;
   }
@@ -398,13 +585,30 @@
     const aid = resolveToAid(aidOrName);
     if (!aid) return false;
     const a = AID_TO_ARTIST.get(aid);
-    if (!a || !Array.isArray(a.songs)) return false;
-    return a.songs.some(s => recommendedSongSet.has(`${aid}\t${s}`));
+    return getRecommendedSongsForArtist(a).length > 0;
   }
 
-  function getRecommendedSongsForArtist(artist) {
-    if (!artist || !artist.aid || !Array.isArray(artist.songs)) return [];
-    return artist.songs.filter(s => recommendedSongSet.has(`${artist.aid}\t${s}`));
+  function normSongTitleForCompare(title) {
+    return String(title || "")
+      .normalize("NFKC")
+      .replace(/\s*\(cover\)\s*$/i, "")
+      .replace(/[\s\u3000]+/g, " ")
+      .trim()
+      .toLowerCase();
+  }
+
+  function isTop5SongHeartedInArchive(artist, rawTopTitle, dispTopTitle) {
+    if (!artist || !artist.aid) return false;
+    if (isRecommendedSong(artist.aid, rawTopTitle) || isRecommendedSong(artist.aid, dispTopTitle)) {
+      return true;
+    }
+    const targetNorm = normSongTitleForCompare(rawTopTitle);
+    const dispNorm = normSongTitleForCompare(dispTopTitle);
+    const favSongs = getRecommendedSongsForArtist(artist);
+    return favSongs.some(favTitle => {
+      const fn = normSongTitleForCompare(favTitle);
+      return Boolean(fn && (fn === targetNorm || fn === dispNorm));
+    });
   }
 
   function isCustomAddedSong(aidOrName, songTitle) {
@@ -437,9 +641,34 @@
       const shouldHaveHeart = isRecommendedArtist(aName);
       row.classList.toggle("artist-is-fav", shouldHaveHeart);
 
+      // Update song hearts on song-matched search rows (.song-matched-row)
+      if (row.classList.contains("song-matched-row")) {
+        const primarySong = row.getAttribute("data-primary-song");
+        if (primarySong) {
+          row.classList.toggle("song-is-fav", isRecommendedSong(aObj.aid, primarySong));
+        }
+        const songTokens = row.querySelectorAll("[data-matched-song-title]");
+        songTokens.forEach(tok => {
+          const sTitle = tok.getAttribute("data-matched-song-title");
+          const isSngFav = Boolean(sTitle && isRecommendedSong(aObj.aid, sTitle));
+          tok.classList.toggle("is-song-fav", isSngFav);
+          const existingSngHeart = tok.querySelector(".song-search-fav-heart");
+          if (isSngFav && !existingSngHeart) {
+            const span = document.createElement("span");
+            span.className = "artist-fav-heart song-search-fav-heart";
+            span.title = "かるのオススメ楽曲";
+            span.setAttribute("aria-label", "かるのオススメ楽曲");
+            span.innerHTML = HEART_SVG_INNER;
+            tok.appendChild(span);
+          } else if (!isSngFav && existingSngHeart) {
+            existingSngHeart.remove();
+          }
+        });
+      }
+
       const nameEl = row.querySelector(".row-name");
       if (!nameEl) return;
-      const existingHeart = nameEl.querySelector(".artist-fav-heart");
+      const existingHeart = nameEl.querySelector(".artist-fav-heart:not(.song-search-fav-heart)");
       if (shouldHaveHeart && !existingHeart) {
         const span = document.createElement("span");
         span.className = "artist-fav-heart";
@@ -451,6 +680,37 @@
         existingHeart.remove();
       }
     });
+
+    // Also update top search candidate song chips if visible
+    renderSearchCandidates();
+
+    // Also update 代表曲 TOP 5 song hearts if detail panel is open on top5 mode
+    if (state.selectedArtistName) {
+      const selArtist = ARTIST_MAP.get(state.selectedArtistName);
+      if (selArtist) {
+        const top5Items = document.querySelectorAll("#detailScrollContent .top5-song-item[data-top5-song-title]");
+        top5Items.forEach(item => {
+          const rawTop = item.getAttribute("data-top5-song-title") || "";
+          const dispTop = item.getAttribute("data-top5-disp-title") || rawTop;
+          const isFav = isTop5SongHeartedInArchive(selArtist, rawTop, dispTop);
+          item.classList.toggle("song-is-fav", isFav);
+          const nameEl = item.querySelector(".song-name");
+          if (nameEl) {
+            const ex = nameEl.querySelector(".song-fav-heart");
+            if (isFav && !ex) {
+              const span = document.createElement("span");
+              span.className = "song-fav-heart";
+              span.title = "かるのオススメ楽曲";
+              span.setAttribute("aria-label", "かるのオススメ楽曲");
+              span.innerHTML = HEART_SVG_INNER;
+              nameEl.appendChild(span);
+            } else if (!isFav && ex) {
+              ex.remove();
+            }
+          }
+        });
+      }
+    }
 
     // Update heart icon & hero state on currently open detail panel header in-place
     if (state.selectedArtistName) {
@@ -517,11 +777,11 @@
     const aid = resolveToAid(name);
     if (!aid) return;
     const isNowFav = !recommendedAidSet.has(aid);
+    recommendedAidSet.delete(aid);
     if (isNowFav) {
       recommendedAidSet.add(aid);
-    } else {
-      recommendedAidSet.delete(aid);
     }
+    saveFavOrderMemory();
     saveUnsavedDraft();
     updateFavEditBannerStatus();
     applySilentFavoritesDOMUpdate();
@@ -532,11 +792,11 @@
     const key = makeSongKey(aidOrName, songTitle);
     if (!key) return;
     const isNowFav = !recommendedSongSet.has(key);
+    recommendedSongSet.delete(key);
     if (isNowFav) {
       recommendedSongSet.add(key);
-    } else {
-      recommendedSongSet.delete(key);
     }
+    saveFavOrderMemory();
     saveUnsavedDraft();
     updateFavEditBannerStatus();
 
@@ -1046,7 +1306,11 @@
     a._normAliasesNoSpace = Array.from(noSpaceSet);
     a._normSongs = (a.songs || []).map(s => normSearch(s));
     a._normSongsNoSpace = a._normSongs.map(s => stripSpaces(s));
+    a._normSongAliases = (a.songs || []).map(s => (SONG_SEARCH_ALIASES_BY_NEW_TITLE[s] || []).map(al => normSearch(al)));
+    a._normSongAliasesNoSpace = a._normSongAliases.map(arr => arr.map(al => stripSpaces(al)));
     a._normTopSongs = (a.topSongs || []).map(s => normSearch(s));
+    a._normTopSongAliases = (a.topSongs || []).map(s => (SONG_SEARCH_ALIASES_BY_NEW_TITLE[s] || []).map(al => normSearch(al)));
+    a._normTopSongAliasesNoSpace = a._normTopSongAliases.map(arr => arr.map(al => stripSpaces(al)));
   });
 
   // Fast Map from artist name to artist object
@@ -1460,10 +1724,22 @@
       if (seen.has(rawSong)) continue;
       const ns = a._normSongs[i];
       const nsNoSpace = a._normSongsNoSpace[i];
-      if (ns === q || (qNoSpace && nsNoSpace === qNoSpace)) {
+      const alArr = (a._normSongAliases && a._normSongAliases[i]) || [];
+      const alNoSpaceArr = (a._normSongAliasesNoSpace && a._normSongAliasesNoSpace[i]) || [];
+      if (
+        ns === q ||
+        (qNoSpace && nsNoSpace === qNoSpace) ||
+        alArr.includes(q) ||
+        (qNoSpace && alNoSpaceArr.includes(qNoSpace))
+      ) {
         exactMatches.push(rawSong);
         seen.add(rawSong);
-      } else if (ns.includes(q) || (qNoSpace && nsNoSpace.includes(qNoSpace))) {
+      } else if (
+        ns.includes(q) ||
+        (qNoSpace && nsNoSpace.includes(qNoSpace)) ||
+        alArr.some(al => al.includes(q)) ||
+        (qNoSpace && alNoSpaceArr.some(al => al.includes(qNoSpace)))
+      ) {
         partialMatches.push(rawSong);
         seen.add(rawSong);
       }
@@ -1473,10 +1749,23 @@
         const rawTop = a.topSongs[i];
         if (seen.has(rawTop)) continue;
         const nt = a._normTopSongs[i];
-        if (nt === q) {
+        const ntNoSpace = stripSpaces(nt);
+        const alArr = (a._normTopSongAliases && a._normTopSongAliases[i]) || [];
+        const alNoSpaceArr = (a._normTopSongAliasesNoSpace && a._normTopSongAliasesNoSpace[i]) || [];
+        if (
+          nt === q ||
+          (qNoSpace && ntNoSpace === qNoSpace) ||
+          alArr.includes(q) ||
+          (qNoSpace && alNoSpaceArr.includes(qNoSpace))
+        ) {
           exactMatches.push(rawTop);
           seen.add(rawTop);
-        } else if (nt.includes(q)) {
+        } else if (
+          nt.includes(q) ||
+          (qNoSpace && ntNoSpace.includes(qNoSpace)) ||
+          alArr.some(al => al.includes(q)) ||
+          (qNoSpace && alNoSpaceArr.some(al => al.includes(qNoSpace)))
+        ) {
           partialMatches.push(rawTop);
           seen.add(rawTop);
         }
@@ -1484,10 +1773,14 @@
     }
     const allMatched = [...exactMatches, ...partialMatches];
     if (allMatched.length === 0) return null;
-    const displaySongs = allMatched.slice(0, 3).join(" / ") + (allMatched.length > 3 ? ` ほか${allMatched.length - 3}曲` : "");
+    const shownList = allMatched.slice(0, 3);
+    const moreCount = Math.max(0, allMatched.length - 3);
+    const displaySongs = shownList.join(" / ") + (moreCount > 0 ? ` ほか${moreCount}曲` : "");
     return {
       tier: exactMatches.length > 0 ? 4 : 5,
       first: allMatched[0],
+      list: shownList,
+      moreCount,
       display: displaySongs,
       count: allMatched.length
     };
@@ -1497,6 +1790,8 @@
     const rawMode = state.searchTarget || "all";
     const mode = rawMode === "all" ? "both" : rawMode;
     a._matchedSongsDisplay = null;
+    a._matchedSongsList = null;
+    a._matchedSongsMoreCount = 0;
     if (mode === "group") {
       a._searchTier = 99;
       return false;
@@ -1555,6 +1850,8 @@
       if (sm) {
         a._searchTier = sm.tier;
         a._matchedSongPreview = sm.first;
+        a._matchedSongsList = sm.list;
+        a._matchedSongsMoreCount = sm.moreCount;
         a._matchedSongsDisplay = sm.display;
         a._matchedAliasHint = "";
         return true;
@@ -1729,6 +2026,9 @@
       } else {
         a._searchTier = 99;
         a._matchedSongPreview = null;
+        a._matchedSongsList = null;
+        a._matchedSongsMoreCount = 0;
+        a._matchedSongsDisplay = null;
         a._matchedAliasHint = "";
       }
 
@@ -1795,9 +2095,11 @@
       bar.style.display = "flex";
       bar.innerHTML = `<span class="search-cand-label">上位候補:</span>` + songHits.map(a => {
         const isExact = a._searchTier === 4;
+        const isSngFav = isRecommendedSong(a.aid, a._matchedSongPreview);
+        const sngHeart = isSngFav ? `<span class="artist-fav-heart song-search-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>` : "";
         return `
           <button type="button" class="search-cand-chip ${isExact ? "exact-hit" : ""}" data-cand-artist="${esc(a.name)}" title="${esc(a.name)} の詳細を表示">
-            <span class="search-cand-name">♪ ${esc(a._matchedSongPreview)}</span>
+            <span class="search-cand-name">♪ ${esc(a._matchedSongPreview)}${sngHeart}</span>
             <span class="search-cand-count">${esc(a.name)}</span>
           </button>
         `;
@@ -1858,9 +2160,11 @@
 
     const songChipsHTML = songHits.map(a => {
       const isExact = a._searchTier === 4;
+      const isSngFav = isRecommendedSong(a.aid, a._matchedSongPreview);
+      const sngHeart = isSngFav ? `<span class="artist-fav-heart song-search-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>` : "";
       return `
         <button type="button" class="search-cand-chip ${isExact ? "exact-hit" : ""}" data-cand-artist="${esc(a.name)}" title="一致楽曲: ${esc(a._matchedSongPreview)}（${esc(a.name)}）">
-          <span class="search-cand-name">♪ ${esc(a._matchedSongPreview)}</span>
+          <span class="search-cand-name">♪ ${esc(a._matchedSongPreview)}${sngHeart}</span>
           <span class="search-cand-count">${esc(a.name)}</span>
         </button>
       `;
@@ -2081,15 +2385,30 @@
     const rankClass = (!hasCustomRoleRank && !hideRankNumber && state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
     const rankText = hasCustomRoleRank ? customRoleRank : (hideRankNumber ? "" : a._displayRank);
     const isSongSearchMode = (isSearch && (state.searchTarget === "song" || state.searchTarget === "all") && Boolean(a._matchedSongPreview)) || (state.view === "search" && state.searchTarget === "song" && Boolean(a._matchedSongPreview || (a.songs && a.songs[0])));
-    const fallbackFirstSong = (!a._matchedSongPreview && state.view === "search" && state.searchTarget === "song" && Array.isArray(a.songs) && a.songs.length > 0)
-      ? (a.songs.length > 1 ? `${a.songs[0]} ほか${fmtNum(a.songs.length - 1)}曲` : a.songs[0])
-      : "";
-    const songDisplayStr = a._matchedSongsDisplay || a._matchedSongPreview || fallbackFirstSong || "";
+    const primarySongTitle = a._matchedSongPreview || ((state.view === "search" && state.searchTarget === "song" && Array.isArray(a.songs) && a.songs.length > 0) ? a.songs[0] : "");
+    const matchedSongList = (Array.isArray(a._matchedSongsList) && a._matchedSongsList.length > 0)
+      ? a._matchedSongsList
+      : (primarySongTitle ? [primarySongTitle] : []);
+    const matchedMoreCount = (Array.isArray(a._matchedSongsList) && a._matchedSongsList.length > 0)
+      ? (a._matchedSongsMoreCount || 0)
+      : ((!a._matchedSongPreview && state.view === "search" && state.searchTarget === "song" && Array.isArray(a.songs) && a.songs.length > 1) ? (a.songs.length - 1) : 0);
+    const isPrimarySongFav = Boolean(isSongSearchMode && primarySongTitle && isRecommendedSong(a.aid, primarySongTitle));
+    const songDisplayStr = a._matchedSongsDisplay || a._matchedSongPreview || "";
     let nameWrapInner = "";
 
     if (isSongSearchMode) {
+      const tokensHTML = matchedSongList.map(sTitle => {
+        const isSngFav = isRecommendedSong(a.aid, sTitle);
+        const sngHeartHTML = isSngFav
+          ? `<span class="artist-fav-heart song-search-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>`
+          : "";
+        return `<span class="row-matched-song-token ${isSngFav ? "is-song-fav" : ""}" data-matched-song-title="${esc(sTitle)}">${esc(sTitle)}${sngHeartHTML}</span>`;
+      }).join(`<span class="row-matched-song-sep"> / </span>`);
+      const moreSuffixHTML = matchedMoreCount > 0
+        ? `<span class="row-matched-song-more"> ほか${fmtNum(matchedMoreCount)}曲</span>`
+        : "";
       nameWrapInner = `
-        <div class="row-song-primary">♪ ${esc(songDisplayStr)}</div>
+        <div class="row-song-primary">♪ ${tokensHTML}${moreSuffixHTML}</div>
         <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${favHeartHTML}</div>
       `;
     } else {
@@ -2153,9 +2472,9 @@
       : `<span class="row-agency-empty">—</span>`;
 
     return `
-      <div class="artist-row ${isSelected ? "selected" : ""} ${isFav ? "artist-is-fav" : ""} ${hasCustomRoleRank ? "recommend-artist-row" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" role="button" tabindex="0">
+      <div class="artist-row ${isSelected ? "selected" : ""} ${isFav ? "artist-is-fav" : ""} ${hasCustomRoleRank ? "recommend-artist-row" : ""} ${isSongSearchMode ? "song-matched-row" : ""} ${isPrimarySongFav ? "song-is-fav" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" ${isSongSearchMode && primarySongTitle ? `data-primary-song="${esc(primarySongTitle)}"` : ""} role="button" tabindex="0">
         <div class="row-rank ${(hideRankNumber && !hasCustomRoleRank) ? "row-rank-blank" : rankClass}">${rankText}</div>
-        <div class="row-avatar-wrap" title="編集モード時：タップでオススメ切替">${renderAvatarHTML(a, false, rowIndex)}</div>
+        <div class="row-avatar-wrap" title="${isSongSearchMode ? "" : "編集モード時：タップでオススメ切替"}">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
           ${nameWrapInner}
         </div>
@@ -2701,15 +3020,19 @@
                 const sType = topTypes[idx] || "unconfirmed";
                 const dispTitle = formatTop5SongTitle(songTitle, sType);
                 const videoId = topLinks[idx] || "";
+                const isRepFav = isTop5SongHeartedInArchive(artist, songTitle, dispTitle);
+                const repHeartHTML = isRepFav
+                  ? `<span class="song-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>`
+                  : "";
                 if (videoId) {
                   const ytUrl = videoId.startsWith("http")
                     ? videoId
                     : `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`;
                   return `
-                    <div class="top5-song-item has-yt-link">
+                    <div class="top5-song-item has-yt-link ${isRepFav ? "song-is-fav" : ""}" data-top5-song-title="${esc(songTitle)}" data-top5-disp-title="${esc(dispTitle)}">
                       <span class="top5-rank-num">${idx + 1}</span>
                       <a class="top5-song-link" href="${esc(ytUrl)}" target="_blank" rel="noopener noreferrer" title="YouTube公式動画を開く: ${esc(dispTitle)}">
-                        <span class="song-name">${esc(dispTitle)}</span>
+                        <span class="song-name">${esc(dispTitle)}${repHeartHTML}</span>
                         <span class="yt-link-badge" aria-hidden="true">
                           <svg class="yt-ext-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
                         </span>
@@ -2718,9 +3041,9 @@
                   `;
                 }
                 return `
-                  <div class="top5-song-item">
+                  <div class="top5-song-item ${isRepFav ? "song-is-fav" : ""}" data-top5-song-title="${esc(songTitle)}" data-top5-disp-title="${esc(dispTitle)}">
                     <span class="top5-rank-num">${idx + 1}</span>
-                    <span class="song-name">${esc(dispTitle)}</span>
+                    <span class="song-name">${esc(dispTitle)}${repHeartHTML}</span>
                   </div>
                 `;
               }).join("")}
@@ -2758,7 +3081,8 @@
         ` : `
           <div class="detail-song-list">
             ${displaySongs.map((s, i) => {
-              const isMatch = q && normSearch(s.title).includes(q);
+              const sAliases = (SONG_SEARCH_ALIASES_BY_NEW_TITLE[s.title] || []).map(al => normSearch(al));
+              const isMatch = Boolean(q && (normSearch(s.title).includes(q) || sAliases.some(al => al.includes(q))));
               const isSongFav = isRecommendedSong(artist.aid, s.title);
               const isCustom = isCustomAddedSong(artist.aid, s.title);
               return `
@@ -2831,9 +3155,30 @@
     }
   }
 
+  function updateSortOptionLabelsForContext() {
+    const isRecSongTab = state.view === "recommend" && state.recommendTab === "song";
+    const countDescLabel = isRecSongTab ? "かるが好きな順" : "登録曲数が多い順";
+    const sel = document.getElementById("pcSortSelect");
+    if (sel) {
+      const opt = sel.querySelector('option[value="countDesc"]');
+      if (opt && opt.textContent !== countDescLabel) {
+        opt.textContent = countDescLabel;
+      }
+    }
+    const customMenu = document.getElementById("customSortMenu");
+    if (customMenu) {
+      const cOpt = customMenu.querySelector('.custom-sort-option[data-sort-value="countDesc"]');
+      if (cOpt && cOpt.textContent !== countDescLabel) {
+        cOpt.textContent = countDescLabel;
+      }
+    }
+  }
+
   // Sync full UI with state
   function updateUI(resetScroll = false) {
     document.body.setAttribute("data-current-view", state.view);
+    document.body.setAttribute("data-search-target", state.searchTarget || "all");
+    updateSortOptionLabelsForContext();
     applyFilterAndSort();
 
     // Update desktop nav buttons & mobile bottom nav buttons
@@ -2900,10 +3245,13 @@
     const isSongListMode =
       (state.view === "recommend" && state.recommendTab === "song") ||
       (state.view === "search" && state.searchTarget === "song");
+    const isGroupSearchMode = state.view === "search" && state.searchTarget === "group";
     document.body.classList.toggle("song-list-mode", isSongListMode);
     const listColHeaderEl = document.getElementById("listColHeader") || document.querySelector(".list-col-header");
     if (listColHeaderEl) {
       listColHeaderEl.classList.toggle("song-list-mode", isSongListMode);
+      listColHeaderEl.classList.toggle("group-search-header-hidden", isGroupSearchMode);
+      listColHeaderEl.classList.toggle("recommend-mobile-header-hidden", state.view === "recommend");
     }
     const listColRankEl = document.getElementById("listColRankLabel") || document.querySelector(".list-col-header > span:first-child");
     if (listColRankEl) {
@@ -3660,12 +4008,29 @@
         nextAids.forEach(aid => recommendedAidSet.add(aid));
       }
 
+      saveFavOrderMemory();
       saveUnsavedDraft();
       updateFavEditBannerStatus();
     }
 
-    function updateDragPlaceholderAndGhostRank(section, placeholderRow, ghostEl) {
-      const rows = Array.from(section.querySelectorAll(".artist-row"));
+    function getVisibleSectionRows(section, hiddenSourceRow) {
+      return Array.from(section.querySelectorAll(".artist-row")).filter(r => r !== hiddenSourceRow);
+    }
+
+    function getRowLayoutTop(el) {
+      const rect = el.getBoundingClientRect();
+      const tr = window.getComputedStyle(el).transform;
+      if (tr && tr !== "none") {
+        try {
+          const mat = new DOMMatrixReadOnly(tr);
+          return rect.top - (mat.m42 || 0);
+        } catch (_e) {}
+      }
+      return rect.top;
+    }
+
+    function updateDragPlaceholderAndGhostRank(section, placeholderRow, ghostEl, hiddenSourceRow) {
+      const rows = getVisibleSectionRows(section, hiddenSourceRow);
       let targetRank = 1;
       rows.forEach((r, idx) => {
         const num = idx + 1;
@@ -3680,13 +4045,13 @@
       }
     }
 
-    function animateSectionRowsFLIP(section, prevTopsMap, skipRow) {
-      const rows = Array.from(section.querySelectorAll(".artist-row"));
+    function animateSectionRowsFLIP(section, prevTopsMap, skipRow, hiddenSourceRow) {
+      const rows = getVisibleSectionRows(section, hiddenSourceRow);
       rows.forEach(r => {
         if (r === skipRow) return;
         const prevTop = prevTopsMap.get(r);
         if (typeof prevTop !== "number") return;
-        const newTop = r.getBoundingClientRect().top;
+        const newTop = getRowLayoutTop(r);
         const dy = prevTop - newTop;
         if (Math.abs(dy) > 1) {
           r.style.transition = "none";
@@ -3698,22 +4063,23 @@
       });
     }
 
-    listContainer.addEventListener("pointerdown", e => {
-      if (!favQuickEditMode || state.view !== "recommend") return;
-      const handle = e.target.closest("[data-drag-handle]");
-      if (!handle) return;
+    function startRecommendDragSession(handle, clientY, pointerId) {
       const row = handle.closest(".artist-row");
       const section = row ? row.closest(".recommend-role-section") : null;
-      if (!row || !section) return;
+      if (!row || !section) return false;
 
-      e.preventDefault();
-      e.stopPropagation();
-      try {
-        handle.setPointerCapture(e.pointerId);
-      } catch (_e) {}
+      if (activeDragState) {
+        finishRecommendDrag();
+      }
+
+      if (pointerId !== undefined && pointerId !== null) {
+        try {
+          listContainer.setPointerCapture(pointerId);
+        } catch (_e) {}
+      }
 
       const rowRect = row.getBoundingClientRect();
-      const pointerOffsetY = e.clientY - rowRect.top;
+      const pointerOffsetY = clientY - rowRect.top;
 
       // Create floating drag card that follows the pointer smoothly
       const ghostEl = row.cloneNode(true);
@@ -3728,13 +4094,22 @@
       ghostEl.style.pointerEvents = "none";
       document.body.appendChild(ghostEl);
 
-      // Turn the in-list row into a clear recessed drop slot placeholder
-      row.classList.add("is-dragging-row", "is-drag-placeholder");
-      updateDragPlaceholderAndGhostRank(section, row, ghostEl);
+      // Create dedicated placeholder slot element so `row` (and its child `handle`, the Touch.target)
+      // is NEVER detached from the DOM during the drag!
+      const placeholderEl = row.cloneNode(true);
+      placeholderEl.classList.add("is-dragging-row", "is-drag-placeholder");
+      placeholderEl.removeAttribute("data-artist-name");
+      placeholderEl.removeAttribute("data-artist-aid");
+      placeholderEl.removeAttribute("data-rec-song-title");
+      section.insertBefore(placeholderEl, row);
+      row.style.display = "none";
+
+      updateDragPlaceholderAndGhostRank(section, placeholderEl, ghostEl, row);
 
       activeDragState = {
-        pointerId: e.pointerId,
+        pointerId,
         row,
+        placeholderEl,
         section,
         handle,
         ghostEl,
@@ -3743,19 +4118,19 @@
         rowHeight: rowRect.height,
         moved: false
       };
-    });
+      return true;
+    }
 
-    listContainer.addEventListener("pointermove", e => {
-      if (!activeDragState || e.pointerId !== activeDragState.pointerId) return;
-      e.preventDefault();
-      const { row, section, ghostEl, pointerOffsetY, rowHeight } = activeDragState;
+    function moveRecommendDragSession(clientY) {
+      if (!activeDragState) return;
+      const { row, placeholderEl, section, ghostEl, pointerOffsetY, rowHeight } = activeDragState;
 
       // Move floating card smoothly with finger/cursor, clamped to the current Activity Role section bounds
       const secRect = section.getBoundingClientRect();
       const headerEl = section.querySelector(".recommend-role-group-header");
       const minTop = headerEl ? headerEl.getBoundingClientRect().bottom + 2 : secRect.top;
-      const maxTop = secRect.bottom - rowHeight + 4;
-      const desiredTop = Math.max(minTop, Math.min(maxTop, e.clientY - pointerOffsetY));
+      const maxTop = Math.max(minTop, secRect.bottom - Math.min(rowHeight, 44) + 8);
+      const desiredTop = Math.max(minTop, Math.min(maxTop, clientY - pointerOffsetY));
       if (ghostEl) {
         ghostEl.style.top = `${desiredTop}px`;
       }
@@ -3764,60 +4139,76 @@
       const scrollEl = document.getElementById("centerScrollArea");
       if (scrollEl) {
         const sRect = scrollEl.getBoundingClientRect();
-        if (e.clientY < sRect.top + 48) {
+        if (clientY < sRect.top + 48) {
           scrollEl.scrollTop -= 6;
-        } else if (e.clientY > sRect.bottom - 48) {
+        } else if (clientY > sRect.bottom - 48) {
           scrollEl.scrollTop += 6;
         }
       }
 
-      const siblings = Array.from(section.querySelectorAll(".artist-row"));
+      const siblings = getVisibleSectionRows(section, row);
       if (siblings.length <= 1) return;
 
-      // Record current tops for smooth FLIP transition if slot moves
+      const prevIdx = siblings.indexOf(placeholderEl);
+      const nonPlaceholderRows = siblings.filter(r => r !== placeholderEl);
+
+      // Record current layout tops for smooth FLIP transition if slot moves
       const prevTopsMap = new Map();
-      siblings.forEach(r => prevTopsMap.set(r, r.getBoundingClientRect().top));
+      siblings.forEach(r => prevTopsMap.set(r, getRowLayoutTop(r)));
 
-      const dragCenterY = desiredTop + rowHeight / 2;
-      let slotMoved = false;
+      const dragCenterY = clientY;
+      let targetSib = null;
+      let targetIdx = nonPlaceholderRows.length;
 
-      for (let i = 0; i < siblings.length; i++) {
-        const sib = siblings[i];
-        if (sib === row) continue;
-        const rect = sib.getBoundingClientRect();
-        const midY = rect.top + rect.height / 2;
+      for (let i = 0; i < nonPlaceholderRows.length; i++) {
+        const sib = nonPlaceholderRows[i];
+        const layoutTop = getRowLayoutTop(sib);
+        const h = sib.offsetHeight || rowHeight;
+        const midY = layoutTop + h / 2;
         if (dragCenterY < midY) {
-          if (sib.previousElementSibling !== row) {
-            section.insertBefore(row, sib);
-            slotMoved = true;
-          }
+          targetSib = sib;
+          targetIdx = i;
           break;
         }
-        if (i === siblings.length - 1) {
-          if (sib !== row) {
-            section.appendChild(row);
-            slotMoved = true;
-          }
-        }
       }
 
-      if (slotMoved) {
+      if (targetIdx !== prevIdx) {
+        if (targetSib) {
+          section.insertBefore(placeholderEl, targetSib);
+        } else {
+          section.appendChild(placeholderEl);
+        }
         activeDragState.moved = true;
-        updateDragPlaceholderAndGhostRank(section, row, ghostEl);
-        animateSectionRowsFLIP(section, prevTopsMap, row);
+        updateDragPlaceholderAndGhostRank(section, placeholderEl, ghostEl, row);
+        animateSectionRowsFLIP(section, prevTopsMap, placeholderEl, row);
       }
-    });
+    }
 
     function finishRecommendDrag(e) {
       if (!activeDragState) return;
-      if (e && e.pointerId !== undefined && e.pointerId !== activeDragState.pointerId) return;
-      const { row, section, handle, ghostEl, moved } = activeDragState;
+      if (
+        e &&
+        e.pointerId !== undefined &&
+        activeDragState.pointerId !== undefined &&
+        activeDragState.pointerId !== null &&
+        e.pointerId !== activeDragState.pointerId
+      ) {
+        return;
+      }
+      const { row, placeholderEl, section, ghostEl, moved, pointerId } = activeDragState;
       try {
-        if (handle && e && e.pointerId !== undefined) handle.releasePointerCapture(e.pointerId);
+        if (pointerId !== undefined && pointerId !== null) {
+          listContainer.releasePointerCapture(pointerId);
+        }
       } catch (_e) {}
       if (ghostEl && ghostEl.parentNode) {
         ghostEl.parentNode.removeChild(ghostEl);
       }
+      if (placeholderEl && placeholderEl.parentNode === section) {
+        section.insertBefore(row, placeholderEl);
+        section.removeChild(placeholderEl);
+      }
+      row.style.display = "";
       row.classList.remove("is-dragging-row", "is-drag-placeholder");
       row.removeAttribute("data-drop-target-label");
       Array.from(section.querySelectorAll(".artist-row")).forEach(r => {
@@ -3832,8 +4223,47 @@
       }
     }
 
-    listContainer.addEventListener("pointerup", finishRecommendDrag);
-    listContainer.addEventListener("pointercancel", finishRecommendDrag);
+    listContainer.addEventListener("touchstart", e => {
+      if (!favQuickEditMode || state.view !== "recommend") return;
+      const handle = e.target.closest("[data-drag-handle]");
+      if (!handle) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (!activeDragState && e.touches && e.touches.length > 0) {
+        startRecommendDragSession(handle, e.touches[0].clientY, null);
+      }
+    }, { passive: false });
+
+    listContainer.addEventListener("pointerdown", e => {
+      if (!favQuickEditMode || state.view !== "recommend") return;
+      const handle = e.target.closest("[data-drag-handle]");
+      if (!handle) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (!activeDragState) {
+        startRecommendDragSession(handle, e.clientY, e.pointerId);
+      }
+    });
+
+    window.addEventListener("pointermove", e => {
+      if (!activeDragState) return;
+      if (activeDragState.pointerId !== null && activeDragState.pointerId !== undefined && e.pointerId !== activeDragState.pointerId) return;
+      e.preventDefault();
+      moveRecommendDragSession(e.clientY);
+    }, { passive: false });
+
+    window.addEventListener("touchmove", e => {
+      if (!activeDragState) return;
+      if (e.touches && e.touches.length > 0) {
+        e.preventDefault();
+        moveRecommendDragSession(e.touches[0].clientY);
+      }
+    }, { passive: false });
+
+    window.addEventListener("pointerup", finishRecommendDrag);
+    window.addEventListener("pointercancel", finishRecommendDrag);
+    window.addEventListener("touchend", () => finishRecommendDrag());
+    window.addEventListener("touchcancel", () => finishRecommendDrag());
 
     // Expose programmatic helper for reordering within a role section (used by drag & tests)
     window.__reorderRecommendSectionRow = function(sectionEl, fromIndex, toIndex) {
@@ -3851,10 +4281,26 @@
       return true;
     };
 
+    let lastPcPointerDown = { x: 0, y: 0 };
+    window.addEventListener("pointerdown", e => {
+      lastPcPointerDown = { x: e.clientX || 0, y: e.clientY || 0 };
+    }, { passive: true });
+
+    function isPcTextSelectionDrag(e) {
+      if (window.innerWidth <= 900) return false;
+      const dist = Math.hypot((e.clientX || 0) - lastPcPointerDown.x, (e.clientY || 0) - lastPcPointerDown.y);
+      if (dist <= 6) return false;
+      const sel = window.getSelection ? window.getSelection() : null;
+      return Boolean(sel && !sel.isCollapsed && String(sel.toString() || "").trim().length > 0);
+    }
+
     listContainer.addEventListener("click", e => {
       if (suppressNextRowClick || e.target.closest("[data-drag-handle]")) {
         e.preventDefault();
         e.stopPropagation();
+        return;
+      }
+      if (isPcTextSelectionDrag(e)) {
         return;
       }
       const grpCard = e.target.closest("[data-select-search-group]");
@@ -3878,18 +4324,40 @@
       if (!row) return;
       const name = row.getAttribute("data-artist-name");
       const recSongTitle = row.getAttribute("data-rec-song-title");
-      // When Edit Mode is active, tapping the circular avatar in the list toggles ❤ (song heart on song rows, artist heart on artist rows)
-      if (favQuickEditMode && e.target.closest(".row-avatar-wrap")) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (recSongTitle) {
+
+      if (favQuickEditMode) {
+        // Song-matched row in "すべて検索" or "楽曲を検索":
+        // - Clicking the avatar icon must NOT heart the artist.
+        // - Clicking anywhere else on the row (the song title / non-avatar area) toggles the song heart!
+        if (row.classList.contains("song-matched-row")) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.target.closest(".row-avatar-wrap")) {
+            return;
+          }
           const aObj = ARTIST_MAP.get(name);
-          if (aObj && aObj.aid) toggleRecommendedSong(aObj.aid, recSongTitle);
-        } else {
-          toggleRecommendedArtist(name);
+          const tokenEl = e.target.closest("[data-matched-song-title]");
+          const targetSong = (tokenEl && tokenEl.getAttribute("data-matched-song-title")) || row.getAttribute("data-primary-song");
+          if (aObj && aObj.aid && targetSong) {
+            toggleRecommendedSong(aObj.aid, targetSong);
+          }
+          return;
         }
-        return;
+
+        // Normal artist row or "かるのオススメ" row -> tapping the circular avatar toggles ❤
+        if (e.target.closest(".row-avatar-wrap")) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (recSongTitle) {
+            const aObj = ARTIST_MAP.get(name);
+            if (aObj && aObj.aid) toggleRecommendedSong(aObj.aid, recSongTitle);
+          } else {
+            toggleRecommendedArtist(name);
+          }
+          return;
+        }
       }
+
       if (window.innerWidth <= 900) {
         row.classList.add("mob-tap-active");
         setTimeout(() => {
@@ -4190,8 +4658,9 @@
           throw new Error(errMsg);
         }
 
-        serverFavIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean) : targetIds;
-        serverSongFavs = Array.isArray(data.songFavs) ? normalizeSongKeyArray(data.songFavs) : targetSongFavs;
+        serverFavIds = [...targetIds];
+        serverSongFavs = [...targetSongFavs];
+        saveFavOrderMemory(serverFavIds, serverSongFavs);
         serverCustomSongs = Array.isArray(data.customSongs) ? normalizeSongKeyArray(data.customSongs) : targetCustomSongs;
         serverVersion = typeof data.version === "number" ? data.version : (customBaseVersion + 1);
         hasFetchedServerOnce = true;
@@ -4245,8 +4714,11 @@
         const data = await resp.json();
         if (!data || !data.ok) return;
 
-        const fetchedIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean) : [];
-        const fetchedSongFavs = normalizeSongKeyArray(data.songFavs);
+        const ordMem = loadFavOrderMemory();
+        const rawFetchedIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean) : [];
+        const rawFetchedSongFavs = normalizeSongKeyArray(data.songFavs);
+        const fetchedIds = reconcileOrderWithMemory(rawFetchedIds, ordMem.ids);
+        const fetchedSongFavs = reconcileOrderWithMemory(rawFetchedSongFavs, ordMem.songFavs);
         const fetchedCustomSongs = normalizeSongKeyArray(data.customSongs);
         const fetchedVersion = typeof data.version === "number" ? data.version : 0;
         serverConfigured = data.configured !== false;
@@ -4354,7 +4826,7 @@
         const data = await resp.json().catch(() => null);
 
         if (resp.status === 409 && data && data.serverData) {
-          serverFavIds = (data.serverData.ids || []).map(resolveToAid).filter(Boolean).sort();
+          serverFavIds = (data.serverData.ids || []).map(resolveToAid).filter(Boolean);
           serverSongFavs = normalizeSongKeyArray(data.serverData.songFavs);
           serverCustomSongs = normalizeSongKeyArray(data.serverData.customSongs);
           serverVersion = data.serverData.version || 1;
@@ -4380,7 +4852,7 @@
           localStorage.setItem(FAV_MIGRATION_STATE_KEY, "migrated");
         } catch (e) {}
 
-        serverFavIds = (data.ids || legacyAids).map(resolveToAid).filter(Boolean).sort();
+        serverFavIds = (data.ids || legacyAids).map(resolveToAid).filter(Boolean);
         serverSongFavs = normalizeSongKeyArray(data.songFavs);
         serverCustomSongs = normalizeSongKeyArray(data.customSongs);
         serverVersion = typeof data.version === "number" ? data.version : 1;
@@ -4423,7 +4895,7 @@
     function openFavConflictModal(serverData) {
       if (!favConflictModal || !serverData) return;
       lastConflictServerData = {
-        ids: (serverData.ids || []).map(resolveToAid).filter(Boolean).sort(),
+        ids: (serverData.ids || []).map(resolveToAid).filter(Boolean),
         songFavs: normalizeSongKeyArray(serverData.songFavs),
         customSongs: normalizeSongKeyArray(serverData.customSongs),
         version: typeof serverData.version === "number" ? serverData.version : 1,
@@ -4579,7 +5051,7 @@
           const merged = new Set(serverArr);
           diff.added.forEach(x => merged.add(x));
           diff.removed.forEach(x => merged.delete(x));
-          return Array.from(merged).sort();
+          return Array.from(merged);
         };
 
         const mergedIds = mergeThreeWay(editSessionBaseIds, getSortedCurrentAids(), lastConflictServerData.ids);
@@ -4667,6 +5139,9 @@
     }, 180000);
 
     document.getElementById("detailScrollContent").addEventListener("click", e => {
+      if (isPcTextSelectionDrag(e)) {
+        return;
+      }
       const openArtistBtn = e.target.closest("[data-open-artist]");
       if (openArtistBtn) {
         const targetName = openArtistBtn.getAttribute("data-open-artist");
