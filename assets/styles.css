@@ -5891,3 +5891,316 @@ body.fav-quick-edit-mode .artist-row.song-matched-row.song-is-fav {
     -webkit-user-select: none !important;
   }
 }
+
+
+/* ==========================================================================
+   v57 Updates:
+   1. 3-Tier Heart System:
+      - PC (`>= 901px`): Displays 3 hearts (`♥♥♥`), 2 hearts (`♥♥`), or 1 heart (`♥`)
+      - Smartphone (`<= 900px`): Displays a single heart icon with distinct visual design per grade
+        (Tier 3: Crown & Gold-rimmed Ruby Heart / Tier 2: Solid Pink Heart / Tier 1: Outlined Pink Heart)
+   2. Edit Mode Top Grade Selector Tabs (`#favQeTierTabs`) & Compact History Buttons (`↶` / `↷`)
+   3. "かるのオススメ" -> "アーティスト" tab:
+      - Smartphone (`<= 900px`): Shows column header `#listColHeader` with `"高評価曲数"` in pure white (`#ffffff`), and displays `.row-fav-song-count` instead of `.row-count`
+      - PC (`>= 901px`): Keeps `"登録楽曲数"` and adds rightmost `"高評価曲数"` (`#listColFavCountLabel` / `.row-fav-song-count`) in pure white (`#ffffff`)
+   4. Edit Mode on "かるのオススメ" -> "楽曲" tab (`.recommend-song-row`):
+      - Avatar icon does NOT show artist-heart ring or pointer cursor
+      - Wide song row area acts as a direct song-heart toggle/grade-switch target
+   ========================================================================== */
+
+/* 1. Responsive PC vs Smartphone 3-Tier Heart Display */
+@media (min-width: 901px) {
+  .heart-tier-pc {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 1px;
+  }
+  .heart-tier-mob {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .heart-tier-pc {
+    display: none !important;
+  }
+  .heart-tier-mob {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Tier-specific colors & glow */
+.artist-fav-heart.heart-tier-3,
+.detail-fav-heart.heart-tier-3,
+.song-fav-heart.heart-tier-3,
+.song-edit-heart-indicator.heart-tier-3 {
+  color: #f43f5e;
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.45)) drop-shadow(0 0 8px rgba(244, 63, 94, 0.5));
+}
+
+.artist-fav-heart.heart-tier-2,
+.detail-fav-heart.heart-tier-2,
+.song-fav-heart.heart-tier-2,
+.song-edit-heart-indicator.heart-tier-2 {
+  color: #fb7185;
+  filter: drop-shadow(0 0 5px rgba(251, 113, 133, 0.38));
+}
+
+.artist-fav-heart.heart-tier-1,
+.detail-fav-heart.heart-tier-1,
+.song-fav-heart.heart-tier-1,
+.song-edit-heart-indicator.heart-tier-1 {
+  color: #fda4af;
+  opacity: 0.92;
+  filter: none;
+}
+
+@media (max-width: 900px) {
+  .heart-mob-tier-3 {
+    width: 15px !important;
+    height: 15px !important;
+  }
+  .heart-mob-tier-2 {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  .heart-mob-tier-1 {
+    width: 14px !important;
+    height: 14px !important;
+  }
+}
+
+/* 2. Edit Mode Banner Grade Selector Tabs (`#favQeTierTabs`) & History Buttons */
+.fav-qe-history-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.fav-qe-history-btn:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+.fav-qe-tier-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding-top: 2px;
+}
+
+.fav-qe-tier-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 113, 133, 0.32);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 228, 230, 0.78);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  white-space: nowrap;
+}
+
+.fav-qe-tier-tab.active {
+  background: rgba(244, 63, 94, 0.28);
+  border-color: #fb7185;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(244, 63, 94, 0.35);
+}
+
+.fav-qe-tier-tab[data-select-heart-tier="3"].active {
+  border-color: #fde047;
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.36), rgba(234, 179, 8, 0.22));
+}
+
+.qe-tier-icon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11.5px;
+  line-height: 1;
+}
+
+.qe-tier-icon-3 {
+  color: #f43f5e;
+}
+
+.qe-tier-icon-2 {
+  color: #fb7185;
+}
+
+.qe-tier-icon-1 {
+  color: #fda4af;
+}
+
+@media (max-width: 900px) {
+  .fav-quick-edit-banner .fav-qe-main-row {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-left {
+    width: auto !important;
+    justify-content: flex-start !important;
+    flex-shrink: 0 !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-actions {
+    width: auto !important;
+    justify-content: flex-end !important;
+    gap: 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .fav-qe-tier-row {
+    gap: 5px !important;
+    padding-top: 1px !important;
+  }
+
+  .fav-qe-tier-tab {
+    flex: 1 1 0;
+    padding: 3px 8px !important;
+    font-size: 11px !important;
+  }
+}
+
+/* 3. "高評価曲数" Column in "かるのオススメ" ("アーティスト" tab) */
+#listColFavCountLabel,
+.list-col-header .list-col-fav-count,
+.artist-row .row-fav-song-count,
+.artist-row .row-fav-song-count span {
+  color: #ffffff !important;
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.artist-row .row-fav-song-count {
+  font-size: calc(15px * var(--fs));
+}
+
+.artist-row .row-fav-song-count span {
+  font-size: calc(11px * var(--fs));
+  font-weight: 600;
+  margin-left: 2px;
+  opacity: 0.95;
+}
+
+/* PC (`>= 901px`) in "かるのオススメ" -> "アーティスト" tab:
+   Show both "登録楽曲数" (green) and rightmost "高評価曲数" (pure white) */
+@media (min-width: 901px) {
+  body.recommend-artist-mode:not(.fav-quick-edit-mode) #listColHeader,
+  body.recommend-artist-mode:not(.fav-quick-edit-mode) .artist-row.recommend-artist-row {
+    grid-template-columns:
+      calc(34px + (var(--fs) - 1) * 14px)
+      42px
+      minmax(110px, 1fr)
+      calc(90px + (var(--fs) - 1) * 68px)
+      calc(76px + (var(--fs) - 1) * 44px)
+      calc(72px + (var(--fs) - 1) * 44px)
+      calc(72px + (var(--fs) - 1) * 44px) !important;
+  }
+
+  @container centerpanel (min-width: 560px) {
+    body.recommend-artist-mode:not(.fav-quick-edit-mode) #listColHeader,
+    body.recommend-artist-mode:not(.fav-quick-edit-mode) .artist-row.recommend-artist-row {
+      grid-template-columns:
+        calc(34px + (var(--fs) - 1) * 14px)
+        42px
+        minmax(110px, 1fr)
+        calc(154px + (var(--fs) - 1) * 96px)
+        calc(72px + (var(--fs) - 1) * 40px)
+        calc(72px + (var(--fs) - 1) * 44px)
+        calc(72px + (var(--fs) - 1) * 44px) !important;
+    }
+  }
+
+  @container centerpanel (min-width: 730px) {
+    body.recommend-artist-mode:not(.fav-quick-edit-mode) #listColHeader,
+    body.recommend-artist-mode:not(.fav-quick-edit-mode) .artist-row.recommend-artist-row {
+      grid-template-columns:
+        calc(34px + (var(--fs) - 1) * 14px)
+        42px
+        minmax(115px, 1fr)
+        calc(154px + (var(--fs) - 1) * 96px)
+        calc(108px + (var(--fs) - 1) * 64px)
+        calc(72px + (var(--fs) - 1) * 40px)
+        calc(72px + (var(--fs) - 1) * 44px)
+        calc(72px + (var(--fs) - 1) * 44px) !important;
+    }
+  }
+
+  body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-fav-song-count {
+    display: none !important;
+  }
+}
+
+/* Smartphone (`<= 900px`) in "かるのオススメ" -> "アーティスト" tab:
+   Show `#listColHeader` with "アーティスト" and "高評価曲数" (pure white),
+   hide "登録楽曲数" (`#listColCountLabel` and `.row-count`), and show `.row-fav-song-count` */
+@media (max-width: 900px) {
+  body[data-current-view="recommend"].recommend-artist-mode #listColHeader {
+    display: grid !important;
+    grid-template-columns: 24px 38px minmax(0, 1fr) auto !important;
+    gap: 6px !important;
+    padding: 4px 10px !important;
+  }
+
+  body[data-current-view="recommend"].recommend-artist-mode #listColCountLabel {
+    display: none !important;
+  }
+
+  body[data-current-view="recommend"].recommend-artist-mode #listColFavCountLabel {
+    display: inline-block !important;
+    font-size: 10.5px !important;
+    line-height: 1.15 !important;
+    color: #ffffff !important;
+    padding-right: 0 !important;
+  }
+
+  body[data-current-view="recommend"].recommend-artist-mode:not(.fav-quick-edit-mode) .artist-row.recommend-artist-row > .row-count {
+    display: none !important;
+  }
+
+  body[data-current-view="recommend"].recommend-artist-mode:not(.fav-quick-edit-mode) .artist-row.recommend-artist-row > .row-fav-song-count {
+    display: block !important;
+    font-size: 13.5px !important;
+    color: #ffffff !important;
+    text-align: right !important;
+  }
+
+  body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-fav-song-count {
+    display: none !important;
+  }
+}
+
+/* 4. Edit Mode on `.artist-row.recommend-song-row` ("かるのオススメ" -> "楽曲" tab):
+      Disable avatar ring/pointer cursor and make the wide song row area the click target */
+body.fav-quick-edit-mode .artist-row.recommend-song-row .row-avatar-wrap {
+  outline: none !important;
+  box-shadow: none !important;
+  cursor: default !important;
+}
