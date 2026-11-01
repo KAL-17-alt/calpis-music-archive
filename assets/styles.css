@@ -6672,3 +6672,288 @@ body.fav-quick-edit-mode .artist-row.recommend-song-row .row-avatar-wrap {
     border-radius: 6px;
   }
 }
+
+
+/* ==========================================================================
+   v61 Updates:
+   1. Smartphone "かるのオススメ": Increase vertical gap between .recommend-switch-tabs and .recommend-role-jump-bar
+   2. Change .rec-flat-mode-toggle-btn ("活動形態で分けない") from pink to green theme
+   3. PC "かるのオススメ": Larger jump bar + PC font scale (--fs) support for jump bar & "活動形態で分けない"
+   4. PC "かるのオススメ" ("アーティスト" tab): Add rightmost "総ハート数" column (5❤ with Tier 1 heart color)
+   5. Fix .recommend-switch-tabs container width scaling at 150%+ font size so "楽曲" never overflows
+   ========================================================================== */
+
+/* Green theme for "活動形態で分けない" toggle button (PC & Smartphone) */
+.rec-flat-mode-toggle-btn {
+  color: #d1fae5 !important;
+  background: rgba(29, 185, 84, 0.14) !important;
+  border: 1px solid rgba(29, 185, 84, 0.48) !important;
+  box-shadow: none;
+}
+
+.rec-flat-mode-toggle-btn::before {
+  background: rgba(29, 185, 84, 0.42) !important;
+  border: 1px solid rgba(30, 215, 96, 0.85) !important;
+}
+
+.rec-flat-mode-toggle-btn:hover {
+  background: rgba(29, 185, 84, 0.24) !important;
+  color: #ffffff !important;
+  border-color: rgba(30, 215, 96, 0.75) !important;
+}
+
+.rec-flat-mode-toggle-btn.active {
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.94), rgba(29, 185, 84, 0.88)) !important;
+  color: #ffffff !important;
+  border-color: #4ade80 !important;
+  box-shadow: 0 2px 10px rgba(29, 185, 84, 0.34) !important;
+}
+
+.rec-flat-mode-toggle-btn.active::before {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Jump bar PC vs Mobile label visibility */
+@media (min-width: 901px) {
+  .rec-role-jump-btn .jump-lbl-pc {
+    display: inline;
+  }
+  .rec-role-jump-btn .jump-lbl-mob {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .rec-role-jump-btn .jump-lbl-pc {
+    display: none;
+  }
+  .rec-role-jump-btn .jump-lbl-mob {
+    display: inline;
+  }
+
+  /* 1. Smartphone: Add comfortable vertical gap between アーティスト/楽曲 tabs and jump bar */
+  .recommend-switch-bar {
+    gap: 11px !important;
+    padding: 8px 10px 8px !important;
+  }
+
+  .recommend-role-jump-bar {
+    margin-top: 2px !important;
+  }
+}
+
+/* PC (>= 901px):
+   - Scale .recommend-switch-tabs width with var(--fs) so "楽曲" never overflows at 150% / 175%
+   - Scale .rec-flat-mode-toggle-btn ("活動形態で分けない") and .rec-role-jump-btn ("ジャンプバー") with var(--fs)
+   - Make PC jump bar larger and comfortable to click */
+@media (min-width: 901px) {
+  .recommend-switch-bar {
+    gap: calc(10px * var(--fs)) !important;
+    padding: calc(10px * var(--fs)) 14px calc(8px * var(--fs)) !important;
+  }
+
+  .recommend-switch-top-row {
+    gap: calc(10px * var(--fs)) !important;
+  }
+
+  .recommend-switch-tabs {
+    display: inline-grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    width: min(100%, calc(380px * var(--fs))) !important;
+    max-width: 100% !important;
+    gap: calc(6px * var(--fs)) !important;
+    padding: calc(4px * var(--fs)) !important;
+    border-radius: calc(12px * var(--fs)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .recommend-switch-tab {
+    font-size: calc(13px * var(--fs)) !important;
+    padding: calc(7px * var(--fs)) calc(12px * var(--fs)) !important;
+    gap: calc(6px * var(--fs)) !important;
+    border-radius: calc(9px * var(--fs)) !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .rec-flat-mode-toggle-btn {
+    font-size: calc(13px * var(--fs)) !important;
+    padding: calc(7px * var(--fs)) calc(14px * var(--fs)) !important;
+    gap: calc(6px * var(--fs)) !important;
+    border-radius: 999px !important;
+  }
+
+  .rec-flat-mode-toggle-btn::before {
+    width: calc(8px * var(--fs)) !important;
+    height: calc(8px * var(--fs)) !important;
+  }
+
+  .recommend-role-jump-bar {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(calc(68px * var(--fs)), 1fr)) !important;
+    gap: calc(6px * var(--fs)) !important;
+    margin-top: calc(2px * var(--fs)) !important;
+    overflow: visible !important;
+  }
+
+  .rec-role-jump-btn {
+    font-size: calc(12.5px * var(--fs)) !important;
+    padding: calc(6px * var(--fs)) calc(8px * var(--fs)) !important;
+    border-radius: calc(8px * var(--fs)) !important;
+    line-height: 1.25 !important;
+  }
+}
+
+/* PC "かるのオススメ" -> "アーティスト" tab: Rightmost "総ハート数" column (5❤ with Tier 1 heart color) */
+#listColTotalHeartLabel,
+.list-col-header .list-col-total-heart,
+.artist-row .row-total-heart-count {
+  color: #ffffff !important;
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.artist-row .row-total-heart-count {
+  font-size: calc(15px * var(--fs));
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.artist-row .row-total-heart-count .total-heart-mark {
+  display: inline-flex;
+  align-items: center;
+  color: #fda4af !important;
+  opacity: 0.92;
+  filter: none;
+  margin-left: 1px;
+}
+
+.artist-row .row-total-heart-count .total-heart-mark svg {
+  width: calc(13px * var(--fs));
+  height: calc(13px * var(--fs));
+}
+
+@media (min-width: 901px) {
+  body.recommend-artist-mode:not(.fav-quick-edit-mode) #listColHeader,
+  body.recommend-artist-mode:not(.fav-quick-edit-mode) .artist-row.recommend-artist-row {
+    grid-template-columns:
+      calc(32px + (var(--fs) - 1) * 12px)
+      42px
+      minmax(100px, 1fr)
+      calc(86px + (var(--fs) - 1) * 60px)
+      calc(66px + (var(--fs) - 1) * 38px)
+      calc(68px + (var(--fs) - 1) * 42px)
+      calc(68px + (var(--fs) - 1) * 42px)
+      calc(68px + (var(--fs) - 1) * 42px) !important;
+  }
+
+  @container centerpanel (min-width: 560px) {
+    body.recommend-artist-mode:not(.fav-quick-edit-mode) #listColHeader,
+    body.recommend-artist-mode:not(.fav-quick-edit-mode) .artist-row.recommend-artist-row {
+      grid-template-columns:
+        calc(32px + (var(--fs) - 1) * 12px)
+        42px
+        minmax(100px, 1fr)
+        calc(140px + (var(--fs) - 1) * 84px)
+        calc(66px + (var(--fs) - 1) * 38px)
+        calc(68px + (var(--fs) - 1) * 42px)
+        calc(68px + (var(--fs) - 1) * 42px)
+        calc(68px + (var(--fs) - 1) * 42px) !important;
+    }
+  }
+
+  @container centerpanel (min-width: 730px) {
+    body.recommend-artist-mode:not(.fav-quick-edit-mode) #listColHeader,
+    body.recommend-artist-mode:not(.fav-quick-edit-mode) .artist-row.recommend-artist-row {
+      grid-template-columns:
+        calc(32px + (var(--fs) - 1) * 12px)
+        42px
+        minmax(105px, 1fr)
+        calc(140px + (var(--fs) - 1) * 84px)
+        calc(96px + (var(--fs) - 1) * 56px)
+        calc(66px + (var(--fs) - 1) * 38px)
+        calc(68px + (var(--fs) - 1) * 42px)
+        calc(68px + (var(--fs) - 1) * 42px)
+        calc(68px + (var(--fs) - 1) * 42px) !important;
+    }
+  }
+}
+
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-total-heart-count,
+body.fav-quick-edit-mode[data-current-view="recommend"] #listColTotalHeartLabel {
+  display: none !important;
+}
+
+
+/* ==========================================================================
+   v62 Updates:
+   1. Scale #sendMessageModal (notes text, textarea, status, button, card width) with PC font scale (--fs: 100% - 175%)
+   2. Ensure bold white text inside .message-modal-notes strong
+   ========================================================================== */
+
+.message-modal-notes strong {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+@media (min-width: 901px) {
+  .message-modal-card,
+  .owner-inbox-modal-card {
+    max-width: min(92vw, calc(480px * var(--fs))) !important;
+  }
+
+  #sendMessageModal .about-modal-title,
+  #ownerMessagesInboxModal .about-modal-title {
+    font-size: calc(17px * var(--fs)) !important;
+  }
+
+  #sendMessageModal .about-modal-title-icon,
+  #ownerMessagesInboxModal .about-modal-title-icon {
+    width: calc(20px * var(--fs)) !important;
+    height: calc(20px * var(--fs)) !important;
+  }
+
+  .message-modal-notes {
+    font-size: calc(12.5px * var(--fs)) !important;
+    padding: calc(10px * var(--fs)) calc(12px * var(--fs)) !important;
+    margin-bottom: calc(12px * var(--fs)) !important;
+    border-radius: calc(10px * var(--fs)) !important;
+    line-height: 1.55 !important;
+  }
+
+  .message-modal-notes p {
+    margin: 0 0 calc(4px * var(--fs)) 0 !important;
+  }
+
+  .message-modal-notes p:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  .visitor-message-textarea {
+    font-size: calc(14px * var(--fs)) !important;
+    padding: calc(10px * var(--fs)) calc(12px * var(--fs)) !important;
+    min-height: calc(96px * var(--fs)) !important;
+    border-radius: calc(10px * var(--fs)) !important;
+    line-height: 1.5 !important;
+  }
+
+  .visitor-message-footer {
+    margin-top: calc(10px * var(--fs)) !important;
+    gap: calc(10px * var(--fs)) !important;
+  }
+
+  .visitor-message-status {
+    font-size: calc(12.5px * var(--fs)) !important;
+  }
+
+  .visitor-message-send-btn {
+    font-size: calc(13.5px * var(--fs)) !important;
+    padding: calc(8px * var(--fs)) calc(22px * var(--fs)) !important;
+  }
+}
