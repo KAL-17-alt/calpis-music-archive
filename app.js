@@ -58,6 +58,11 @@
     }
     // The playlist sync compacts empty arrays; keep a.songs an array for every artist.
     if (!Array.isArray(a.songs)) a.songs = [];
+    if (Array.isArray(a.mugen2HiddenSongs) && a.mugen2HiddenSongs.length > 0) {
+      const hiddenSet = new Set(a.mugen2HiddenSongs.map(s => String(s || "").trim()));
+      a.songs = a.songs.filter(s => !hiddenSet.has(String(s || "").trim()));
+      a.count = a.songs.length;
+    }
     a._staticBaseSongs = [...a.songs];
     AID_TO_ARTIST.set(a.aid, a);
     if (a.name) {
@@ -4004,13 +4009,12 @@
 
       if (diffBadge) {
         if (!anyChanged) {
-          diffBadge.textContent = `変更なし (名義:${curIds.length} / 曲♥:${curSongs.length})`;
+          diffBadge.textContent = "変更なし";
           diffBadge.classList.remove("has-changes");
         } else {
-          const totalChanges = dIds.added.length + dIds.removed.length + dSongs.added.length + dSongs.removed.length + dCustom.added.length + dCustom.removed.length;
-          const reorderLabel = (dIds.orderChanged || dSongs.orderChanged) ? (totalChanges > 0 ? "・並び替え" : "並び替え") : "";
-          const countLabel = totalChanges > 0 ? `${totalChanges}件${reorderLabel}` : reorderLabel;
-          diffBadge.textContent = `未保存の変更: ${countLabel} (名義:${curIds.length} / 曲♥:${curSongs.length})`;
+          const reorderCount = (dIds.orderChanged ? 1 : 0) + (dSongs.orderChanged ? 1 : 0);
+          const totalChanges = dIds.added.length + dIds.removed.length + dSongs.added.length + dSongs.removed.length + dCustom.added.length + dCustom.removed.length + reorderCount;
+          diffBadge.textContent = `未保存の変更: ${totalChanges}件`;
           diffBadge.classList.add("has-changes");
         }
       }

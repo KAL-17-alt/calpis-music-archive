@@ -5574,3 +5574,81 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-ha
     line-height: 1.75 !important;
   }
 }
+
+
+/* ==========================================================================
+   V53 UPDATES:
+   1) SMARTPHONE EDIT MODE BANNER: HIDE "❤ 編集モード", COMPACT 2-LINE LAYOUT
+      (LINE 1: 変更なし / 未保存の変更: N件, LINE 2: 完了して閉じる)
+   2) SMARTPHONE "かるのオススメ": REDUCE BLANK GAP BETWEEN SORT/FILTER ROW
+      AND "アーティスト / 楽曲" SWITCHER TAB
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  /* 1. Smartphone Edit Mode Top Banner: 2-line compact layout without "❤ 編集モード" */
+  .fav-quick-edit-banner {
+    top: 6px !important;
+    padding: 7px 12px !important;
+    border-radius: 14px !important;
+    gap: 5px !important;
+    width: auto !important;
+    min-width: 176px !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-dot,
+  .fav-quick-edit-banner .fav-qe-text {
+    display: none !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-main-row {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-left {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-diff-badge {
+    font-size: 11.5px !important;
+    padding: 2px 10px !important;
+    white-space: nowrap !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-actions {
+    margin-left: 0 !important;
+    justify-content: center !important;
+    width: 100% !important;
+    gap: 6px !important;
+  }
+
+  /* 2. Remove phantom empty wrapped flex rows inside .sticky-controls & tighten gap above switcher tab */
+  .controls-right {
+    display: none !important;
+  }
+
+  .active-chips-wrap:empty {
+    display: none !important;
+  }
+
+  .sticky-controls {
+    padding: 6px 14px 5px !important;
+  }
+
+  .controls-top-row {
+    gap: 6px !important;
+  }
+
+  .controls-left {
+    gap: 6px 8px !important;
+  }
+
+  .recommend-switch-bar-slot .recommend-switch-bar {
+    padding: 3px 10px 4px !important;
+  }
+}

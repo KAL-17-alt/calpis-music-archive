@@ -5615,6 +5615,84 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-ha
   }
 }
 
+
+/* ==========================================================================
+   V53 UPDATES:
+   1) SMARTPHONE EDIT MODE BANNER: HIDE "❤ 編集モード", COMPACT 2-LINE LAYOUT
+      (LINE 1: 変更なし / 未保存の変更: N件, LINE 2: 完了して閉じる)
+   2) SMARTPHONE "かるのオススメ": REDUCE BLANK GAP BETWEEN SORT/FILTER ROW
+      AND "アーティスト / 楽曲" SWITCHER TAB
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  /* 1. Smartphone Edit Mode Top Banner: 2-line compact layout without "❤ 編集モード" */
+  .fav-quick-edit-banner {
+    top: 6px !important;
+    padding: 7px 12px !important;
+    border-radius: 14px !important;
+    gap: 5px !important;
+    width: auto !important;
+    min-width: 176px !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-dot,
+  .fav-quick-edit-banner .fav-qe-text {
+    display: none !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-main-row {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-left {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-diff-badge {
+    font-size: 11.5px !important;
+    padding: 2px 10px !important;
+    white-space: nowrap !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-actions {
+    margin-left: 0 !important;
+    justify-content: center !important;
+    width: 100% !important;
+    gap: 6px !important;
+  }
+
+  /* 2. Remove phantom empty wrapped flex rows inside .sticky-controls & tighten gap above switcher tab */
+  .controls-right {
+    display: none !important;
+  }
+
+  .active-chips-wrap:empty {
+    display: none !important;
+  }
+
+  .sticky-controls {
+    padding: 6px 14px 5px !important;
+  }
+
+  .controls-top-row {
+    gap: 6px !important;
+  }
+
+  .controls-left {
+    gap: 6px 8px !important;
+  }
+
+  .recommend-switch-bar-slot .recommend-switch-bar {
+    padding: 3px 10px 4px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -6210,6 +6288,11 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
     }
     // The playlist sync compacts empty arrays; keep a.songs an array for every artist.
     if (!Array.isArray(a.songs)) a.songs = [];
+    if (Array.isArray(a.mugen2HiddenSongs) && a.mugen2HiddenSongs.length > 0) {
+      const hiddenSet = new Set(a.mugen2HiddenSongs.map(s => String(s || "").trim()));
+      a.songs = a.songs.filter(s => !hiddenSet.has(String(s || "").trim()));
+      a.count = a.songs.length;
+    }
     a._staticBaseSongs = [...a.songs];
     AID_TO_ARTIST.set(a.aid, a);
     if (a.name) {
@@ -10156,13 +10239,12 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
 
       if (diffBadge) {
         if (!anyChanged) {
-          diffBadge.textContent = `変更なし (名義:${curIds.length} / 曲♥:${curSongs.length})`;
+          diffBadge.textContent = "変更なし";
           diffBadge.classList.remove("has-changes");
         } else {
-          const totalChanges = dIds.added.length + dIds.removed.length + dSongs.added.length + dSongs.removed.length + dCustom.added.length + dCustom.removed.length;
-          const reorderLabel = (dIds.orderChanged || dSongs.orderChanged) ? (totalChanges > 0 ? "・並び替え" : "並び替え") : "";
-          const countLabel = totalChanges > 0 ? `${totalChanges}件${reorderLabel}` : reorderLabel;
-          diffBadge.textContent = `未保存の変更: ${countLabel} (名義:${curIds.length} / 曲♥:${curSongs.length})`;
+          const reorderCount = (dIds.orderChanged ? 1 : 0) + (dSongs.orderChanged ? 1 : 0);
+          const totalChanges = dIds.added.length + dIds.removed.length + dSongs.added.length + dSongs.removed.length + dCustom.added.length + dCustom.removed.length + reorderCount;
+          diffBadge.textContent = `未保存の変更: ${totalChanges}件`;
           diffBadge.classList.add("has-changes");
         }
       }
