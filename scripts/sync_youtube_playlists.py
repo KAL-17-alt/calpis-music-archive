@@ -979,6 +979,9 @@ def build_compact_data_js(artists: list[dict]) -> str:
             if k == "ytChannelType" and v == "official":
                 continue
             ca[k] = v
+        # Keep the songs field even for zero-song artists so the site never receives undefined.
+        if not isinstance(ca.get("songs"), list):
+            ca["songs"] = []
         compact_artists.append(ca)
     return "window.ARCHIVE_DATA = " + json.dumps(compact_artists, ensure_ascii=False, separators=(",", ":")) + ";"
 
