@@ -6204,3 +6204,345 @@ body.fav-quick-edit-mode .artist-row.recommend-song-row .row-avatar-wrap {
   box-shadow: none !important;
   cursor: default !important;
 }
+
+
+/* ==========================================================================
+   v59 Updates:
+   1. Fix Smartphone Edit Mode Banner (`#favQuickEditBanner`) overflow so `完了して閉じる` fits 100% inside the box
+   2. 1-Line Activity Role Quick-Jump Bar (`.recommend-role-jump-bar`) in `"かるのオススメ"`
+   3. `"当サイトについて"` Section 1 top 3-tier heart guide + small note
+   4. Long-Press Heart Delete Confirmation Modal (`#heartDeleteConfirmModal`)
+   5. `"メッセージを送る"` Button & Modal + Owner Secret 5-Tap Inbox Modal (`#ownerMessagesInboxModal`)
+   ========================================================================== */
+
+/* 1. Smartphone Edit Mode Banner overflow fix */
+@media (max-width: 900px) {
+  .fav-quick-edit-banner {
+    box-sizing: border-box !important;
+    width: max-content !important;
+    min-width: 224px !important;
+    max-width: calc(100vw - 16px) !important;
+    padding: 7px 11px !important;
+    gap: 5px !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-main-row {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-diff-badge {
+    font-size: 11px !important;
+    padding: 3px 9px !important;
+    white-space: nowrap !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-discard-btn {
+    font-size: 11px !important;
+    padding: 4px 8px !important;
+    white-space: nowrap !important;
+  }
+
+  .fav-quick-edit-banner .fav-qe-exit-btn {
+    font-size: 11.5px !important;
+    padding: 4px 11px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* 2. 1-Line Activity Role Quick-Jump Bar in "かるのオススメ" */
+.recommend-role-jump-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  width: 100%;
+  margin-top: 6px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.recommend-role-jump-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.rec-role-jump-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 4px 3px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.rec-role-jump-btn:hover:not(:disabled) {
+  background: rgba(29, 185, 84, 0.16);
+  border-color: rgba(29, 185, 84, 0.45);
+  color: #ffffff;
+}
+
+.rec-role-jump-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.rec-role-jump-btn.is-empty-role,
+.rec-role-jump-btn:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+@media (max-width: 900px) {
+  .recommend-role-jump-bar {
+    gap: 3px;
+    margin-top: 5px;
+  }
+  .rec-role-jump-btn {
+    font-size: 10px;
+    padding: 4px 2px;
+    border-radius: 6px;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* 3. "当サイトについて" Section 1 Heart Guide */
+.about-heart-tier-guide {
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+}
+
+.about-heart-tier-main {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.about-inline-heart {
+  margin: 0 3px !important;
+  vertical-align: middle;
+}
+
+.about-heart-tier-sub {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  opacity: 0.88;
+}
+
+#aboutSiteModalTitleWrap {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 4. Long-Press Heart Delete Confirmation Modal */
+.heart-delete-modal-overlay {
+  z-index: 10020;
+}
+
+.heart-delete-modal-card {
+  max-width: 320px !important;
+  width: calc(100vw - 40px) !important;
+  padding: 18px 18px 16px !important;
+  text-align: center;
+  border: 1.5px solid rgba(251, 113, 133, 0.55) !important;
+}
+
+.heart-delete-modal-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.heart-delete-modal-target {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fda4af;
+  margin-bottom: 14px;
+  word-break: break-word;
+}
+
+.heart-delete-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.heart-delete-cancel-btn,
+.heart-delete-confirm-btn {
+  flex: 1 1 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.heart-delete-cancel-btn {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.heart-delete-confirm-btn {
+  border: 1px solid #fb7185;
+  background: #e11d48;
+  color: #ffffff;
+}
+
+/* 5. "メッセージを送る" Button & Modal + Owner Inbox Modal */
+.pc-message-site-btn {
+  margin-bottom: 6px;
+}
+
+.message-modal-card,
+.owner-inbox-modal-card {
+  max-width: 480px !important;
+}
+
+.message-modal-notes {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.message-modal-notes p {
+  margin: 0 0 4px 0;
+}
+
+.message-modal-notes p:last-child {
+  margin-bottom: 0;
+}
+
+.message-modal-notes strong {
+  color: #ffffff;
+}
+
+.visitor-message-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  resize: vertical;
+  min-height: 96px;
+  font-family: inherit;
+}
+
+.visitor-message-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.visitor-message-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.visitor-message-status {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #6ee7b7;
+}
+
+.visitor-message-send-btn {
+  padding: 8px 22px;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent);
+  color: #000000;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.visitor-message-send-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.owner-inbox-modal-body {
+  max-height: 62vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.owner-inbox-empty {
+  text-align: center;
+  padding: 28px 12px;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+}
+
+.owner-inbox-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.owner-inbox-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.owner-inbox-time {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+.owner-inbox-del-btn {
+  padding: 2px 9px;
+  border-radius: 6px;
+  border: 1px solid rgba(251, 113, 133, 0.45);
+  background: rgba(244, 63, 94, 0.15);
+  color: #fda4af;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.owner-inbox-text {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #ffffff;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
