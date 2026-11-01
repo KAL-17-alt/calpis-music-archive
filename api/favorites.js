@@ -74,8 +74,12 @@ try {
 
 function resolveIdentifierToAid(rawId) {
   if (typeof rawId !== "string") return null;
-  const trimmed = rawId.trim();
+  let trimmed = rawId.trim();
   if (!trimmed || trimmed.length > 120) return null;
+  const tierMatch = trimmed.match(/^(.*?):([123])$/);
+  if (tierMatch) {
+    trimmed = tierMatch[1].trim();
+  }
   if (VALID_AID_SET.has(trimmed)) return trimmed;
   if (NAME_TO_AID[trimmed]) return NAME_TO_AID[trimmed];
   if (ALIAS_TO_AID[trimmed]) return ALIAS_TO_AID[trimmed];
@@ -85,21 +89,47 @@ function resolveIdentifierToAid(rawId) {
   return null;
 }
 
+function resolveIdentifierWithTier(rawId) {
+  if (typeof rawId !== "string") return null;
+  const trimmed = rawId.trim();
+  if (!trimmed || trimmed.length > 120) return null;
+  let tier = 3;
+  let baseRaw = trimmed;
+  const tierMatch = trimmed.match(/^(.*?):([123])$/);
+  if (tierMatch) {
+    baseRaw = tierMatch[1].trim();
+    tier = Number(tierMatch[2]) || 3;
+  }
+  const aid = resolveIdentifierToAid(baseRaw);
+  if (!aid) return null;
+  const formatted = tier === 1 ? `${aid}:1` : (tier === 2 ? `${aid}:2` : aid);
+  return { aid, tier, formatted };
+}
+
 const SERVER_SONG_RENAME_MAP = {
   "Emily To Juugono Yakusoku": "エミリーと15の約束",
   "Nouriueno Cracker": "脳裏上のクラッカー",
   "Haru Koizakura": "春、恋桜。",
   "わたしね": "わたしね、、",
-  "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]"
+  "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]",
+  "Hanabami": "花喰み",
+  "こゆび姫♡": "♡こゆび姫♡",
+  "No one": "ダレモ",
+  "刹那の誓い": "刹那の誓い (feat. 由崎司)",
+  "Transparent Compass": "コンパスは透明",
+  "空は高く風は歌う - Piano & Strings": "空は高く風は歌う",
+  "空は高く風は歌う - Piano $ Strings": "空は高く風は歌う",
+  "かけぬけ★青春スパーキング！": "Love♡Vacation"
 };
 
 /**
- * Normalizes a song entry (`"aid\tsongTitle"` or `{ aid, song }`) into canonical `"aid\tsongTitle"`.
+ * Normalizes a song entry (`"aid\tsongTitle"`, `"aid\tsongTitle||2"`, or `{ aid, song, tier }`) into canonical `"aid\tsongTitle"`.
  * Returns `null` if invalid or if the artist does not exist.
  */
-function resolveSongEntry(rawEntry) {
+function resolveSongEntry(rawEntry, preserveTierSuffix = false) {
   let rawArtist = "";
   let rawSong = "";
+  let explicitTier = 0;
 
   if (typeof rawEntry === "string") {
     const tabIdx = rawEntry.indexOf("\t");
@@ -109,6 +139,9 @@ function resolveSongEntry(rawEntry) {
   } else if (rawEntry && typeof rawEntry === "object") {
     rawArtist = String(rawEntry.aid || rawEntry.artist || "");
     rawSong = String(rawEntry.song || rawEntry.title || "");
+    if (rawEntry.tier === 1 || rawEntry.tier === 2 || rawEntry.tier === 3) {
+      explicitTier = rawEntry.tier;
+    }
   } else {
     return null;
   }
@@ -117,12 +150,21 @@ function resolveSongEntry(rawEntry) {
   if (!aid) return null;
 
   let cleanSong = rawSong.replace(/[\r\n\t]+/g, " ").trim();
+  let tier = explicitTier || 3;
+  const tierMatch = cleanSong.match(/^(.*?)\|\|([123])$/);
+  if (tierMatch) {
+    cleanSong = tierMatch[1].trim();
+    if (!explicitTier) tier = Number(tierMatch[2]) || 3;
+  }
   if (!cleanSong || cleanSong.length > 180) return null;
   if (SERVER_SONG_RENAME_MAP[cleanSong]) {
     cleanSong = SERVER_SONG_RENAME_MAP[cleanSong];
   }
 
-  return `${aid}\t${cleanSong}`;
+  const baseKey = `${aid}\t${cleanSong}`;
+  if (!preserveTierSuffix) return baseKey;
+  const formatted = tier === 1 ? `${baseKey}||1` : (tier === 2 ? `${baseKey}||2` : baseKey);
+  return { baseKey, tier, formatted };
 }
 
 const REDIS_RATE_LIMIT_LUA = `
@@ -347,22 +389,22 @@ function normalizeStateObject(raw) {
   const validIds = [];
   const seenIds = new Set();
   for (const item of rawIds) {
-    const aid = resolveIdentifierToAid(item);
-    if (aid && !seenIds.has(aid)) {
-      seenIds.add(aid);
-      validIds.push(aid);
+    const res = resolveIdentifierWithTier(item);
+    if (res && !seenIds.has(res.aid)) {
+      seenIds.add(res.aid);
+      validIds.push(res.formatted);
     }
   }
-  // Preserve custom artist order
+  // Preserve custom artist order & heart tier
 
   const rawSongFavs = Array.isArray(raw.songFavs) ? raw.songFavs : [];
   const validSongFavs = [];
   const seenSongFavs = new Set();
   for (const item of rawSongFavs) {
-    const key = resolveSongEntry(item);
-    if (key && !seenSongFavs.has(key)) {
-      seenSongFavs.add(key);
-      validSongFavs.push(key);
+    const res = resolveSongEntry(item, true);
+    if (res && !seenSongFavs.has(res.baseKey)) {
+      seenSongFavs.add(res.baseKey);
+      validSongFavs.push(res.formatted);
     }
   }
   // Preserve custom song order
@@ -936,14 +978,14 @@ module.exports = async function handler(req, res) {
       invalidEntries.push(String(rawItem));
       continue;
     }
-    const resolvedAid = resolveIdentifierToAid(rawItem);
-    if (!resolvedAid) {
+    const res = resolveIdentifierWithTier(rawItem);
+    if (!res) {
       invalidEntries.push(rawItem.slice(0, 60));
       continue;
     }
-    if (!seenAids.has(resolvedAid)) {
-      seenAids.add(resolvedAid);
-      normalizedAids.push(resolvedAid);
+    if (!seenAids.has(res.aid)) {
+      seenAids.add(res.aid);
+      normalizedAids.push(res.formatted);
     }
   }
 
@@ -956,13 +998,13 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  // Preserve custom artist order
+  // Preserve custom artist order & heart tier
 
   const normalizedSongFavs = [];
   const seenSongFavs = new Set();
   for (const item of rawSongFavs) {
-    const key = resolveSongEntry(item);
-    if (!key) {
+    const res = resolveSongEntry(item, true);
+    if (!res) {
       if (action !== "migrate") {
         return res.status(400).json({
           ok: false,
@@ -972,9 +1014,9 @@ module.exports = async function handler(req, res) {
       }
       continue;
     }
-    if (!seenSongFavs.has(key)) {
-      seenSongFavs.add(key);
-      normalizedSongFavs.push(key);
+    if (!seenSongFavs.has(res.baseKey)) {
+      seenSongFavs.add(res.baseKey);
+      normalizedSongFavs.push(res.formatted);
     }
   }
   // Preserve custom song order
