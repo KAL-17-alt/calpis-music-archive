@@ -5937,7 +5937,7 @@ body.fav-quick-edit-mode .artist-row.song-matched-row.song-is-fav {
 .song-fav-heart.heart-tier-3,
 .song-edit-heart-indicator.heart-tier-3 {
   color: #f43f5e;
-  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.45)) drop-shadow(0 0 8px rgba(244, 63, 94, 0.5));
+  filter: drop-shadow(0 0 5px rgba(244, 63, 94, 0.4));
 }
 
 .artist-fav-heart.heart-tier-2,
@@ -5959,8 +5959,8 @@ body.fav-quick-edit-mode .artist-row.song-matched-row.song-is-fav {
 
 @media (max-width: 900px) {
   .heart-mob-tier-3 {
-    width: 15px !important;
-    height: 15px !important;
+    width: 14px !important;
+    height: 14px !important;
   }
   .heart-mob-tier-2 {
     width: 14px !important;
@@ -6029,8 +6029,8 @@ body.fav-quick-edit-mode .artist-row.song-matched-row.song-is-fav {
 }
 
 .fav-qe-tier-tab[data-select-heart-tier="3"].active {
-  border-color: #fde047;
-  background: linear-gradient(135deg, rgba(244, 63, 94, 0.36), rgba(234, 179, 8, 0.22));
+  border-color: #fb7185;
+  background: rgba(244, 63, 94, 0.32);
 }
 
 .qe-tier-icon {
