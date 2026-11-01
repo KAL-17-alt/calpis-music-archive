@@ -1883,12 +1883,15 @@
     document.getElementById("navBadgeCat1").textContent = fmtNum(countCat1);
     document.getElementById("navBadgeCat2").textContent = fmtNum(countCat2);
     const recCnt = fmtNum(getRecommendedCount());
+    const recSongCnt = fmtNum(getRecommendedSongCount());
     const navRec = document.getElementById("navBadgeRecommend");
     if (navRec) navRec.textContent = recCnt;
     const statRec = document.getElementById("statRecommend");
     if (statRec) statRec.textContent = recCnt;
     const mobStatRec = document.getElementById("mobStatRecommend");
     if (mobStatRec) mobStatRec.textContent = recCnt;
+    const mobStatRecSongs = document.getElementById("mobStatRecommendSongs");
+    if (mobStatRecSongs) mobStatRecSongs.textContent = recSongCnt;
     const scAll = document.getElementById("scopeCntAll");
     if (scAll) scAll.textContent = fmtNum(countTotal);
     const scCat1 = document.getElementById("scopeCntCat1");
@@ -2399,7 +2402,7 @@
 
         totalEl.innerHTML = `表示中: <strong>${fmtNum(matchedSongTotal)}</strong> 曲`;
         if (mobColCountEl) {
-          mobColCountEl.textContent = `${fmtNum(matchedSongTotal)} 曲`;
+          mobColCountEl.textContent = `${fmtNum(recArtistCnt)}名義/${fmtNum(recSongCnt)}曲`;
         }
 
         if (matchedSongTotal === 0) {
@@ -2441,6 +2444,9 @@
       }
 
       // Artist tab in "recommend" view (ordered by recommendedAidSet custom order within each role)
+      if (mobColCountEl) {
+        mobColCountEl.textContent = `${fmtNum(recArtistCnt)}名義/${fmtNum(recSongCnt)}曲`;
+      }
       if (currentFiltered.length === 0) {
         listEl.innerHTML = switchBarHTML + `
           <div class="empty-list-state">
@@ -2956,7 +2962,7 @@
     } else if (state.view === "recommend") {
       mobTitleEl.textContent = "かるのオススメ";
       if (mobColTitleEl) mobColTitleEl.textContent = "かるのオススメ";
-      if (mobColSubEl) mobColSubEl.textContent = "好き設定したアーティストを活動形態別に表示";
+      if (mobColSubEl) mobColSubEl.textContent = "";
     } else {
       mobTitleEl.textContent = "検索";
     }

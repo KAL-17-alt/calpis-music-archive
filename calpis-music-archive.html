@@ -5693,6 +5693,43 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-ha
   }
 }
 
+
+/* ==========================================================================
+   V54 UPDATES:
+   SMARTPHONE "かるのオススメ" BANNER: NO SUBTITLE & "〇名義/□曲" READOUT
+   ========================================================================== */
+@media (max-width: 900px) {
+  .mob-rec-sub {
+    display: none !important;
+  }
+
+  .mob-rec-count-wrap {
+    display: inline-flex;
+    align-items: baseline;
+    white-space: nowrap;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mob-rec-count-wrap strong {
+    font-size: 16.5px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-right: 1.5px;
+  }
+
+  .mob-rec-slash {
+    margin: 0 3px;
+    color: rgba(255, 255, 255, 0.45);
+    font-weight: 700;
+  }
+
+  #mobCollectionSub:empty {
+    display: none !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -5944,11 +5981,10 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-ha
               </span>
               <span class="mob-rec-text-col">
                 <span class="mob-rec-title">かるのオススメ</span>
-                <span class="mob-rec-sub">好き設定したアーティストを活動形態別に表示</span>
               </span>
             </span>
             <span class="mob-rec-right">
-              <span class="mob-rec-count-wrap"><strong id="mobStatRecommend">0</strong><span>名義</span></span>
+              <span class="mob-rec-count-wrap"><strong id="mobStatRecommend">0</strong><span>名義</span><span class="mob-rec-slash">/</span><strong id="mobStatRecommendSongs">0</strong><span>曲</span></span>
               <span class="mob-stat-action-badge">切替</span>
             </span>
           </button>
@@ -8113,12 +8149,15 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
     document.getElementById("navBadgeCat1").textContent = fmtNum(countCat1);
     document.getElementById("navBadgeCat2").textContent = fmtNum(countCat2);
     const recCnt = fmtNum(getRecommendedCount());
+    const recSongCnt = fmtNum(getRecommendedSongCount());
     const navRec = document.getElementById("navBadgeRecommend");
     if (navRec) navRec.textContent = recCnt;
     const statRec = document.getElementById("statRecommend");
     if (statRec) statRec.textContent = recCnt;
     const mobStatRec = document.getElementById("mobStatRecommend");
     if (mobStatRec) mobStatRec.textContent = recCnt;
+    const mobStatRecSongs = document.getElementById("mobStatRecommendSongs");
+    if (mobStatRecSongs) mobStatRecSongs.textContent = recSongCnt;
     const scAll = document.getElementById("scopeCntAll");
     if (scAll) scAll.textContent = fmtNum(countTotal);
     const scCat1 = document.getElementById("scopeCntCat1");
@@ -8629,7 +8668,7 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
 
         totalEl.innerHTML = `表示中: <strong>${fmtNum(matchedSongTotal)}</strong> 曲`;
         if (mobColCountEl) {
-          mobColCountEl.textContent = `${fmtNum(matchedSongTotal)} 曲`;
+          mobColCountEl.textContent = `${fmtNum(recArtistCnt)}名義/${fmtNum(recSongCnt)}曲`;
         }
 
         if (matchedSongTotal === 0) {
@@ -8671,6 +8710,9 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
       }
 
       // Artist tab in "recommend" view (ordered by recommendedAidSet custom order within each role)
+      if (mobColCountEl) {
+        mobColCountEl.textContent = `${fmtNum(recArtistCnt)}名義/${fmtNum(recSongCnt)}曲`;
+      }
       if (currentFiltered.length === 0) {
         listEl.innerHTML = switchBarHTML + `
           <div class="empty-list-state">
@@ -9186,7 +9228,7 @@ window.ARCHIVE_DATA = [{"name":"AZKi","cat":1,"count":82,"reading":"azki","kana"
     } else if (state.view === "recommend") {
       mobTitleEl.textContent = "かるのオススメ";
       if (mobColTitleEl) mobColTitleEl.textContent = "かるのオススメ";
-      if (mobColSubEl) mobColSubEl.textContent = "好き設定したアーティストを活動形態別に表示";
+      if (mobColSubEl) mobColSubEl.textContent = "";
     } else {
       mobTitleEl.textContent = "検索";
     }
