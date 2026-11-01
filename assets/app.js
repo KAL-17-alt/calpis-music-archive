@@ -3,9 +3,9 @@
 
   const DATA = window.ARCHIVE_DATA || [];
 
-  const SONG_RENAME_MAP = {"Emily To Juugono Yakusoku": "エミリーと15の約束", "Nouriueno Cracker": "脳裏上のクラッカー", "Haru Koizakura": "春、恋桜。", "わたしね": "わたしね、、", "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]", "Hanabami": "花喰み", "こゆび姫♡": "♡こゆび姫♡", "No one": "ダレモ", "刹那の誓い": "刹那の誓い (feat. 由崎司)", "Transparent Compass": "コンパスは透明", "空は高く風は歌う - Piano & Strings": "空は高く風は歌う", "空は高く風は歌う - Piano $ Strings": "空は高く風は歌う", "かけぬけ★青春スパーキング！": "Love♡Vacation", "Pattern of two hearts": "二人模様", "Rokudougokan sanpo": "六道伍感さんぽ", "What if": "碧いif", "Answer to Extreme": "極私的極彩色アンサー", "melt into the dark": "闇に溶けてく", "Nameless Name": "名もなき何もかも", "Against All Answers": "もう何もいらない未来", "Roses in Thorns": "荊の薔薇", "Meant to be": "蝶に結いた赤い糸", "Belle papillon": "飛べない蝶は夢を見る", "Fragile Violet": "薄采ディスプレイ", "Mirage of the mind": "蜃気楼ニ問フ", "Give Me Life": "命をくれよ", "I’ｍ here": "運命の華", "I'm here": "運命の華", "I’m here": "運命の華"};
+  const SONG_RENAME_MAP = {"Emily To Juugono Yakusoku": "エミリーと15の約束", "Nouriueno Cracker": "脳裏上のクラッカー", "Haru Koizakura": "春、恋桜。", "わたしね": "わたしね、、", "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]", "Hanabami": "花喰み", "こゆび姫♡": "♡こゆび姫♡", "No one": "ダレモ", "刹那の誓い": "刹那の誓い (feat. 由崎司)", "Transparent Compass": "コンパスは透明", "空は高く風は歌う - Piano & Strings": "空は高く風は歌う", "空は高く風は歌う - Piano $ Strings": "空は高く風は歌う", "かけぬけ★青春スパーキング！": "Love♡Vacation", "Pattern of two hearts": "二人模様", "Rokudougokan sanpo": "六道伍感さんぽ", "What if": "碧いif", "Answer to Extreme": "極私的極彩色アンサー", "melt into the dark": "闇に溶けてく", "Nameless Name": "名もなき何もかも", "Against All Answers": "もう何もいらない未来", "Roses in Thorns": "荊の薔薇", "Meant to be": "蝶に結いた赤い糸", "Belle papillon": "飛べない蝶は夢を見る", "Fragile Violet": "薄采ディスプレイ", "Mirage of the mind": "蜃気楼ニ問フ", "Give Me Life": "命をくれよ", "I’ｍ here": "運命の華", "I'm here": "運命の華", "I’m here": "運命の華", "ツギハギスタッカートを": "ツギハギスタッカート", "Himawari": "向日葵", "Blue": "夜に藍", "OVER / Just Be Friends-piano.ver-": "OVER", "エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌)": "エテルネル", "エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）": "エテルネル", "エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）": "エテルネル", "エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌)": "エテルネル", "エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌) / エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）": "エテルネル"};
   const DELETED_NON_SONG_SET = new Set(["アニメ「ガールズバンドクライ」"]);
-  const SONG_SEARCH_ALIASES_BY_NEW_TITLE = {"エミリーと15の約束": ["Emily To Juugono Yakusoku", "emilytojuugonoyakusoku", "えみりーと15のやくそく", "えみりーとじゅうごのやくそく"], "脳裏上のクラッカー": ["Nouriueno Cracker", "nouriuenocracker", "のうりじょうのくらっかー", "のうりうえのくらっかー"], "春、恋桜。": ["Haru Koizakura", "harukoizakura", "はるこいざくら", "はる、こいざくら。"], "わたしね、、": ["わたしね", "watashine"], "kick [試唱]": ["kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]", "Alfakyun. - kick (Cover)", "kick (Cover)"], "花喰み": ["Hanabami", "hanabami", "はなばみ", "ハナバミ"], "♡こゆび姫♡": ["こゆび姫♡", "こゆび姫", "koyubihime", "こゆびひめ", "コユビヒメ"], "ダレモ": ["No one", "no one", "noone", "だれも", "誰モ"], "刹那の誓い (feat. 由崎司)": ["刹那の誓い", "せつなのちかい", "setsunanochikai", "由崎司"], "コンパスは透明": ["Transparent Compass", "transparent compass", "transparentcompass", "こんぱすはとうめい"], "空は高く風は歌う": ["空は高く風は歌う - Piano & Strings", "空は高く風は歌う - Piano $ Strings", "sorawatakakukazewautau", "そらはたかくかぜはうたう"], "Love♡Vacation": ["かけぬけ★青春スパーキング！", "かけぬけ青春スパーキング", "kakenukeseishunsparking", "Love Vacation", "lovevacation", "らぶばけーしょん", "ラブバケーション"], "二人模様": ["Pattern of two hearts", "patternoftwohearts", "pattern of two hearts", "ふたりもよう", "フタリモヨウ"], "六道伍感さんぽ": ["Rokudougokan sanpo", "rokudougokansanpo", "rokudougokan sanpo", "ろくどうごかんさんぽ"], "碧いif": ["What if", "what if", "whatif", "あおいif", "アオイif"], "極私的極彩色アンサー": ["Answer to Extreme", "answer to extreme", "answertoextreme", "ごくしてきごくさいしょくあんさー"], "闇に溶けてく": ["melt into the dark", "meltintothedark", "やみに溶けてく", "やみにとけてく"], "名もなき何もかも": ["Nameless Name", "nameless name", "namelessname", "なもなきなにもかも"], "もう何もいらない未来": ["Against All Answers", "against all answers", "againstallanswers", "もうなにもいらないみらい"], "荊の薔薇": ["Roses in Thorns", "roses in thorns", "rosesinthorns", "いばらのばら", "イバラノバラ"], "蝶に結いた赤い糸": ["Meant to be", "meant to be", "meanttobe", "ちょうにゆいたあかいと"], "飛べない蝶は夢を見る": ["Belle papillon", "belle papillon", "bellepapillon", "とべないちょうはゆめをみる"], "薄采ディスプレイ": ["Fragile Violet", "fragile violet", "fragileviolet", "うすさいでぃすぷれい", "はくさいでぃすぷれい"], "蜃気楼ニ問フ": ["Mirage of the mind", "mirage of the mind", "mirageofthemind", "しんきろうにとう"], "命をくれよ": ["Give Me Life", "give me life", "givemelife", "いのちをくれよ"], "運命の華": ["I’ｍ here", "I'm here", "I’m here", "im here", "imhere", "うんめいのはな"]};
+  const SONG_SEARCH_ALIASES_BY_NEW_TITLE = {"エミリーと15の約束": ["Emily To Juugono Yakusoku", "emilytojuugonoyakusoku", "えみりーと15のやくそく", "えみりーとじゅうごのやくそく"], "脳裏上のクラッカー": ["Nouriueno Cracker", "nouriuenocracker", "のうりじょうのくらっかー", "のうりうえのくらっかー"], "春、恋桜。": ["Haru Koizakura", "harukoizakura", "はるこいざくら", "はる、こいざくら。"], "わたしね、、": ["わたしね", "watashine"], "kick [試唱]": ["kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]", "Alfakyun. - kick (Cover)", "kick (Cover)"], "花喰み": ["Hanabami", "hanabami", "はなばみ", "ハナバミ"], "♡こゆび姫♡": ["こゆび姫♡", "こゆび姫", "koyubihime", "こゆびひめ", "コユビヒメ"], "ダレモ": ["No one", "no one", "noone", "だれも", "誰モ"], "刹那の誓い (feat. 由崎司)": ["刹那の誓い", "せつなのちかい", "setsunanochikai", "由崎司"], "コンパスは透明": ["Transparent Compass", "transparent compass", "transparentcompass", "こんぱすはとうめい"], "空は高く風は歌う": ["空は高く風は歌う - Piano & Strings", "空は高く風は歌う - Piano $ Strings", "sorawatakakukazewautau", "そらはたかくかぜはうたう"], "Love♡Vacation": ["かけぬけ★青春スパーキング！", "かけぬけ青春スパーキング", "kakenukeseishunsparking", "Love Vacation", "lovevacation", "らぶばけーしょん", "ラブバケーション"], "二人模様": ["Pattern of two hearts", "patternoftwohearts", "pattern of two hearts", "ふたりもよう", "フタリモヨウ"], "六道伍感さんぽ": ["Rokudougokan sanpo", "rokudougokansanpo", "rokudougokan sanpo", "ろくどうごかんさんぽ"], "碧いif": ["What if", "what if", "whatif", "あおいif", "アオイif"], "極私的極彩色アンサー": ["Answer to Extreme", "answer to extreme", "answertoextreme", "ごくしてきごくさいしょくあんさー"], "闇に溶けてく": ["melt into the dark", "meltintothedark", "やみに溶けてく", "やみにとけてく"], "名もなき何もかも": ["Nameless Name", "nameless name", "namelessname", "なもなきなにもかも"], "もう何もいらない未来": ["Against All Answers", "against all answers", "againstallanswers", "もうなにもいらないみらい"], "荊の薔薇": ["Roses in Thorns", "roses in thorns", "rosesinthorns", "いばらのばら", "イバラノバラ"], "蝶に結いた赤い糸": ["Meant to be", "meant to be", "meanttobe", "ちょうにゆいたあかいと"], "飛べない蝶は夢を見る": ["Belle papillon", "belle papillon", "bellepapillon", "とべないちょうはゆめをみる"], "薄采ディスプレイ": ["Fragile Violet", "fragile violet", "fragileviolet", "うすさいでぃすぷれい", "はくさいでぃすぷれい"], "蜃気楼ニ問フ": ["Mirage of the mind", "mirage of the mind", "mirageofthemind", "しんきろうにとう"], "命をくれよ": ["Give Me Life", "give me life", "givemelife", "いのちをくれよ"], "運命の華": ["I’ｍ here", "I'm here", "I’m here", "im here", "imhere", "うんめいのはな"], "ツギハギスタッカート": ["ツギハギスタッカートを", "つぎはぎすたっかーと", "つぎはぎすたっかーとを", "tsugihagistaccato"], "向日葵": ["Himawari", "himawari", "ひまわり", "ヒマワリ"], "夜に藍": ["Blue", "blue", "よるにあい", "ヨルニアイ"], "エテルネル": ["エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌)", "エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）", "えてるねる", "eteruneru"]};
   const CURATED_V56_ARTISTS = [{"aid": "a_f14dff12", "name": "鈴木愛理", "cat": 2, "count": 1, "reading": "すずきあいり", "kana": "す", "row": "さ", "alpha": "", "img": "https://yt3.googleusercontent.com/yCgi8G0wytpJvWlC9hOtxrGxuafnWRwL0lJs_ocp4kUHB-MBnqidC_bKSPcIc6kARjld6plFqA=s240-c-k-c0x00ffffff-no-rj", "songs": ["空は二度燃える"], "topSongs": ["空は二度燃える", "初恋サイダー", "最強の推し！", "恋におちたら feat. 空音 & Taku Takahashi", "Distance"], "topLinks": ["pKuhQACie_k", "rhfZq9b9h6I", "", "xU07Dte4JhE", ""], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "歌手", "roles": ["歌手"], "groupSubRole": "", "sub": 444000, "subBucket": "100kTo1m", "subDate": "2026-11-01", "al": ["Airi Suzuki", "Suzuki Airi", "suzukiairi", "スズキアイリ", "Buono!", "℃-ute", "UCRkCifCbAw0qwu7XzOa9d7w"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "圧倒的な歌唱力と表現力で知られるソロヴォーカリスト。℃-uteやBuono!での活動を経て2018年にソロデビューし、アニメ主題歌や『空は二度燃える』など幅広い楽曲で輝きを放っている。", "ytChannelUrl": "https://www.youtube.com/channel/UCRkCifCbAw0qwu7XzOa9d7w", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_453a93b8", "name": "平葵", "cat": 2, "count": 1, "reading": "たいらあおい", "kana": "た", "row": "た", "alpha": "", "img": "https://yt3.googleusercontent.com/tHF4W2ea5vj9y-r4copsa5jbbo6QHzdONdb-K4kcHyky2V2YSc997u8PXmhjnOewdZhjWjO6=s240-c-k-c0x00ffffff-no-rj", "songs": ["案山子"], "topSongs": ["案山子", "canfull", "×", "progress", "燐光って"], "topLinks": ["cAlhOMda-Xs", "", "t8LT72qrRjo", "sPqQHgqk_Uk", "si5-RddQoxg"], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "歌手", "roles": ["歌手"], "groupSubRole": "", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["Aoi Taira", "Taira Aoi", "tairaaoi", "タイラアオイ", "UC0JetkYdglzF70e8GffPhMg"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "透明感と芯の強さを併せ持つ歌声で注目を集めるシンガー。『案山子』や『canfull』など、繊細な感情の揺れを描く楽曲を独自の表現力で歌い上げている。", "ytChannelUrl": "https://www.youtube.com/channel/UC0JetkYdglzF70e8GffPhMg", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_3408025f", "name": "わん子 (綰子 /Wanko)", "cat": 1, "count": 2, "reading": "わんこ", "kana": "わ", "row": "わ", "alpha": "", "img": "https://yt3.googleusercontent.com/seAUw4pKG3PB4Wsg5sslqFqFdD24vqvJk57jZMo8hdnRrwbebPdc9JnFX1MulRhgD-NS3tdH=s240-c-k-c0x00ffffff-no-rj", "songs": ["みにまむ", "もでらーと"], "topSongs": ["みにまむ", "もでらーと"], "topLinks": ["S2AhFrGXa8I", "wKusc39aDLA"], "topTypes": ["オリジナル", "オリジナル"], "role": "歌い手", "roles": ["歌い手"], "groupSubRole": "", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["わん子", "綰子", "綰子 /Wanko", "綰子/wanko", "Wanko", "wanko", "わんこ", "ワンコ", "UClDId0k74ZpDwRXJzrb-jIQ"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UClDId0k74ZpDwRXJzrb-jIQ", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_aba2a431", "name": "TORi (torry)", "cat": 1, "count": 1, "reading": "とり", "kana": "と", "row": "た", "alpha": "T", "img": "https://yt3.googleusercontent.com/gc-pVzesz1KF8zE5IAN_lfhlr0HLD-a_Im-KpEyeTkntdUZDi47s5JHRvCEWpfnDCnTILMbJCMU=s240-c-k-c0x00ffffff-no-rj", "songs": ["菜の花のように"], "topSongs": ["菜の花のように", "だきしめること。"], "topLinks": ["SIW7cNyQPak", "5RSzx4zMF2U"], "topTypes": ["オリジナル", "オリジナル"], "role": "歌い手", "roles": ["歌い手"], "groupSubRole": "", "sub": 10600, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["TORi", "torry", "tori", "とり", "トリ", "鳥", "UCHeUUDWr8oXbdublNQtJbNQ"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UCHeUUDWr8oXbdublNQtJbNQ", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_62c07790", "name": "瀧川ありさ", "cat": 2, "count": 1, "reading": "たきがわありさ", "kana": "た", "row": "た", "alpha": "", "img": "https://yt3.googleusercontent.com/ytc/AIdro_kjdHAsXZLiPrVm666_V9VT5_azux5GVlz4O71207G0OQ=s240-c-k-c0x00ffffff-no-rj", "songs": ["さよならのゆくえ"], "topSongs": ["さよならのゆくえ", "Season", "色褪せない瞳", "わがまま", "夏の花"], "topLinks": ["pe8_2tiHwfQ", "8a1PBi2ROD0", "TBmevKostw4", "GBMuovsHDi8", ""], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "歌手", "roles": ["歌手"], "groupSubRole": "", "sub": 35800, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["Alisa Takigawa", "Takigawa Alisa", "takigawaarisa", "タキガワアリサ", "UCfeGaWl3hge2_4BXrXSqEyw"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "伸びやかで情感豊かな歌声を持つシンガーソングライター。TVアニメ『七つの大罪』EDテーマ『Season』でメジャーデビューし、『終物語』EDテーマ『さよならのゆくえ』など数々のアニメ主題歌を手掛けている。", "ytChannelUrl": "https://www.youtube.com/channel/UCfeGaWl3hge2_4BXrXSqEyw", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_407a13ad", "name": "rei sirose", "cat": 1, "count": 1, "reading": "れいしろせ", "kana": "れ", "row": "ら", "alpha": "R", "img": "https://i.ytimg.com/vi/j1ArobXFdyQ/hqdefault.jpg", "songs": ["贖罪"], "topSongs": ["贖罪"], "topLinks": ["j1ArobXFdyQ"], "topTypes": ["cover"], "role": "歌い手", "roles": ["歌い手"], "groupSubRole": "", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["reisirose", "白瀬怜", "れいしろせ", "レイシロセ", "UCyqaJxeEZLd7AfebCpxu06g"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UCyqaJxeEZLd7AfebCpxu06g", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_003d0cad", "name": "花降る日々", "cat": 2, "count": 1, "reading": "はなふるひび", "kana": "は", "row": "は", "alpha": "", "img": "https://i.ytimg.com/vi/c0TtCowqHC0/hqdefault.jpg", "songs": ["ひとりじゃないじゃん"], "topSongs": ["ひとりじゃないじゃん", "muguet", "花降る日々", "紫陽花、まばたき、梅雨の日。"], "topLinks": ["", "c0TtCowqHC0", "jm1ZozgaGQw", "ET92gzWWYbU"], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "音楽グループ(その他)", "roles": ["音楽グループ(その他)"], "groupSubRole": "音楽グループ(その他)", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["、花降る日々", "花降る日々、", "hanafuruhibi", "hanahuruhibi", "ハナフルヒビ", "鎖那・000・めありー", "UCVd0lHzInoR_wocMXR74fTA"], "agency": "", "agencyGroup": "", "vocal": "鎖那・000・めありー", "vocalParts": [{"text": "鎖那", "target": "鎖那"}, {"text": "・000・", "target": null}, {"text": "めありー", "target": "めありー"}], "memberOf": [], "profileBio": "鎖那・000・めありーの3人による音楽ユニット。繊細で透明感のあるボーカルアンサンブルとアコースティックな温かみのあるサウンドで、『ひとりじゃないじゃん』や『muguet』などの楽曲を発表している。", "ytChannelUrl": "https://www.youtube.com/channel/UCVd0lHzInoR_wocMXR74fTA", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_10842e73", "name": "miri (璃Miri)", "cat": 1, "count": 1, "reading": "みり", "kana": "み", "row": "ま", "alpha": "M", "img": "https://yt3.googleusercontent.com/erJlmpAFYLgcsBlRl4nSKFV3B0lD1sk6ZlXp6JEWe_n9fWynvli9aAhiL-oFqIfXFkdcba7S3Q=s240-c-k-c0x00ffffff-no-rj", "songs": ["レイラ"], "topSongs": ["レイラ"], "topLinks": ["gqWAui-okAM"], "topTypes": ["オリジナル"], "role": "Vtuber", "roles": ["Vtuber"], "groupSubRole": "", "sub": 34700, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["miri", "璃Miri", "みり", "ミリ", "UCHCnxECJBxKrMByroUWSgcw"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UCHCnxECJBxKrMByroUWSgcw", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}];
   const CURATED_V57_ARTISTS = [{"aid": "a_9c4e21b8", "name": "シャイニーカラーズ", "cat": 2, "count": 1, "reading": "しゃいにーからーず", "kana": "し", "row": "さ", "alpha": "", "img": "https://i.ytimg.com/vi/Bsm9rQc7uew/hqdefault.jpg", "songs": ["シャイノグラフィ (2023 Ver.)"], "topSongs": ["シャイノグラフィ (2023 Ver.)", "Spread the Wings!! (2023 Ver.)", "Ambitious Eve (2023 Ver.)", "いつか Shiny Days (2023 Ver.)", "Resonance⁺ (2023 Ver.)"], "topLinks": ["Bsm9rQc7uew", "caM83-aTCEs", "b3vB7kK-C4s", "p8mG8N7bF0g", "3O2yQ5kY8jM"], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "音楽グループ(アニゲー関連)", "roles": ["音楽グループ(アニゲー関連)"], "groupSubRole": "音楽グループ(アニゲー関連)", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["SHINY COLORS", "THE IDOLM@STER SHINY COLORS", "アイドルマスター シャイニーカラーズ", "シャニマス", "しゃいにーからーず", "shinycolors", "UCHQUx1njDuJQwBQ5uMPrr3Q"], "agency": "アイドルマスター シャイニーカラーズ", "agencyGroup": "アイドルマスターシリーズ", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "『アイドルマスター シャイニーカラーズ』（283プロダクション）の全体曲名義。『シャイノグラフィ (2023 Ver.)』や『Spread the Wings!!』など、ユニットの垣根を越えた煌めくアンサンブル楽曲を届けている。", "ytChannelUrl": "https://www.youtube.com/channel/UCHQUx1njDuJQwBQ5uMPrr3Q", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_d83f19a4", "name": "燈華いのり", "cat": 1, "count": 1, "reading": "とうかいのり", "kana": "と", "row": "た", "alpha": "", "img": "https://yt3.googleusercontent.com/fV50hPywDAYHBN7RZgm5wvRcjAgR7HQeTW0kIDek2fiwaXkyPmfY-nBz0dhQVT_I6X87sN9s8_M=s240-c-k-c0x00ffffff-no-rj", "songs": ["ロマンチックを叶えて"], "topSongs": ["ロマンチックを叶えて"], "topLinks": ["gj2IllaDDGQ"], "topTypes": ["オリジナル"], "role": "Vsinger", "roles": ["Vsinger"], "groupSubRole": "", "sub": 11800, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["Inori Toka", "Toka Inori", "tokainori", "とうかいのり", "トウカイノリ", "祈りの灯火", "UCgRYcQz7-f9tpRLRIEeWBxQ"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "甘く透明感のある歌声で魅了するVsinger。1stオリジナル曲『ロマンチックを叶えて』をはじめ、心に寄り添う歌ってみた動画や歌枠配信で活動している。", "ytChannelUrl": "https://www.youtube.com/channel/UCgRYcQz7-f9tpRLRIEeWBxQ", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}];
 
@@ -1060,7 +1060,7 @@
   function loadRecommendedArtists() {
     const cachedServer = loadFavServerCache();
     const legacyAids = getLegacyLocalStorageAids();
-    const migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY);
+    let migState = null; try { migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY); } catch (_e) {}
 
     if (
       cachedServer &&
@@ -1239,6 +1239,7 @@
     recommendTab: "artist", // "artist" | "song"
     recArtistSort: "recFavCountDesc", // "recFavCountDesc" (高評価曲が多い順, default) | "recCustomOrder" (かるが好きな順)
     recSongSort: "recCustomOrder",    // "recCustomOrder" (かるが好きな順, default) | "recFavCountDesc" (高評価曲が多い順)
+    recFlatMode: false,               // True when "活動形態で分けない" is active in "かるのオススメ"
     searchScope: "all",    // "all" | "cat1" | "cat2"
     searchTarget: "all",   // "all" | "artist" | "song" | "group"
     searchArtistSort: "kanaAsc",      // Default "五十音順" for search ("all" & "artist")
@@ -1277,6 +1278,7 @@
       recommendTab: state.recommendTab,
       recArtistSort: state.recArtistSort,
       recSongSort: state.recSongSort,
+      recFlatMode: Boolean(state.recFlatMode),
       searchScope: state.searchScope,
       searchTarget: state.searchTarget,
       searchArtistSort: state.searchArtistSort,
@@ -1327,6 +1329,7 @@
     state.recommendTab = snap.recommendTab || "artist";
     state.recArtistSort = snap.recArtistSort || "recFavCountDesc";
     state.recSongSort = snap.recSongSort || "recCustomOrder";
+    state.recFlatMode = Boolean(snap.recFlatMode);
     state.searchScope = snap.searchScope;
     state.searchTarget = snap.searchTarget || "all";
     state.searchArtistSort = snap.searchArtistSort || "kanaAsc";
@@ -2202,17 +2205,21 @@
     if (alArr.includes(q) || (qNoSpace && alNoSpaceArr.includes(qNoSpace))) {
       return { tier: 4, ratio: 3.0 };
     }
-    if (normTitle.startsWith(q) || (qNoSpace && normNoSpace.startsWith(qNoSpace))) {
+    // Guard against false cross-punctuation matches like "piano.ver" -> "pianover" matching "over"
+    const normWsOnly = normTitle.replace(/\s+/g, "");
+    const qWsOnly = q.replace(/\s+/g, "");
+    const canMatchNoSpace = Boolean(qNoSpace) && (!/^[a-z0-9]+$/.test(qNoSpace) || normWsOnly.includes(qWsOnly));
+    if (normTitle.startsWith(q) || (canMatchNoSpace && normNoSpace.startsWith(qNoSpace))) {
       return { tier: 5, ratio: 2.0 + (qLen / Math.max(qLen, normTitle.length)) };
     }
-    const prefAl = alArr.find(al => al.startsWith(q)) || (qNoSpace ? alNoSpaceArr.find(al => al.startsWith(qNoSpace)) : null);
+    const prefAl = alArr.find(al => al.startsWith(q)) || (canMatchNoSpace ? alNoSpaceArr.find(al => al.startsWith(qNoSpace)) : null);
     if (prefAl) {
       return { tier: 5, ratio: 1.9 + (qLen / Math.max(qLen, prefAl.length)) };
     }
-    if (normTitle.includes(q) || (qNoSpace && normNoSpace.includes(qNoSpace))) {
+    if (normTitle.includes(q) || (canMatchNoSpace && normNoSpace.includes(qNoSpace))) {
       return { tier: 5, ratio: 1.0 + (qLen / Math.max(qLen, normTitle.length)) };
     }
-    const subAl = alArr.find(al => al.includes(q)) || (qNoSpace ? alNoSpaceArr.find(al => al.includes(qNoSpace)) : null);
+    const subAl = alArr.find(al => al.includes(q)) || (canMatchNoSpace ? alNoSpaceArr.find(al => al.includes(qNoSpace)) : null);
     if (subAl) {
       return { tier: 5, ratio: 0.9 + (qNsLen / Math.max(qNsLen, subAl.length)) };
     }
@@ -2258,10 +2265,12 @@
       if (Math.abs(y.ratio - x.ratio) > 1e-6) return y.ratio - x.ratio;
       return compareSongsKanaAsc(x.title, y.title, a, a);
     });
-    const allMatched = scoredHits.map(h => h.title);
-    const shownList = allMatched.slice(0, 3);
-    const moreCount = Math.max(0, allMatched.length - 3);
-    const displaySongs = shownList.join(" / ") + (moreCount > 0 ? ` ほか${moreCount}曲` : "");
+    const hasExactTier = scoredHits[0].tier === 4;
+    const filteredHits = hasExactTier ? scoredHits.filter(h => h.tier === 4) : scoredHits;
+    const allMatched = filteredHits.map(h => h.title);
+    const shownList = allMatched.slice(0, 1);
+    const moreCount = Math.max(0, allMatched.length - 1);
+    const displaySongs = shownList[0] + (moreCount > 0 ? ` ほか${moreCount}曲` : "");
     return {
       tier: scoredHits[0].tier,
       ratio: scoredHits[0].ratio,
@@ -3254,8 +3263,8 @@
       ];
 
       const roleJumpShortLabelMap = {
-        "Vsinger": "Vsinger",
-        "Vtuber": "Vtuber",
+        "Vsinger": "Vsin",
+        "Vtuber": "Vtu",
         "歌い手": "歌い手",
         "歌手": "歌手",
         "声優": "声優",
@@ -3263,6 +3272,8 @@
         "音楽グループ(アニゲー関連)": "複(アニ)",
         "音楽グループ(その他)": "複(他)"
       };
+
+      const isFlatMode = Boolean(state.recFlatMode);
 
       const aidOrderMap = new Map();
       let aOrdIdx = 0;
@@ -3279,16 +3290,82 @@
       const buckets = new Map();
       roleOrder.forEach(r => buckets.set(r, []));
 
+      const sortSongItemsFn = (songItems, songSortMode) => {
+        if (songSortMode === "recFavCountDesc") {
+          songItems.sort((x, y) => {
+            const favCntX = getArtistFavSongCount(x.artist);
+            const favCntY = getArtistFavSongCount(y.artist);
+            if (favCntY !== favCntX) return favCntY - favCntX;
+            if (x.artist.aid !== y.artist.aid) {
+              const artTierX = getArtistHeartTier(x.artist.aid);
+              const artTierY = getArtistHeartTier(y.artist.aid);
+              if (artTierY !== artTierX) return artTierY - artTierX;
+              const aOx = aidOrderMap.has(x.artist.aid) ? aidOrderMap.get(x.artist.aid) : (autoAidOrderMap.get(x.artist.aid) || 999999);
+              const aOy = aidOrderMap.has(y.artist.aid) ? aidOrderMap.get(y.artist.aid) : (autoAidOrderMap.get(y.artist.aid) || 999999);
+              if (aOx !== aOy) return aOx - aOy;
+              const nmCmp = jaCollator.compare(x.artist.reading || x.artist.name, y.artist.reading || y.artist.name);
+              if (nmCmp !== 0) return nmCmp;
+              return x.artist.aid.localeCompare(y.artist.aid);
+            }
+            if (y.tier !== x.tier) return y.tier - x.tier;
+            return x.orderIdx - y.orderIdx;
+          });
+        } else {
+          songItems.sort((x, y) => {
+            if (y.tier !== x.tier) return y.tier - x.tier;
+            return x.orderIdx - y.orderIdx;
+          });
+        }
+      };
+
+      const sortArtistsFn = (groupList, artistSortMode) => {
+        if (artistSortMode === "recFavCountDesc") {
+          groupList.sort((x, y) => {
+            const fx = getArtistFavSongCount(x);
+            const fy = getArtistFavSongCount(y);
+            if (fy !== fx) return fy - fx;
+            const tx = getArtistHeartTier(x.aid);
+            const ty = getArtistHeartTier(y.aid);
+            if (ty !== tx) return ty - tx;
+            const ox = aidOrderMap.has(x.aid) ? aidOrderMap.get(x.aid) : (autoAidOrderMap.get(x.aid) || 999999);
+            const oy = aidOrderMap.has(y.aid) ? aidOrderMap.get(y.aid) : (autoAidOrderMap.get(y.aid) || 999999);
+            if (ox !== oy) return ox - oy;
+            return y.count - x.count;
+          });
+        } else {
+          groupList.sort((x, y) => {
+            const tx = getArtistHeartTier(x.aid);
+            const ty = getArtistHeartTier(y.aid);
+            if (ty !== tx) return ty - tx;
+            const ox = aidOrderMap.has(x.aid) ? aidOrderMap.get(x.aid) : (autoAidOrderMap.get(x.aid) || 999999);
+            const oy = aidOrderMap.has(y.aid) ? aidOrderMap.get(y.aid) : (autoAidOrderMap.get(y.aid) || 999999);
+            return ox - oy;
+          });
+        }
+      };
+
       if (isSongTab) {
         const songOrderMap = new Map();
         let sOrdIdx = 0;
         recommendedSongMap.forEach((_tier, k) => songOrderMap.set(k, sOrdIdx++));
         let uniqueMatchedSongTotal = 0;
+        const flatSongItems = [];
 
         currentFiltered.forEach(a => {
           const favSongs = getRecommendedSongsForArtist(a);
           if (favSongs.length === 0) return;
           uniqueMatchedSongTotal += favSongs.length;
+          favSongs.forEach(songTitle => {
+            const sKey = makeSongKey(a.aid, songTitle);
+            const sTier = getSongHeartTier(a.aid, songTitle) || 3;
+            flatSongItems.push({
+              artist: a,
+              songTitle,
+              songKey: sKey,
+              tier: sTier,
+              orderIdx: songOrderMap.has(sKey) ? songOrderMap.get(sKey) : 999999
+            });
+          });
           const artistRoles = getRecommendRoleBucketsForArtist(a);
           artistRoles.forEach(roleName => {
             if (state.roles.length > 0 && !state.roles.includes(roleName)) return;
@@ -3319,19 +3396,22 @@
 
         const switchBarInnerHTML = `
           <div class="recommend-switch-bar">
-            <div class="recommend-switch-tabs" role="tablist" aria-label="かるのオススメ表示切り替え">
-              <button type="button" class="recommend-switch-tab ${!isSongTab ? "active" : ""}" data-recommend-tab="artist" role="tab" aria-selected="${!isSongTab}">
-                <span class="rec-tab-icon">${HEART_SVG_SINGLE}</span>
-                <span>アーティスト</span>
-                <span class="rec-tab-count">${fmtNum(recArtistCnt)}</span>
-              </button>
-              <button type="button" class="recommend-switch-tab ${isSongTab ? "active" : ""}" data-recommend-tab="song" role="tab" aria-selected="${isSongTab}">
-                <span class="rec-tab-icon">♪</span>
-                <span>楽曲</span>
-                <span class="rec-tab-count">${fmtNum(recSongCnt)}</span>
-              </button>
+            <div class="recommend-switch-top-row">
+              <div class="recommend-switch-tabs" role="tablist" aria-label="かるのオススメ表示切り替え">
+                <button type="button" class="recommend-switch-tab ${!isSongTab ? "active" : ""}" data-recommend-tab="artist" role="tab" aria-selected="${!isSongTab}">
+                  <span class="rec-tab-icon">${HEART_SVG_SINGLE}</span>
+                  <span>アーティスト</span>
+                  <span class="rec-tab-count">${fmtNum(recArtistCnt)}</span>
+                </button>
+                <button type="button" class="recommend-switch-tab ${isSongTab ? "active" : ""}" data-recommend-tab="song" role="tab" aria-selected="${isSongTab}">
+                  <span class="rec-tab-icon">♪</span>
+                  <span>楽曲</span>
+                  <span class="rec-tab-count">${fmtNum(recSongCnt)}</span>
+                </button>
+              </div>
+              <button type="button" class="rec-flat-mode-toggle-btn pc-rec-flat-mode-btn ${isFlatMode ? "active" : ""}" data-toggle-rec-flat="1" aria-pressed="${isFlatMode ? "true" : "false"}">活動形態で分けない</button>
             </div>
-            <div class="recommend-role-jump-bar" role="navigation" aria-label="活動形態へジャンプ">
+            <div class="recommend-role-jump-bar" role="navigation" aria-label="活動形態へジャンプ" style="${isFlatMode ? "display:none;" : ""}">
               ${jumpButtonsHTML}
             </div>
           </div>
@@ -3351,7 +3431,7 @@
           listEl.innerHTML = switchBarHTML + `
             <div class="empty-list-state">
               <h3>「かるのオススメ」に設定された楽曲がまだありません</h3>
-              <p>編集モードでアーティスト詳細の「かるが聴いてる曲」にハートを付けると、ここに活動形態別で1曲ずつ表示されます。</p>
+              <p>編集モードでアーティスト詳細の「かるが聴いてる曲」にハートを付けると、ここに一覧表示されます。</p>
             </div>
           `;
           if (!resetScroll) preserveCenterScrollPosition(scrollEl, listEl, prevListScrollTop);
@@ -3361,51 +3441,39 @@
         const songSortMode = state.recSongSort || "recCustomOrder";
         let globalIdx = 0;
         let sectionsHTML = switchBarHTML;
-        buckets.forEach((songItems, roleName) => {
-          if (!songItems || songItems.length === 0) return;
-          if (songSortMode === "recFavCountDesc") {
-            // Sort by artist's hearted song count descending, grouping songs of the same artist consecutively!
-            songItems.sort((x, y) => {
-              const favCntX = getArtistFavSongCount(x.artist);
-              const favCntY = getArtistFavSongCount(y.artist);
-              if (favCntY !== favCntX) return favCntY - favCntX;
-              if (x.artist.aid !== y.artist.aid) {
-                const artTierX = getArtistHeartTier(x.artist.aid);
-                const artTierY = getArtistHeartTier(y.artist.aid);
-                if (artTierY !== artTierX) return artTierY - artTierX;
-                const aOx = aidOrderMap.has(x.artist.aid) ? aidOrderMap.get(x.artist.aid) : (autoAidOrderMap.get(x.artist.aid) || 999999);
-                const aOy = aidOrderMap.has(y.artist.aid) ? aidOrderMap.get(y.artist.aid) : (autoAidOrderMap.get(y.artist.aid) || 999999);
-                if (aOx !== aOy) return aOx - aOy;
-                const nmCmp = jaCollator.compare(x.artist.reading || x.artist.name, y.artist.reading || y.artist.name);
-                if (nmCmp !== 0) return nmCmp;
-                return x.artist.aid.localeCompare(y.artist.aid);
-              }
-              if (y.tier !== x.tier) return y.tier - x.tier;
-              return x.orderIdx - y.orderIdx;
-            });
-          } else {
-            // Default "かるが好きな順": sort by song heart grade descending (3 -> 2 -> 1), then by orderIdx ascending
-            songItems.sort((x, y) => {
-              if (y.tier !== x.tier) return y.tier - x.tier;
-              return x.orderIdx - y.orderIdx;
-            });
-          }
-          const rowsHTML = songItems.map((item, idxInRole) => {
-            const htmlRow = buildRecommendSongRowHTML(item.artist, item.songTitle, globalIdx, idxInRole + 1);
+        if (isFlatMode) {
+          sortSongItemsFn(flatSongItems, songSortMode);
+          const rowsHTML = flatSongItems.map((item, idx) => {
+            const htmlRow = buildRecommendSongRowHTML(item.artist, item.songTitle, globalIdx, idx + 1);
             globalIdx++;
             return htmlRow;
           }).join("");
           sectionsHTML += `
-            <div class="recommend-role-section" data-role-section="${esc(roleName)}">
-              <div class="recommend-role-group-header">
-                <span class="recommend-role-dot" aria-hidden="true"></span>
-                <span class="recommend-role-title">${esc(roleName)}</span>
-                <span class="recommend-role-count">${fmtNum(songItems.length)} 曲</span>
-              </div>
+            <div class="recommend-role-section recommend-flat-section" data-role-section="__flat__">
               ${rowsHTML}
             </div>
           `;
-        });
+        } else {
+          buckets.forEach((songItems, roleName) => {
+            if (!songItems || songItems.length === 0) return;
+            sortSongItemsFn(songItems, songSortMode);
+            const rowsHTML = songItems.map((item, idxInRole) => {
+              const htmlRow = buildRecommendSongRowHTML(item.artist, item.songTitle, globalIdx, idxInRole + 1);
+              globalIdx++;
+              return htmlRow;
+            }).join("");
+            sectionsHTML += `
+              <div class="recommend-role-section" data-role-section="${esc(roleName)}">
+                <div class="recommend-role-group-header">
+                  <span class="recommend-role-dot" aria-hidden="true"></span>
+                  <span class="recommend-role-title">${esc(roleName)}</span>
+                  <span class="recommend-role-count">${fmtNum(songItems.length)} 曲</span>
+                </div>
+                ${rowsHTML}
+              </div>
+            `;
+          });
+        }
         listEl.innerHTML = sectionsHTML;
         if (!resetScroll) preserveCenterScrollPosition(scrollEl, listEl, prevListScrollTop);
         scheduleLookaheadAvatarPreload(12, 40);
@@ -3433,19 +3501,22 @@
 
       const switchBarInnerHTML = `
         <div class="recommend-switch-bar">
-          <div class="recommend-switch-tabs" role="tablist" aria-label="かるのオススメ表示切り替え">
-            <button type="button" class="recommend-switch-tab ${!isSongTab ? "active" : ""}" data-recommend-tab="artist" role="tab" aria-selected="${!isSongTab}">
-              <span class="rec-tab-icon">${HEART_SVG_SINGLE}</span>
-              <span>アーティスト</span>
-              <span class="rec-tab-count">${fmtNum(recArtistCnt)}</span>
-            </button>
-            <button type="button" class="recommend-switch-tab ${isSongTab ? "active" : ""}" data-recommend-tab="song" role="tab" aria-selected="${isSongTab}">
-              <span class="rec-tab-icon">♪</span>
-              <span>楽曲</span>
-              <span class="rec-tab-count">${fmtNum(recSongCnt)}</span>
-            </button>
+          <div class="recommend-switch-top-row">
+            <div class="recommend-switch-tabs" role="tablist" aria-label="かるのオススメ表示切り替え">
+              <button type="button" class="recommend-switch-tab ${!isSongTab ? "active" : ""}" data-recommend-tab="artist" role="tab" aria-selected="${!isSongTab}">
+                <span class="rec-tab-icon">${HEART_SVG_SINGLE}</span>
+                <span>アーティスト</span>
+                <span class="rec-tab-count">${fmtNum(recArtistCnt)}</span>
+              </button>
+              <button type="button" class="recommend-switch-tab ${isSongTab ? "active" : ""}" data-recommend-tab="song" role="tab" aria-selected="${isSongTab}">
+                <span class="rec-tab-icon">♪</span>
+                <span>楽曲</span>
+                <span class="rec-tab-count">${fmtNum(recSongCnt)}</span>
+              </button>
+            </div>
+            <button type="button" class="rec-flat-mode-toggle-btn pc-rec-flat-mode-btn ${isFlatMode ? "active" : ""}" data-toggle-rec-flat="1" aria-pressed="${isFlatMode ? "true" : "false"}">活動形態で分けない</button>
           </div>
-          <div class="recommend-role-jump-bar" role="navigation" aria-label="活動形態へジャンプ">
+          <div class="recommend-role-jump-bar" role="navigation" aria-label="活動形態へジャンプ" style="${isFlatMode ? "display:none;" : ""}">
             ${jumpButtonsHTML}
           </div>
         </div>
@@ -3463,7 +3534,7 @@
         listEl.innerHTML = switchBarHTML + `
           <div class="empty-list-state">
             <h3>「かるのオススメ」に設定されたアーティストがまだありません</h3>
-            <p>お気に入りのアーティストを設定すると、ここに活動形態別で一覧表示されます。</p>
+            <p>お気に入りのアーティストを設定すると、ここに一覧表示されます。</p>
           </div>
         `;
         if (!resetScroll) preserveCenterScrollPosition(scrollEl, listEl, prevListScrollTop);
@@ -3473,49 +3544,40 @@
       const artistSortMode = state.recArtistSort || "recFavCountDesc";
       let globalIdx = 0;
       let sectionsHTML = switchBarHTML;
-      buckets.forEach((groupList, roleName) => {
-        if (!groupList || groupList.length === 0) return;
-        if (artistSortMode === "recFavCountDesc") {
-          // Default on Artist tab: "高評価曲が多い順" (hearted song count descending, then heart grade descending, then custom order)
-          groupList.sort((x, y) => {
-            const fx = getArtistFavSongCount(x);
-            const fy = getArtistFavSongCount(y);
-            if (fy !== fx) return fy - fx;
-            const tx = getArtistHeartTier(x.aid);
-            const ty = getArtistHeartTier(y.aid);
-            if (ty !== tx) return ty - tx;
-            const ox = aidOrderMap.has(x.aid) ? aidOrderMap.get(x.aid) : (autoAidOrderMap.get(x.aid) || 999999);
-            const oy = aidOrderMap.has(y.aid) ? aidOrderMap.get(y.aid) : (autoAidOrderMap.get(y.aid) || 999999);
-            if (ox !== oy) return ox - oy;
-            return y.count - x.count;
-          });
-        } else {
-          // "かるが好きな順" (並び替え): heart grade descending (3 -> 2 -> 1), then custom/addition order
-          groupList.sort((x, y) => {
-            const tx = getArtistHeartTier(x.aid);
-            const ty = getArtistHeartTier(y.aid);
-            if (ty !== tx) return ty - tx;
-            const ox = aidOrderMap.has(x.aid) ? aidOrderMap.get(x.aid) : (autoAidOrderMap.get(x.aid) || 999999);
-            const oy = aidOrderMap.has(y.aid) ? aidOrderMap.get(y.aid) : (autoAidOrderMap.get(y.aid) || 999999);
-            return ox - oy;
-          });
-        }
-        const rowsHTML = groupList.map((a, idxInRole) => {
-          const htmlRow = buildArtistRowHTML(a, false, globalIdx, false, idxInRole + 1);
+      if (isFlatMode) {
+        const flatList = [...currentFiltered];
+        sortArtistsFn(flatList, artistSortMode);
+        const rowsHTML = flatList.map((a, idx) => {
+          const htmlRow = buildArtistRowHTML(a, false, globalIdx, false, idx + 1);
           globalIdx++;
           return htmlRow;
         }).join("");
         sectionsHTML += `
-          <div class="recommend-role-section" data-role-section="${esc(roleName)}">
-            <div class="recommend-role-group-header">
-              <span class="recommend-role-dot" aria-hidden="true"></span>
-              <span class="recommend-role-title">${esc(roleName)}</span>
-              <span class="recommend-role-count">${fmtNum(groupList.length)} 名義</span>
-            </div>
+          <div class="recommend-role-section recommend-flat-section" data-role-section="__flat__">
             ${rowsHTML}
           </div>
         `;
-      });
+      } else {
+        buckets.forEach((groupList, roleName) => {
+          if (!groupList || groupList.length === 0) return;
+          sortArtistsFn(groupList, artistSortMode);
+          const rowsHTML = groupList.map((a, idxInRole) => {
+            const htmlRow = buildArtistRowHTML(a, false, globalIdx, false, idxInRole + 1);
+            globalIdx++;
+            return htmlRow;
+          }).join("");
+          sectionsHTML += `
+            <div class="recommend-role-section" data-role-section="${esc(roleName)}">
+              <div class="recommend-role-group-header">
+                <span class="recommend-role-dot" aria-hidden="true"></span>
+                <span class="recommend-role-title">${esc(roleName)}</span>
+                <span class="recommend-role-count">${fmtNum(groupList.length)} 名義</span>
+              </div>
+              ${rowsHTML}
+            </div>
+          `;
+        });
+      }
       listEl.innerHTML = sectionsHTML;
       if (!resetScroll) preserveCenterScrollPosition(scrollEl, listEl, prevListScrollTop);
       scheduleLookaheadAvatarPreload(12, 40);
@@ -3807,7 +3869,7 @@
                   <span class="song-name">${esc(s.title)}${isSongFav ? buildHeartBadgeSpanHTML(songTier, "song-fav-heart", "かるのオススメ楽曲") : ""}</span>
                   <span class="detail-song-right-actions">
                     ${isCustom ? `<button type="button" class="custom-song-del-btn" data-delete-custom-song="${esc(s.title)}" title="手動追加したこの曲を削除" aria-label="${esc(s.title)}を削除">－</button>` : ""}
-                    <span class="song-edit-heart-indicator ${isSongFav ? `is-fav heart-tier-${songTier}` : ""}" aria-hidden="true">${buildHeartTierInnerHTML(isSongFav ? songTier : activeHeartTier)}</span>
+                    <span class="song-edit-heart-indicator ${isSongFav ? `is-fav heart-tier-${songTier}` : ""}" aria-hidden="true">${HEART_SVG_SINGLE}</span>
                   </span>
                 </div>
               `;
@@ -4141,6 +4203,13 @@
       if (mobColSubEl) mobColSubEl.textContent = "";
     } else {
       mobTitleEl.textContent = "検索";
+    }
+
+    const mobRecFlatBtn = document.getElementById("mobRecFlatModeBtn");
+    if (mobRecFlatBtn) {
+      mobRecFlatBtn.style.display = state.view === "recommend" ? "inline-flex" : "none";
+      mobRecFlatBtn.classList.toggle("active", Boolean(state.recFlatMode));
+      mobRecFlatBtn.setAttribute("aria-pressed", state.recFlatMode ? "true" : "false");
     }
 
     // Sync unified sort select dropdown & custom sort menu for active context
@@ -4746,6 +4815,14 @@
     const recSwitchSlotEl = document.getElementById("recommendSwitchBarSlot");
     if (recSwitchSlotEl) {
       recSwitchSlotEl.addEventListener("click", e => {
+        const flatBtn = e.target.closest("button[data-toggle-rec-flat]");
+        if (flatBtn) {
+          e.preventDefault();
+          pushHistorySnapshot(false);
+          state.recFlatMode = !state.recFlatMode;
+          updateUI(false);
+          return;
+        }
         const jumpBtn = e.target.closest("[data-jump-role]");
         if (jumpBtn) {
           e.preventDefault();
@@ -4759,6 +4836,16 @@
           state.recommendTab = nextTab;
           updateUI(false);
         }
+      });
+    }
+
+    const mobRecFlatBtnEl = document.getElementById("mobRecFlatModeBtn");
+    if (mobRecFlatBtnEl) {
+      mobRecFlatBtnEl.addEventListener("click", e => {
+        e.preventDefault();
+        pushHistorySnapshot(false);
+        state.recFlatMode = !state.recFlatMode;
+        updateUI(false);
       });
     }
 
@@ -5776,7 +5863,7 @@
       }
       if (migrateBtn) {
         const legacyAids = getLegacyLocalStorageAids();
-        const migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY);
+        let migState = null; try { migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY); } catch (_e) {}
         migrateBtn.style.display = (legacyAids.length > 0 && migState !== "migrated" && !isSavingFavorites)
           ? "inline-flex"
           : "none";
@@ -5848,7 +5935,7 @@
         showOwnerFavToast("前回の未保存の編集内容を復元しました（「完了して閉じる」で保存、「取消」で破棄できます）");
       } else {
         const legacyAids = getLegacyLocalStorageAids();
-        const migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY);
+        let migState = null; try { migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY); } catch (_e) {}
         if (serverVersion === 0 && legacyAids.length > 0 && migState !== "migrated" && migState !== "skipped") {
           openFavMigrationModal();
         }
@@ -6260,7 +6347,7 @@
           activeHeartTier = nextTier;
           syncActiveHeartTierUI();
           document.querySelectorAll("#detailScrollContent .song-edit-heart-indicator:not(.is-fav)").forEach(ind => {
-            ind.innerHTML = buildHeartTierInnerHTML(activeHeartTier);
+            ind.innerHTML = HEART_SVG_SINGLE;
           });
         }
       });
