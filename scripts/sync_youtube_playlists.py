@@ -20,6 +20,7 @@ Key Features:
    - Atomic file writes prevent partial JSON corruption; failed videos are left unprocessed so they are retried next run.
 """
 import argparse
+import hashlib
 import json
 import os
 import random
@@ -36,6 +37,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MASTER_JSON_PATH = os.path.join(BASE_DIR, "data", "artists_master.json")
 PROCESSED_JSON_PATH = os.path.join(BASE_DIR, "data", "processed_videos.json")
 SYNC_STATE_JSON_PATH = os.path.join(BASE_DIR, "data", "sync_state.json")
+MUGEN2_STATE_JSON_PATH = os.path.join(BASE_DIR, "data", "mugen2_state.json")
 PENDING_JSON_PATH = os.path.join(BASE_DIR, "data", "pending_review.json")
 PENDING_MD_PATH = os.path.join(BASE_DIR, "PENDING_REVIEW.md")
 SYNC_LOG_JSON_PATH = os.path.join(BASE_DIR, "data", "auto_sync_log.json")
@@ -548,27 +550,79 @@ def parse_confidence(val) -> float:
         return 0.0
 
 
+def get_visible_songs_for_artist(artist: dict) -> list[str]:
+    raw_songs = artist.get("songs") if isinstance(artist.get("songs"), list) else []
+    hidden_list = artist.get("mugen2HiddenSongs") if isinstance(artist.get("mugen2HiddenSongs"), list) else []
+    if not hidden_list:
+        return list(raw_songs)
+    hidden_norm = {normalize_text_key(h) for h in hidden_list if h}
+    return [s for s in raw_songs if normalize_text_key(s) not in hidden_norm]
+
+
+def unhide_song_on_artist(target_artist: dict, song_title: str) -> bool:
+    hidden_list = target_artist.get("mugen2HiddenSongs")
+    if not isinstance(hidden_list, list) or not hidden_list:
+        return False
+    target_norm = normalize_text_key(song_title)
+    new_hidden = [h for h in hidden_list if normalize_text_key(h) != target_norm]
+    if len(new_hidden) != len(hidden_list):
+        if new_hidden:
+            target_artist["mugen2HiddenSongs"] = new_hidden
+        else:
+            target_artist.pop("mugen2HiddenSongs", None)
+        target_artist["count"] = len(get_visible_songs_for_artist(target_artist))
+        return True
+    return False
+
+
+def hide_song_on_artist(target_artist: dict, song_title: str) -> bool:
+    raw_songs = target_artist.get("songs") if isinstance(target_artist.get("songs"), list) else []
+    target_norm = normalize_text_key(song_title)
+    canonical_title = None
+    for s in raw_songs:
+        if normalize_text_key(s) == target_norm:
+            canonical_title = s
+            break
+    if not canonical_title:
+        return False
+    hidden_list = target_artist.setdefault("mugen2HiddenSongs", [])
+    hidden_norm = {normalize_text_key(h) for h in hidden_list if h}
+    if target_norm in hidden_norm:
+        return False
+    hidden_list.append(canonical_title)
+    target_artist["count"] = len(get_visible_songs_for_artist(target_artist))
+    return True
+
+
+def find_canonical_song_in_artist(target_artist: dict, song_title: str) -> str | None:
+    raw_songs = target_artist.get("songs") if isinstance(target_artist.get("songs"), list) else []
+    target_norm = normalize_text_key(song_title)
+    for s in raw_songs:
+        if normalize_text_key(s) == target_norm:
+            return s
+    return None
+
+
 def add_song_to_existing_artist(target_artist: dict, song_title: str, song_type: str, vid: str) -> bool:
     """
     Adds a song to an existing artist WITHOUT overwriting `cat`, `role`, `profileBio`, or other existing attributes.
-    Prevents duplicate song titles and duplicate video IDs.
-    Returns True if the song was newly added, False if it was already registered.
+    If the song was previously hidden by Mugen2 deletion, un-hides it automatically.
+    Returns True if the song was newly added or un-hidden, False if it was already visible.
     """
     song_title_clean = (song_title or "").strip()
     if not song_title_clean:
         return False
 
-    existing_songs = target_artist.get("songs") or []
+    if not isinstance(target_artist.get("songs"), list):
+        target_artist["songs"] = []
+    existing_songs = target_artist["songs"]
     existing_songs_norm = {normalize_text_key(s) for s in existing_songs}
     if normalize_text_key(song_title_clean) in existing_songs_norm:
-        return False
+        was_unhidden = unhide_song_on_artist(target_artist, song_title_clean)
+        return was_unhidden
 
-    existing_top_links = {str(lk).strip() for lk in (target_artist.get("topLinks") or []) if lk}
-    if vid and vid in existing_top_links:
-        return False
-
-    target_artist.setdefault("songs", []).append(song_title_clean)
-    target_artist["count"] = len(target_artist["songs"])
+    target_artist["songs"].append(song_title_clean)
+    target_artist["count"] = len(get_visible_songs_for_artist(target_artist))
 
     # IMPORTANT: Never change existing artist's `cat` or `role` just because a single cover song was added.
     # (`cat == 1` requires confirmed >=3 cover songs on the artist's channel; existing classifications are preserved.)
@@ -967,8 +1021,11 @@ def build_compact_data_js(artists: list[dict]) -> str:
     compact_artists = []
     for a in artists:
         ca = {}
+        visible_songs = get_visible_songs_for_artist(a)
         for k, v in a.items():
-            if k in ("id", "topStatus", "imgType", "youtubeChannelUrl"):
+            if k in ("id", "topStatus", "imgType", "youtubeChannelUrl", "rawSongCount"):
+                continue
+            if k == "songs":
                 continue
             if v == "" or v == [] or v is None or v is False:
                 continue
@@ -979,9 +1036,9 @@ def build_compact_data_js(artists: list[dict]) -> str:
             if k == "ytChannelType" and v == "official":
                 continue
             ca[k] = v
-        # Keep the songs field even for zero-song artists so the site never receives undefined.
-        if not isinstance(ca.get("songs"), list):
-            ca["songs"] = []
+        # Output visible songs (after applying Mugen2 hidden filter) and always keep songs as a list []
+        ca["songs"] = visible_songs if isinstance(visible_songs, list) else []
+        ca["count"] = len(ca["songs"])
         compact_artists.append(ca)
     return "window.ARCHIVE_DATA = " + json.dumps(compact_artists, ensure_ascii=False, separators=(",", ":")) + ";"
 
@@ -1027,6 +1084,9 @@ def recompute_and_save_production_data(artists: list[dict]) -> None:
         if ag:
             agency_counts[ag] = agency_counts.get(ag, 0) + 1
     for a in artists:
+        if not isinstance(a.get("songs"), list):
+            a["songs"] = []
+        a["count"] = len(get_visible_songs_for_artist(a))
         ag = a.get("agencyGroup") or a.get("agency") or ""
         cnt = agency_counts.get(ag, 0) if ag else 0
         a["agencyGroupCount"] = cnt
@@ -1037,8 +1097,506 @@ def recompute_and_save_production_data(artists: list[dict]) -> None:
     compact_js = build_compact_data_js(artists)
     atomic_write_json(MASTER_JSON_PATH, artists)
     atomic_write_text(DATA_JS_PATH, compact_js + "\n")
+    assets_data_js = os.path.join(BASE_DIR, "assets", "data.js")
+    if os.path.isdir(os.path.dirname(assets_data_js)):
+        atomic_write_text(assets_data_js, compact_js + "\n")
     update_standalone_html_if_present(STANDALONE_HTML_PATH, compact_js)
     update_api_artists_index_if_present(artists)
+
+
+
+
+# =========================================================================
+# MUGEN2 PLAYLIST DELETION, HIDING, & RESTORATION ENGINE (v53)
+# =========================================================================
+MISSING_STREAK_TO_HIDE = 2
+
+
+def load_mugen2_state(path: str, artists: list[dict] | None = None) -> dict:
+    default_state = {
+        "schemaVersion": 1,
+        "mugen2PlaylistId": None,
+        "mugen1PlaylistIds": [],
+        "lastSuccessfulMugen2SyncAt": None,
+        "lastMugen2VideoCount": 0,
+        "knownVideoCatalog": {},
+        "videoMap": {},
+        "unmappedMugen2Videos": {},
+        "songHistory": {},
+        "deletionHistory": [],
+    }
+    if os.path.exists(path):
+        try:
+            loaded = load_json_strict(path)
+            if isinstance(loaded, dict):
+                merged = dict(default_state)
+                merged.update(loaded)
+                for dict_key in ("knownVideoCatalog", "videoMap", "unmappedMugen2Videos", "songHistory"):
+                    if not isinstance(merged.get(dict_key), dict):
+                        merged[dict_key] = {}
+                if not isinstance(merged.get("deletionHistory"), list):
+                    merged["deletionHistory"] = []
+                return merged
+        except Exception as e:
+            safe_print(f"[WARN] Could not parse mugen2_state.json, initializing fresh state: {e}")
+
+    # Seed knownVideoCatalog from artists_master.json topLinks/topSongs if available
+    if artists:
+        catalog = default_state["knownVideoCatalog"]
+        for a in artists:
+            aid = a.get("aid") or ""
+            name = a.get("name") or ""
+            songs = a.get("songs") or []
+            norm_to_song = {normalize_text_key(re.sub(r"\s*\(cover\)\s*$", "", s, flags=re.I)): s for s in songs if s}
+            for idx, (ts, lk) in enumerate(zip(a.get("topSongs") or [], a.get("topLinks") or [])):
+                if lk and isinstance(lk, str) and len(lk.strip()) == 11:
+                    vid = lk.strip()
+                    ns = normalize_text_key(re.sub(r"\s*\(cover\)\s*$", "", str(ts), flags=re.I))
+                    if ns in norm_to_song:
+                        catalog[vid] = {
+                            "aid": aid,
+                            "artistName": name,
+                            "songTitle": norm_to_song[ns],
+                            "songType": "orig",
+                            "source": "initial_top_links",
+                            "confidence": 1.0,
+                        }
+    return default_state
+
+
+def identify_mugen2_playlist_id(playlist_ids: list[str], api_key: str) -> tuple[str | None, list[str]]:
+    """
+    Identifies which playlist is "無限2" (the sole monitored playlist for additions, deletions, and restorations)
+    and which playlist(s) are "無限" (fixed baseline data, never monitored for additions or deletions).
+    1. Checks `YOUTUBE_MUGEN2_PLAYLIST_ID` env var first.
+    2. If 1 playlist ID is provided, treats it as "無限2".
+    3. If >=2 playlist IDs are provided, queries YouTube `playlists.list` snippet.title to find "無限2" (or falls back to the 2nd playlist ID).
+    """
+    explicit_m2 = os.environ.get("YOUTUBE_MUGEN2_PLAYLIST_ID", "").strip()
+    if explicit_m2:
+        others = [p for p in playlist_ids if p != explicit_m2]
+        return explicit_m2, others
+
+    if not playlist_ids:
+        return None, []
+    if len(playlist_ids) == 1:
+        return playlist_ids[0], []
+
+    if api_key:
+        try:
+            params = {
+                "part": "snippet",
+                "id": ",".join(playlist_ids[:50]),
+                "key": api_key,
+            }
+            url = "https://www.googleapis.com/youtube/v3/playlists?" + urllib.parse.urlencode(params)
+            data = http_get_json(url)
+            for item in data.get("items", []):
+                pid = (item.get("id") or "").strip()
+                title = unicodedata.normalize("NFKC", ((item.get("snippet") or {}).get("title") or "")).lower()
+                if pid in playlist_ids and ("無限2" in title or "無限 2" in title or "mugen2" in title or "mugen 2" in title):
+                    others = [p for p in playlist_ids if p != pid]
+                    return pid, others
+        except Exception as e:
+            safe_print(f"[INFO] Could not query playlist titles ({e}); using 2nd playlist ID as 無限2.", [api_key])
+
+    # Default convention: 1st is "無限" (fixed), 2nd (last) is "無限2" (monitored)
+    return playlist_ids[-1], playlist_ids[:-1]
+
+
+def register_mugen2_video_mapping(
+    mugen2_state: dict,
+    vid: str,
+    artist: dict,
+    song_title: str,
+    song_type: str = "orig",
+    source: str = "auto_sync",
+    confidence: float = 1.0,
+    now_iso: str = "",
+) -> None:
+    if not vid or not artist or not song_title:
+        return
+    aid = artist.get("aid") or ensure_artist_stable_aid(artist)
+    canonical_song = find_canonical_song_in_artist(artist, song_title) or song_title.strip()
+    if not canonical_song:
+        return
+
+    vmap = mugen2_state.setdefault("videoMap", {})
+    existing_entry = vmap.get(vid) or {}
+    vmap[vid] = {
+        "aid": aid,
+        "artistName": artist["name"],
+        "songTitle": canonical_song,
+        "songType": "cover" if song_type == "cover" else "orig",
+        "source": existing_entry.get("source") or source,
+        "confidence": confidence,
+        "inMugen2": True,
+        "everInMugen2": True,
+        "missingStreak": 0,
+        "firstSeenInMugen2At": existing_entry.get("firstSeenInMugen2At") or now_iso,
+        "lastSeenInMugen2At": now_iso,
+    }
+    mugen2_state.setdefault("knownVideoCatalog", {})[vid] = {
+        "aid": aid,
+        "artistName": artist["name"],
+        "songTitle": canonical_song,
+        "songType": "cover" if song_type == "cover" else "orig",
+        "source": source,
+        "confidence": confidence,
+    }
+    mugen2_state.setdefault("unmappedMugen2Videos", {}).pop(vid, None)
+
+    song_key = f"{aid}\t{canonical_song}"
+    shist = mugen2_state.setdefault("songHistory", {})
+    s_entry = shist.get(song_key) or {
+        "aid": aid,
+        "artistName": artist["name"],
+        "songTitle": canonical_song,
+        "everInMugen2": True,
+        "activeVideoIds": [],
+        "missingVideoIds": [],
+        "isHidden": False,
+        "hiddenAt": None,
+        "restoredAt": None,
+    }
+    s_entry["everInMugen2"] = True
+    s_entry["artistName"] = artist["name"]
+    s_entry["songTitle"] = canonical_song
+    if vid not in s_entry["activeVideoIds"]:
+        s_entry["activeVideoIds"].append(vid)
+    if vid in s_entry.get("missingVideoIds", []):
+        s_entry["missingVideoIds"].remove(vid)
+    shist[song_key] = s_entry
+
+
+def match_initial_video_to_registered_song(vmeta: dict, artists: list[dict]) -> tuple[dict | None, str | None]:
+    """
+    Strictly and deterministically matches an initial YouTube video's metadata (title, channelId, channelTitle, description)
+    to a unique (artist, songTitle) already registered in `artists_master.json`.
+    Returns (matched_artist, canonical_song_title) ONLY when both the artist and the song are unambiguously identified.
+    Never guesses by song title alone (prevents false matches on same-title songs or covers by other artists).
+    """
+    raw_title = vmeta.get("title") or ""
+    raw_channel = vmeta.get("channelTitle") or ""
+    raw_desc = vmeta.get("description") or ""
+    channel_id = (vmeta.get("channelId") or "").strip()
+    if not raw_title:
+        return None, None
+
+    norm_title = normalize_text_key(raw_title)
+    norm_channel = normalize_text_key(raw_channel)
+    norm_combined = normalize_text_key(f"{raw_title} {raw_channel} {raw_desc[:300]}")
+
+    # Strip common decorations from video title for exact song title comparison
+    cleaned_title = re.sub(
+        r"【[^】]*】|\[[^\]]*\]|\([^\)]*(?:cover|歌ってみた|mv|official|video|ver|feat)[^\)]*\)|"
+        r"（[^）]*(?:cover|歌ってみた|mv|official|video|ver|feat)[^）]*）",
+        " ",
+        raw_title,
+        flags=re.IGNORECASE,
+    )
+    cleaned_title_norm = normalize_text_key(cleaned_title)
+
+    candidates = []
+
+    for a in artists:
+        songs = a.get("songs")
+        if not isinstance(songs, list) or not songs:
+            continue
+
+        # 1. Verify artist identity in video metadata (channelId match OR explicit artist name/alias in title/channel)
+        yt_url = a.get("ytChannelUrl") or ""
+        channel_matched = bool(channel_id and len(channel_id) > 5 and channel_id in yt_url)
+
+        known_names = [a.get("name") or ""] + list(a.get("al") or [])
+        known_norms = [normalize_text_key(n) for n in known_names if n and len(normalize_text_key(n)) >= 2]
+        if not known_norms and a.get("name"):
+            known_norms = [normalize_text_key(a["name"])]
+
+        name_in_title_or_ch = any(kn and (kn in norm_title or kn in norm_channel) for kn in known_norms)
+        name_in_desc = any(kn and len(kn) >= 3 and kn in norm_combined for kn in known_norms)
+
+        if not (channel_matched or name_in_title_or_ch or name_in_desc):
+            continue
+
+        artist_score = 3 if (channel_matched and name_in_title_or_ch) else (2 if (channel_matched or name_in_title_or_ch) else 1)
+
+        # 2. Check which registered song(s) of this artist appear in the video title
+        matched_songs_for_artist = []
+        for s in songs:
+            s_clean = re.sub(r"\s*\(cover\)\s*$", "", str(s), flags=re.IGNORECASE).strip()
+            s_norm = normalize_text_key(s_clean)
+            if not s_norm:
+                continue
+            if s_norm == cleaned_title_norm or s_norm == norm_title:
+                matched_songs_for_artist.append((s, len(s_norm) + 100))
+            elif len(s_norm) >= 2 and s_norm in norm_title:
+                matched_songs_for_artist.append((s, len(s_norm)))
+
+        if not matched_songs_for_artist:
+            continue
+
+        # Pick the longest (most specific) song match for this artist; if tied between 2 distinct songs, skip as ambiguous
+        matched_songs_for_artist.sort(key=lambda x: -x[1])
+        if len(matched_songs_for_artist) >= 2 and matched_songs_for_artist[0][1] == matched_songs_for_artist[1][1]:
+            if normalize_text_key(matched_songs_for_artist[0][0]) != normalize_text_key(matched_songs_for_artist[1][0]):
+                continue
+
+        best_song, song_specificity = matched_songs_for_artist[0]
+        candidates.append((artist_score, song_specificity, a, best_song))
+
+    if not candidates:
+        return None, None
+
+    candidates.sort(key=lambda x: (-x[0], -x[1]))
+    if len(candidates) >= 2:
+        top_c = candidates[0]
+        second_c = candidates[1]
+        # If two different artists tie on artist_score and song_specificity, treat as ambiguous (e.g. duet/collab) and do not guess
+        if top_c[0] == second_c[0] and top_c[1] == second_c[1] and top_c[2].get("aid") != second_c[2].get("aid"):
+            return None, None
+
+    best_artist = candidates[0][2]
+    best_song_title = candidates[0][3]
+    return best_artist, best_song_title
+
+
+def reconcile_mugen2_deletions_and_restorations(
+    current_mugen2_vids: list[str],
+    artists: list[dict],
+    mugen2_state: dict,
+    processed_ids: set[str],
+    yt_key: str,
+    now_iso: str,
+    today_str: str,
+) -> tuple[bool, list[dict]]:
+    """
+    Executes the complete Mugen2 synchronization rules:
+    - Automatically builds video->(artist, song) correspondences for initial videos in "無限2"
+    - Restores (un-hides) any previously hidden song whose video is present/re-added in "無限2"
+    - Increments `missingStreak` for videos missing from "無限2"
+    - Marks a video as `inMugen2 = False` only after 2 consecutive normal syncs (`missingStreak >= 2`)
+    - Hides a song (`mugen2HiddenSongs`) only when `everInMugen2 == True` AND all mapped videos for that song in "無限2" have `inMugen2 == False`
+    - Protects against abnormal playlist count drops or API errors
+    Returns (data_changed, event_logs).
+    """
+    event_logs = []
+    data_changed = False
+
+    prev_count = int(mugen2_state.get("lastMugen2VideoCount") or 0)
+    cur_count = len(current_mugen2_vids)
+
+    # Safety circuit breaker: if "無限2" previously had videos and suddenly drops by >50 videos (and >25%) in a single run,
+    # skip missing-streak / deletion processing to guard against partial YouTube API responses.
+    abnormal_drop = False
+    if prev_count >= 20 and cur_count == 0:
+        abnormal_drop = True
+    elif prev_count >= 50 and (prev_count - cur_count) > max(50, int(prev_count * 0.25)):
+        abnormal_drop = True
+
+    if abnormal_drop:
+        safe_print(
+            f"[MUGEN2 SAFEGUARD] Abnormal drop in 無限2 video count detected (previous={prev_count}, current={cur_count}). "
+            "Skipping deletion/missing-streak evaluation for safety."
+        )
+
+    aid_to_artist = {}
+    name_to_artist = {}
+    for a in artists:
+        aid = ensure_artist_stable_aid(a)
+        aid_to_artist[aid] = a
+        if a.get("name"):
+            name_to_artist[a["name"]] = a
+
+    vmap = mugen2_state.setdefault("videoMap", {})
+    catalog = mugen2_state.setdefault("knownVideoCatalog", {})
+    unmapped = mugen2_state.setdefault("unmappedMugen2Videos", {})
+    shist = mugen2_state.setdefault("songHistory", {})
+    del_hist = mugen2_state.setdefault("deletionHistory", [])
+
+    current_mugen2_set = set(current_mugen2_vids)
+
+    # Step 1: Promote any current Mugen2 video that is already in knownVideoCatalog into videoMap,
+    # and identify existing/initial Mugen2 videos that need one-time metadata matching.
+    unmapped_initial_vids = []
+    for vid in current_mugen2_vids:
+        if vid in vmap:
+            continue
+        if vid in catalog:
+            cat_info = catalog[vid]
+            target_a = aid_to_artist.get(cat_info.get("aid")) or name_to_artist.get(cat_info.get("artistName"))
+            if target_a:
+                register_mugen2_video_mapping(
+                    mugen2_state=mugen2_state,
+                    vid=vid,
+                    artist=target_a,
+                    song_title=cat_info["songTitle"],
+                    song_type=cat_info.get("songType", "orig"),
+                    source=cat_info.get("source", "catalog"),
+                    confidence=1.0,
+                    now_iso=now_iso,
+                )
+                processed_ids.add(vid)
+                continue
+        if vid in processed_ids and vid not in unmapped:
+            unmapped_initial_vids.append(vid)
+
+    # Step 2: For initial registered videos in Mugen2 not yet in videoMap, fetch metadata and run strict deterministic matching
+    if unmapped_initial_vids and yt_key:
+        max_map_batch = int(os.environ.get("MAX_BASELINE_MAP_PER_RUN", "1000"))
+        to_fetch = unmapped_initial_vids[:max_map_batch]
+        try:
+            meta_list = fetch_videos_metadata(to_fetch, yt_key)
+            fetched_by_id = {m["videoId"]: m for m in meta_list if m.get("videoId")}
+            mapped_now = 0
+            for vid in to_fetch:
+                vmeta = fetched_by_id.get(vid)
+                if not vmeta:
+                    unmapped[vid] = {"reason": "metadata_unavailable", "checkedAt": now_iso}
+                    continue
+                matched_a, matched_song = match_initial_video_to_registered_song(vmeta, artists)
+                if matched_a and matched_song:
+                    register_mugen2_video_mapping(
+                        mugen2_state=mugen2_state,
+                        vid=vid,
+                        artist=matched_a,
+                        song_title=matched_song,
+                        song_type="orig",
+                        source="baseline_exact_match",
+                        confidence=1.0,
+                        now_iso=now_iso,
+                    )
+                    mapped_now += 1
+                else:
+                    unmapped[vid] = {
+                        "title": vmeta.get("title", ""),
+                        "channelTitle": vmeta.get("channelTitle", ""),
+                        "reason": "ambiguous_or_unmatched",
+                        "checkedAt": now_iso,
+                    }
+            if mapped_now > 0:
+                safe_print(f"[MUGEN2 MAP] Automatically linked {mapped_now} initial video(s) in 無限2 to registered songs.")
+        except Exception as e:
+            safe_print(f"[WARN] Could not fetch metadata for baseline Mugen2 mapping: {e}", [yt_key])
+
+    # Step 3: Update presence & missingStreak for all tracked Mugen2 videos
+    for vid, info in list(vmap.items()):
+        if not isinstance(info, dict):
+            continue
+        if vid in current_mugen2_set:
+            info["inMugen2"] = True
+            info["everInMugen2"] = True
+            info["missingStreak"] = 0
+            info["lastSeenInMugen2At"] = now_iso
+            processed_ids.add(vid)
+        else:
+            if abnormal_drop:
+                continue
+            if info.get("everInMugen2") is not False:
+                streak = int(info.get("missingStreak") or 0) + 1
+                info["missingStreak"] = streak
+                if streak >= MISSING_STREAK_TO_HIDE:
+                    info["inMugen2"] = False
+                else:
+                    # 1st missing sync: keep inMugen2=True until confirmed on 2nd consecutive sync!
+                    info["inMugen2"] = True
+
+    # Step 4: Group tracked Mugen2 videos by (aid, normalized_song_title) and evaluate visibility per song
+    songs_by_norm_key = {}
+    for vid, info in vmap.items():
+        if not isinstance(info, dict) or info.get("everInMugen2") is False:
+            continue
+        aid = info.get("aid") or ""
+        s_title = info.get("songTitle") or ""
+        if not aid or not s_title:
+            continue
+        target_a = aid_to_artist.get(aid) or name_to_artist.get(info.get("artistName") or "")
+        if not target_a:
+            continue
+        canonical_song = find_canonical_song_in_artist(target_a, s_title) or s_title
+        nkey = f"{target_a['aid']}\t{normalize_text_key(canonical_song)}"
+        bucket = songs_by_norm_key.setdefault(nkey, {
+            "artist": target_a,
+            "songTitle": canonical_song,
+            "activeVids": [],
+            "missingVids": [],
+        })
+        if info.get("inMugen2") is True:
+            bucket["activeVids"].append(vid)
+        else:
+            bucket["missingVids"].append(vid)
+
+    for nkey, bucket in songs_by_norm_key.items():
+        target_a = bucket["artist"]
+        aid = target_a["aid"]
+        song_title = bucket["songTitle"]
+        active_vids = bucket["activeVids"]
+        missing_vids = bucket["missingVids"]
+        song_key = f"{aid}\t{song_title}"
+
+        s_entry = shist.get(song_key) or {
+            "aid": aid,
+            "artistName": target_a["name"],
+            "songTitle": song_title,
+            "everInMugen2": True,
+            "activeVideoIds": [],
+            "missingVideoIds": [],
+            "isHidden": False,
+            "hiddenAt": None,
+            "restoredAt": None,
+        }
+        s_entry["everInMugen2"] = True
+        s_entry["activeVideoIds"] = active_vids
+        s_entry["missingVideoIds"] = missing_vids
+
+        if len(active_vids) >= 1:
+            # At least 1 video for this song is active in 無限2 -> ensure song is visible (restore if it was hidden!)
+            was_unhidden = unhide_song_on_artist(target_a, song_title)
+            if was_unhidden or s_entry.get("isHidden") is True:
+                s_entry["isHidden"] = False
+                s_entry["restoredAt"] = now_iso
+                data_changed = True
+                log_item = {
+                    "date": today_str,
+                    "timestamp": now_iso,
+                    "action": "restored_by_mugen2_readd",
+                    "aid": aid,
+                    "artist": target_a["name"],
+                    "song": song_title,
+                    "videoIds": active_vids,
+                }
+                del_hist.insert(0, log_item)
+                event_logs.append(log_item)
+                safe_print(f"[MUGEN2 RESTORE] Restored '{song_title}' ({target_a['name']}) via video(s) {active_vids}.")
+        else:
+            # 0 active videos remain in 無限2 (all mapped videos missing for >= 2 consecutive normal syncs) -> hide song!
+            if not abnormal_drop and len(missing_vids) >= 1:
+                was_hidden = hide_song_on_artist(target_a, song_title)
+                if was_hidden or s_entry.get("isHidden") is not True:
+                    s_entry["isHidden"] = True
+                    s_entry["hiddenAt"] = now_iso
+                    data_changed = True
+                    log_item = {
+                        "date": today_str,
+                        "timestamp": now_iso,
+                        "action": "hidden_by_mugen2_deletion",
+                        "aid": aid,
+                        "artist": target_a["name"],
+                        "song": song_title,
+                        "videoIds": missing_vids,
+                    }
+                    del_hist.insert(0, log_item)
+                    event_logs.append(log_item)
+                    safe_print(f"[MUGEN2 HIDE] Hidden '{song_title}' ({target_a['name']}) after 2 consecutive syncs missing video(s) {missing_vids}.")
+
+        shist[song_key] = s_entry
+
+    mugen2_state["deletionHistory"] = del_hist[:500]
+    if not abnormal_drop:
+        mugen2_state["lastSuccessfulMugen2SyncAt"] = now_iso
+        mugen2_state["lastMugen2VideoCount"] = cur_count
+
+    return data_changed, event_logs
 
 
 def run_sync(
@@ -1254,21 +1812,49 @@ def run_sync(
         safe_print("[INFO] YOUTUBE_API_KEY or YOUTUBE_PLAYLIST_IDS not set. Skipping playlist fetch.")
         return 0
 
-    # Step 3: Fetch playlist video IDs and filter to strictly NEW video IDs added after initialization
-    new_vids = []
-    new_seen = set()
+    # Step 3: Identify "無限2" (sole monitored playlist for add/delete/restore; "無限" is fixed data)
+    mugen2_state = load_mugen2_state(MUGEN2_STATE_JSON_PATH, artists)
+    mugen2_pid, mugen1_pids = identify_mugen2_playlist_id(playlist_ids, yt_key)
+    mugen2_state["mugen2PlaylistId"] = mugen2_pid
+    mugen2_state["mugen1PlaylistIds"] = mugen1_pids
+
+    if not mugen2_pid:
+        safe_print("[INFO] No 無限2 playlist ID configured. Skipping playlist fetch.")
+        return 0
+
     try:
-        for pid in playlist_ids:
-            vids = fetch_playlist_video_ids(pid, yt_key)
-            for v in vids:
-                if v not in processed_ids and v not in pending_vids and v not in new_seen:
-                    new_seen.add(v)
-                    new_vids.append(v)
+        mugen2_vids = fetch_playlist_video_ids(mugen2_pid, yt_key)
+        safe_print(f"[SYNC] Fetched {len(mugen2_vids)} video(s) from 無限2 playlist '{mugen2_pid}'.")
     except Exception as e:
-        safe_print(f"[ERROR] Failed to fetch playlists from YouTube API: {e}", [yt_key])
+        safe_print(f"[ERROR] Failed to fetch 無限2 playlist from YouTube API: {e}", [yt_key])
         return 1
 
+    # Reconcile 無限2 deletions (2-consecutive-sync rule), multi-video reference counts, and re-additions/restorations
+    mugen2_changed, mugen2_logs = reconcile_mugen2_deletions_and_restorations(
+        current_mugen2_vids=mugen2_vids,
+        artists=artists,
+        mugen2_state=mugen2_state,
+        processed_ids=processed_ids,
+        yt_key=yt_key,
+        now_iso=now_iso,
+        today_str=today_str,
+    )
+    if mugen2_logs:
+        added_logs.extend(mugen2_logs)
+
+    # Filter to strictly NEW video IDs in 無限2 not yet in processed_ids
+    new_vids = []
+    new_seen = set()
+    for v in mugen2_vids:
+        if v not in processed_ids and v not in pending_vids and v not in new_seen:
+            new_seen.add(v)
+            new_vids.append(v)
+
     if not new_vids:
+        if mugen2_changed:
+            recompute_and_save_production_data(artists)
+            atomic_write_json(PROCESSED_JSON_PATH, sorted(processed_ids))
+        atomic_write_json(MUGEN2_STATE_JSON_PATH, mugen2_state)
         sync_state["lastSyncAt"] = now_iso
         atomic_write_json(SYNC_STATE_JSON_PATH, sync_state)
         if added_logs:
@@ -1282,8 +1868,8 @@ def run_sync(
                     existing_logs = []
             atomic_write_json(SYNC_LOG_JSON_PATH, added_logs + existing_logs[:499])
         safe_print(
-            f"[SYNC] No new videos found in playlist(s). Gemini API called: 0 times. "
-            f"Approved/skipped applied: {len(added_logs)}. Pending queue: {len(pending_list)} item(s)."
+            f"[SYNC] No new unknown videos in 無限2. Gemini API called: 0 times. "
+            f"Mugen2 state changes: {len(mugen2_logs)}. Total events logged: {len(added_logs)}."
         )
         return 0
 
@@ -1387,6 +1973,18 @@ def run_sync(
 
             if is_safe and target_artist is not None:
                 added = add_song_to_existing_artist(target_artist, song_title, song_type, vid)
+                # Always record the video->(artist, song) correspondence in mugen2_state so that
+                # even if the song also existed in fixed playlist "無限", "無限2" state takes priority!
+                register_mugen2_video_mapping(
+                    mugen2_state=mugen2_state,
+                    vid=vid,
+                    artist=target_artist,
+                    song_title=song_title,
+                    song_type=song_type,
+                    source="auto_sync",
+                    confidence=round(confidence, 3),
+                    now_iso=now_iso,
+                )
                 processed_ids.add(vid)
                 if added:
                     auto_registered_count += 1
@@ -1402,7 +2000,7 @@ def run_sync(
                 else:
                     added_logs.append({
                         "date": today_str,
-                        "action": "skipped_duplicate_song",
+                        "action": "linked_existing_song_to_mugen2",
                         "artist": target_artist["name"],
                         "song": song_title,
                         "videoId": vid,
@@ -1454,6 +2052,7 @@ def run_sync(
 
     # Save all updated states atomically
     recompute_and_save_production_data(artists)
+    atomic_write_json(MUGEN2_STATE_JSON_PATH, mugen2_state)
     atomic_write_json(PROCESSED_JSON_PATH, sorted(processed_ids))
     atomic_write_json(PENDING_JSON_PATH, pending_list)
     atomic_write_text(PENDING_MD_PATH, render_pending_markdown(pending_list))
