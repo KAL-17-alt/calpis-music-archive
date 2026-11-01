@@ -268,11 +268,19 @@ if curVer > 0 and expectedBaseVer ~= curVer and not forceOverwrite then
 end
 
 -- 5. Atomic Write with incremented version
+local curMessages = nil
+if raw and raw ~= false and raw ~= "" then
+  local okM, decM = pcall(cjson.decode, raw)
+  if okM and type(decM) == "table" and type(decM.messages) == "table" and #decM.messages > 0 then
+    curMessages = decM.messages
+  end
+end
 local nextVer = curVer + 1
 local nextObj = {
   ids = cjson.decode(newIdsJson),
   songFavs = cjson.decode(newSongFavsJson),
   customSongs = cjson.decode(newCustomSongsJson),
+  messages = curMessages,
   version = nextVer,
   updatedAt = updatedAt,
   lastRequestId = clientReqId
@@ -399,7 +407,7 @@ function setNoCacheHeaders(res) {
 
 function normalizeStateObject(raw) {
   if (!raw || typeof raw !== "object") {
-    return { ids: [], songFavs: [], customSongs: [], version: 0, updatedAt: null, lastRequestId: "" };
+    return { ids: [], songFavs: [], customSongs: [], messages: [], version: 0, updatedAt: null, lastRequestId: "" };
   }
   const rawIds = Array.isArray(raw.ids) ? raw.ids : [];
   const validIds = [];
@@ -442,10 +450,29 @@ function normalizeStateObject(raw) {
     ? Math.floor(raw.version)
     : (hasAnyData ? 1 : 0);
 
+  const rawMessages = Array.isArray(raw.messages) ? raw.messages : [];
+  const validMessages = [];
+  const seenMsgIds = new Set();
+  for (const m of rawMessages) {
+    if (m && typeof m === "object" && typeof m.text === "string" && m.text.trim()) {
+      const mid = typeof m.id === "string" && m.id.trim() ? m.id.trim().slice(0, 64) : `msg_${validMessages.length}`;
+      if (!seenMsgIds.has(mid)) {
+        seenMsgIds.add(mid);
+        validMessages.push({
+          id: mid,
+          text: m.text.trim().slice(0, 1500),
+          createdAt: typeof m.createdAt === "string" ? m.createdAt : null
+        });
+      }
+    }
+    if (validMessages.length >= 200) break;
+  }
+
   return {
     ids: validIds,
     songFavs: validSongFavs,
     customSongs: validCustomSongs,
+    messages: validMessages,
     version,
     updatedAt: typeof raw.updatedAt === "string" ? raw.updatedAt : null,
     lastRequestId: typeof raw.lastRequestId === "string" ? raw.lastRequestId : ""
@@ -901,7 +928,8 @@ module.exports = async function handler(req, res) {
     try {
       const wantFresh = Boolean(req.query && req.query.fresh === "1");
       const current = await readFromBackend(backend, { strong: wantFresh });
-      return res.status(200).json({
+      const wantMessages = Boolean(req.query && req.query.messages === "1");
+      const payload = {
         ok: true,
         configured: backend.configured,
         storageBackend: backend.name,
@@ -911,7 +939,11 @@ module.exports = async function handler(req, res) {
         customSongs: current.customSongs,
         version: current.version,
         updatedAt: current.updatedAt
-      });
+      };
+      if (wantMessages) {
+        payload.messages = Array.isArray(current.messages) ? current.messages : [];
+      }
+      return res.status(200).json(payload);
     } catch (err) {
       return res.status(500).json({
         ok: false,
@@ -943,6 +975,81 @@ module.exports = async function handler(req, res) {
       error: err.status === 413 ? "payload_too_large" : "invalid_json",
       message: err.message || "リクエストボディが不正です。"
     });
+  }
+
+  if (body && typeof body === "object" && (body.action === "send_message" || body.action === "delete_message")) {
+    if (!backend.configured) {
+      return res.status(503).json({
+        ok: false,
+        error: "storage_unconfigured",
+        message: "サーバー保存先が未設定です。"
+      });
+    }
+    try {
+      const current = await readFromBackend(backend, { strong: true });
+      const curMessages = Array.isArray(current.messages) ? [...current.messages] : [];
+      let nextMessages = curMessages;
+
+      if (body.action === "send_message") {
+        const rawText = typeof body.message === "string" ? body.message.trim() : "";
+        if (!rawText) {
+          return res.status(400).json({ ok: false, error: "empty_message", message: "メッセージを入力してください。" });
+        }
+        if (rawText.length > 1500) {
+          return res.status(400).json({ ok: false, error: "message_too_long", message: "メッセージは1,500文字以内で入力してください。" });
+        }
+        const msgObj = {
+          id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+          text: rawText,
+          createdAt: new Date().toISOString()
+        };
+        nextMessages = [msgObj, ...curMessages].slice(0, 200);
+      } else if (body.action === "delete_message") {
+        const targetId = typeof body.messageId === "string" ? body.messageId.trim() : "";
+        if (targetId === "ALL") {
+          nextMessages = [];
+        } else {
+          nextMessages = curMessages.filter(m => m && m.id !== targetId);
+        }
+      }
+
+      const nextState = {
+        ids: current.ids || [],
+        songFavs: current.songFavs || [],
+        customSongs: current.customSongs || [],
+        messages: nextMessages,
+        version: current.version || 1,
+        updatedAt: current.updatedAt || new Date().toISOString(),
+        lastRequestId: current.lastRequestId || ""
+      };
+
+      if (backend.name === "upstash-redis") {
+        const { url, token } = backend.config;
+        const resp = await fetch(url, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          body: JSON.stringify(["SET", STORAGE_KEY, JSON.stringify(nextState)]),
+          cache: "no-store"
+        });
+        if (!resp.ok) {
+          throw new Error(`Upstash Redis SET failed (${resp.status})`);
+        }
+      } else {
+        await writeToNonAtomicBackend(backend, nextState);
+      }
+
+      return res.status(200).json({
+        ok: true,
+        action: body.action,
+        messages: body.action === "delete_message" ? nextMessages : undefined
+      });
+    } catch (err) {
+      return res.status(500).json({
+        ok: false,
+        error: "message_op_failed",
+        message: "メッセージ処理中にエラーが発生しました。"
+      });
+    }
   }
 
   if (!body || typeof body !== "object" || !Array.isArray(body.ids)) {
