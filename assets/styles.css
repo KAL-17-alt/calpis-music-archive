@@ -6957,3 +6957,49 @@ body.fav-quick-edit-mode[data-current-view="recommend"] #listColTotalHeartLabel 
     padding: calc(8px * var(--fs)) calc(22px * var(--fs)) !important;
   }
 }
+
+
+/* ==========================================================================
+   v63 Updates:
+   1. Style "本当に好きなアーティスト・曲はこちら→ かるのオススメ" link in "当サイトについて" Section 2
+   ========================================================================== */
+
+.about-recommend-jump-line {
+  margin-top: 8px !important;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+}
+
+.about-recommend-jump-trigger {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.about-recommend-jump-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.95em;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.85), rgba(244, 63, 94, 0.8));
+  border: 1px solid rgba(253, 164, 175, 0.65);
+  box-shadow: 0 2px 8px rgba(225, 29, 72, 0.28);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.about-recommend-jump-trigger:hover .about-recommend-jump-btn,
+.about-recommend-jump-btn:hover {
+  background: linear-gradient(135deg, rgba(225, 29, 72, 1), rgba(244, 63, 94, 0.95));
+  box-shadow: 0 3px 12px rgba(244, 63, 94, 0.42);
+}
