@@ -2153,7 +2153,7 @@
       : `<span class="row-agency-empty">—</span>`;
 
     return `
-      <div class="artist-row ${isSelected ? "selected" : ""} ${isFav ? "artist-is-fav" : ""} ${hasCustomRoleRank ? "recommend-artist-row" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" role="button" tabindex="0">
+      <div class="artist-row ${isSelected ? "selected" : ""} ${isFav ? "artist-is-fav" : ""} ${hasCustomRoleRank ? "recommend-artist-row" : ""} ${isSongSearchMode ? "song-matched-row" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" role="button" tabindex="0">
         <div class="row-rank ${(hideRankNumber && !hasCustomRoleRank) ? "row-rank-blank" : rankClass}">${rankText}</div>
         <div class="row-avatar-wrap" title="編集モード時：タップでオススメ切替">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
@@ -2831,9 +2831,30 @@
     }
   }
 
+  function updateSortOptionLabelsForContext() {
+    const isRecSongTab = state.view === "recommend" && state.recommendTab === "song";
+    const countDescLabel = isRecSongTab ? "かるが好きな順" : "登録曲数が多い順";
+    const sel = document.getElementById("pcSortSelect");
+    if (sel) {
+      const opt = sel.querySelector('option[value="countDesc"]');
+      if (opt && opt.textContent !== countDescLabel) {
+        opt.textContent = countDescLabel;
+      }
+    }
+    const customMenu = document.getElementById("customSortMenu");
+    if (customMenu) {
+      const cOpt = customMenu.querySelector('.custom-sort-option[data-sort-value="countDesc"]');
+      if (cOpt && cOpt.textContent !== countDescLabel) {
+        cOpt.textContent = countDescLabel;
+      }
+    }
+  }
+
   // Sync full UI with state
   function updateUI(resetScroll = false) {
     document.body.setAttribute("data-current-view", state.view);
+    document.body.setAttribute("data-search-target", state.searchTarget || "all");
+    updateSortOptionLabelsForContext();
     applyFilterAndSort();
 
     // Update desktop nav buttons & mobile bottom nav buttons
@@ -2900,10 +2921,13 @@
     const isSongListMode =
       (state.view === "recommend" && state.recommendTab === "song") ||
       (state.view === "search" && state.searchTarget === "song");
+    const isGroupSearchMode = state.view === "search" && state.searchTarget === "group";
     document.body.classList.toggle("song-list-mode", isSongListMode);
     const listColHeaderEl = document.getElementById("listColHeader") || document.querySelector(".list-col-header");
     if (listColHeaderEl) {
       listColHeaderEl.classList.toggle("song-list-mode", isSongListMode);
+      listColHeaderEl.classList.toggle("group-search-header-hidden", isGroupSearchMode);
+      listColHeaderEl.classList.toggle("recommend-mobile-header-hidden", state.view === "recommend");
     }
     const listColRankEl = document.getElementById("listColRankLabel") || document.querySelector(".list-col-header > span:first-child");
     if (listColRankEl) {
@@ -3664,8 +3688,24 @@
       updateFavEditBannerStatus();
     }
 
-    function updateDragPlaceholderAndGhostRank(section, placeholderRow, ghostEl) {
-      const rows = Array.from(section.querySelectorAll(".artist-row"));
+    function getVisibleSectionRows(section, hiddenSourceRow) {
+      return Array.from(section.querySelectorAll(".artist-row")).filter(r => r !== hiddenSourceRow);
+    }
+
+    function getRowLayoutTop(el) {
+      const rect = el.getBoundingClientRect();
+      const tr = window.getComputedStyle(el).transform;
+      if (tr && tr !== "none") {
+        try {
+          const mat = new DOMMatrixReadOnly(tr);
+          return rect.top - (mat.m42 || 0);
+        } catch (_e) {}
+      }
+      return rect.top;
+    }
+
+    function updateDragPlaceholderAndGhostRank(section, placeholderRow, ghostEl, hiddenSourceRow) {
+      const rows = getVisibleSectionRows(section, hiddenSourceRow);
       let targetRank = 1;
       rows.forEach((r, idx) => {
         const num = idx + 1;
@@ -3680,13 +3720,13 @@
       }
     }
 
-    function animateSectionRowsFLIP(section, prevTopsMap, skipRow) {
-      const rows = Array.from(section.querySelectorAll(".artist-row"));
+    function animateSectionRowsFLIP(section, prevTopsMap, skipRow, hiddenSourceRow) {
+      const rows = getVisibleSectionRows(section, hiddenSourceRow);
       rows.forEach(r => {
         if (r === skipRow) return;
         const prevTop = prevTopsMap.get(r);
         if (typeof prevTop !== "number") return;
-        const newTop = r.getBoundingClientRect().top;
+        const newTop = getRowLayoutTop(r);
         const dy = prevTop - newTop;
         if (Math.abs(dy) > 1) {
           r.style.transition = "none";
@@ -3698,22 +3738,23 @@
       });
     }
 
-    listContainer.addEventListener("pointerdown", e => {
-      if (!favQuickEditMode || state.view !== "recommend") return;
-      const handle = e.target.closest("[data-drag-handle]");
-      if (!handle) return;
+    function startRecommendDragSession(handle, clientY, pointerId) {
       const row = handle.closest(".artist-row");
       const section = row ? row.closest(".recommend-role-section") : null;
-      if (!row || !section) return;
+      if (!row || !section) return false;
 
-      e.preventDefault();
-      e.stopPropagation();
-      try {
-        handle.setPointerCapture(e.pointerId);
-      } catch (_e) {}
+      if (activeDragState) {
+        finishRecommendDrag();
+      }
+
+      if (pointerId !== undefined && pointerId !== null) {
+        try {
+          listContainer.setPointerCapture(pointerId);
+        } catch (_e) {}
+      }
 
       const rowRect = row.getBoundingClientRect();
-      const pointerOffsetY = e.clientY - rowRect.top;
+      const pointerOffsetY = clientY - rowRect.top;
 
       // Create floating drag card that follows the pointer smoothly
       const ghostEl = row.cloneNode(true);
@@ -3728,13 +3769,22 @@
       ghostEl.style.pointerEvents = "none";
       document.body.appendChild(ghostEl);
 
-      // Turn the in-list row into a clear recessed drop slot placeholder
-      row.classList.add("is-dragging-row", "is-drag-placeholder");
-      updateDragPlaceholderAndGhostRank(section, row, ghostEl);
+      // Create dedicated placeholder slot element so `row` (and its child `handle`, the Touch.target)
+      // is NEVER detached from the DOM during the drag!
+      const placeholderEl = row.cloneNode(true);
+      placeholderEl.classList.add("is-dragging-row", "is-drag-placeholder");
+      placeholderEl.removeAttribute("data-artist-name");
+      placeholderEl.removeAttribute("data-artist-aid");
+      placeholderEl.removeAttribute("data-rec-song-title");
+      section.insertBefore(placeholderEl, row);
+      row.style.display = "none";
+
+      updateDragPlaceholderAndGhostRank(section, placeholderEl, ghostEl, row);
 
       activeDragState = {
-        pointerId: e.pointerId,
+        pointerId,
         row,
+        placeholderEl,
         section,
         handle,
         ghostEl,
@@ -3743,19 +3793,19 @@
         rowHeight: rowRect.height,
         moved: false
       };
-    });
+      return true;
+    }
 
-    listContainer.addEventListener("pointermove", e => {
-      if (!activeDragState || e.pointerId !== activeDragState.pointerId) return;
-      e.preventDefault();
-      const { row, section, ghostEl, pointerOffsetY, rowHeight } = activeDragState;
+    function moveRecommendDragSession(clientY) {
+      if (!activeDragState) return;
+      const { row, placeholderEl, section, ghostEl, pointerOffsetY, rowHeight } = activeDragState;
 
       // Move floating card smoothly with finger/cursor, clamped to the current Activity Role section bounds
       const secRect = section.getBoundingClientRect();
       const headerEl = section.querySelector(".recommend-role-group-header");
       const minTop = headerEl ? headerEl.getBoundingClientRect().bottom + 2 : secRect.top;
-      const maxTop = secRect.bottom - rowHeight + 4;
-      const desiredTop = Math.max(minTop, Math.min(maxTop, e.clientY - pointerOffsetY));
+      const maxTop = Math.max(minTop, secRect.bottom - Math.min(rowHeight, 44) + 8);
+      const desiredTop = Math.max(minTop, Math.min(maxTop, clientY - pointerOffsetY));
       if (ghostEl) {
         ghostEl.style.top = `${desiredTop}px`;
       }
@@ -3764,60 +3814,76 @@
       const scrollEl = document.getElementById("centerScrollArea");
       if (scrollEl) {
         const sRect = scrollEl.getBoundingClientRect();
-        if (e.clientY < sRect.top + 48) {
+        if (clientY < sRect.top + 48) {
           scrollEl.scrollTop -= 6;
-        } else if (e.clientY > sRect.bottom - 48) {
+        } else if (clientY > sRect.bottom - 48) {
           scrollEl.scrollTop += 6;
         }
       }
 
-      const siblings = Array.from(section.querySelectorAll(".artist-row"));
+      const siblings = getVisibleSectionRows(section, row);
       if (siblings.length <= 1) return;
 
-      // Record current tops for smooth FLIP transition if slot moves
+      const prevIdx = siblings.indexOf(placeholderEl);
+      const nonPlaceholderRows = siblings.filter(r => r !== placeholderEl);
+
+      // Record current layout tops for smooth FLIP transition if slot moves
       const prevTopsMap = new Map();
-      siblings.forEach(r => prevTopsMap.set(r, r.getBoundingClientRect().top));
+      siblings.forEach(r => prevTopsMap.set(r, getRowLayoutTop(r)));
 
-      const dragCenterY = desiredTop + rowHeight / 2;
-      let slotMoved = false;
+      const dragCenterY = clientY;
+      let targetSib = null;
+      let targetIdx = nonPlaceholderRows.length;
 
-      for (let i = 0; i < siblings.length; i++) {
-        const sib = siblings[i];
-        if (sib === row) continue;
-        const rect = sib.getBoundingClientRect();
-        const midY = rect.top + rect.height / 2;
+      for (let i = 0; i < nonPlaceholderRows.length; i++) {
+        const sib = nonPlaceholderRows[i];
+        const layoutTop = getRowLayoutTop(sib);
+        const h = sib.offsetHeight || rowHeight;
+        const midY = layoutTop + h / 2;
         if (dragCenterY < midY) {
-          if (sib.previousElementSibling !== row) {
-            section.insertBefore(row, sib);
-            slotMoved = true;
-          }
+          targetSib = sib;
+          targetIdx = i;
           break;
         }
-        if (i === siblings.length - 1) {
-          if (sib !== row) {
-            section.appendChild(row);
-            slotMoved = true;
-          }
-        }
       }
 
-      if (slotMoved) {
+      if (targetIdx !== prevIdx) {
+        if (targetSib) {
+          section.insertBefore(placeholderEl, targetSib);
+        } else {
+          section.appendChild(placeholderEl);
+        }
         activeDragState.moved = true;
-        updateDragPlaceholderAndGhostRank(section, row, ghostEl);
-        animateSectionRowsFLIP(section, prevTopsMap, row);
+        updateDragPlaceholderAndGhostRank(section, placeholderEl, ghostEl, row);
+        animateSectionRowsFLIP(section, prevTopsMap, placeholderEl, row);
       }
-    });
+    }
 
     function finishRecommendDrag(e) {
       if (!activeDragState) return;
-      if (e && e.pointerId !== undefined && e.pointerId !== activeDragState.pointerId) return;
-      const { row, section, handle, ghostEl, moved } = activeDragState;
+      if (
+        e &&
+        e.pointerId !== undefined &&
+        activeDragState.pointerId !== undefined &&
+        activeDragState.pointerId !== null &&
+        e.pointerId !== activeDragState.pointerId
+      ) {
+        return;
+      }
+      const { row, placeholderEl, section, ghostEl, moved, pointerId } = activeDragState;
       try {
-        if (handle && e && e.pointerId !== undefined) handle.releasePointerCapture(e.pointerId);
+        if (pointerId !== undefined && pointerId !== null) {
+          listContainer.releasePointerCapture(pointerId);
+        }
       } catch (_e) {}
       if (ghostEl && ghostEl.parentNode) {
         ghostEl.parentNode.removeChild(ghostEl);
       }
+      if (placeholderEl && placeholderEl.parentNode === section) {
+        section.insertBefore(row, placeholderEl);
+        section.removeChild(placeholderEl);
+      }
+      row.style.display = "";
       row.classList.remove("is-dragging-row", "is-drag-placeholder");
       row.removeAttribute("data-drop-target-label");
       Array.from(section.querySelectorAll(".artist-row")).forEach(r => {
@@ -3832,8 +3898,47 @@
       }
     }
 
-    listContainer.addEventListener("pointerup", finishRecommendDrag);
-    listContainer.addEventListener("pointercancel", finishRecommendDrag);
+    listContainer.addEventListener("touchstart", e => {
+      if (!favQuickEditMode || state.view !== "recommend") return;
+      const handle = e.target.closest("[data-drag-handle]");
+      if (!handle) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (!activeDragState && e.touches && e.touches.length > 0) {
+        startRecommendDragSession(handle, e.touches[0].clientY, null);
+      }
+    }, { passive: false });
+
+    listContainer.addEventListener("pointerdown", e => {
+      if (!favQuickEditMode || state.view !== "recommend") return;
+      const handle = e.target.closest("[data-drag-handle]");
+      if (!handle) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (!activeDragState) {
+        startRecommendDragSession(handle, e.clientY, e.pointerId);
+      }
+    });
+
+    window.addEventListener("pointermove", e => {
+      if (!activeDragState) return;
+      if (activeDragState.pointerId !== null && activeDragState.pointerId !== undefined && e.pointerId !== activeDragState.pointerId) return;
+      e.preventDefault();
+      moveRecommendDragSession(e.clientY);
+    }, { passive: false });
+
+    window.addEventListener("touchmove", e => {
+      if (!activeDragState) return;
+      if (e.touches && e.touches.length > 0) {
+        e.preventDefault();
+        moveRecommendDragSession(e.touches[0].clientY);
+      }
+    }, { passive: false });
+
+    window.addEventListener("pointerup", finishRecommendDrag);
+    window.addEventListener("pointercancel", finishRecommendDrag);
+    window.addEventListener("touchend", () => finishRecommendDrag());
+    window.addEventListener("touchcancel", () => finishRecommendDrag());
 
     // Expose programmatic helper for reordering within a role section (used by drag & tests)
     window.__reorderRecommendSectionRow = function(sectionEl, fromIndex, toIndex) {
