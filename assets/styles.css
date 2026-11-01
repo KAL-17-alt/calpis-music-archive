@@ -5799,3 +5799,95 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-drag-
     justify-content: center !important;
   }
 }
+
+
+/* ==========================================================================
+   v56 Updates:
+   1. Edit Mode on song-matched rows (`.artist-row.song-matched-row` in "すべて検索" & "楽曲を検索"):
+      - Avatar icon does NOT show artist-heart ring or pointer cursor
+      - Non-avatar row area acts as a wide song-heart toggle button with clear visual feedback
+   2. Heart icon on song titles in search results (`.song-search-fav-heart`) and Representative Songs TOP 5
+   3. PC text selection (`user-select: text`) on ranking list, search results, column headers, and artist detail
+   ========================================================================== */
+
+/* Song heart icon inside search results & candidate chips */
+.song-search-fav-heart {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: -2px;
+  margin-left: 5px;
+  color: #fb7185;
+  filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.38));
+}
+
+.song-search-fav-heart .heart-soft-svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Representative Songs TOP 5 heart icon when song is hearted in かるが聴いてる曲 */
+.top5-song-item .song-fav-heart {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: -2px;
+  margin-left: 6px;
+  color: #fb7185;
+  filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.4));
+}
+
+.top5-song-item .song-fav-heart .heart-soft-svg {
+  width: 14px;
+  height: 14px;
+}
+
+.top5-song-item.song-is-fav {
+  border-color: rgba(251, 113, 133, 0.45);
+  background: rgba(244, 63, 94, 0.08);
+}
+
+/* Edit Mode on `.artist-row.song-matched-row` ("すべて検索" matched song row & "楽曲を検索"):
+   Disable artist-heart ring on `.row-avatar-wrap` and highlight the song row as song-heartable */
+body.fav-quick-edit-mode .artist-row.song-matched-row .row-avatar-wrap,
+body.fav-quick-edit-mode .artist-row.song-matched-row:not(.artist-is-fav) .row-avatar-wrap,
+body.fav-quick-edit-mode .artist-row.song-matched-row.artist-is-fav .row-avatar-wrap {
+  outline: none !important;
+  box-shadow: none !important;
+  cursor: default !important;
+}
+
+body.fav-quick-edit-mode .artist-row.song-matched-row {
+  border: 1px dashed rgba(251, 113, 133, 0.28);
+}
+
+body.fav-quick-edit-mode .artist-row.song-matched-row.song-is-fav {
+  background: rgba(244, 63, 94, 0.11) !important;
+  border: 1px solid rgba(251, 113, 133, 0.65) !important;
+}
+
+/* PC (`>= 901px`): Enable text selection across ranking rows, search results, column headers, and artist detail */
+@media (min-width: 901px) {
+  .left-sidebar,
+  .list-col-header,
+  .list-col-header *,
+  .artist-row,
+  .artist-row *:not(.row-drag-handle):not(.row-drag-handle *):not(.row-rank-blank),
+  .row-agency-empty,
+  #detailScrollContent,
+  #detailScrollContent *,
+  body.fav-quick-edit-mode .detail-song-item,
+  body.fav-quick-edit-mode .detail-song-item *,
+  .top5-song-item,
+  .top5-song-item *,
+  .fav-quick-edit-banner,
+  .fav-quick-edit-banner * {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+  }
+
+  .row-drag-handle,
+  .row-drag-handle *,
+  .row-rank-blank {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+  }
+}
