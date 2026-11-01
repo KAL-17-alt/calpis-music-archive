@@ -115,7 +115,6 @@
         out.push(key);
       }
     });
-    out.sort();
     return out;
   }
 
@@ -148,17 +147,16 @@
 
   function getSortedCurrentAids() {
     const arr = [];
-    DATA.forEach(a => {
-      if (a && a.aid && recommendedAidSet.has(a.aid)) {
-        arr.push(a.aid);
+    recommendedAidSet.forEach(aid => {
+      if (AID_TO_ARTIST.has(aid)) {
+        arr.push(aid);
       }
     });
-    arr.sort();
     return arr;
   }
 
   function getSortedCurrentSongFavs() {
-    return Array.from(recommendedSongSet).sort();
+    return Array.from(recommendedSongSet);
   }
 
   function getSortedCurrentCustomSongs() {
@@ -279,7 +277,6 @@
             cleanIds.push(aid);
           }
         });
-        cleanIds.sort();
         return {
           ids: cleanIds,
           songFavs: normalizeSongKeyArray(parsed.songFavs),
@@ -319,13 +316,13 @@
       if (!raw) return null;
       const parsed = JSON.parse(raw);
       if (!parsed || !Array.isArray(parsed.ids)) return null;
-      const cleanIds = parsed.ids.map(resolveToAid).filter(Boolean).sort();
-      const baseIds = Array.isArray(parsed.baseIds) ? parsed.baseIds.map(resolveToAid).filter(Boolean).sort() : [];
+      const cleanIds = parsed.ids.map(resolveToAid).filter(Boolean);
+      const baseIds = Array.isArray(parsed.baseIds) ? parsed.baseIds.map(resolveToAid).filter(Boolean) : [];
       return {
-        ids: Array.from(new Set(cleanIds)).sort(),
+        ids: Array.from(new Set(cleanIds)),
         songFavs: normalizeSongKeyArray(parsed.songFavs),
         customSongs: normalizeSongKeyArray(parsed.customSongs),
-        baseIds: Array.from(new Set(baseIds)).sort(),
+        baseIds: Array.from(new Set(baseIds)),
         baseSongFavs: normalizeSongKeyArray(parsed.baseSongFavs),
         baseCustomSongs: normalizeSongKeyArray(parsed.baseCustomSongs),
         baseVersion: typeof parsed.baseVersion === "number" ? parsed.baseVersion : 0,
@@ -507,13 +504,6 @@
     editSessionBaseVersion = serverVersion;
   }
 
-  function triggerPopAnimation(el) {
-    if (!el) return;
-    el.classList.remove("edit-heart-pop");
-    void el.offsetWidth;
-    el.classList.add("edit-heart-pop");
-  }
-
   function toggleRecommendedArtist(name) {
     if (!favQuickEditMode || isSavingFavorites) return;
     const aid = resolveToAid(name);
@@ -527,19 +517,6 @@
     saveUnsavedDraft();
     updateFavEditBannerStatus();
     applySilentFavoritesDOMUpdate();
-
-    // Trigger tactile pop animation on matching list row avatar & open detail avatar
-    const rows = document.querySelectorAll("#artistListContainer .artist-row[data-artist-name]");
-    rows.forEach(row => {
-      if (row.getAttribute("data-artist-name") === name) {
-        triggerPopAnimation(row.querySelector(".row-avatar-wrap"));
-        triggerPopAnimation(row);
-      }
-    });
-    if (state.selectedArtistName === name) {
-      triggerPopAnimation(document.querySelector("#detailScrollContent .detail-avatar-wrap"));
-      triggerPopAnimation(document.querySelector("#detailScrollContent .detail-artist-name"));
-    }
   }
 
   function toggleRecommendedSong(aidOrName, songTitle) {
@@ -555,7 +532,7 @@
     saveUnsavedDraft();
     updateFavEditBannerStatus();
 
-    // Update the song item in-place inside #detailScrollContent so the user sees immediate pop + heart badge without DOM rebuild flash
+    // Update the song item in-place inside #detailScrollContent (no pop animation)
     const aid = resolveToAid(aidOrName);
     const songItems = document.querySelectorAll("#detailScrollContent .detail-song-item[data-song-title]");
     let updatedInPlace = false;
@@ -566,7 +543,6 @@
         const indicator = item.querySelector(".song-edit-heart-indicator");
         if (indicator) {
           indicator.classList.toggle("is-fav", isNowFav);
-          triggerPopAnimation(indicator);
         }
         const songNameEl = item.querySelector(".song-name");
         if (songNameEl) {
@@ -582,7 +558,6 @@
             existingHeart.remove();
           }
         }
-        triggerPopAnimation(item);
       }
     });
     if (!updatedInPlace) {
@@ -2087,11 +2062,13 @@
   }
 
   // Build a single Artist Row HTML string (PC: 6 columns / Smartphone: 4 columns)
-  function buildArtistRowHTML(a, isSearch, rowIndex = 999, hideRankNumber = false) {
+  function buildArtistRowHTML(a, isSearch, rowIndex = 999, hideRankNumber = false, customRoleRank = null) {
     const isSelected = state.selectedArtistName === a.name;
     const isFav = isRecommendedArtist(a.name);
     const favHeartHTML = isFav ? `<span class="artist-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : "";
-    const rankClass = (!hideRankNumber && state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
+    const hasCustomRoleRank = typeof customRoleRank === "number" && customRoleRank > 0;
+    const rankClass = (!hasCustomRoleRank && !hideRankNumber && state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
+    const rankText = hasCustomRoleRank ? customRoleRank : (hideRankNumber ? "" : a._displayRank);
     const isSongSearchMode = (isSearch && (state.searchTarget === "song" || state.searchTarget === "all") && Boolean(a._matchedSongPreview)) || (state.view === "search" && state.searchTarget === "song" && Boolean(a._matchedSongPreview || (a.songs && a.songs[0])));
     const fallbackFirstSong = (!a._matchedSongPreview && state.view === "search" && state.searchTarget === "song" && Array.isArray(a.songs) && a.songs.length > 0)
       ? (a.songs.length > 1 ? `${a.songs[0]} ほか${fmtNum(a.songs.length - 1)}曲` : a.songs[0])
@@ -2165,9 +2142,9 @@
       : `<span class="row-agency-empty">—</span>`;
 
     return `
-      <div class="artist-row ${isSelected ? "selected" : ""} ${isFav ? "artist-is-fav" : ""}" data-artist-name="${esc(a.name)}" role="button" tabindex="0">
-        <div class="row-rank ${hideRankNumber ? "row-rank-blank" : rankClass}">${hideRankNumber ? "" : a._displayRank}</div>
-        <div class="row-avatar-wrap" title="編集モード時：タップでオススメ切替">${renderAvatarHTML(a, false, rowIndex)}<span class="avatar-edit-heart-badge" aria-hidden="true">${HEART_SVG_INNER}</span></div>
+      <div class="artist-row ${isSelected ? "selected" : ""} ${isFav ? "artist-is-fav" : ""} ${hasCustomRoleRank ? "recommend-artist-row" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" role="button" tabindex="0">
+        <div class="row-rank ${(hideRankNumber && !hasCustomRoleRank) ? "row-rank-blank" : rankClass}">${rankText}</div>
+        <div class="row-avatar-wrap" title="編集モード時：タップでオススメ切替">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
           ${nameWrapInner}
         </div>
@@ -2179,12 +2156,13 @@
         </div>
         <div class="row-subs col-pc-only ${hasSub ? "" : "unacquired"}" title="${esc(subTitle)}">${esc(subLabel)}</div>
         <div class="row-count">${fmtNum(a.count)}<span>曲</span></div>
+        ${hasCustomRoleRank ? `<div class="row-drag-handle" data-drag-handle="1" title="ドラッグして活動形態内で並び替え" aria-label="ドラッグして並び替え"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="16" x2="20" y2="16"></line></svg></div>` : ""}
       </div>
     `;
   }
 
   // Build a single Song Row HTML for "かるのオススメ" -> "楽曲" tab (1 row per song, never joined with "/")
-  function buildRecommendSongRowHTML(a, songTitle, rowIndex = 999) {
+  function buildRecommendSongRowHTML(a, songTitle, rowIndex = 999, roleRank = 1) {
     const isSelected = state.selectedArtistName === a.name;
     const isArtistFav = isRecommendedArtist(a.name);
     const artistHeartHTML = isArtistFav
@@ -2233,9 +2211,9 @@
       : `<span class="row-agency-empty">—</span>`;
 
     return `
-      <div class="artist-row recommend-song-row song-is-fav ${isSelected ? "selected" : ""} ${isArtistFav ? "artist-is-fav" : ""}" data-artist-name="${esc(a.name)}" data-rec-song-title="${esc(songTitle)}" role="button" tabindex="0">
-        <div class="row-rank row-rank-blank"></div>
-        <div class="row-avatar-wrap" title="編集モード時：タップでこの曲のハートを解除">${renderAvatarHTML(a, false, rowIndex)}<span class="avatar-edit-heart-badge" aria-hidden="true">${HEART_SVG_INNER}</span></div>
+      <div class="artist-row recommend-song-row song-is-fav ${isSelected ? "selected" : ""} ${isArtistFav ? "artist-is-fav" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" data-rec-song-title="${esc(songTitle)}" role="button" tabindex="0">
+        <div class="row-rank">${roleRank}</div>
+        <div class="row-avatar-wrap" title="編集モード時：タップでこの曲のハートを解除">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
           <div class="row-song-primary">♪ ${esc(songTitle)}${songHeartHTML}</div>
           <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${artistHeartHTML}</div>
@@ -2248,6 +2226,7 @@
         </div>
         <div class="row-subs col-pc-only ${hasSub ? "" : "unacquired"}" title="${esc(subTitle)}">${esc(subLabel)}</div>
         <div class="row-count">${fmtNum(a.count)}<span>曲</span></div>
+        <div class="row-drag-handle" data-drag-handle="1" title="ドラッグして活動形態内で並び替え" aria-label="ドラッグして並び替え"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="16" x2="20" y2="16"></line></svg></div>
       </div>
     `;
   }
@@ -2372,7 +2351,11 @@
       ];
 
       if (isSongTab) {
-        // Collect individual recommended song items (NEVER joined with "/")
+        // Collect individual recommended song items (NEVER joined with "/"), ordered by recommendedSongSet custom order
+        const songOrderMap = new Map();
+        let sOrdIdx = 0;
+        recommendedSongSet.forEach(k => songOrderMap.set(k, sOrdIdx++));
+
         const buckets = new Map();
         roleOrder.forEach(r => buckets.set(r, []));
         let matchedSongTotal = 0;
@@ -2389,7 +2372,8 @@
           }
           const bucketArr = buckets.get(primaryRole);
           favSongs.forEach(songTitle => {
-            bucketArr.push({ artist: a, songTitle });
+            const sKey = makeSongKey(a.aid, songTitle);
+            bucketArr.push({ artist: a, songTitle, songKey: sKey, orderIdx: songOrderMap.has(sKey) ? songOrderMap.get(sKey) : 999999 });
             matchedSongTotal++;
           });
         });
@@ -2414,13 +2398,14 @@
         let sectionsHTML = switchBarHTML;
         buckets.forEach((songItems, roleName) => {
           if (!songItems || songItems.length === 0) return;
-          const rowsHTML = songItems.map(item => {
-            const htmlRow = buildRecommendSongRowHTML(item.artist, item.songTitle, globalIdx);
+          songItems.sort((x, y) => x.orderIdx - y.orderIdx);
+          const rowsHTML = songItems.map((item, idxInRole) => {
+            const htmlRow = buildRecommendSongRowHTML(item.artist, item.songTitle, globalIdx, idxInRole + 1);
             globalIdx++;
             return htmlRow;
           }).join("");
           sectionsHTML += `
-            <div class="recommend-role-section">
+            <div class="recommend-role-section" data-role-section="${esc(roleName)}">
               <div class="recommend-role-group-header">
                 <span class="recommend-role-dot" aria-hidden="true"></span>
                 <span class="recommend-role-title">${esc(roleName)}</span>
@@ -2436,7 +2421,7 @@
         return;
       }
 
-      // Artist tab in "recommend" view
+      // Artist tab in "recommend" view (ordered by recommendedAidSet custom order within each role)
       if (currentFiltered.length === 0) {
         listEl.innerHTML = switchBarHTML + `
           <div class="empty-list-state">
@@ -2447,6 +2432,10 @@
         if (!resetScroll) preserveCenterScrollPosition(scrollEl, listEl, prevListScrollTop);
         return;
       }
+      const aidOrderMap = new Map();
+      let aOrdIdx = 0;
+      recommendedAidSet.forEach(aid => aidOrderMap.set(aid, aOrdIdx++));
+
       const buckets = new Map();
       roleOrder.forEach(r => buckets.set(r, []));
       currentFiltered.forEach(a => {
@@ -2463,13 +2452,18 @@
       let sectionsHTML = switchBarHTML;
       buckets.forEach((groupList, roleName) => {
         if (!groupList || groupList.length === 0) return;
-        const rowsHTML = groupList.map(a => {
-          const htmlRow = buildArtistRowHTML(a, false, globalIdx, true);
+        groupList.sort((x, y) => {
+          const ox = aidOrderMap.has(x.aid) ? aidOrderMap.get(x.aid) : 999999;
+          const oy = aidOrderMap.has(y.aid) ? aidOrderMap.get(y.aid) : 999999;
+          return ox - oy;
+        });
+        const rowsHTML = groupList.map((a, idxInRole) => {
+          const htmlRow = buildArtistRowHTML(a, false, globalIdx, false, idxInRole + 1);
           globalIdx++;
           return htmlRow;
         }).join("");
         sectionsHTML += `
-          <div class="recommend-role-section">
+          <div class="recommend-role-section" data-role-section="${esc(roleName)}">
             <div class="recommend-role-group-header">
               <span class="recommend-role-dot" aria-hidden="true"></span>
               <span class="recommend-role-title">${esc(roleName)}</span>
@@ -2763,7 +2757,6 @@
       <div class="detail-hero ${isDetailArtistFav ? "detail-artist-is-fav" : ""}">
         <div class="detail-avatar-wrap" title="編集モード時：タップでオススメ切替">
           ${renderAvatarHTML(artist, true)}
-          <span class="avatar-edit-heart-badge detail-avatar-heart-badge" aria-hidden="true">${HEART_SVG_INNER}</span>
         </div>
         <h2 class="detail-artist-name">${artist.name === "神崎エルザ (ガンゲイル・オンライン)" ? `<span class="name-pc-only">${esc(artist.name)}</span><span class="name-mob-only">神崎エルザ(GGO)</span>` : esc(artist.name)}${isRecommendedArtist(artist.name) ? `<span class="detail-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : ""}</h2>
         <div class="detail-meta-row">
@@ -3595,7 +3588,145 @@
     };
     listContainer.addEventListener("pointerover", handleRowHoverPreload, { passive: true });
     listContainer.addEventListener("touchstart", handleRowHoverPreload, { passive: true });
+    // Drag-to-reorder within Activity Role section in "かるのオススメ" during Edit Mode
+    let activeDragState = null;
+    let suppressNextRowClick = false;
+
+    function commitRecommendSectionOrder(sectionEl) {
+      if (!sectionEl) return;
+      const rows = Array.from(sectionEl.querySelectorAll(".artist-row"));
+      rows.forEach((r, idx) => {
+        const rankEl = r.querySelector(".row-rank");
+        if (rankEl) rankEl.textContent = String(idx + 1);
+      });
+
+      if (state.recommendTab === "song") {
+        const newSectionKeys = rows
+          .map(r => makeSongKey(r.getAttribute("data-artist-aid") || r.getAttribute("data-artist-name"), r.getAttribute("data-rec-song-title")))
+          .filter(Boolean);
+        const sectionKeySet = new Set(newSectionKeys);
+        const allKeys = Array.from(recommendedSongSet);
+        let repIdx = 0;
+        const nextKeys = allKeys.map(k => sectionKeySet.has(k) ? newSectionKeys[repIdx++] : k);
+        recommendedSongSet.clear();
+        nextKeys.forEach(k => recommendedSongSet.add(k));
+      } else {
+        const newSectionAids = rows
+          .map(r => r.getAttribute("data-artist-aid") || resolveToAid(r.getAttribute("data-artist-name")))
+          .filter(Boolean);
+        const sectionAidSet = new Set(newSectionAids);
+        const allAids = Array.from(recommendedAidSet);
+        let repIdx = 0;
+        const nextAids = allAids.map(aid => sectionAidSet.has(aid) ? newSectionAids[repIdx++] : aid);
+        recommendedAidSet.clear();
+        nextAids.forEach(aid => recommendedAidSet.add(aid));
+      }
+
+      saveUnsavedDraft();
+      updateFavEditBannerStatus();
+    }
+
+    listContainer.addEventListener("pointerdown", e => {
+      if (!favQuickEditMode || state.view !== "recommend") return;
+      const handle = e.target.closest("[data-drag-handle]");
+      if (!handle) return;
+      const row = handle.closest(".artist-row");
+      const section = row ? row.closest(".recommend-role-section") : null;
+      if (!row || !section) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      try {
+        handle.setPointerCapture(e.pointerId);
+      } catch (_e) {}
+
+      row.classList.add("is-dragging-row");
+      activeDragState = {
+        pointerId: e.pointerId,
+        row,
+        section,
+        handle,
+        moved: false
+      };
+    });
+
+    listContainer.addEventListener("pointermove", e => {
+      if (!activeDragState || e.pointerId !== activeDragState.pointerId) return;
+      e.preventDefault();
+      const { row, section } = activeDragState;
+      const siblings = Array.from(section.querySelectorAll(".artist-row"));
+      if (siblings.length <= 1) return;
+
+      const y = e.clientY;
+      for (let i = 0; i < siblings.length; i++) {
+        const sib = siblings[i];
+        if (sib === row) continue;
+        const rect = sib.getBoundingClientRect();
+        const midY = rect.top + rect.height / 2;
+        if (y < midY) {
+          if (sib.previousElementSibling !== row) {
+            section.insertBefore(row, sib);
+            activeDragState.moved = true;
+            Array.from(section.querySelectorAll(".artist-row")).forEach((r, idx) => {
+              const rankEl = r.querySelector(".row-rank");
+              if (rankEl) rankEl.textContent = String(idx + 1);
+            });
+          }
+          return;
+        }
+      }
+      const lastSib = siblings[siblings.length - 1];
+      if (lastSib && lastSib !== row) {
+        section.appendChild(row);
+        activeDragState.moved = true;
+        Array.from(section.querySelectorAll(".artist-row")).forEach((r, idx) => {
+          const rankEl = r.querySelector(".row-rank");
+          if (rankEl) rankEl.textContent = String(idx + 1);
+        });
+      }
+    });
+
+    function finishRecommendDrag(e) {
+      if (!activeDragState) return;
+      if (e && e.pointerId !== undefined && e.pointerId !== activeDragState.pointerId) return;
+      const { row, section, handle, moved } = activeDragState;
+      try {
+        if (handle && e && e.pointerId !== undefined) handle.releasePointerCapture(e.pointerId);
+      } catch (_e) {}
+      row.classList.remove("is-dragging-row");
+      activeDragState = null;
+      suppressNextRowClick = true;
+      setTimeout(() => { suppressNextRowClick = false; }, 80);
+      if (moved) {
+        commitRecommendSectionOrder(section);
+      }
+    }
+
+    listContainer.addEventListener("pointerup", finishRecommendDrag);
+    listContainer.addEventListener("pointercancel", finishRecommendDrag);
+
+    // Expose programmatic helper for reordering within a role section (used by drag & tests)
+    window.__reorderRecommendSectionRow = function(sectionEl, fromIndex, toIndex) {
+      if (!sectionEl) return false;
+      const rows = Array.from(sectionEl.querySelectorAll(".artist-row"));
+      if (fromIndex < 0 || fromIndex >= rows.length || toIndex < 0 || toIndex >= rows.length || fromIndex === toIndex) return false;
+      const movingRow = rows[fromIndex];
+      const targetRow = rows[toIndex];
+      if (fromIndex < toIndex) {
+        sectionEl.insertBefore(movingRow, targetRow.nextSibling);
+      } else {
+        sectionEl.insertBefore(movingRow, targetRow);
+      }
+      commitRecommendSectionOrder(sectionEl);
+      return true;
+    };
+
     listContainer.addEventListener("click", e => {
+      if (suppressNextRowClick || e.target.closest("[data-drag-handle]")) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
       const grpCard = e.target.closest("[data-select-search-group]");
       if (grpCard) {
         applySearchGroupFilter(
@@ -3721,8 +3852,10 @@
     }
 
     function computeDiffCounts(baseArr, currentArr) {
-      const baseSet = new Set(baseArr || []);
-      const curSet = new Set(currentArr || []);
+      const bArr = Array.isArray(baseArr) ? baseArr : [];
+      const cArr = Array.isArray(currentArr) ? currentArr : [];
+      const baseSet = new Set(bArr);
+      const curSet = new Set(cArr);
       const added = [];
       const removed = [];
       curSet.forEach(x => {
@@ -3731,7 +3864,8 @@
       baseSet.forEach(x => {
         if (!curSet.has(x)) removed.push(x);
       });
-      return { added, removed, hasChanges: added.length > 0 || removed.length > 0 };
+      const orderChanged = added.length === 0 && removed.length === 0 && !areStringArraysEqual(bArr, cArr);
+      return { added, removed, orderChanged, hasChanges: added.length > 0 || removed.length > 0 || orderChanged };
     }
 
     updateFavEditBannerStatus = function() {
@@ -3755,7 +3889,9 @@
           diffBadge.classList.remove("has-changes");
         } else {
           const totalChanges = dIds.added.length + dIds.removed.length + dSongs.added.length + dSongs.removed.length + dCustom.added.length + dCustom.removed.length;
-          diffBadge.textContent = `未保存の変更: ${totalChanges}件 (名義:${curIds.length} / 曲♥:${curSongs.length})`;
+          const reorderLabel = (dIds.orderChanged || dSongs.orderChanged) ? (totalChanges > 0 ? "・並び替え" : "並び替え") : "";
+          const countLabel = totalChanges > 0 ? `${totalChanges}件${reorderLabel}` : reorderLabel;
+          diffBadge.textContent = `未保存の変更: ${countLabel} (名義:${curIds.length} / 曲♥:${curSongs.length})`;
           diffBadge.classList.add("has-changes");
         }
       }
@@ -3855,8 +3991,8 @@
     async function saveFavoritesToServer(options = {}) {
       if (isSavingFavorites) return;
       const forceOverwrite = Boolean(options.forceOverwrite);
-      const targetIds = Array.isArray(options.customIds) ? [...options.customIds].sort() : getSortedCurrentAids();
-      const targetSongFavs = Array.isArray(options.customSongFavs) ? [...options.customSongFavs].sort() : getSortedCurrentSongFavs();
+      const targetIds = Array.isArray(options.customIds) ? [...options.customIds] : getSortedCurrentAids();
+      const targetSongFavs = Array.isArray(options.customSongFavs) ? [...options.customSongFavs] : getSortedCurrentSongFavs();
       const targetCustomSongs = Array.isArray(options.customAddedSongs) ? [...options.customAddedSongs].sort() : getSortedCurrentCustomSongs();
       const customBaseVersion = typeof options.customBaseVersion === "number" ? options.customBaseVersion : editSessionBaseVersion;
 
@@ -3925,7 +4061,7 @@
           throw new Error(errMsg);
         }
 
-        serverFavIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean).sort() : targetIds;
+        serverFavIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean) : targetIds;
         serverSongFavs = Array.isArray(data.songFavs) ? normalizeSongKeyArray(data.songFavs) : targetSongFavs;
         serverCustomSongs = Array.isArray(data.customSongs) ? normalizeSongKeyArray(data.customSongs) : targetCustomSongs;
         serverVersion = typeof data.version === "number" ? data.version : (customBaseVersion + 1);
@@ -3980,7 +4116,7 @@
         const data = await resp.json();
         if (!data || !data.ok) return;
 
-        const fetchedIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean).sort() : [];
+        const fetchedIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean) : [];
         const fetchedSongFavs = normalizeSongKeyArray(data.songFavs);
         const fetchedCustomSongs = normalizeSongKeyArray(data.customSongs);
         const fetchedVersion = typeof data.version === "number" ? data.version : 0;
