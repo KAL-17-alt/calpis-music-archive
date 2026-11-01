@@ -3,6 +3,77 @@
 
   const DATA = window.ARCHIVE_DATA || [];
 
+  // Vercel Web Analytics with Automatic Permanent Owner Exclusion
+  const VERCEL_ANALYTICS_EXCLUDE_KEY = "calpis_va_exclude_owner";
+
+  function isOwnerExcludedFromAnalytics() {
+    try {
+      return localStorage.getItem(VERCEL_ANALYTICS_EXCLUDE_KEY) === "1";
+    } catch (_e) {
+      return false;
+    }
+  }
+
+  function permanentlyExcludeOwnerFromAnalytics() {
+    try {
+      localStorage.setItem(VERCEL_ANALYTICS_EXCLUDE_KEY, "1");
+    } catch (_e) {}
+    try {
+      window.__CALPIS_VA_EXCLUDED = true;
+      if (typeof window.va === "function") {
+        try {
+          window.va("beforeSend", function() { return null; });
+        } catch (_e2) {}
+      }
+      if (Array.isArray(window.vaq)) {
+        window.vaq.length = 0;
+        window.vaq.push(["beforeSend", function() { return null; }]);
+      }
+      window.va = function() { return null; };
+      document.querySelectorAll('script[src*="/_vercel/insights/script.js"], script[data-calpis-va]').forEach(function(s) {
+        if (s && s.parentNode) s.parentNode.removeChild(s);
+      });
+    } catch (_e) {}
+  }
+
+  function initVercelWebAnalytics() {
+    try {
+      if (isOwnerExcludedFromAnalytics() || window.__CALPIS_VA_EXCLUDED) {
+        window.__CALPIS_VA_EXCLUDED = true;
+        window.va = function() { return null; };
+        return;
+      }
+      if (
+        document.querySelector('script[src*="/_vercel/insights/script.js"]') ||
+        document.querySelector('script[data-calpis-va="1"]') ||
+        window.__CALPIS_VA_LOADED
+      ) {
+        return;
+      }
+      window.__CALPIS_VA_LOADED = true;
+      window.va = window.va || function() {
+        if (window.__CALPIS_VA_EXCLUDED || isOwnerExcludedFromAnalytics()) return null;
+        (window.vaq = window.vaq || []).push(arguments);
+      };
+      window.va("beforeSend", function(event) {
+        if (window.__CALPIS_VA_EXCLUDED || isOwnerExcludedFromAnalytics()) {
+          return null;
+        }
+        return event;
+      });
+      const vaScript = document.createElement("script");
+      vaScript.defer = true;
+      vaScript.async = true;
+      vaScript.src = "/_vercel/insights/script.js";
+      vaScript.setAttribute("data-calpis-va", "1");
+      vaScript.onerror = function() {};
+      (document.head || document.documentElement).appendChild(vaScript);
+    } catch (_e) {}
+  }
+
+  initVercelWebAnalytics();
+
+
   const SONG_RENAME_MAP = {"Emily To Juugono Yakusoku": "エミリーと15の約束", "Nouriueno Cracker": "脳裏上のクラッカー", "Haru Koizakura": "春、恋桜。", "わたしね": "わたしね、、", "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]", "Hanabami": "花喰み", "こゆび姫♡": "♡こゆび姫♡", "No one": "ダレモ", "刹那の誓い": "刹那の誓い (feat. 由崎司)", "Transparent Compass": "コンパスは透明", "空は高く風は歌う - Piano & Strings": "空は高く風は歌う", "空は高く風は歌う - Piano $ Strings": "空は高く風は歌う", "かけぬけ★青春スパーキング！": "Love♡Vacation", "Pattern of two hearts": "二人模様", "Rokudougokan sanpo": "六道伍感さんぽ", "What if": "碧いif", "Answer to Extreme": "極私的極彩色アンサー", "melt into the dark": "闇に溶けてく", "Nameless Name": "名もなき何もかも", "Against All Answers": "もう何もいらない未来", "Roses in Thorns": "荊の薔薇", "Meant to be": "蝶に結いた赤い糸", "Belle papillon": "飛べない蝶は夢を見る", "Fragile Violet": "薄采ディスプレイ", "Mirage of the mind": "蜃気楼ニ問フ", "Give Me Life": "命をくれよ", "I’ｍ here": "運命の華", "I'm here": "運命の華", "I’m here": "運命の華", "ツギハギスタッカートを": "ツギハギスタッカート", "Himawari": "向日葵", "Blue": "夜に藍", "OVER / Just Be Friends-piano.ver-": "OVER", "エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌)": "エテルネル", "エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）": "エテルネル", "エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）": "エテルネル", "エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌)": "エテルネル", "エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌) / エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）": "エテルネル"};
   const DELETED_NON_SONG_SET = new Set(["アニメ「ガールズバンドクライ」"]);
   const SONG_SEARCH_ALIASES_BY_NEW_TITLE = {"エミリーと15の約束": ["Emily To Juugono Yakusoku", "emilytojuugonoyakusoku", "えみりーと15のやくそく", "えみりーとじゅうごのやくそく"], "脳裏上のクラッカー": ["Nouriueno Cracker", "nouriuenocracker", "のうりじょうのくらっかー", "のうりうえのくらっかー"], "春、恋桜。": ["Haru Koizakura", "harukoizakura", "はるこいざくら", "はる、こいざくら。"], "わたしね、、": ["わたしね", "watashine"], "kick [試唱]": ["kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]", "Alfakyun. - kick (Cover)", "kick (Cover)"], "花喰み": ["Hanabami", "hanabami", "はなばみ", "ハナバミ"], "♡こゆび姫♡": ["こゆび姫♡", "こゆび姫", "koyubihime", "こゆびひめ", "コユビヒメ"], "ダレモ": ["No one", "no one", "noone", "だれも", "誰モ"], "刹那の誓い (feat. 由崎司)": ["刹那の誓い", "せつなのちかい", "setsunanochikai", "由崎司"], "コンパスは透明": ["Transparent Compass", "transparent compass", "transparentcompass", "こんぱすはとうめい"], "空は高く風は歌う": ["空は高く風は歌う - Piano & Strings", "空は高く風は歌う - Piano $ Strings", "sorawatakakukazewautau", "そらはたかくかぜはうたう"], "Love♡Vacation": ["かけぬけ★青春スパーキング！", "かけぬけ青春スパーキング", "kakenukeseishunsparking", "Love Vacation", "lovevacation", "らぶばけーしょん", "ラブバケーション"], "二人模様": ["Pattern of two hearts", "patternoftwohearts", "pattern of two hearts", "ふたりもよう", "フタリモヨウ"], "六道伍感さんぽ": ["Rokudougokan sanpo", "rokudougokansanpo", "rokudougokan sanpo", "ろくどうごかんさんぽ"], "碧いif": ["What if", "what if", "whatif", "あおいif", "アオイif"], "極私的極彩色アンサー": ["Answer to Extreme", "answer to extreme", "answertoextreme", "ごくしてきごくさいしょくあんさー"], "闇に溶けてく": ["melt into the dark", "meltintothedark", "やみに溶けてく", "やみにとけてく"], "名もなき何もかも": ["Nameless Name", "nameless name", "namelessname", "なもなきなにもかも"], "もう何もいらない未来": ["Against All Answers", "against all answers", "againstallanswers", "もうなにもいらないみらい"], "荊の薔薇": ["Roses in Thorns", "roses in thorns", "rosesinthorns", "いばらのばら", "イバラノバラ"], "蝶に結いた赤い糸": ["Meant to be", "meant to be", "meanttobe", "ちょうにゆいたあかいと"], "飛べない蝶は夢を見る": ["Belle papillon", "belle papillon", "bellepapillon", "とべないちょうはゆめをみる"], "薄采ディスプレイ": ["Fragile Violet", "fragile violet", "fragileviolet", "うすさいでぃすぷれい", "はくさいでぃすぷれい"], "蜃気楼ニ問フ": ["Mirage of the mind", "mirage of the mind", "mirageofthemind", "しんきろうにとう"], "命をくれよ": ["Give Me Life", "give me life", "givemelife", "いのちをくれよ"], "運命の華": ["I’ｍ here", "I'm here", "I’m here", "im here", "imhere", "うんめいのはな"], "ツギハギスタッカート": ["ツギハギスタッカートを", "つぎはぎすたっかーと", "つぎはぎすたっかーとを", "tsugihagistaccato"], "向日葵": ["Himawari", "himawari", "ひまわり", "ヒマワリ"], "夜に藍": ["Blue", "blue", "よるにあい", "ヨルニアイ"], "エテルネル": ["エテルネル-Acoustic Piano Version-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌)", "エテルネル-Lyric Video-（TVアニメ『きみが死ぬまで恋をしたい』ED 主題歌）", "えてるねる", "eteruneru"]};
@@ -434,6 +505,19 @@
   let editSessionBaseSongFavs = [];
   let editSessionBaseCustomSongs = [];
   let editSessionBaseVersion = 0;
+  let editSessionBaseEffectiveMap = new Map();
+  let manualReorderCount = 0;
+
+  function captureEffectiveArtistTierMap() {
+    const m = new Map();
+    DATA.forEach(a => {
+      if (a && a.aid) {
+        const t = getArtistHeartTier(a.aid);
+        if (t > 0) m.set(a.aid, t);
+      }
+    });
+    return m;
+  }
 
   function getSortedCurrentAids() {
     const arr = [];
@@ -688,6 +772,7 @@
 
   function hasAnyEditChanges() {
     return (
+      manualReorderCount > 0 ||
       !areStringArraysEqual(getSortedCurrentAids(), editSessionBaseIds) ||
       !areStringArraysEqual(getSortedCurrentSongFavs(), editSessionBaseSongFavs) ||
       !areStringArraysEqual(getSortedCurrentCustomSongs(), editSessionBaseCustomSongs)
@@ -769,6 +854,21 @@
       : AID_TO_ARTIST.get(resolveToAid(artistOrNameOrAid));
     if (!a) return 0;
     return getRecommendedSongsForArtist(a).length;
+  }
+
+  function getArtistTotalSongHearts(artistOrNameOrAid) {
+    if (!artistOrNameOrAid) return 0;
+    const a = (typeof artistOrNameOrAid === "object" && artistOrNameOrAid.aid)
+      ? artistOrNameOrAid
+      : AID_TO_ARTIST.get(resolveToAid(artistOrNameOrAid));
+    if (!a) return 0;
+    const favSongs = getRecommendedSongsForArtist(a);
+    let total = 0;
+    for (let i = 0; i < favSongs.length; i++) {
+      const tier = getSongHeartTier(a.aid, favSongs[i]) || 3;
+      total += tier;
+    }
+    return total;
   }
 
   function getManualArtistHeartTier(nameOrAid) {
@@ -872,7 +972,8 @@
     return {
       ids: getSortedCurrentAids(),
       songFavs: getSortedCurrentSongFavs(),
-      customSongs: getSortedCurrentCustomSongs()
+      customSongs: getSortedCurrentCustomSongs(),
+      manualReorderCount: manualReorderCount
     };
   }
 
@@ -881,7 +982,8 @@
     return (
       areStringArraysEqual(a.ids, b.ids) &&
       areStringArraysEqual(a.songFavs, b.songFavs) &&
-      areStringArraysEqual(a.customSongs, b.customSongs)
+      areStringArraysEqual(a.customSongs, b.customSongs) &&
+      (a.manualReorderCount || 0) === (b.manualReorderCount || 0)
     );
   }
 
@@ -929,6 +1031,11 @@
       if (favCountEl) {
         const favCnt = getArtistFavSongCount(aObj);
         favCountEl.innerHTML = `${fmtNum(favCnt)}<span>曲</span>`;
+      }
+      const totalHeartEl = row.querySelector(".row-total-heart-count");
+      if (totalHeartEl) {
+        const totHearts = getArtistTotalSongHearts(aObj);
+        totalHeartEl.innerHTML = `${fmtNum(totHearts)}<span class="total-heart-mark" aria-hidden="true">${HEART_SVG_SINGLE}</span>`;
       }
 
       if (recSongTitle) return; // Song rows in recommend tab are handled by recommend refresh below
@@ -1139,6 +1246,11 @@
     recommendedSongMap.delete(key);
     recommendedSongMap.set(key, targetTier);
     if (aidForSong) {
+      const nextAutoTier = getAutoArtistHeartTier(aidForSong);
+      const curManualTier = recommendedAidMap.get(aidForSong) || 0;
+      if (curManualTier > 0 && nextAutoTier > curManualTier) {
+        recommendedAidMap.set(aidForSong, nextAutoTier);
+      }
       const nextArtistEffTier = getArtistHeartTier(aidForSong);
       if (nextArtistEffTier > 0 && nextArtistEffTier !== prevArtistEffTier) {
         artistTierOrderMap.set(aidForSong, favOrderSeqCounter++);
@@ -1397,6 +1509,7 @@
       const currentEditSnap = captureEditSnapshot();
       editRedoStack.push(currentEditSnap);
       const prevEditSnap = editUndoStack.pop();
+      manualReorderCount = prevEditSnap.manualReorderCount || 0;
       setAllSharedStates(prevEditSnap.ids, prevEditSnap.songFavs, prevEditSnap.customSongs);
       saveFavOrderMemory();
       saveUnsavedDraft();
@@ -1438,6 +1551,7 @@
       const currentEditSnap = captureEditSnapshot();
       editUndoStack.push(currentEditSnap);
       const nextEditSnap = editRedoStack.pop();
+      manualReorderCount = nextEditSnap.manualReorderCount || 0;
       setAllSharedStates(nextEditSnap.ids, nextEditSnap.songFavs, nextEditSnap.customSongs);
       saveFavOrderMemory();
       saveUnsavedDraft();
@@ -3062,8 +3176,9 @@
       : "YouTube公式チャンネル登録者数：未取得";
 
     const favSongCount = getArtistFavSongCount(a);
+    const totalSongHearts = hasCustomRoleRank ? getArtistTotalSongHearts(a) : 0;
     const favSongCountHTML = hasCustomRoleRank
-      ? `<div class="row-fav-song-count" title="高評価曲数（ハートを付けた曲数）">${fmtNum(favSongCount)}<span>曲</span></div>`
+      ? `<div class="row-fav-song-count" title="高評価曲数（ハートを付けた曲数）">${fmtNum(favSongCount)}<span>曲</span></div><div class="row-total-heart-count col-pc-only" title="楽曲の総ハート数（最上位=3・第2=2・第1=1の合計）">${fmtNum(totalSongHearts)}<span class="total-heart-mark" aria-hidden="true">${HEART_SVG_SINGLE}</span></div>`
       : "";
 
     return `
@@ -3272,13 +3387,23 @@
         "音楽グループ(アニゲー関連)": "複(アニ)",
         "音楽グループ(その他)": "複(他)"
       };
+      const roleJumpPcLabelMap = {
+        "Vsinger": "Vsinger",
+        "Vtuber": "Vtuber",
+        "歌い手": "歌い手",
+        "歌手": "歌手",
+        "声優": "声優",
+        "キャラ": "キャラ",
+        "音楽グループ(アニゲー関連)": "複(アニ)",
+        "音楽グループ(その他)": "複(他)"
+      };
 
       const isFlatMode = Boolean(state.recFlatMode);
 
       const aidOrderMap = new Map();
       let aOrdIdx = 0;
       recommendedAidMap.forEach((_tier, aid) => {
-        aidOrderMap.set(aid, artistTierOrderMap.has(aid) ? artistTierOrderMap.get(aid) : aOrdIdx++);
+        aidOrderMap.set(aid, aOrdIdx++);
       });
       const autoAidOrderMap = new Map();
       DATA.forEach(a => {
@@ -3391,7 +3516,8 @@
           const arr = buckets.get(rName) || [];
           const hasItems = arr.length > 0;
           const shortLbl = roleJumpShortLabelMap[rName] || rName;
-          return `<button type="button" class="rec-role-jump-btn ${hasItems ? "" : "is-empty-role"}" data-jump-role="${esc(rName)}" ${hasItems ? "" : "disabled"} title="${esc(rName)}（${arr.length}曲）へ移動">${esc(shortLbl)}</button>`;
+          const pcLbl = roleJumpPcLabelMap[rName] || shortLbl;
+          return `<button type="button" class="rec-role-jump-btn ${hasItems ? "" : "is-empty-role"}" data-jump-role="${esc(rName)}" ${hasItems ? "" : "disabled"} title="${esc(rName)}（${arr.length}曲）へ移動"><span class="jump-lbl-pc">${esc(pcLbl)}</span><span class="jump-lbl-mob">${esc(shortLbl)}</span></button>`;
         }).join("");
 
         const switchBarInnerHTML = `
@@ -3496,7 +3622,8 @@
         const arr = buckets.get(rName) || [];
         const hasItems = arr.length > 0;
         const shortLbl = roleJumpShortLabelMap[rName] || rName;
-        return `<button type="button" class="rec-role-jump-btn ${hasItems ? "" : "is-empty-role"}" data-jump-role="${esc(rName)}" ${hasItems ? "" : "disabled"} title="${esc(rName)}（${arr.length}名義）へ移動">${esc(shortLbl)}</button>`;
+        const pcLbl = roleJumpPcLabelMap[rName] || shortLbl;
+        return `<button type="button" class="rec-role-jump-btn ${hasItems ? "" : "is-empty-role"}" data-jump-role="${esc(rName)}" ${hasItems ? "" : "disabled"} title="${esc(rName)}（${arr.length}名義）へ移動"><span class="jump-lbl-pc">${esc(pcLbl)}</span><span class="jump-lbl-mob">${esc(shortLbl)}</span></button>`;
       }).join("");
 
       const switchBarInnerHTML = `
@@ -4149,6 +4276,10 @@
     const listColFavCountEl = document.getElementById("listColFavCountLabel");
     if (listColFavCountEl) {
       listColFavCountEl.style.display = isRecommendArtistMode ? "" : "none";
+    }
+    const listColTotalHeartEl = document.getElementById("listColTotalHeartLabel");
+    if (listColTotalHeartEl) {
+      listColTotalHeartEl.style.display = isRecommendArtistMode ? "" : "none";
     }
 
     // Highlight active stat pill (PC) & stat card (Mobile)
@@ -4912,6 +5043,8 @@
       if (recordUndo) {
         pushEditHistorySnapshot();
       }
+      manualReorderCount++;
+
       const rows = Array.from(sectionEl.querySelectorAll(".artist-row"));
       rows.forEach((r, idx) => {
         const rankEl = r.querySelector(".row-rank");
@@ -4919,44 +5052,80 @@
       });
 
       if (state.recommendTab === "song") {
-        const newSectionKeys = rows
-          .map(r => makeSongKey(r.getAttribute("data-artist-aid") || r.getAttribute("data-artist-name"), r.getAttribute("data-rec-song-title")))
-          .filter(Boolean);
-        const sectionKeySet = new Set(newSectionKeys);
-        const allEntries = Array.from(recommendedSongMap.entries());
-        let repIdx = 0;
-        const nextEntries = allEntries.map(([k, tier]) => {
-          if (sectionKeySet.has(k)) {
-            const nextKey = newSectionKeys[repIdx++];
-            return [nextKey, recommendedSongMap.get(nextKey) || tier];
+        state.recSongSort = "recCustomOrder";
+        updateSortOptionLabelsForContext();
+
+        // Capture full visual song order across all visible sections so the exact screen order becomes "かるが好きな順"
+        const allDomSongRows = Array.from(listContainer.querySelectorAll(".recommend-role-section .artist-row"));
+        const domSongKeys = [];
+        const seenDomSongKeys = new Set();
+        allDomSongRows.forEach(r => {
+          const k = makeSongKey(r.getAttribute("data-artist-aid") || r.getAttribute("data-artist-name"), r.getAttribute("data-rec-song-title"));
+          if (k && !seenDomSongKeys.has(k)) {
+            seenDomSongKeys.add(k);
+            domSongKeys.push(k);
           }
-          return [k, tier];
         });
+
+        const prevSongMap = new Map(recommendedSongMap);
         recommendedSongMap.clear();
-        nextEntries.forEach(([k, tier]) => recommendedSongMap.set(k, tier));
+        domSongKeys.forEach(k => {
+          const tier = prevSongMap.get(k) || 3;
+          recommendedSongMap.set(k, tier);
+        });
+        prevSongMap.forEach((tier, k) => {
+          if (!recommendedSongMap.has(k)) {
+            recommendedSongMap.set(k, tier);
+          }
+        });
       } else {
         state.recArtistSort = "recCustomOrder";
         updateSortOptionLabelsForContext();
-        const newSectionAids = rows
-          .map(r => r.getAttribute("data-artist-aid") || resolveToAid(r.getAttribute("data-artist-name")))
-          .filter(Boolean);
-        newSectionAids.forEach(aid => {
+
+        // Capture full visual artist order across all visible sections (including auto-promoted artists!)
+        // so that all recommended artists have their exact "かるが好きな順" order persisted in `recommendedAidMap` (`ids`)
+        const allDomArtistRows = Array.from(listContainer.querySelectorAll(".recommend-role-section .artist-row"));
+        const domAids = [];
+        const seenDomAids = new Set();
+        allDomArtistRows.forEach(r => {
+          const aid = r.getAttribute("data-artist-aid") || resolveToAid(r.getAttribute("data-artist-name"));
+          if (aid && !seenDomAids.has(aid)) {
+            seenDomAids.add(aid);
+            domAids.push(aid);
+          }
+        });
+
+        const prevAidMap = new Map(recommendedAidMap);
+        const effTierCache = new Map();
+        domAids.forEach(aid => {
+          const effT = getArtistHeartTier(aid) || prevAidMap.get(aid) || 3;
+          effTierCache.set(aid, effT);
+        });
+        DATA.forEach(a => {
+          if (a && a.aid && !effTierCache.has(a.aid)) {
+            const effT = getArtistHeartTier(a.aid);
+            if (effT > 0) effTierCache.set(a.aid, effT);
+          }
+        });
+
+        recommendedAidMap.clear();
+        artistTierOrderMap.clear();
+        domAids.forEach(aid => {
+          const tier = effTierCache.get(aid) || 3;
+          recommendedAidMap.set(aid, tier);
           artistTierOrderMap.set(aid, favOrderSeqCounter++);
         });
-        const manualSectionAids = newSectionAids.filter(aid => recommendedAidMap.has(aid));
-        const manualSectionSet = new Set(manualSectionAids);
-        const allEntries = Array.from(recommendedAidMap.entries());
-        let repIdx = 0;
-        const nextEntries = allEntries.map(([aid, tier]) => {
-          if (manualSectionSet.has(aid)) {
-            const nextAid = manualSectionAids[repIdx++];
-            return [nextAid, recommendedAidMap.get(nextAid) || tier];
+        prevAidMap.forEach((tier, aid) => {
+          if (!recommendedAidMap.has(aid)) {
+            recommendedAidMap.set(aid, tier);
+            artistTierOrderMap.set(aid, favOrderSeqCounter++);
           }
-          return [aid, tier];
         });
-        recommendedAidMap.clear();
-        nextEntries.forEach(([aid, tier]) => {
-          recommendedAidMap.set(aid, tier);
+        effTierCache.forEach((tier, aid) => {
+          if (!recommendedAidMap.has(aid)) {
+            recommendedAidMap.set(aid, tier);
+            artistTierOrderMap.set(aid, favOrderSeqCounter++);
+          }
         });
       }
 
@@ -4966,8 +5135,8 @@
       syncHistoryButtons();
     }
 
-    function getVisibleSectionRows(section, hiddenSourceRow) {
-      return Array.from(section.querySelectorAll(".artist-row")).filter(r => r !== hiddenSourceRow);
+    function getVisibleSectionRows(section) {
+      return Array.from(section.querySelectorAll(".artist-row"));
     }
 
     function getRowLayoutTop(el) {
@@ -4982,8 +5151,8 @@
       return rect.top;
     }
 
-    function updateDragPlaceholderAndGhostRank(section, placeholderRow, ghostEl, hiddenSourceRow) {
-      const rows = getVisibleSectionRows(section, hiddenSourceRow);
+    function updateDragPlaceholderAndGhostRank(section, placeholderRow, ghostEl) {
+      const rows = getVisibleSectionRows(section);
       let targetRank = 1;
       rows.forEach((r, idx) => {
         const num = idx + 1;
@@ -4998,8 +5167,8 @@
       }
     }
 
-    function animateSectionRowsFLIP(section, prevTopsMap, skipRow, hiddenSourceRow) {
-      const rows = getVisibleSectionRows(section, hiddenSourceRow);
+    function animateSectionRowsFLIP(section, prevTopsMap, skipRow) {
+      const rows = getVisibleSectionRows(section);
       rows.forEach(r => {
         if (r === skipRow) return;
         const prevTop = prevTopsMap.get(r);
@@ -5027,7 +5196,7 @@
 
       if (pointerId !== undefined && pointerId !== null) {
         try {
-          listContainer.setPointerCapture(pointerId);
+          handle.setPointerCapture(pointerId);
         } catch (_e) {}
       }
 
@@ -5048,23 +5217,16 @@
       ghostEl.style.pointerEvents = "none";
       document.body.appendChild(ghostEl);
 
-      // Create dedicated placeholder slot element so `row` (and its child `handle`, the Touch.target)
-      // is NEVER detached from the DOM during the drag!
-      const placeholderEl = row.cloneNode(true);
-      placeholderEl.classList.add("is-dragging-row", "is-drag-placeholder");
-      placeholderEl.removeAttribute("data-artist-name");
-      placeholderEl.removeAttribute("data-artist-aid");
-      placeholderEl.removeAttribute("data-rec-song-title");
-      placeholderEl.setAttribute("data-heart-tier", draggedTier);
-      section.insertBefore(placeholderEl, row);
-      row.style.display = "none";
+      // Keep `row` itself visible in the DOM as the drop-slot placeholder so the pointer/touch target
+      // is NEVER hidden (`display: none`) and the browser never fires a spurious `pointercancel`!
+      row.classList.add("is-dragging-row", "is-drag-placeholder");
 
-      updateDragPlaceholderAndGhostRank(section, placeholderEl, ghostEl, row);
+      updateDragPlaceholderAndGhostRank(section, row, ghostEl);
 
       activeDragState = {
         pointerId,
         row,
-        placeholderEl,
+        placeholderEl: row,
         section,
         handle,
         ghostEl,
@@ -5079,11 +5241,11 @@
 
     function moveRecommendDragSession(clientY) {
       if (!activeDragState) return;
-      const { row, placeholderEl, section, ghostEl, draggedTier, pointerOffsetY, rowHeight } = activeDragState;
+      const { row, section, ghostEl, draggedTier, pointerOffsetY, rowHeight } = activeDragState;
 
-      const siblings = getVisibleSectionRows(section, row);
+      const siblings = getVisibleSectionRows(section);
       // Restrict drag reordering strictly to rows with the exact same heart grade (`draggedTier`)
-      const sameTierSiblings = siblings.filter(r => r === placeholderEl || (r.getAttribute("data-heart-tier") || "3") === draggedTier);
+      const sameTierSiblings = siblings.filter(r => r === row || (r.getAttribute("data-heart-tier") || "3") === draggedTier);
       if (sameTierSiblings.length <= 1) return;
 
       const firstSame = sameTierSiblings[0];
@@ -5106,8 +5268,8 @@
         }
       }
 
-      const prevIdx = sameTierSiblings.indexOf(placeholderEl);
-      const nonPlaceholderSameTierRows = sameTierSiblings.filter(r => r !== placeholderEl);
+      const prevIdx = sameTierSiblings.indexOf(row);
+      const nonPlaceholderSameTierRows = sameTierSiblings.filter(r => r !== row);
 
       // Record current layout tops for smooth FLIP transition if slot moves
       const prevTopsMap = new Map();
@@ -5131,18 +5293,18 @@
 
       if (targetIdx !== prevIdx) {
         if (targetSib) {
-          section.insertBefore(placeholderEl, targetSib);
+          section.insertBefore(row, targetSib);
         } else {
           const lastInTier = nonPlaceholderSameTierRows[nonPlaceholderSameTierRows.length - 1];
           if (lastInTier && lastInTier.nextSibling) {
-            section.insertBefore(placeholderEl, lastInTier.nextSibling);
+            section.insertBefore(row, lastInTier.nextSibling);
           } else {
-            section.appendChild(placeholderEl);
+            section.appendChild(row);
           }
         }
         activeDragState.moved = true;
-        updateDragPlaceholderAndGhostRank(section, placeholderEl, ghostEl, row);
-        animateSectionRowsFLIP(section, prevTopsMap, placeholderEl, row);
+        updateDragPlaceholderAndGhostRank(section, row, ghostEl);
+        animateSectionRowsFLIP(section, prevTopsMap, row);
       }
     }
 
@@ -5157,18 +5319,14 @@
       ) {
         return;
       }
-      const { row, placeholderEl, section, ghostEl, moved, pointerId } = activeDragState;
+      const { row, section, handle, ghostEl, moved, pointerId } = activeDragState;
       try {
-        if (pointerId !== undefined && pointerId !== null) {
-          listContainer.releasePointerCapture(pointerId);
+        if (pointerId !== undefined && pointerId !== null && handle && handle.releasePointerCapture) {
+          handle.releasePointerCapture(pointerId);
         }
       } catch (_e) {}
       if (ghostEl && ghostEl.parentNode) {
         ghostEl.parentNode.removeChild(ghostEl);
-      }
-      if (placeholderEl && placeholderEl.parentNode === section) {
-        section.insertBefore(row, placeholderEl);
-        section.removeChild(placeholderEl);
       }
       row.style.display = "";
       row.classList.remove("is-dragging-row", "is-drag-placeholder");
@@ -5185,17 +5343,6 @@
       }
     }
 
-    listContainer.addEventListener("touchstart", e => {
-      if (!favQuickEditMode || state.view !== "recommend") return;
-      const handle = e.target.closest("[data-drag-handle]");
-      if (!handle) return;
-      e.preventDefault();
-      e.stopPropagation();
-      if (!activeDragState && e.touches && e.touches.length > 0) {
-        startRecommendDragSession(handle, e.touches[0].clientY, null);
-      }
-    }, { passive: false });
-
     listContainer.addEventListener("pointerdown", e => {
       if (!favQuickEditMode || state.view !== "recommend") return;
       const handle = e.target.closest("[data-drag-handle]");
@@ -5206,6 +5353,17 @@
         startRecommendDragSession(handle, e.clientY, e.pointerId);
       }
     });
+
+    listContainer.addEventListener("touchstart", e => {
+      if (!favQuickEditMode || state.view !== "recommend") return;
+      const handle = e.target.closest("[data-drag-handle]");
+      if (!handle) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (!activeDragState && e.touches && e.touches.length > 0) {
+        startRecommendDragSession(handle, e.touches[0].clientY, null);
+      }
+    }, { passive: false });
 
     window.addEventListener("pointermove", e => {
       if (!activeDragState) return;
@@ -5656,8 +5814,7 @@
     const ownerInboxListEl = document.getElementById("ownerMessagesInboxList");
     const closeOwnerInboxModalBtn = document.getElementById("closeOwnerInboxModalBtn");
     const aboutTitleWrapEl = document.getElementById("aboutSiteModalTitleWrap");
-    let aboutTitleTapCount = 0;
-    let aboutTitleTapTimer = null;
+    let aboutTitleTapTimes = [];
 
     function formatInboxTimestamp(isoStr) {
       if (!isoStr) return "";
@@ -5731,13 +5888,12 @@
 
     if (aboutTitleWrapEl) {
       aboutTitleWrapEl.addEventListener("click", () => {
-        aboutTitleTapCount++;
-        if (aboutTitleTapTimer) clearTimeout(aboutTitleTapTimer);
-        if (aboutTitleTapCount >= 5) {
-          aboutTitleTapCount = 0;
+        const now = Date.now();
+        aboutTitleTapTimes = aboutTitleTapTimes.filter(t => now - t <= 1500);
+        aboutTitleTapTimes.push(now);
+        if (aboutTitleTapTimes.length >= 5) {
+          aboutTitleTapTimes = [];
           openOwnerMessagesInboxModal();
-        } else {
-          aboutTitleTapTimer = setTimeout(() => { aboutTitleTapCount = 0; }, 1200);
         }
       });
     }
@@ -5828,8 +5984,23 @@
       baseSet.forEach(x => {
         if (!curSet.has(x)) removed.push(x);
       });
-      const orderChanged = added.length === 0 && removed.length === 0 && !areStringArraysEqual(bArr, cArr);
+      // Check if shared items changed their relative order even when items were also added/removed
+      const commonBase = bArr.filter(x => curSet.has(x));
+      const commonCur = cArr.filter(x => baseSet.has(x));
+      const orderChanged = !areStringArraysEqual(commonBase, commonCur);
       return { added, removed, orderChanged, hasChanges: added.length > 0 || removed.length > 0 || orderChanged };
+    }
+
+    function computeEffectiveArtistHeartChanges() {
+      const curMap = captureEffectiveArtistTierMap();
+      let changedCount = 0;
+      const allAids = new Set([...editSessionBaseEffectiveMap.keys(), ...curMap.keys()]);
+      allAids.forEach(aid => {
+        const bTier = editSessionBaseEffectiveMap.get(aid) || 0;
+        const cTier = curMap.get(aid) || 0;
+        if (bTier !== cTier) changedCount++;
+      });
+      return changedCount;
     }
 
     updateFavEditBannerStatus = function() {
@@ -5845,16 +6016,21 @@
       const dIds = computeDiffCounts(editSessionBaseIds, curIds);
       const dSongs = computeDiffCounts(editSessionBaseSongFavs, curSongs);
       const dCustom = computeDiffCounts(editSessionBaseCustomSongs, curCustom);
-      const anyChanged = dIds.hasChanges || dSongs.hasChanges || dCustom.hasChanges;
+      const effArtistChanges = computeEffectiveArtistHeartChanges();
+      const songItemChanges = dSongs.added.length + dSongs.removed.length;
+      const customSongChanges = dCustom.added.length + dCustom.removed.length;
+      const fallbackOrderCount = (dIds.orderChanged ? 1 : 0) + (dSongs.orderChanged ? 1 : 0);
+      const reorderCount = Math.max(manualReorderCount, fallbackOrderCount);
+      const totalChanges = effArtistChanges + songItemChanges + customSongChanges + reorderCount;
+      const anyChanged = totalChanges > 0 || dIds.hasChanges || dSongs.hasChanges || dCustom.hasChanges;
 
       if (diffBadge) {
         if (!anyChanged) {
           diffBadge.textContent = "変更なし";
           diffBadge.classList.remove("has-changes");
         } else {
-          const reorderCount = (dIds.orderChanged ? 1 : 0) + (dSongs.orderChanged ? 1 : 0);
-          const totalChanges = dIds.added.length + dIds.removed.length + dSongs.added.length + dSongs.removed.length + dCustom.added.length + dCustom.removed.length + reorderCount;
-          diffBadge.textContent = `未保存の変更: ${totalChanges}件`;
+          const shownCount = Math.max(1, totalChanges);
+          diffBadge.textContent = `未保存の変更: ${shownCount}件`;
           diffBadge.classList.add("has-changes");
         }
       }
@@ -5890,7 +6066,10 @@
     }
 
     function enterFavQuickEditMode() {
+      // Permanently exclude this owner browser from Vercel Web Analytics
+      permanentlyExcludeOwnerFromAnalytics();
       if (favQuickEditMode) return;
+      manualReorderCount = 0;
       const existingDraft = loadUnsavedDraft();
       let restoredDraft = false;
 
@@ -5913,6 +6092,7 @@
         editSessionBaseVersion = serverVersion;
       }
 
+      editSessionBaseEffectiveMap = captureEffectiveArtistTierMap();
       favQuickEditMode = true;
       activeHeartTier = 3;
       editUndoStack.length = 0;
@@ -5968,11 +6148,13 @@
       const customBaseVersion = typeof options.customBaseVersion === "number" ? options.customBaseVersion : editSessionBaseVersion;
 
       const noDiffFromSession = (
+        manualReorderCount === 0 &&
         areStringArraysEqual(targetIds, editSessionBaseIds) &&
         areStringArraysEqual(targetSongFavs, editSessionBaseSongFavs) &&
         areStringArraysEqual(targetCustomSongs, editSessionBaseCustomSongs)
       );
       const noDiffFromServer = !hasFetchedServerOnce || (
+        manualReorderCount === 0 &&
         areStringArraysEqual(targetIds, serverFavIds) &&
         areStringArraysEqual(targetSongFavs, serverSongFavs) &&
         areStringArraysEqual(targetCustomSongs, serverCustomSongs)
@@ -6039,10 +6221,12 @@
         serverVersion = typeof data.version === "number" ? data.version : (customBaseVersion + 1);
         hasFetchedServerOnce = true;
 
+        manualReorderCount = 0;
         editSessionBaseIds = [...serverFavIds];
         editSessionBaseSongFavs = [...serverSongFavs];
         editSessionBaseCustomSongs = [...serverCustomSongs];
         editSessionBaseVersion = serverVersion;
+        editSessionBaseEffectiveMap = captureEffectiveArtistTierMap();
 
         setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
         saveFavServerCache(serverFavIds, serverSongFavs, serverCustomSongs, serverVersion, data.updatedAt);
@@ -6088,11 +6272,13 @@
         const data = await resp.json();
         if (!data || !data.ok) return;
 
-        const ordMem = loadFavOrderMemory();
         const rawFetchedIds = normalizeArtistIdWithTierArray(data.ids);
         const rawFetchedSongFavs = normalizeSongFavWithTierArray(data.songFavs);
-        const fetchedIds = reconcileOrderWithMemory(rawFetchedIds, ordMem.ids);
-        const fetchedSongFavs = reconcileOrderWithMemory(rawFetchedSongFavs, ordMem.songFavs);
+        const fetchedIds = rawFetchedIds;
+        const fetchedSongFavs = rawFetchedSongFavs;
+        if (fetchedIds.length > 0 || fetchedSongFavs.length > 0) {
+          saveFavOrderMemory(fetchedIds, fetchedSongFavs);
+        }
         const fetchedCustomSongs = normalizeSongKeyArray(data.customSongs);
         const fetchedVersion = typeof data.version === "number" ? data.version : 0;
         serverConfigured = data.configured !== false;
@@ -6314,21 +6500,19 @@
       favConflictModal.setAttribute("aria-hidden", "true");
     }
 
-    // Secret 5-tap on top-left logo (.brand-disc-icon or .mobile-top-left)
-    let secretLogoTapCount = 0;
-    let secretLogoTapTimer = null;
+    // Secret 5-tap on top-left logo (.brand-disc-icon or .mobile-top-left) within 1.5 seconds (1500ms)
+    let secretLogoTapTimes = [];
     function handleSecretLogoTap() {
-      secretLogoTapCount++;
-      if (secretLogoTapTimer) clearTimeout(secretLogoTapTimer);
-      if (secretLogoTapCount >= 5) {
-        secretLogoTapCount = 0;
+      const now = Date.now();
+      secretLogoTapTimes = secretLogoTapTimes.filter(t => now - t <= 1500);
+      secretLogoTapTimes.push(now);
+      if (secretLogoTapTimes.length >= 5) {
+        secretLogoTapTimes = [];
         if (!favQuickEditMode) {
           enterFavQuickEditMode();
         } else {
           saveFavoritesToServer();
         }
-      } else {
-        secretLogoTapTimer = setTimeout(() => { secretLogoTapCount = 0; }, 1200);
       }
     }
     const brandIconEl = document.querySelector(".brand-disc-icon");
@@ -6366,6 +6550,7 @@
     if (discardFavQeBtn) {
       discardFavQeBtn.addEventListener("click", () => {
         if (isSavingFavorites) return;
+        manualReorderCount = 0;
         setAllSharedStates(editSessionBaseIds, editSessionBaseSongFavs, editSessionBaseCustomSongs);
         clearUnsavedDraft();
         closeFavQuickEditModeCleanly();
