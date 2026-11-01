@@ -49,10 +49,26 @@
         <span class="fav-qe-diff-badge" id="favQeDiffBadge">変更なし</span>
       </span>
       <span class="fav-qe-actions">
+        <button type="button" class="fav-qe-history-btn" data-history-action="undo" title="直前の操作を取り消す（戻る）" aria-label="戻る" disabled>↶</button>
+        <button type="button" class="fav-qe-history-btn" data-history-action="redo" title="取り消した操作をやり直す" aria-label="やり直す" disabled>↷</button>
         <button type="button" class="fav-qe-migrate-btn" id="openLegacyMigrateBtn" style="display:none;" title="この端末のlocalStorageにある既存ハート設定をサーバーへ移行">端末データ移行</button>
         <button type="button" class="fav-qe-discard-btn" id="discardFavQuickEditBtn" style="display:none;" title="未保存の変更を破棄して編集前の状態に戻す">取消</button>
         <button type="button" class="fav-qe-exit-btn" id="exitFavQuickEditBtn">完了して閉じる</button>
       </span>
+    </div>
+    <div class="fav-qe-tier-row" id="favQeTierTabs" role="tablist" aria-label="付与するハートのグレード選択">
+      <button type="button" class="fav-qe-tier-tab active" data-select-heart-tier="3" role="tab" aria-selected="true" title="最上位グレードのハートを付ける">
+        <span class="qe-tier-icon qe-tier-icon-3"><span class="heart-tier-pc">♥♥♥</span><span class="heart-tier-mob"><svg class="heart-soft-svg heart-mob-tier-3" viewBox="0 0 24 24" aria-hidden="true"><path class="heart-mob-crown" d="M7.2 4.6L9.5 2.2L12 4.4L14.5 2.2L16.8 4.6" fill="none" stroke="#fde047" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21.2c-.35 0-.7-.12-1-.35C7.1 17.8 2 13.4 2 8.4 2 5.1 4.6 2.6 7.9 2.6c1.75 0 3.25.8 4.1 2.05C12.85 3.4 14.35 2.6 16.1 2.6 19.4 2.6 22 5.1 22 8.4c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z" fill="#f43f5e" stroke="#fde047" stroke-width="1.8"/></svg></span></span>
+        <span class="qe-tier-label">最上位</span>
+      </button>
+      <button type="button" class="fav-qe-tier-tab" data-select-heart-tier="2" role="tab" aria-selected="false" title="第2グレードのハートを付ける">
+        <span class="qe-tier-icon qe-tier-icon-2"><span class="heart-tier-pc">♥♥</span><span class="heart-tier-mob"><svg class="heart-soft-svg heart-mob-tier-2" viewBox="0 0 24 24" fill="#fb7185" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span></span>
+        <span class="qe-tier-label">第2</span>
+      </button>
+      <button type="button" class="fav-qe-tier-tab" data-select-heart-tier="1" role="tab" aria-selected="false" title="第1グレードのハートを付ける">
+        <span class="qe-tier-icon qe-tier-icon-1"><span class="heart-tier-pc">♥</span><span class="heart-tier-mob"><svg class="heart-soft-svg heart-mob-tier-1" viewBox="0 0 24 24" fill="none" stroke="#fda4af" stroke-width="2.4" aria-hidden="true"><path d="M12 20.2c-.35 0-.7-.12-1-.35C7.1 16.8 2.4 12.6 2.4 7.8 2.4 4.7 4.8 2.3 7.9 2.3c1.75 0 3.25.8 4.1 2.05C12.85 3.1 14.35 2.3 16.1 2.3c3.1 0 5.5 2.4 5.5 5.5 0 4.8-4.7 9-8.6 12.05-.3.23-.65.35-1 .35Z"/></svg></span></span>
+        <span class="qe-tier-label">第1</span>
+      </button>
     </div>
     <div class="fav-qe-error-row" id="favQeErrorRow" style="display:none;" role="alert">
       <span class="fav-qe-error-msg" id="favQeErrorMsg">保存に失敗しました。変更内容は端末内に保持されています。</span>
@@ -261,15 +277,15 @@
             <div class="hero-stats">
               <button type="button" class="stat-pill interactive active-cat" id="pillAll" title="すべてを表示">
                 <span class="stat-label">すべて</span>
-                <span class="stat-val" id="statTotal">1,463</span>
+                <span class="stat-val" id="statTotal">1,473</span>
               </button>
               <button type="button" class="stat-pill interactive" id="pillCat1" title="カバーありを表示">
                 <span class="stat-label">カバーあり</span>
-                <span class="stat-val" id="statCat1">783</span>
+                <span class="stat-val" id="statCat1">787</span>
               </button>
               <button type="button" class="stat-pill interactive" id="pillCat2" title="カバーなしを表示">
                 <span class="stat-label">カバーなし</span>
-                <span class="stat-val" id="statCat2">680</span>
+                <span class="stat-val" id="statCat2">686</span>
               </button>
               <button type="button" class="stat-pill interactive stat-pill-recommend" id="pillRecommend" title="かるのオススメを表示">
                 <span class="stat-label"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg> かるのオススメ</span>
@@ -436,6 +452,7 @@
           <span class="col-pc-only col-agency-wide" style="text-align:center;" title="所属（事務所・作品）">所属</span>
           <span class="col-pc-only" style="text-align:right;" title="YouTubeチャンネル登録者数">登録者数</span>
           <span class="list-col-count" id="listColCountLabel" style="text-align:right;padding-right:4px;">登録楽曲数</span>
+          <span class="list-col-fav-count" id="listColFavCountLabel" style="display:none;text-align:right;padding-right:4px;">高評価曲数</span>
         </div>
 
         <!-- Ranking Rows Container -->

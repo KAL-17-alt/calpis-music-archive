@@ -3,14 +3,15 @@
 
   const DATA = window.ARCHIVE_DATA || [];
 
-  const SONG_RENAME_MAP = {"Emily To Juugono Yakusoku": "エミリーと15の約束", "Nouriueno Cracker": "脳裏上のクラッカー", "Haru Koizakura": "春、恋桜。", "わたしね": "わたしね、、", "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]"};
-  const SONG_SEARCH_ALIASES_BY_NEW_TITLE = {"エミリーと15の約束": ["Emily To Juugono Yakusoku", "emilytojuugonoyakusoku", "えみりーと15のやくそく", "えみりーとじゅうごのやくそく"], "脳裏上のクラッカー": ["Nouriueno Cracker", "nouriuenocracker", "のうりじょうのくらっかー", "のうりうえのくらっかー"], "春、恋桜。": ["Haru Koizakura", "harukoizakura", "はるこいざくら", "はる、こいざくら。"], "わたしね、、": ["わたしね", "watashine"], "kick [試唱]": ["kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]", "Alfakyun. - kick (Cover)", "kick (Cover)"]};
+  const SONG_RENAME_MAP = {"Emily To Juugono Yakusoku": "エミリーと15の約束", "Nouriueno Cracker": "脳裏上のクラッカー", "Haru Koizakura": "春、恋桜。", "わたしね": "わたしね、、", "kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]": "kick [試唱]", "Hanabami": "花喰み", "こゆび姫♡": "♡こゆび姫♡", "No one": "ダレモ", "刹那の誓い": "刹那の誓い (feat. 由崎司)", "Transparent Compass": "コンパスは透明", "空は高く風は歌う - Piano & Strings": "空は高く風は歌う", "空は高く風は歌う - Piano $ Strings": "空は高く風は歌う", "かけぬけ★青春スパーキング！": "Love♡Vacation"};
+  const SONG_SEARCH_ALIASES_BY_NEW_TITLE = {"エミリーと15の約束": ["Emily To Juugono Yakusoku", "emilytojuugonoyakusoku", "えみりーと15のやくそく", "えみりーとじゅうごのやくそく"], "脳裏上のクラッカー": ["Nouriueno Cracker", "nouriuenocracker", "のうりじょうのくらっかー", "のうりうえのくらっかー"], "春、恋桜。": ["Haru Koizakura", "harukoizakura", "はるこいざくら", "はる、こいざくら。"], "わたしね、、": ["わたしね", "watashine"], "kick [試唱]": ["kick 【歌ってみた】Alfakyun. - kick (Cover) [試唱]", "Alfakyun. - kick (Cover)", "kick (Cover)"], "花喰み": ["Hanabami", "hanabami", "はなばみ", "ハナバミ"], "♡こゆび姫♡": ["こゆび姫♡", "こゆび姫", "koyubihime", "こゆびひめ", "コユビヒメ"], "ダレモ": ["No one", "no one", "noone", "だれも", "誰モ"], "刹那の誓い (feat. 由崎司)": ["刹那の誓い", "せつなのちかい", "setsunanochikai", "由崎司"], "コンパスは透明": ["Transparent Compass", "transparent compass", "transparentcompass", "こんぱすはとうめい"], "空は高く風は歌う": ["空は高く風は歌う - Piano & Strings", "空は高く風は歌う - Piano $ Strings", "sorawatakakukazewautau", "そらはたかくかぜはうたう"], "Love♡Vacation": ["かけぬけ★青春スパーキング！", "かけぬけ青春スパーキング", "kakenukeseishunsparking", "Love Vacation", "lovevacation", "らぶばけーしょん", "ラブバケーション"]};
   const CURATED_V56_ARTISTS = [{"aid": "a_f14dff12", "name": "鈴木愛理", "cat": 2, "count": 1, "reading": "すずきあいり", "kana": "す", "row": "さ", "alpha": "", "img": "https://yt3.googleusercontent.com/yCgi8G0wytpJvWlC9hOtxrGxuafnWRwL0lJs_ocp4kUHB-MBnqidC_bKSPcIc6kARjld6plFqA=s240-c-k-c0x00ffffff-no-rj", "songs": ["空は二度燃える"], "topSongs": ["空は二度燃える", "初恋サイダー", "最強の推し！", "恋におちたら feat. 空音 & Taku Takahashi", "Distance"], "topLinks": ["pKuhQACie_k", "rhfZq9b9h6I", "", "xU07Dte4JhE", ""], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "歌手", "roles": ["歌手"], "groupSubRole": "", "sub": 444000, "subBucket": "100kTo1m", "subDate": "2026-11-01", "al": ["Airi Suzuki", "Suzuki Airi", "suzukiairi", "スズキアイリ", "Buono!", "℃-ute", "UCRkCifCbAw0qwu7XzOa9d7w"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "圧倒的な歌唱力と表現力で知られるソロヴォーカリスト。℃-uteやBuono!での活動を経て2018年にソロデビューし、アニメ主題歌や『空は二度燃える』など幅広い楽曲で輝きを放っている。", "ytChannelUrl": "https://www.youtube.com/channel/UCRkCifCbAw0qwu7XzOa9d7w", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_453a93b8", "name": "平葵", "cat": 2, "count": 1, "reading": "たいらあおい", "kana": "た", "row": "た", "alpha": "", "img": "https://yt3.googleusercontent.com/tHF4W2ea5vj9y-r4copsa5jbbo6QHzdONdb-K4kcHyky2V2YSc997u8PXmhjnOewdZhjWjO6=s240-c-k-c0x00ffffff-no-rj", "songs": ["案山子"], "topSongs": ["案山子", "canfull", "×", "progress", "燐光って"], "topLinks": ["cAlhOMda-Xs", "", "t8LT72qrRjo", "sPqQHgqk_Uk", "si5-RddQoxg"], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "歌手", "roles": ["歌手"], "groupSubRole": "", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["Aoi Taira", "Taira Aoi", "tairaaoi", "タイラアオイ", "UC0JetkYdglzF70e8GffPhMg"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "透明感と芯の強さを併せ持つ歌声で注目を集めるシンガー。『案山子』や『canfull』など、繊細な感情の揺れを描く楽曲を独自の表現力で歌い上げている。", "ytChannelUrl": "https://www.youtube.com/channel/UC0JetkYdglzF70e8GffPhMg", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_3408025f", "name": "わん子 (綰子 /Wanko)", "cat": 1, "count": 2, "reading": "わんこ", "kana": "わ", "row": "わ", "alpha": "", "img": "https://yt3.googleusercontent.com/seAUw4pKG3PB4Wsg5sslqFqFdD24vqvJk57jZMo8hdnRrwbebPdc9JnFX1MulRhgD-NS3tdH=s240-c-k-c0x00ffffff-no-rj", "songs": ["みにまむ", "もでらーと"], "topSongs": ["みにまむ", "もでらーと"], "topLinks": ["S2AhFrGXa8I", "wKusc39aDLA"], "topTypes": ["オリジナル", "オリジナル"], "role": "歌い手", "roles": ["歌い手"], "groupSubRole": "", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["わん子", "綰子", "綰子 /Wanko", "綰子/wanko", "Wanko", "wanko", "わんこ", "ワンコ", "UClDId0k74ZpDwRXJzrb-jIQ"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UClDId0k74ZpDwRXJzrb-jIQ", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_aba2a431", "name": "TORi (torry)", "cat": 1, "count": 1, "reading": "とり", "kana": "と", "row": "た", "alpha": "T", "img": "https://yt3.googleusercontent.com/gc-pVzesz1KF8zE5IAN_lfhlr0HLD-a_Im-KpEyeTkntdUZDi47s5JHRvCEWpfnDCnTILMbJCMU=s240-c-k-c0x00ffffff-no-rj", "songs": ["菜の花のように"], "topSongs": ["菜の花のように", "だきしめること。"], "topLinks": ["SIW7cNyQPak", "5RSzx4zMF2U"], "topTypes": ["オリジナル", "オリジナル"], "role": "歌い手", "roles": ["歌い手"], "groupSubRole": "", "sub": 10600, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["TORi", "torry", "tori", "とり", "トリ", "鳥", "UCHeUUDWr8oXbdublNQtJbNQ"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UCHeUUDWr8oXbdublNQtJbNQ", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_62c07790", "name": "瀧川ありさ", "cat": 2, "count": 1, "reading": "たきがわありさ", "kana": "た", "row": "た", "alpha": "", "img": "https://yt3.googleusercontent.com/ytc/AIdro_kjdHAsXZLiPrVm666_V9VT5_azux5GVlz4O71207G0OQ=s240-c-k-c0x00ffffff-no-rj", "songs": ["さよならのゆくえ"], "topSongs": ["さよならのゆくえ", "Season", "色褪せない瞳", "わがまま", "夏の花"], "topLinks": ["pe8_2tiHwfQ", "8a1PBi2ROD0", "TBmevKostw4", "GBMuovsHDi8", ""], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "歌手", "roles": ["歌手"], "groupSubRole": "", "sub": 35800, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["Alisa Takigawa", "Takigawa Alisa", "takigawaarisa", "タキガワアリサ", "UCfeGaWl3hge2_4BXrXSqEyw"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "伸びやかで情感豊かな歌声を持つシンガーソングライター。TVアニメ『七つの大罪』EDテーマ『Season』でメジャーデビューし、『終物語』EDテーマ『さよならのゆくえ』など数々のアニメ主題歌を手掛けている。", "ytChannelUrl": "https://www.youtube.com/channel/UCfeGaWl3hge2_4BXrXSqEyw", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_407a13ad", "name": "rei sirose", "cat": 1, "count": 1, "reading": "れいしろせ", "kana": "れ", "row": "ら", "alpha": "R", "img": "https://i.ytimg.com/vi/j1ArobXFdyQ/hqdefault.jpg", "songs": ["贖罪"], "topSongs": ["贖罪"], "topLinks": ["j1ArobXFdyQ"], "topTypes": ["cover"], "role": "歌い手", "roles": ["歌い手"], "groupSubRole": "", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["reisirose", "白瀬怜", "れいしろせ", "レイシロセ", "UCyqaJxeEZLd7AfebCpxu06g"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UCyqaJxeEZLd7AfebCpxu06g", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_003d0cad", "name": "花降る日々", "cat": 2, "count": 1, "reading": "はなふるひび", "kana": "は", "row": "は", "alpha": "", "img": "https://i.ytimg.com/vi/c0TtCowqHC0/hqdefault.jpg", "songs": ["ひとりじゃないじゃん"], "topSongs": ["ひとりじゃないじゃん", "muguet", "花降る日々", "紫陽花、まばたき、梅雨の日。"], "topLinks": ["", "c0TtCowqHC0", "jm1ZozgaGQw", "ET92gzWWYbU"], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "音楽グループ(その他)", "roles": ["音楽グループ(その他)"], "groupSubRole": "音楽グループ(その他)", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["、花降る日々", "花降る日々、", "hanafuruhibi", "hanahuruhibi", "ハナフルヒビ", "鎖那・000・めありー", "UCVd0lHzInoR_wocMXR74fTA"], "agency": "", "agencyGroup": "", "vocal": "鎖那・000・めありー", "vocalParts": [{"text": "鎖那", "target": "鎖那"}, {"text": "・000・", "target": null}, {"text": "めありー", "target": "めありー"}], "memberOf": [], "profileBio": "鎖那・000・めありーの3人による音楽ユニット。繊細で透明感のあるボーカルアンサンブルとアコースティックな温かみのあるサウンドで、『ひとりじゃないじゃん』や『muguet』などの楽曲を発表している。", "ytChannelUrl": "https://www.youtube.com/channel/UCVd0lHzInoR_wocMXR74fTA", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_10842e73", "name": "miri (璃Miri)", "cat": 1, "count": 1, "reading": "みり", "kana": "み", "row": "ま", "alpha": "M", "img": "https://yt3.googleusercontent.com/erJlmpAFYLgcsBlRl4nSKFV3B0lD1sk6ZlXp6JEWe_n9fWynvli9aAhiL-oFqIfXFkdcba7S3Q=s240-c-k-c0x00ffffff-no-rj", "songs": ["レイラ"], "topSongs": ["レイラ"], "topLinks": ["gqWAui-okAM"], "topTypes": ["オリジナル"], "role": "Vtuber", "roles": ["Vtuber"], "groupSubRole": "", "sub": 34700, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["miri", "璃Miri", "みり", "ミリ", "UCHCnxECJBxKrMByroUWSgcw"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "", "ytChannelUrl": "https://www.youtube.com/channel/UCHCnxECJBxKrMByroUWSgcw", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}];
+  const CURATED_V57_ARTISTS = [{"aid": "a_9c4e21b8", "name": "シャイニーカラーズ", "cat": 2, "count": 1, "reading": "しゃいにーからーず", "kana": "し", "row": "さ", "alpha": "", "img": "https://i.ytimg.com/vi/Bsm9rQc7uew/hqdefault.jpg", "songs": ["シャイノグラフィ (2023 Ver.)"], "topSongs": ["シャイノグラフィ (2023 Ver.)", "Spread the Wings!! (2023 Ver.)", "Ambitious Eve (2023 Ver.)", "いつか Shiny Days (2023 Ver.)", "Resonance⁺ (2023 Ver.)"], "topLinks": ["Bsm9rQc7uew", "caM83-aTCEs", "b3vB7kK-C4s", "p8mG8N7bF0g", "3O2yQ5kY8jM"], "topTypes": ["オリジナル", "オリジナル", "オリジナル", "オリジナル", "オリジナル"], "role": "音楽グループ(アニゲー関連)", "roles": ["音楽グループ(アニゲー関連)"], "groupSubRole": "音楽グループ(アニゲー関連)", "sub": null, "subBucket": "unknown", "subDate": "2026-11-01", "al": ["SHINY COLORS", "THE IDOLM@STER SHINY COLORS", "アイドルマスター シャイニーカラーズ", "シャニマス", "しゃいにーからーず", "shinycolors", "UCHQUx1njDuJQwBQ5uMPrr3Q"], "agency": "アイドルマスター シャイニーカラーズ", "agencyGroup": "アイドルマスターシリーズ", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "『アイドルマスター シャイニーカラーズ』（283プロダクション）の全体曲名義。『シャイノグラフィ (2023 Ver.)』や『Spread the Wings!!』など、ユニットの垣根を越えた煌めくアンサンブル楽曲を届けている。", "ytChannelUrl": "https://www.youtube.com/channel/UCHQUx1njDuJQwBQ5uMPrr3Q", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}, {"aid": "a_d83f19a4", "name": "燈華いのり", "cat": 1, "count": 1, "reading": "とうかいのり", "kana": "と", "row": "た", "alpha": "", "img": "https://yt3.googleusercontent.com/fV50hPywDAYHBN7RZgm5wvRcjAgR7HQeTW0kIDek2fiwaXkyPmfY-nBz0dhQVT_I6X87sN9s8_M=s240-c-k-c0x00ffffff-no-rj", "songs": ["ロマンチックを叶えて"], "topSongs": ["ロマンチックを叶えて"], "topLinks": ["gj2IllaDDGQ"], "topTypes": ["オリジナル"], "role": "Vsinger", "roles": ["Vsinger"], "groupSubRole": "", "sub": 11800, "subBucket": "10kTo100k", "subDate": "2026-11-01", "al": ["Inori Toka", "Toka Inori", "tokainori", "とうかいのり", "トウカイノリ", "祈りの灯火", "UCgRYcQz7-f9tpRLRIEeWBxQ"], "agency": "", "agencyGroup": "", "vocal": "", "vocalParts": [], "memberOf": [], "profileBio": "甘く透明感のある歌声で魅了するVsinger。1stオリジナル曲『ロマンチックを叶えて』をはじめ、心に寄り添う歌ってみた動画や歌枠配信で活動している。", "ytChannelUrl": "https://www.youtube.com/channel/UCgRYcQz7-f9tpRLRIEeWBxQ", "ytChannelLabel": "YouTubeチャンネル →", "ytChannelType": "official"}];
 
   (function applyRuntimeCuratedDataMigrations() {
     if (!Array.isArray(DATA)) return;
 
-    // 1. Rename the 5 songs & deduplicate in-order
+    // 1. Rename songs (v56 + v57) & deduplicate in-order, fix multi-role slash strings, rename LeSCa -> Le☆S☆Ca, and update 夢乃ゆき role -> 歌手
     DATA.forEach(a => {
       if (!a) return;
       if (Array.isArray(a.songs)) {
@@ -35,6 +36,41 @@
       }
       if (a.name === "くまみゆ" && typeof a.profileBio === "string") {
         a.profileBio = a.profileBio.replace("『わたしね』", "『わたしね、、』");
+      }
+
+      // Normalize any slash-combined role like "声優 / 歌い手" into individual roles
+      const rawRole = String(a.role || "").trim();
+      if (rawRole.includes("/") || rawRole.includes("／")) {
+        const parts = rawRole.split(/[/／]/).map(p => p.trim()).filter(Boolean);
+        if (parts.length > 0) {
+          a.role = parts[0];
+          const existingRoles = Array.isArray(a.roles) ? a.roles : [];
+          const merged = [];
+          [...parts, ...existingRoles].forEach(r => {
+            String(r || "").split(/[/／]/).map(x => x.trim()).filter(Boolean).forEach(sr => {
+              if (!merged.includes(sr)) merged.push(sr);
+            });
+          });
+          a.roles = merged;
+        }
+      }
+
+      // LeSCa -> Le☆S☆Ca
+      if (a.aid === "a_71dcb3a9" || a.name === "LeSCa" || a.name === "Le☆S☆Ca") {
+        a.name = "Le☆S☆Ca";
+        if (!Array.isArray(a.al)) a.al = [];
+        ["LeSCa", "lesca", "Le☆S☆Ca", "レスカ", "れすか"].forEach(al => {
+          if (!a.al.includes(al)) a.al.push(al);
+        });
+      }
+      if (Array.isArray(a.memberOf)) {
+        a.memberOf = a.memberOf.map(m => m === "LeSCa" ? "Le☆S☆Ca" : m);
+      }
+
+      // 夢乃ゆき: Vsinger -> 歌手
+      if (a.aid === "a_af866a06" || a.name === "夢乃ゆき") {
+        a.role = "歌手";
+        a.roles = ["歌手"];
       }
     });
 
@@ -76,8 +112,8 @@
       kimidoriTarget.count = kimidoriTarget.songs.length;
     }
 
-    // 3. Ensure all 8 curated artists and their songs exist
-    CURATED_V56_ARTISTS.forEach(cur => {
+    // 3. Ensure all curated artists (v56 + v57) and their songs exist
+    [...CURATED_V56_ARTISTS, ...CURATED_V57_ARTISTS].forEach(cur => {
       const cid = (cur.ytChannelUrl || "").split("/channel/").pop();
       let found = DATA.find(a => a && (
         a.aid === cur.aid ||
@@ -149,7 +185,27 @@
   const FAV_ORDER_MEMORY_KEY = "calpis_fav_order_memory_v1";
   const FAV_API_ENDPOINT = "./api/favorites";
 
-  const HEART_SVG_INNER = `<svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg>`;
+  const HEART_SVG_SINGLE = `<svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg>`;
+  const HEART_SVG_MOB_TIER3 = `<svg class="heart-soft-svg heart-mob-tier-3" viewBox="0 0 24 24" aria-hidden="true"><path class="heart-mob-crown" d="M7.2 4.6L9.5 2.2L12 4.4L14.5 2.2L16.8 4.6" fill="none" stroke="#fde047" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21.2c-.35 0-.7-.12-1-.35C7.1 17.8 2 13.4 2 8.4 2 5.1 4.6 2.6 7.9 2.6c1.75 0 3.25.8 4.1 2.05C12.85 3.4 14.35 2.6 16.1 2.6 19.4 2.6 22 5.1 22 8.4c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z" fill="#f43f5e" stroke="#fde047" stroke-width="1.8"/></svg>`;
+  const HEART_SVG_MOB_TIER2 = `<svg class="heart-soft-svg heart-mob-tier-2" viewBox="0 0 24 24" fill="#fb7185" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg>`;
+  const HEART_SVG_MOB_TIER1 = `<svg class="heart-soft-svg heart-mob-tier-1" viewBox="0 0 24 24" fill="none" stroke="#fda4af" stroke-width="2.4" aria-hidden="true"><path d="M12 20.2c-.35 0-.7-.12-1-.35C7.1 16.8 2.4 12.6 2.4 7.8 2.4 4.7 4.8 2.3 7.9 2.3c1.75 0 3.25.8 4.1 2.05C12.85 3.1 14.35 2.3 16.1 2.3c3.1 0 5.5 2.4 5.5 5.5 0 4.8-4.7 9-8.6 12.05-.3.23-.65.35-1 .35Z"/></svg>`;
+
+  function buildHeartTierInnerHTML(tier = 3) {
+    const t = (tier === 1 || tier === 2 || tier === 3) ? tier : 3;
+    const pcHearts = Array.from({ length: t }, () => HEART_SVG_SINGLE).join("");
+    const mobHeart = t === 3 ? HEART_SVG_MOB_TIER3 : (t === 2 ? HEART_SVG_MOB_TIER2 : HEART_SVG_MOB_TIER1);
+    return `<span class="heart-tier-pc" data-pc-hearts="${t}">${pcHearts}</span><span class="heart-tier-mob" data-mob-tier="${t}">${mobHeart}</span>`;
+  }
+
+  function buildHeartBadgeSpanHTML(tier, className = "artist-fav-heart", label = "かるのオススメ") {
+    const t = (tier === 1 || tier === 2 || tier === 3) ? tier : 0;
+    if (!t) return "";
+    const tierName = t === 3 ? "最上位" : (t === 2 ? "第2グレード" : "第1グレード");
+    const fullTitle = `${label}（${tierName}）`;
+    return `<span class="${className} heart-tier-${t}" data-heart-tier="${t}" title="${fullTitle}" aria-label="${fullTitle}">${buildHeartTierInnerHTML(t)}</span>`;
+  }
+
+  const HEART_SVG_INNER = buildHeartTierInnerHTML(3);
 
   // Build stable Artist Identifier (`aid`) maps and preserve static base songs for each artist
   const AID_TO_ARTIST = new Map();
@@ -190,8 +246,10 @@
 
   function resolveToAid(nameOrAid) {
     if (!nameOrAid || typeof nameOrAid !== "string") return null;
-    const t = nameOrAid.trim();
+    let t = nameOrAid.trim();
     if (!t) return null;
+    const tierMatch = t.match(/^(.*?):([123])$/);
+    if (tierMatch) t = tierMatch[1].trim();
     if (AID_TO_ARTIST.has(t)) return t;
     if (NAME_TO_AID.has(t)) return NAME_TO_AID.get(t);
     const nk = normLookupKey(t);
@@ -199,8 +257,46 @@
     return null;
   }
 
-  function resolveAidToName(aid) {
-    const a = AID_TO_ARTIST.get(aid);
+  function parseArtistIdAndTier(rawEntry) {
+    if (!rawEntry || typeof rawEntry !== "string") return null;
+    const trimmed = rawEntry.trim();
+    if (!trimmed) return null;
+    let tier = 3;
+    let basePart = trimmed;
+    const m = trimmed.match(/^(.*?):([123])$/);
+    if (m) {
+      basePart = m[1].trim();
+      tier = Number(m[2]) || 3;
+    }
+    const aid = resolveToAid(basePart);
+    if (!aid) return null;
+    return { aid, tier };
+  }
+
+  function formatArtistIdWithTier(aid, tier = 3) {
+    if (!aid) return null;
+    if (tier === 1) return `${aid}:1`;
+    if (tier === 2) return `${aid}:2`;
+    return aid;
+  }
+
+  function normalizeArtistIdWithTierArray(arr) {
+    if (!Array.isArray(arr)) return [];
+    const out = [];
+    const seen = new Set();
+    arr.forEach(item => {
+      const parsed = parseArtistIdAndTier(item);
+      if (parsed && !seen.has(parsed.aid)) {
+        seen.add(parsed.aid);
+        out.push(formatArtistIdWithTier(parsed.aid, parsed.tier));
+      }
+    });
+    return out;
+  }
+
+  function resolveAidToName(aidOrToken) {
+    const aid = resolveToAid(aidOrToken);
+    const a = aid ? AID_TO_ARTIST.get(aid) : null;
     return a ? a.name : null;
   }
 
@@ -208,6 +304,10 @@
     const aid = resolveToAid(aidOrName);
     if (!aid) return null;
     let cleanSong = String(songTitle || "").replace(/[\r\n\t]+/g, " ").trim();
+    const tierMatch = cleanSong.match(/^(.*?)\|\|([123])$/);
+    if (tierMatch) {
+      cleanSong = tierMatch[1].trim();
+    }
     if (!cleanSong) return null;
     if (SONG_RENAME_MAP[cleanSong]) {
       cleanSong = SONG_RENAME_MAP[cleanSong];
@@ -215,39 +315,90 @@
     return `${aid}\t${cleanSong}`;
   }
 
-  function normalizeSongKeyArray(arr) {
+  function parseSongKeyAndTier(rawEntry) {
+    let rawArtist = "";
+    let rawSong = "";
+    let explicitTier = 0;
+    if (typeof rawEntry === "string") {
+      const tabIdx = rawEntry.indexOf("\t");
+      if (tabIdx <= 0) return null;
+      rawArtist = rawEntry.slice(0, tabIdx);
+      rawSong = rawEntry.slice(tabIdx + 1);
+    } else if (rawEntry && typeof rawEntry === "object") {
+      rawArtist = String(rawEntry.aid || rawEntry.artist || "");
+      rawSong = String(rawEntry.song || rawEntry.title || "");
+      if (rawEntry.tier === 1 || rawEntry.tier === 2 || rawEntry.tier === 3) {
+        explicitTier = rawEntry.tier;
+      }
+    } else {
+      return null;
+    }
+    let cleanSong = String(rawSong || "").replace(/[\r\n\t]+/g, " ").trim();
+    let tier = explicitTier || 3;
+    const tierMatch = cleanSong.match(/^(.*?)\|\|([123])$/);
+    if (tierMatch) {
+      cleanSong = tierMatch[1].trim();
+      if (!explicitTier) tier = Number(tierMatch[2]) || 3;
+    }
+    const key = makeSongKey(rawArtist, cleanSong);
+    if (!key) return null;
+    return { key, tier };
+  }
+
+  function formatSongKeyWithTier(key, tier = 3) {
+    if (!key) return null;
+    if (tier === 1) return `${key}||1`;
+    if (tier === 2) return `${key}||2`;
+    return key;
+  }
+
+  function normalizeSongFavWithTierArray(arr) {
     if (!Array.isArray(arr)) return [];
     const out = [];
     const seen = new Set();
     arr.forEach(item => {
-      let key = null;
-      if (typeof item === "string") {
-        const tabIdx = item.indexOf("\t");
-        if (tabIdx > 0) {
-          key = makeSongKey(item.slice(0, tabIdx), item.slice(tabIdx + 1));
-        }
-      } else if (item && typeof item === "object") {
-        key = makeSongKey(item.aid || item.artist, item.song || item.title);
-      }
-      if (key && !seen.has(key)) {
-        seen.add(key);
-        out.push(key);
+      const parsed = parseSongKeyAndTier(item);
+      if (parsed && !seen.has(parsed.key)) {
+        seen.add(parsed.key);
+        out.push(formatSongKeyWithTier(parsed.key, parsed.tier));
       }
     });
     return out;
   }
 
-  // Active sets in memory:
-  // 1) recommendedAidSet: Set of recommended artist `aid`s
-  // 2) recommendedSongSet: Set of recommended song keys (`"aid	songTitle"`)
-  // 3) customAddedSongSet: Set of manually added song keys (`"aid	songTitle"`)
-  const recommendedAidSet = new Set();
-  const recommendedSongSet = new Set();
+  function normalizeSongKeyArray(arr) {
+    if (!Array.isArray(arr)) return [];
+    const out = [];
+    const seen = new Set();
+    arr.forEach(item => {
+      const parsed = parseSongKeyAndTier(item);
+      if (parsed && !seen.has(parsed.key)) {
+        seen.add(parsed.key);
+        out.push(parsed.key);
+      }
+    });
+    return out;
+  }
+
+  // Active maps/sets in memory:
+  // 1) recommendedAidMap: Map of manually recommended artist `aid -> tier (1|2|3)`
+  // 2) recommendedSongMap: Map of recommended song keys (`"aid\tsongTitle" -> tier (1|2|3)`)
+  // 3) customAddedSongSet: Set of manually added song keys (`"aid\tsongTitle"`)
+  const recommendedAidMap = new Map();
+  const recommendedSongMap = new Map();
   const customAddedSongSet = new Set();
+  const artistTierOrderMap = new Map();
+  let favOrderSeqCounter = 1;
 
   let favQuickEditMode = false;
+  let activeHeartTier = 3; // Default Tier 3 (最上位) in Edit Mode
   let isSavingFavorites = false;
   let updateFavEditBannerStatus = function() {};
+
+  // Edit Mode Undo / Redo History Stacks
+  const editUndoStack = [];
+  const editRedoStack = [];
+  const MAX_EDIT_HISTORY = 80;
 
   // Confirmed server state
   let serverFavIds = [];
@@ -266,16 +417,20 @@
 
   function getSortedCurrentAids() {
     const arr = [];
-    recommendedAidSet.forEach(aid => {
+    recommendedAidMap.forEach((tier, aid) => {
       if (AID_TO_ARTIST.has(aid)) {
-        arr.push(aid);
+        arr.push(formatArtistIdWithTier(aid, tier));
       }
     });
     return arr;
   }
 
   function getSortedCurrentSongFavs() {
-    return Array.from(recommendedSongSet);
+    const arr = [];
+    recommendedSongMap.forEach((tier, key) => {
+      arr.push(formatSongKeyWithTier(key, tier));
+    });
+    return arr;
   }
 
   function getSortedCurrentCustomSongs() {
@@ -343,26 +498,42 @@
   }
 
   function setAllSharedStates(ids, songFavs, customSongs) {
-    recommendedAidSet.clear();
+    recommendedAidMap.clear();
+    artistTierOrderMap.clear();
     if (Array.isArray(ids)) {
       ids.forEach(x => {
-        const aid = resolveToAid(x);
-        if (aid) recommendedAidSet.add(aid);
+        const parsed = parseArtistIdAndTier(x);
+        if (parsed && !recommendedAidMap.has(parsed.aid)) {
+          recommendedAidMap.set(parsed.aid, parsed.tier);
+          artistTierOrderMap.set(parsed.aid, favOrderSeqCounter++);
+        }
       });
     }
-    recommendedSongSet.clear();
-    normalizeSongKeyArray(songFavs).forEach(k => recommendedSongSet.add(k));
+    recommendedSongMap.clear();
+    if (Array.isArray(songFavs)) {
+      songFavs.forEach(x => {
+        const parsed = parseSongKeyAndTier(x);
+        if (parsed && !recommendedSongMap.has(parsed.key)) {
+          recommendedSongMap.set(parsed.key, parsed.tier);
+        }
+      });
+    }
 
     customAddedSongSet.clear();
     normalizeSongKeyArray(customSongs).forEach(k => customAddedSongSet.add(k));
 
     syncCustomSongsIntoArchiveData();
+    DATA.forEach(a => {
+      if (a && a.aid && !artistTierOrderMap.has(a.aid) && getArtistHeartTier(a.aid) > 0) {
+        artistTierOrderMap.set(a.aid, favOrderSeqCounter++);
+      }
+    });
   }
 
   function getLegacyLocalStorageAids() {
-    const tempSet = new Set();
+    const tempMap = new Map();
     DATA.forEach(a => {
-      if (a && a.rec && a.aid) tempSet.add(a.aid);
+      if (a && a.rec && a.aid) tempMap.set(a.aid, 3);
     });
     try {
       const raw = localStorage.getItem(RECOMMENDED_STORAGE_KEY) || localStorage.getItem(RECOMMENDED_BACKUP_KEY);
@@ -373,17 +544,19 @@
         if (typeof entry === "string" && entry.trim()) {
           if (entry.startsWith("-")) {
             const aid = resolveToAid(entry.slice(1));
-            if (aid) tempSet.delete(aid);
+            if (aid) tempMap.delete(aid);
           } else {
-            const aid = resolveToAid(entry.trim());
-            if (aid) tempSet.add(aid);
+            const p = parseArtistIdAndTier(entry.trim());
+            if (p) tempMap.set(p.aid, p.tier);
           }
         }
       });
     } catch (e) {
       return [];
     }
-    return Array.from(tempSet);
+    const out = [];
+    tempMap.forEach((tier, aid) => out.push(formatArtistIdWithTier(aid, tier)));
+    return out;
   }
 
   function loadFavOrderMemory() {
@@ -392,8 +565,8 @@
       if (!raw) return { ids: [], songFavs: [] };
       const parsed = JSON.parse(raw);
       return {
-        ids: Array.isArray(parsed && parsed.ids) ? parsed.ids.map(resolveToAid).filter(Boolean) : [],
-        songFavs: normalizeSongKeyArray(parsed && parsed.songFavs)
+        ids: normalizeArtistIdWithTierArray(parsed && parsed.ids),
+        songFavs: normalizeSongFavWithTierArray(parsed && parsed.songFavs)
       };
     } catch (_e) {
       return { ids: [], songFavs: [] };
@@ -418,30 +591,45 @@
     return true;
   }
 
+  function stripTierFromToken(tok) {
+    const s = String(tok || "");
+    if (s.includes("\t")) {
+      return s.replace(/\|\|[123]$/, "");
+    }
+    return s.replace(/:[123]$/, "");
+  }
+
   /**
    * Ensures that if an older server endpoint returned lexicographically sorted `ids`/`songFavs`,
-   * we preserve our known insertion/custom order and place any newly added items at the very end (bottom).
+   * we preserve our known insertion/custom order and heart tiers, placing newly added items at the end.
    */
   function reconcileOrderWithMemory(incomingArr, memoryArr) {
     if (!Array.isArray(incomingArr) || incomingArr.length === 0) return [];
     if (!Array.isArray(memoryArr) || memoryArr.length === 0) return incomingArr;
-    // Only override incoming order if incoming looks lexicographically sorted while memory had a different custom/insertion order
     if (!isStrictlyLexicographical(incomingArr) && !areStringArraysEqual(incomingArr, memoryArr)) {
       return incomingArr;
     }
-    const incomingSet = new Set(incomingArr);
+    const incomingByBase = new Map();
+    incomingArr.forEach(item => {
+      incomingByBase.set(stripTierFromToken(item), item);
+    });
     const ordered = [];
-    const seen = new Set();
-    memoryArr.forEach(item => {
-      if (incomingSet.has(item) && !seen.has(item)) {
-        seen.add(item);
-        ordered.push(item);
+    const seenBase = new Set();
+    memoryArr.forEach(memItem => {
+      const base = stripTierFromToken(memItem);
+      if (incomingByBase.has(base) && !seenBase.has(base)) {
+        seenBase.add(base);
+        const incItem = incomingByBase.get(base);
+        // If incoming lost tier suffix due to older server, keep memory tier suffix
+        const chosen = (incItem === base && memItem !== base) ? memItem : incItem;
+        ordered.push(chosen);
       }
     });
-    incomingArr.forEach(item => {
-      if (!seen.has(item)) {
-        seen.add(item);
-        ordered.push(item);
+    incomingArr.forEach(incItem => {
+      const base = stripTierFromToken(incItem);
+      if (!seenBase.has(base)) {
+        seenBase.add(base);
+        ordered.push(incItem);
       }
     });
     return ordered;
@@ -453,18 +641,9 @@
       if (!raw) return null;
       const parsed = JSON.parse(raw);
       if (parsed && Array.isArray(parsed.ids)) {
-        const cleanIds = [];
-        const seen = new Set();
-        parsed.ids.forEach(x => {
-          const aid = resolveToAid(x);
-          if (aid && !seen.has(aid)) {
-            seen.add(aid);
-            cleanIds.push(aid);
-          }
-        });
         return {
-          ids: cleanIds,
-          songFavs: normalizeSongKeyArray(parsed.songFavs),
+          ids: normalizeArtistIdWithTierArray(parsed.ids),
+          songFavs: normalizeSongFavWithTierArray(parsed.songFavs),
           customSongs: normalizeSongKeyArray(parsed.customSongs),
           version: typeof parsed.version === "number" ? parsed.version : 0,
           updatedAt: parsed.updatedAt || null
@@ -501,14 +680,12 @@
       if (!raw) return null;
       const parsed = JSON.parse(raw);
       if (!parsed || !Array.isArray(parsed.ids)) return null;
-      const cleanIds = parsed.ids.map(resolveToAid).filter(Boolean);
-      const baseIds = Array.isArray(parsed.baseIds) ? parsed.baseIds.map(resolveToAid).filter(Boolean) : [];
       return {
-        ids: Array.from(new Set(cleanIds)),
-        songFavs: normalizeSongKeyArray(parsed.songFavs),
+        ids: normalizeArtistIdWithTierArray(parsed.ids),
+        songFavs: normalizeSongFavWithTierArray(parsed.songFavs),
         customSongs: normalizeSongKeyArray(parsed.customSongs),
-        baseIds: Array.from(new Set(baseIds)),
-        baseSongFavs: normalizeSongKeyArray(parsed.baseSongFavs),
+        baseIds: normalizeArtistIdWithTierArray(parsed.baseIds),
+        baseSongFavs: normalizeSongFavWithTierArray(parsed.baseSongFavs),
         baseCustomSongs: normalizeSongKeyArray(parsed.baseCustomSongs),
         baseVersion: typeof parsed.baseVersion === "number" ? parsed.baseVersion : 0,
         updatedAt: parsed.updatedAt || Date.now()
@@ -542,22 +719,14 @@
     } catch (e) {}
   }
 
-  function isRecommendedArtist(nameOrAid) {
-    const aid = resolveToAid(nameOrAid);
-    return Boolean(aid && recommendedAidSet.has(aid));
-  }
-
-  function getRecommendedCount() {
-    let cnt = 0;
-    DATA.forEach(a => {
-      if (a && a.aid && recommendedAidSet.has(a.aid)) cnt++;
-    });
-    return cnt;
+  function getSongHeartTier(aidOrName, songTitle) {
+    const key = makeSongKey(aidOrName, songTitle);
+    if (!key) return 0;
+    return recommendedSongMap.get(key) || 0;
   }
 
   function isRecommendedSong(aidOrName, songTitle) {
-    const key = makeSongKey(aidOrName, songTitle);
-    return Boolean(key && recommendedSongSet.has(key));
+    return getSongHeartTier(aidOrName, songTitle) > 0;
   }
 
   function getRecommendedSongsForArtist(artist) {
@@ -570,7 +739,56 @@
         pool.push(s);
       }
     });
-    return pool.filter(s => recommendedSongSet.has(`${artist.aid}\t${s}`));
+    return pool.filter(s => recommendedSongMap.has(`${artist.aid}\t${s}`));
+  }
+
+  function getArtistFavSongCount(artistOrNameOrAid) {
+    if (!artistOrNameOrAid) return 0;
+    const a = (typeof artistOrNameOrAid === "object" && artistOrNameOrAid.aid)
+      ? artistOrNameOrAid
+      : AID_TO_ARTIST.get(resolveToAid(artistOrNameOrAid));
+    if (!a) return 0;
+    return getRecommendedSongsForArtist(a).length;
+  }
+
+  function getManualArtistHeartTier(nameOrAid) {
+    const aid = resolveToAid(nameOrAid);
+    if (!aid) return 0;
+    return recommendedAidMap.get(aid) || 0;
+  }
+
+  /**
+   * Automatic artist heart promotion for artists without a manual heart:
+   * - 5 or more hearted songs -> Tier 3 (最上位グレード)
+   * - 3 or more hearted songs -> Tier 2 (第2グレード)
+   */
+  function getAutoArtistHeartTier(nameOrAid) {
+    const aid = resolveToAid(nameOrAid);
+    if (!aid) return 0;
+    const a = AID_TO_ARTIST.get(aid);
+    if (!a) return 0;
+    const favCnt = getRecommendedSongsForArtist(a).length;
+    if (favCnt >= 5) return 3;
+    if (favCnt >= 3) return 2;
+    return 0;
+  }
+
+  function getArtistHeartTier(nameOrAid) {
+    const manualTier = getManualArtistHeartTier(nameOrAid);
+    if (manualTier > 0) return manualTier;
+    return getAutoArtistHeartTier(nameOrAid);
+  }
+
+  function isRecommendedArtist(nameOrAid) {
+    return getArtistHeartTier(nameOrAid) > 0;
+  }
+
+  function getRecommendedCount() {
+    let cnt = 0;
+    DATA.forEach(a => {
+      if (a && a.aid && getArtistHeartTier(a.aid) > 0) cnt++;
+    });
+    return cnt;
   }
 
   function getRecommendedSongCount() {
@@ -597,23 +815,72 @@
       .toLowerCase();
   }
 
-  function isTop5SongHeartedInArchive(artist, rawTopTitle, dispTopTitle) {
-    if (!artist || !artist.aid) return false;
-    if (isRecommendedSong(artist.aid, rawTopTitle) || isRecommendedSong(artist.aid, dispTopTitle)) {
-      return true;
-    }
+  function getTop5SongHeartTierInArchive(artist, rawTopTitle, dispTopTitle) {
+    if (!artist || !artist.aid) return 0;
+    const directRaw = getSongHeartTier(artist.aid, rawTopTitle);
+    if (directRaw > 0) return directRaw;
+    const directDisp = getSongHeartTier(artist.aid, dispTopTitle);
+    if (directDisp > 0) return directDisp;
     const targetNorm = normSongTitleForCompare(rawTopTitle);
     const dispNorm = normSongTitleForCompare(dispTopTitle);
     const favSongs = getRecommendedSongsForArtist(artist);
-    return favSongs.some(favTitle => {
+    let bestTier = 0;
+    favSongs.forEach(favTitle => {
       const fn = normSongTitleForCompare(favTitle);
-      return Boolean(fn && (fn === targetNorm || fn === dispNorm));
+      if (fn && (fn === targetNorm || fn === dispNorm)) {
+        const t = getSongHeartTier(artist.aid, favTitle);
+        if (t > bestTier) bestTier = t;
+      }
     });
+    return bestTier;
+  }
+
+  function isTop5SongHeartedInArchive(artist, rawTopTitle, dispTopTitle) {
+    return getTop5SongHeartTierInArchive(artist, rawTopTitle, dispTopTitle) > 0;
   }
 
   function isCustomAddedSong(aidOrName, songTitle) {
     const key = makeSongKey(aidOrName, songTitle);
     return Boolean(key && customAddedSongSet.has(key));
+  }
+
+  // Edit Mode Undo / Redo helpers
+  function captureEditSnapshot() {
+    return {
+      ids: getSortedCurrentAids(),
+      songFavs: getSortedCurrentSongFavs(),
+      customSongs: getSortedCurrentCustomSongs()
+    };
+  }
+
+  function editSnapshotsEqual(a, b) {
+    if (!a || !b) return false;
+    return (
+      areStringArraysEqual(a.ids, b.ids) &&
+      areStringArraysEqual(a.songFavs, b.songFavs) &&
+      areStringArraysEqual(a.customSongs, b.customSongs)
+    );
+  }
+
+  function pushEditHistorySnapshot() {
+    const snap = captureEditSnapshot();
+    if (editUndoStack.length > 0 && editSnapshotsEqual(editUndoStack[editUndoStack.length - 1], snap)) {
+      return;
+    }
+    editUndoStack.push(snap);
+    if (editUndoStack.length > MAX_EDIT_HISTORY) editUndoStack.shift();
+    editRedoStack.length = 0;
+    if (typeof syncHistoryButtons === "function") syncHistoryButtons();
+  }
+
+  function syncActiveHeartTierUI() {
+    document.body.setAttribute("data-active-heart-tier", String(activeHeartTier));
+    document.querySelectorAll("[data-select-heart-tier]").forEach(btn => {
+      const t = Number(btn.getAttribute("data-select-heart-tier")) || 3;
+      const isAct = t === activeHeartTier;
+      btn.classList.toggle("active", isAct);
+      btn.setAttribute("aria-selected", isAct ? "true" : "false");
+    });
   }
 
   /**
@@ -630,37 +897,52 @@
       const aObj = aName ? ARTIST_MAP.get(aName) : null;
       if (!aName || !aObj) return;
 
-      // Update song count column in-place
+      // Update song count column & 高評価曲数 column in-place
       const countEl = row.querySelector(".row-count");
       if (countEl) {
         countEl.innerHTML = `${fmtNum(aObj.count)}<span>曲</span>`;
       }
+      const favCountEl = row.querySelector(".row-fav-song-count");
+      if (favCountEl) {
+        const favCnt = getArtistFavSongCount(aObj);
+        favCountEl.innerHTML = `${fmtNum(favCnt)}<span>曲</span>`;
+      }
 
       if (recSongTitle) return; // Song rows in recommend tab are handled by recommend refresh below
 
-      const shouldHaveHeart = isRecommendedArtist(aName);
+      const artistTier = getArtistHeartTier(aName);
+      const shouldHaveHeart = artistTier > 0;
       row.classList.toggle("artist-is-fav", shouldHaveHeart);
+      if (shouldHaveHeart) {
+        row.setAttribute("data-heart-tier", String(artistTier));
+      } else {
+        row.removeAttribute("data-heart-tier");
+      }
 
       // Update song hearts on song-matched search rows (.song-matched-row)
       if (row.classList.contains("song-matched-row")) {
         const primarySong = row.getAttribute("data-primary-song");
         if (primarySong) {
-          row.classList.toggle("song-is-fav", isRecommendedSong(aObj.aid, primarySong));
+          const pTier = getSongHeartTier(aObj.aid, primarySong);
+          row.classList.toggle("song-is-fav", pTier > 0);
         }
         const songTokens = row.querySelectorAll("[data-matched-song-title]");
         songTokens.forEach(tok => {
           const sTitle = tok.getAttribute("data-matched-song-title");
-          const isSngFav = Boolean(sTitle && isRecommendedSong(aObj.aid, sTitle));
+          const sTier = sTitle ? getSongHeartTier(aObj.aid, sTitle) : 0;
+          const isSngFav = sTier > 0;
           tok.classList.toggle("is-song-fav", isSngFav);
           const existingSngHeart = tok.querySelector(".song-search-fav-heart");
-          if (isSngFav && !existingSngHeart) {
-            const span = document.createElement("span");
-            span.className = "artist-fav-heart song-search-fav-heart";
-            span.title = "かるのオススメ楽曲";
-            span.setAttribute("aria-label", "かるのオススメ楽曲");
-            span.innerHTML = HEART_SVG_INNER;
-            tok.appendChild(span);
-          } else if (!isSngFav && existingSngHeart) {
+          if (isSngFav) {
+            const temp = document.createElement("span");
+            temp.innerHTML = buildHeartBadgeSpanHTML(sTier, "artist-fav-heart song-search-fav-heart", "かるのオススメ楽曲");
+            const newHeart = temp.firstElementChild;
+            if (existingSngHeart && newHeart) {
+              existingSngHeart.replaceWith(newHeart);
+            } else if (newHeart) {
+              tok.appendChild(newHeart);
+            }
+          } else if (existingSngHeart) {
             existingSngHeart.remove();
           }
         });
@@ -669,14 +951,16 @@
       const nameEl = row.querySelector(".row-name");
       if (!nameEl) return;
       const existingHeart = nameEl.querySelector(".artist-fav-heart:not(.song-search-fav-heart)");
-      if (shouldHaveHeart && !existingHeart) {
-        const span = document.createElement("span");
-        span.className = "artist-fav-heart";
-        span.title = "かるのオススメ";
-        span.setAttribute("aria-label", "かるのオススメ");
-        span.innerHTML = HEART_SVG_INNER;
-        nameEl.appendChild(span);
-      } else if (!shouldHaveHeart && existingHeart) {
+      if (shouldHaveHeart) {
+        const temp = document.createElement("span");
+        temp.innerHTML = buildHeartBadgeSpanHTML(artistTier, "artist-fav-heart", "かるのオススメ");
+        const newHeart = temp.firstElementChild;
+        if (existingHeart && newHeart) {
+          existingHeart.replaceWith(newHeart);
+        } else if (newHeart) {
+          nameEl.appendChild(newHeart);
+        }
+      } else if (existingHeart) {
         existingHeart.remove();
       }
     });
@@ -692,19 +976,19 @@
         top5Items.forEach(item => {
           const rawTop = item.getAttribute("data-top5-song-title") || "";
           const dispTop = item.getAttribute("data-top5-disp-title") || rawTop;
-          const isFav = isTop5SongHeartedInArchive(selArtist, rawTop, dispTop);
+          const repTier = getTop5SongHeartTierInArchive(selArtist, rawTop, dispTop);
+          const isFav = repTier > 0;
           item.classList.toggle("song-is-fav", isFav);
           const nameEl = item.querySelector(".song-name");
           if (nameEl) {
             const ex = nameEl.querySelector(".song-fav-heart");
-            if (isFav && !ex) {
-              const span = document.createElement("span");
-              span.className = "song-fav-heart";
-              span.title = "かるのオススメ楽曲";
-              span.setAttribute("aria-label", "かるのオススメ楽曲");
-              span.innerHTML = HEART_SVG_INNER;
-              nameEl.appendChild(span);
-            } else if (!isFav && ex) {
+            if (isFav) {
+              const temp = document.createElement("span");
+              temp.innerHTML = buildHeartBadgeSpanHTML(repTier, "song-fav-heart", "かるのオススメ楽曲");
+              const newHeart = temp.firstElementChild;
+              if (ex && newHeart) ex.replaceWith(newHeart);
+              else if (newHeart) nameEl.appendChild(newHeart);
+            } else if (ex) {
               ex.remove();
             }
           }
@@ -714,22 +998,24 @@
 
     // Update heart icon & hero state on currently open detail panel header in-place
     if (state.selectedArtistName) {
-      const shouldHaveHeart = isRecommendedArtist(state.selectedArtistName);
+      const detailTier = getArtistHeartTier(state.selectedArtistName);
+      const shouldHaveHeart = detailTier > 0;
       const detailHeroEl = document.querySelector("#detailScrollContent .detail-hero");
       if (detailHeroEl) {
         detailHeroEl.classList.toggle("detail-artist-is-fav", shouldHaveHeart);
+        if (shouldHaveHeart) detailHeroEl.setAttribute("data-heart-tier", String(detailTier));
+        else detailHeroEl.removeAttribute("data-heart-tier");
       }
       const detailNameEl = document.querySelector("#detailScrollContent .detail-artist-name");
       if (detailNameEl) {
         const existingHeart = detailNameEl.querySelector(".detail-fav-heart");
-        if (shouldHaveHeart && !existingHeart) {
-          const span = document.createElement("span");
-          span.className = "detail-fav-heart";
-          span.title = "かるのオススメ";
-          span.setAttribute("aria-label", "かるのオススメ");
-          span.innerHTML = HEART_SVG_INNER;
-          detailNameEl.appendChild(span);
-        } else if (!shouldHaveHeart && existingHeart) {
+        if (shouldHaveHeart) {
+          const temp = document.createElement("span");
+          temp.innerHTML = buildHeartBadgeSpanHTML(detailTier, "detail-fav-heart", "かるのオススメ");
+          const newHeart = temp.firstElementChild;
+          if (existingHeart && newHeart) existingHeart.replaceWith(newHeart);
+          else if (newHeart) detailNameEl.appendChild(newHeart);
+        } else if (existingHeart) {
           existingHeart.remove();
         }
       }
@@ -776,62 +1062,48 @@
     if (!favQuickEditMode || isSavingFavorites) return;
     const aid = resolveToAid(name);
     if (!aid) return;
-    const isNowFav = !recommendedAidSet.has(aid);
-    recommendedAidSet.delete(aid);
-    if (isNowFav) {
-      recommendedAidSet.add(aid);
+    pushEditHistorySnapshot();
+    const curManualTier = recommendedAidMap.get(aid) || 0;
+    const targetTier = (activeHeartTier === 1 || activeHeartTier === 2 || activeHeartTier === 3) ? activeHeartTier : 3;
+    recommendedAidMap.delete(aid);
+    if (curManualTier !== targetTier) {
+      // Setting a new heart or switching from another grade places it at the bottom of that grade
+      recommendedAidMap.set(aid, targetTier);
+      artistTierOrderMap.set(aid, favOrderSeqCounter++);
     }
     saveFavOrderMemory();
     saveUnsavedDraft();
     updateFavEditBannerStatus();
     applySilentFavoritesDOMUpdate();
+    syncHistoryButtons();
   }
 
   function toggleRecommendedSong(aidOrName, songTitle) {
     if (!favQuickEditMode || isSavingFavorites) return;
     const key = makeSongKey(aidOrName, songTitle);
     if (!key) return;
-    const isNowFav = !recommendedSongSet.has(key);
-    recommendedSongSet.delete(key);
-    if (isNowFav) {
-      recommendedSongSet.add(key);
+    pushEditHistorySnapshot();
+    const aidForSong = resolveToAid(aidOrName);
+    const prevArtistEffTier = aidForSong ? getArtistHeartTier(aidForSong) : 0;
+    const curTier = recommendedSongMap.get(key) || 0;
+    const targetTier = (activeHeartTier === 1 || activeHeartTier === 2 || activeHeartTier === 3) ? activeHeartTier : 3;
+    recommendedSongMap.delete(key);
+    if (curTier !== targetTier) {
+      // Setting a new heart or switching from another grade places it at the bottom of that grade
+      recommendedSongMap.set(key, targetTier);
+    }
+    if (aidForSong) {
+      const nextArtistEffTier = getArtistHeartTier(aidForSong);
+      if (nextArtistEffTier > 0 && nextArtistEffTier !== prevArtistEffTier) {
+        artistTierOrderMap.set(aidForSong, favOrderSeqCounter++);
+      }
     }
     saveFavOrderMemory();
     saveUnsavedDraft();
     updateFavEditBannerStatus();
-
-    // Update the song item in-place inside #detailScrollContent (no pop animation)
-    const aid = resolveToAid(aidOrName);
-    const songItems = document.querySelectorAll("#detailScrollContent .detail-song-item[data-song-title]");
-    let updatedInPlace = false;
-    songItems.forEach(item => {
-      if (item.getAttribute("data-artist-aid") === aid && item.getAttribute("data-song-title") === songTitle) {
-        updatedInPlace = true;
-        item.classList.toggle("song-is-fav", isNowFav);
-        const indicator = item.querySelector(".song-edit-heart-indicator");
-        if (indicator) {
-          indicator.classList.toggle("is-fav", isNowFav);
-        }
-        const songNameEl = item.querySelector(".song-name");
-        if (songNameEl) {
-          const existingHeart = songNameEl.querySelector(".song-fav-heart");
-          if (isNowFav && !existingHeart) {
-            const span = document.createElement("span");
-            span.className = "song-fav-heart";
-            span.title = "かるのオススメ楽曲";
-            span.setAttribute("aria-label", "かるのオススメ楽曲");
-            span.innerHTML = HEART_SVG_INNER;
-            songNameEl.appendChild(span);
-          } else if (!isNowFav && existingHeart) {
-            existingHeart.remove();
-          }
-        }
-      }
-    });
-    if (!updatedInPlace) {
-      renderDetailPanel(false);
-    }
+    renderDetailPanel(false);
     applySilentFavoritesDOMUpdate();
+    syncHistoryButtons();
   }
 
   function addCustomSongToArtist(aidOrName, rawSongTitle) {
@@ -841,11 +1113,18 @@
     const artist = AID_TO_ARTIST.get(aid);
     if (!artist) return false;
 
-    const cleanTitle = String(rawSongTitle || "").replace(/[\r\n\t]+/g, " ").trim();
+    let cleanTitle = String(rawSongTitle || "").replace(/[\r\n\t]+/g, " ").trim();
     if (!cleanTitle) return false;
+    if (SONG_RENAME_MAP[cleanTitle]) {
+      cleanTitle = SONG_RENAME_MAP[cleanTitle];
+    }
 
-    // Check if song already exists in this artist's songs
-    if (Array.isArray(artist.songs) && artist.songs.includes(cleanTitle)) {
+    // Prevent adding duplicate song (check both exact match and normalized title comparison)
+    const normCand = normSongTitleForCompare(cleanTitle);
+    const alreadyExists = Array.isArray(artist.songs) && artist.songs.some(existing => {
+      return existing === cleanTitle || (normCand && normSongTitleForCompare(existing) === normCand);
+    });
+    if (alreadyExists) {
       const inp = document.getElementById("editAddSongInput");
       if (inp) {
         inp.value = "";
@@ -856,12 +1135,14 @@
 
     const key = makeSongKey(aid, cleanTitle);
     if (!key) return false;
+    pushEditHistorySnapshot();
     customAddedSongSet.add(key);
     syncCustomSongsIntoArchiveData();
     saveUnsavedDraft();
     updateFavEditBannerStatus();
     renderDetailPanel(false);
     applySilentFavoritesDOMUpdate();
+    syncHistoryButtons();
 
     // Keep focus inside input box for effortless consecutive song additions
     const nextInp = document.getElementById("editAddSongInput");
@@ -876,13 +1157,15 @@
     if (!favQuickEditMode || isSavingFavorites) return false;
     const key = makeSongKey(aidOrName, songTitle);
     if (!key || !customAddedSongSet.has(key)) return false;
+    pushEditHistorySnapshot();
     customAddedSongSet.delete(key);
-    recommendedSongSet.delete(key);
+    recommendedSongMap.delete(key);
     syncCustomSongsIntoArchiveData();
     saveUnsavedDraft();
     updateFavEditBannerStatus();
     renderDetailPanel(false);
     applySilentFavoritesDOMUpdate();
+    syncHistoryButtons();
     return true;
   }
 
@@ -1006,8 +1289,10 @@
 
   function syncHistoryButtons() {
     const isFilterDrawerOpen = Boolean(state.pcFilterOpen || state.mobFilterOpen);
-    const canUndo = isFilterDrawerOpen || undoStack.length > 0;
-    const canRedo = redoStack.length > 0;
+    const hasEditUndo = favQuickEditMode && editUndoStack.length > 0;
+    const hasEditRedo = favQuickEditMode && editRedoStack.length > 0;
+    const canUndo = hasEditUndo || isFilterDrawerOpen || undoStack.length > 0;
+    const canRedo = hasEditRedo || redoStack.length > 0;
     document.querySelectorAll('[data-history-action="undo"]').forEach(btn => {
       btn.disabled = !canUndo;
     });
@@ -1016,12 +1301,26 @@
     });
     const detailBackBtn = document.getElementById("detailBackBtn");
     if (detailBackBtn) {
-      const showProfileBack = (undoStack.length > 0) && (state.profileBackAvailable || Boolean(state.agencyGroup) || undoStack.length > 0);
+      const showProfileBack = hasEditUndo || ((undoStack.length > 0) && (state.profileBackAvailable || Boolean(state.agencyGroup) || undoStack.length > 0));
       detailBackBtn.style.display = showProfileBack ? "inline-flex" : "none";
     }
   }
 
   function undoStateAction() {
+    // In Edit Mode, if there are edit operations on editUndoStack, undo the last edit operation first!
+    if (favQuickEditMode && editUndoStack.length > 0) {
+      const currentEditSnap = captureEditSnapshot();
+      editRedoStack.push(currentEditSnap);
+      const prevEditSnap = editUndoStack.pop();
+      setAllSharedStates(prevEditSnap.ids, prevEditSnap.songFavs, prevEditSnap.customSongs);
+      saveFavOrderMemory();
+      saveUnsavedDraft();
+      updateFavEditBannerStatus();
+      renderDetailPanel(false);
+      applySilentFavoritesDOMUpdate();
+      syncHistoryButtons();
+      return;
+    }
     // Requirement: If filter drawer is currently open, pressing Undo first closes the filter drawer
     // (keeping current filters intact); subsequent Undo presses remove filters one by one while staying closed.
     if (state.pcFilterOpen || state.mobFilterOpen) {
@@ -1049,6 +1348,20 @@
   }
 
   function redoStateAction() {
+    // In Edit Mode, if there are undone edit operations on editRedoStack, redo them first!
+    if (favQuickEditMode && editRedoStack.length > 0) {
+      const currentEditSnap = captureEditSnapshot();
+      editUndoStack.push(currentEditSnap);
+      const nextEditSnap = editRedoStack.pop();
+      setAllSharedStates(nextEditSnap.ids, nextEditSnap.songFavs, nextEditSnap.customSongs);
+      saveFavOrderMemory();
+      saveUnsavedDraft();
+      updateFavEditBannerStatus();
+      renderDetailPanel(false);
+      applySilentFavoritesDOMUpdate();
+      syncHistoryButtons();
+      return;
+    }
     if (redoStack.length === 0) return;
     // Requirement: Redo re-applies selections without opening the filter drawer
     state.pcFilterOpen = false;
@@ -1934,19 +2247,51 @@
   }
 
   function getEffectiveRolesForArtist(a) {
-    const rawRoles = (Array.isArray(a.roles) && a.roles.length > 0)
+    const rawList = (Array.isArray(a.roles) && a.roles.length > 0)
       ? a.roles
       : (a.role && a.role !== "判定保留" ? [a.role] : []);
-    const cat1Only = isCat1OnlyContext();
-    return rawRoles.map(r => {
-      if (cat1Only) {
-        if (r === "音楽グループ(アニゲー関連)" || r === "音楽グループ(その他)") return "音楽グループ";
-        return r;
-      } else {
-        if (r === "音楽グループ") return a.groupSubRole || "音楽グループ(アニゲー関連)";
-        return r;
-      }
+    const expanded = [];
+    rawList.forEach(r => {
+      String(r || "").split(/[/／]/).map(s => s.trim()).filter(Boolean).forEach(part => {
+        if (!expanded.includes(part)) expanded.push(part);
+      });
     });
+    const cat1Only = isCat1OnlyContext();
+    const mapped = [];
+    expanded.forEach(r => {
+      let m = r;
+      if (cat1Only) {
+        if (r === "音楽グループ(アニゲー関連)" || r === "音楽グループ(その他)") m = "音楽グループ";
+      } else {
+        if (r === "音楽グループ") m = a.groupSubRole || "音楽グループ(アニゲー関連)";
+      }
+      if (!mapped.includes(m)) mapped.push(m);
+    });
+    return mapped;
+  }
+
+  /**
+   * Returns all individual Activity Role buckets for an artist in "かるのオススメ"
+   * (e.g. an artist with ["声優", "歌い手"] or "声優 / 歌い手" is placed into both "声優" and "歌い手").
+   */
+  function getRecommendRoleBucketsForArtist(a) {
+    if (!a) return ["その他"];
+    const rawList = (Array.isArray(a.roles) && a.roles.length > 0)
+      ? a.roles
+      : [a.role || "その他"];
+    const buckets = [];
+    rawList.forEach(r => {
+      String(r || "その他").split(/[/／]/).map(s => s.trim()).filter(Boolean).forEach(part => {
+        let roleName = part;
+        if (roleName === "音楽グループ") {
+          roleName = a.groupSubRole || "音楽グループ(アニゲー関連)";
+        }
+        if (!buckets.includes(roleName)) {
+          buckets.push(roleName);
+        }
+      });
+    });
+    return buckets.length > 0 ? buckets : ["その他"];
   }
 
   function applyFilterAndSort() {
@@ -2095,8 +2440,8 @@
       bar.style.display = "flex";
       bar.innerHTML = `<span class="search-cand-label">上位候補:</span>` + songHits.map(a => {
         const isExact = a._searchTier === 4;
-        const isSngFav = isRecommendedSong(a.aid, a._matchedSongPreview);
-        const sngHeart = isSngFav ? `<span class="artist-fav-heart song-search-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>` : "";
+        const sngTier = getSongHeartTier(a.aid, a._matchedSongPreview);
+        const sngHeart = sngTier > 0 ? buildHeartBadgeSpanHTML(sngTier, "artist-fav-heart song-search-fav-heart", "かるのオススメ楽曲") : "";
         return `
           <button type="button" class="search-cand-chip ${isExact ? "exact-hit" : ""}" data-cand-artist="${esc(a.name)}" title="${esc(a.name)} の詳細を表示">
             <span class="search-cand-name">♪ ${esc(a._matchedSongPreview)}${sngHeart}</span>
@@ -2376,11 +2721,12 @@
     return esc(s);
   }
 
-  // Build a single Artist Row HTML string (PC: 6 columns / Smartphone: 4 columns)
+  // Build a single Artist Row HTML string
   function buildArtistRowHTML(a, isSearch, rowIndex = 999, hideRankNumber = false, customRoleRank = null) {
     const isSelected = state.selectedArtistName === a.name;
-    const isFav = isRecommendedArtist(a.name);
-    const favHeartHTML = isFav ? `<span class="artist-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : "";
+    const artistTier = getArtistHeartTier(a.name);
+    const isFav = artistTier > 0;
+    const favHeartHTML = isFav ? buildHeartBadgeSpanHTML(artistTier, "artist-fav-heart", "かるのオススメ") : "";
     const hasCustomRoleRank = typeof customRoleRank === "number" && customRoleRank > 0;
     const rankClass = (!hasCustomRoleRank && !hideRankNumber && state.sortBy === "countDesc" && !isSearch && a._displayRank <= 3) ? `top-${a._displayRank}` : "";
     const rankText = hasCustomRoleRank ? customRoleRank : (hideRankNumber ? "" : a._displayRank);
@@ -2392,15 +2738,17 @@
     const matchedMoreCount = (Array.isArray(a._matchedSongsList) && a._matchedSongsList.length > 0)
       ? (a._matchedSongsMoreCount || 0)
       : ((!a._matchedSongPreview && state.view === "search" && state.searchTarget === "song" && Array.isArray(a.songs) && a.songs.length > 1) ? (a.songs.length - 1) : 0);
-    const isPrimarySongFav = Boolean(isSongSearchMode && primarySongTitle && isRecommendedSong(a.aid, primarySongTitle));
+    const primarySongTier = (isSongSearchMode && primarySongTitle) ? getSongHeartTier(a.aid, primarySongTitle) : 0;
+    const isPrimarySongFav = primarySongTier > 0;
     const songDisplayStr = a._matchedSongsDisplay || a._matchedSongPreview || "";
     let nameWrapInner = "";
 
     if (isSongSearchMode) {
       const tokensHTML = matchedSongList.map(sTitle => {
-        const isSngFav = isRecommendedSong(a.aid, sTitle);
+        const sTier = getSongHeartTier(a.aid, sTitle);
+        const isSngFav = sTier > 0;
         const sngHeartHTML = isSngFav
-          ? `<span class="artist-fav-heart song-search-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>`
+          ? buildHeartBadgeSpanHTML(sTier, "artist-fav-heart song-search-fav-heart", "かるのオススメ楽曲")
           : "";
         return `<span class="row-matched-song-token ${isSngFav ? "is-song-fav" : ""}" data-matched-song-title="${esc(sTitle)}">${esc(sTitle)}${sngHeartHTML}</span>`;
       }).join(`<span class="row-matched-song-sep"> / </span>`);
@@ -2432,32 +2780,33 @@
     const rowRoleBadgesHTML = rowRoles
       .map(r => `<span class="row-role-badge ${isUnclassified ? "unclassified" : ""}">${esc(r)}</span>`)
       .join("");
-  const AGENCY_SHORT_LABELS = {
-    "アイドルマスターシリーズ": "アイマス",
-    "ラブライブ！シリーズ": "ラブライブ！",
-    "神椿スタジオ": "神椿",
-    "BanG Dream!": "バンドリ",
-    "ウマ娘 プリティーダービー": "ウマ娘",
-    "Tokyo 7th シスターズ": "ナナシス",
-    "ガールズバンドクライ": "ガルク",
-    "プロジェクトセカイ カラフルステージ！ feat. 初音ミク": "プロセカ",
-    "青春ブタ野郎シリーズ": "青ブタ",
-    "アイカツ！シリーズ": "アイカツ",
-    "少女☆歌劇 レヴュースタァライト": "スタァライト",
-    "INCS toenter (インクストゥエンター)": "INCS toenter",
-    "ソードアート・オンライン": "SAO",
-    "プリンセスコネクト！Re:Dive": "プリコネ",
-    "ブルーアーカイブ -Blue Archive-": "ブルアカ",
-    "ヘブンバーンズレッド": "ヘブバン",
-    "ライヴラリ (ゆにクリエイト)": "ライヴラリ",
-    "陰の実力者になりたくて！": "陰実",
-    "告白実行委員会 (HoneyWorks)": "告白実行委員会"
-  };
+    const AGENCY_SHORT_LABELS = {
+      "アイドルマスターシリーズ": "アイマス",
+      "ラブライブ！シリーズ": "ラブライブ！",
+      "神椿スタジオ": "神椿",
+      "BanG Dream!": "バンドリ",
+      "ウマ娘 プリティーダービー": "ウマ娘",
+      "Tokyo 7th シスターズ": "ナナシス",
+      "ガールズバンドクライ": "ガルク",
+      "プロジェクトセカイ カラフルステージ！ feat. 初音ミク": "プロセカ",
+      "青春ブタ野郎シリーズ": "青ブタ",
+      "アイカツ！シリーズ": "アイカツ",
+      "少女☆歌劇 レヴュースタァライト": "スタァライト",
+      "INCS toenter (インクストゥエンター)": "INCS toenter",
+      "ソードアート・オンライン": "SAO",
+      "プリンセスコネクト！Re:Dive": "プリコネ",
+      "ブルーアーカイブ -Blue Archive-": "ブルアカ",
+      "ヘブンバーンズレッド": "ヘブバン",
+      "ライヴラリ (ゆにクリエイト)": "ライヴラリ",
+      "陰の実力者になりたくて！": "陰実",
+      "告白実行委員会 (HoneyWorks)": "告白実行委員会"
+    };
 
-  function getShortAgencyLabel(rawAgency) {
-    if (!rawAgency) return "";
-    return AGENCY_SHORT_LABELS[rawAgency] || rawAgency;
-  }
+    const rawAgency = (a.agencyGroup || a.agency || "").trim();
+    const shortAgency = rawAgency ? (AGENCY_SHORT_LABELS[rawAgency] || rawAgency) : "";
+    const agencyCellHTML = shortAgency
+      ? `<span class="row-agency-badge" title="所属（事務所・作品）：${esc(rawAgency)}">${esc(shortAgency)}</span>`
+      : `<span class="row-agency-empty">—</span>`;
 
     const hasSub = a.sub !== null && a.sub !== undefined;
     const subLabel = formatSubscribersJP(a.sub);
@@ -2465,14 +2814,13 @@
       ? `YouTube公式チャンネル公開登録者数（${a.subDate || "2026-10-27"}取得）`
       : "YouTube公式チャンネル登録者数：未取得";
 
-    const rawAgency = (a.agencyGroup || a.agency || "").trim();
-    const shortAgency = getShortAgencyLabel(rawAgency);
-    const agencyCellHTML = shortAgency
-      ? `<span class="row-agency-badge" title="所属（事務所・作品）：${esc(rawAgency)}">${esc(shortAgency)}</span>`
-      : `<span class="row-agency-empty">—</span>`;
+    const favSongCount = getArtistFavSongCount(a);
+    const favSongCountHTML = hasCustomRoleRank
+      ? `<div class="row-fav-song-count" title="高評価曲数（ハートを付けた曲数）">${fmtNum(favSongCount)}<span>曲</span></div>`
+      : "";
 
     return `
-      <div class="artist-row ${isSelected ? "selected" : ""} ${isFav ? "artist-is-fav" : ""} ${hasCustomRoleRank ? "recommend-artist-row" : ""} ${isSongSearchMode ? "song-matched-row" : ""} ${isPrimarySongFav ? "song-is-fav" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" ${isSongSearchMode && primarySongTitle ? `data-primary-song="${esc(primarySongTitle)}"` : ""} role="button" tabindex="0">
+      <div class="artist-row ${isSelected ? "selected" : ""} ${isFav ? "artist-is-fav" : ""} ${hasCustomRoleRank ? "recommend-artist-row" : ""} ${isSongSearchMode ? "song-matched-row" : ""} ${isPrimarySongFav ? "song-is-fav" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" ${isFav ? `data-heart-tier="${artistTier}"` : ""} ${isSongSearchMode && primarySongTitle ? `data-primary-song="${esc(primarySongTitle)}"` : ""} role="button" tabindex="0">
         <div class="row-rank ${(hideRankNumber && !hasCustomRoleRank) ? "row-rank-blank" : rankClass}">${rankText}</div>
         <div class="row-avatar-wrap" title="${isSongSearchMode ? "" : "編集モード時：タップでオススメ切替"}">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
@@ -2486,19 +2834,17 @@
         </div>
         <div class="row-subs col-pc-only ${hasSub ? "" : "unacquired"}" title="${esc(subTitle)}">${esc(subLabel)}</div>
         <div class="row-count">${fmtNum(a.count)}<span>曲</span></div>
-        ${hasCustomRoleRank ? `<div class="row-drag-handle" data-drag-handle="1" title="ドラッグして活動形態内で並び替え" aria-label="ドラッグして並び替え"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="16" x2="20" y2="16"></line></svg></div>` : ""}
+        ${favSongCountHTML}
+        ${hasCustomRoleRank ? `<div class="row-drag-handle" data-drag-handle="1" title="ドラッグして同じハートグレード内で並び替え" aria-label="ドラッグして並び替え"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="16" x2="20" y2="16"></line></svg></div>` : ""}
       </div>
     `;
   }
 
-  // Build a single Song Row HTML for "かるのオススメ" -> "楽曲" tab (1 row per song, never joined with "/")
+  // Build a single Song Row HTML for "かるのオススメ" -> "楽曲" tab (1 row per song, never joined with "/", artist heart hidden for clarity)
   function buildRecommendSongRowHTML(a, songTitle, rowIndex = 999, roleRank = 1) {
     const isSelected = state.selectedArtistName === a.name;
-    const isArtistFav = isRecommendedArtist(a.name);
-    const artistHeartHTML = isArtistFav
-      ? `<span class="artist-fav-heart" title="かるのオススメ" aria-label="かるのオススメ">${HEART_SVG_INNER}</span>`
-      : "";
-    const songHeartHTML = `<span class="artist-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>`;
+    const songTier = getSongHeartTier(a.aid, songTitle) || 3;
+    const songHeartHTML = buildHeartBadgeSpanHTML(songTier, "artist-fav-heart", "かるのオススメ楽曲");
 
     const isUnclassified = !a.role || a.role === "判定保留";
     const effRoles = getEffectiveRolesForArtist(a);
@@ -2541,12 +2887,12 @@
       : `<span class="row-agency-empty">—</span>`;
 
     return `
-      <div class="artist-row recommend-song-row song-is-fav ${isSelected ? "selected" : ""} ${isArtistFav ? "artist-is-fav" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" data-rec-song-title="${esc(songTitle)}" role="button" tabindex="0">
+      <div class="artist-row recommend-song-row song-is-fav ${isSelected ? "selected" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" data-rec-song-title="${esc(songTitle)}" data-heart-tier="${songTier}" role="button" tabindex="0">
         <div class="row-rank">${roleRank}</div>
-        <div class="row-avatar-wrap" title="編集モード時：タップでこの曲のハートを解除">${renderAvatarHTML(a, false, rowIndex)}</div>
+        <div class="row-avatar-wrap" title="">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
           <div class="row-song-primary">♪ ${esc(songTitle)}${songHeartHTML}</div>
-          <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${artistHeartHTML}</div>
+          <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}</div>
         </div>
         <div class="row-role col-pc-only">
           ${rowRoleBadgesHTML}
@@ -2556,7 +2902,7 @@
         </div>
         <div class="row-subs col-pc-only ${hasSub ? "" : "unacquired"}" title="${esc(subTitle)}">${esc(subLabel)}</div>
         <div class="row-count">${fmtNum(a.count)}<span>曲</span></div>
-        <div class="row-drag-handle" data-drag-handle="1" title="ドラッグして活動形態内で並び替え" aria-label="ドラッグして並び替え"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="16" x2="20" y2="16"></line></svg></div>
+        <div class="row-drag-handle" data-drag-handle="1" title="ドラッグして同じハートグレード内で並び替え" aria-label="ドラッグして並び替え"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="16" x2="20" y2="16"></line></svg></div>
       </div>
     `;
   }
@@ -2662,7 +3008,7 @@
         <div class="recommend-switch-bar">
           <div class="recommend-switch-tabs" role="tablist" aria-label="かるのオススメ表示切り替え">
             <button type="button" class="recommend-switch-tab ${!isSongTab ? "active" : ""}" data-recommend-tab="artist" role="tab" aria-selected="${!isSongTab}">
-              <span class="rec-tab-icon">${HEART_SVG_INNER}</span>
+              <span class="rec-tab-icon">${HEART_SVG_SINGLE}</span>
               <span>アーティスト</span>
               <span class="rec-tab-count">${fmtNum(recArtistCnt)}</span>
             </button>
@@ -2692,39 +3038,46 @@
       ];
 
       if (isSongTab) {
-        // Collect individual recommended song items (NEVER joined with "/"), ordered by recommendedSongSet custom order
+        // Collect individual recommended song items, placed into each individual Activity Role bucket of the artist
         const songOrderMap = new Map();
         let sOrdIdx = 0;
-        recommendedSongSet.forEach(k => songOrderMap.set(k, sOrdIdx++));
+        recommendedSongMap.forEach((_tier, k) => songOrderMap.set(k, sOrdIdx++));
 
         const buckets = new Map();
         roleOrder.forEach(r => buckets.set(r, []));
-        let matchedSongTotal = 0;
+        let uniqueMatchedSongTotal = 0;
 
         currentFiltered.forEach(a => {
           const favSongs = getRecommendedSongsForArtist(a);
           if (favSongs.length === 0) return;
-          let primaryRole = a.role || "その他";
-          if (primaryRole === "音楽グループ") {
-            primaryRole = a.groupSubRole || "音楽グループ(アニゲー関連)";
-          }
-          if (!buckets.has(primaryRole)) {
-            buckets.set(primaryRole, []);
-          }
-          const bucketArr = buckets.get(primaryRole);
-          favSongs.forEach(songTitle => {
-            const sKey = makeSongKey(a.aid, songTitle);
-            bucketArr.push({ artist: a, songTitle, songKey: sKey, orderIdx: songOrderMap.has(sKey) ? songOrderMap.get(sKey) : 999999 });
-            matchedSongTotal++;
+          uniqueMatchedSongTotal += favSongs.length;
+          const artistRoles = getRecommendRoleBucketsForArtist(a);
+          artistRoles.forEach(roleName => {
+            if (state.roles.length > 0 && !state.roles.includes(roleName)) return;
+            if (!buckets.has(roleName)) {
+              buckets.set(roleName, []);
+            }
+            const bucketArr = buckets.get(roleName);
+            favSongs.forEach(songTitle => {
+              const sKey = makeSongKey(a.aid, songTitle);
+              const sTier = getSongHeartTier(a.aid, songTitle) || 3;
+              bucketArr.push({
+                artist: a,
+                songTitle,
+                songKey: sKey,
+                tier: sTier,
+                orderIdx: songOrderMap.has(sKey) ? songOrderMap.get(sKey) : 999999
+              });
+            });
           });
         });
 
-        totalEl.innerHTML = `表示中: <strong>${fmtNum(matchedSongTotal)}</strong> 曲`;
+        totalEl.innerHTML = `表示中: <strong>${fmtNum(uniqueMatchedSongTotal)}</strong> 曲`;
         if (mobColCountEl) {
           mobColCountEl.textContent = `${fmtNum(recArtistCnt)}名義/${fmtNum(recSongCnt)}曲`;
         }
 
-        if (matchedSongTotal === 0) {
+        if (uniqueMatchedSongTotal === 0) {
           listEl.innerHTML = switchBarHTML + `
             <div class="empty-list-state">
               <h3>「かるのオススメ」に設定された楽曲がまだありません</h3>
@@ -2739,7 +3092,11 @@
         let sectionsHTML = switchBarHTML;
         buckets.forEach((songItems, roleName) => {
           if (!songItems || songItems.length === 0) return;
-          songItems.sort((x, y) => x.orderIdx - y.orderIdx);
+          // Sort by heart grade descending (3 -> 2 -> 1), then by orderIdx ascending (later additions at bottom)
+          songItems.sort((x, y) => {
+            if (y.tier !== x.tier) return y.tier - x.tier;
+            return x.orderIdx - y.orderIdx;
+          });
           const rowsHTML = songItems.map((item, idxInRole) => {
             const htmlRow = buildRecommendSongRowHTML(item.artist, item.songTitle, globalIdx, idxInRole + 1);
             globalIdx++;
@@ -2762,7 +3119,7 @@
         return;
       }
 
-      // Artist tab in "recommend" view (ordered by recommendedAidSet custom order within each role)
+      // Artist tab in "recommend" view (multi-role artists placed into each individual role bucket, sorted by heart grade 3->2->1 then orderIdx)
       if (mobColCountEl) {
         mobColCountEl.textContent = `${fmtNum(recArtistCnt)}名義/${fmtNum(recSongCnt)}曲`;
       }
@@ -2778,27 +3135,38 @@
       }
       const aidOrderMap = new Map();
       let aOrdIdx = 0;
-      recommendedAidSet.forEach(aid => aidOrderMap.set(aid, aOrdIdx++));
+      recommendedAidMap.forEach((_tier, aid) => {
+        aidOrderMap.set(aid, artistTierOrderMap.has(aid) ? artistTierOrderMap.get(aid) : aOrdIdx++);
+      });
+      const autoAidOrderMap = new Map();
+      DATA.forEach(a => {
+        if (a && a.aid && !aidOrderMap.has(a.aid) && getArtistHeartTier(a.aid) > 0) {
+          autoAidOrderMap.set(a.aid, artistTierOrderMap.has(a.aid) ? artistTierOrderMap.get(a.aid) : 999999);
+        }
+      });
 
       const buckets = new Map();
       roleOrder.forEach(r => buckets.set(r, []));
       currentFiltered.forEach(a => {
-        let primaryRole = a.role || "その他";
-        if (primaryRole === "音楽グループ") {
-          primaryRole = a.groupSubRole || "音楽グループ(アニゲー関連)";
-        }
-        if (!buckets.has(primaryRole)) {
-          buckets.set(primaryRole, []);
-        }
-        buckets.get(primaryRole).push(a);
+        const artistRoles = getRecommendRoleBucketsForArtist(a);
+        artistRoles.forEach(roleName => {
+          if (state.roles.length > 0 && !state.roles.includes(roleName)) return;
+          if (!buckets.has(roleName)) {
+            buckets.set(roleName, []);
+          }
+          buckets.get(roleName).push(a);
+        });
       });
       let globalIdx = 0;
       let sectionsHTML = switchBarHTML;
       buckets.forEach((groupList, roleName) => {
         if (!groupList || groupList.length === 0) return;
         groupList.sort((x, y) => {
-          const ox = aidOrderMap.has(x.aid) ? aidOrderMap.get(x.aid) : 999999;
-          const oy = aidOrderMap.has(y.aid) ? aidOrderMap.get(y.aid) : 999999;
+          const tx = getArtistHeartTier(x.aid);
+          const ty = getArtistHeartTier(y.aid);
+          if (ty !== tx) return ty - tx;
+          const ox = aidOrderMap.has(x.aid) ? aidOrderMap.get(x.aid) : (autoAidOrderMap.get(x.aid) || 999999);
+          const oy = aidOrderMap.has(y.aid) ? aidOrderMap.get(y.aid) : (autoAidOrderMap.get(y.aid) || 999999);
           return ox - oy;
         });
         const rowsHTML = groupList.map((a, idxInRole) => {
@@ -2926,10 +3294,30 @@
     const topSongs = artist.topSongs || [];
     const topTypes = artist.topTypes || [];
     const topLinks = artist.topLinks || [];
-    let displaySongs = rawSongs.map((t, idx) => ({ title: t, regIdx: idx + 1 }));
-    if (state.songSort === "titleAsc") {
-      displaySongs.sort((x, y) => jaCollator.compare(x.title, y.title));
-    }
+    let displaySongs = rawSongs.map((t, idx) => ({
+      title: t,
+      regIdx: idx + 1,
+      heartTier: getSongHeartTier(artist.aid, t),
+      isCustom: isCustomAddedSong(artist.aid, t)
+    }));
+
+    // Unconditionally place hearted songs at the top (sorted by heart grade 3 -> 2 -> 1),
+    // and within the same heart state/grade, sort by the selected sort (titleAsc or regAsc).
+    displaySongs.sort((x, y) => {
+      if (x.heartTier !== y.heartTier) {
+        return y.heartTier - x.heartTier;
+      }
+      if (favQuickEditMode && x.heartTier === 0 && x.isCustom !== y.isCustom) {
+        return x.isCustom ? -1 : 1;
+      }
+      if (state.songSort === "titleAsc") {
+        return jaCollator.compare(x.title, y.title);
+      }
+      if (favQuickEditMode && x.isCustom && y.isCustom) {
+        return y.regIdx - x.regIdx;
+      }
+      return x.regIdx - y.regIdx;
+    });
 
     const q = state.view === "search" ? normSearch(state.searchQuery) : "";
     const catLabel = artist.cat === 1 ? "カバーあり" : "カバーなし";
@@ -2938,11 +3326,6 @@
     const roleBadgeHTML = detailRoles
       .map(r => `<span class="detail-role-badge static-role-badge">${esc(r)}</span>`)
       .join("");
-    if (favQuickEditMode) {
-      const customPart = displaySongs.filter(x => isCustomAddedSong(artist.aid, x.title)).reverse();
-      const basePart = displaySongs.filter(x => !isCustomAddedSong(artist.aid, x.title));
-      displaySongs = [...customPart, ...basePart];
-    }
     const hasArchiveSongs = favQuickEditMode || ((artist.count || 0) >= 1 && rawSongs.length >= 1);
     if (!hasArchiveSongs && state.detailMode === "archive") {
       state.detailMode = "top5";
@@ -3020,9 +3403,10 @@
                 const sType = topTypes[idx] || "unconfirmed";
                 const dispTitle = formatTop5SongTitle(songTitle, sType);
                 const videoId = topLinks[idx] || "";
-                const isRepFav = isTop5SongHeartedInArchive(artist, songTitle, dispTitle);
+                const repTier = getTop5SongHeartTierInArchive(artist, songTitle, dispTitle);
+                const isRepFav = repTier > 0;
                 const repHeartHTML = isRepFav
-                  ? `<span class="song-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>`
+                  ? buildHeartBadgeSpanHTML(repTier, "song-fav-heart", "かるのオススメ楽曲")
                   : "";
                 if (videoId) {
                   const ytUrl = videoId.startsWith("http")
@@ -3083,15 +3467,16 @@
             ${displaySongs.map((s, i) => {
               const sAliases = (SONG_SEARCH_ALIASES_BY_NEW_TITLE[s.title] || []).map(al => normSearch(al));
               const isMatch = Boolean(q && (normSearch(s.title).includes(q) || sAliases.some(al => al.includes(q))));
-              const isSongFav = isRecommendedSong(artist.aid, s.title);
+              const songTier = getSongHeartTier(artist.aid, s.title);
+              const isSongFav = songTier > 0;
               const isCustom = isCustomAddedSong(artist.aid, s.title);
               return `
-                <div class="detail-song-item ${isMatch ? "highlight-match" : ""} ${isSongFav ? "song-is-fav" : ""}" data-song-title="${esc(s.title)}" data-artist-aid="${esc(artist.aid)}">
+                <div class="detail-song-item ${isMatch ? "highlight-match" : ""} ${isSongFav ? "song-is-fav" : ""}" data-song-title="${esc(s.title)}" data-artist-aid="${esc(artist.aid)}" ${isSongFav ? `data-heart-tier="${songTier}"` : ""}>
                   <span class="song-idx">${i + 1}</span>
-                  <span class="song-name">${esc(s.title)}${isSongFav ? `<span class="song-fav-heart" title="かるのオススメ楽曲" aria-label="かるのオススメ楽曲">${HEART_SVG_INNER}</span>` : ""}</span>
+                  <span class="song-name">${esc(s.title)}${isSongFav ? buildHeartBadgeSpanHTML(songTier, "song-fav-heart", "かるのオススメ楽曲") : ""}</span>
                   <span class="detail-song-right-actions">
                     ${isCustom ? `<button type="button" class="custom-song-del-btn" data-delete-custom-song="${esc(s.title)}" title="手動追加したこの曲を削除" aria-label="${esc(s.title)}を削除">－</button>` : ""}
-                    <span class="song-edit-heart-indicator ${isSongFav ? "is-fav" : ""}" aria-hidden="true">${HEART_SVG_INNER}</span>
+                    <span class="song-edit-heart-indicator ${isSongFav ? `is-fav heart-tier-${songTier}` : ""}" aria-hidden="true">${buildHeartTierInnerHTML(isSongFav ? songTier : activeHeartTier)}</span>
                   </span>
                 </div>
               `;
@@ -3101,13 +3486,14 @@
       `;
     }
 
-    const isDetailArtistFav = isRecommendedArtist(artist.name);
+    const detailArtistTier = getArtistHeartTier(artist.name);
+    const isDetailArtistFav = detailArtistTier > 0;
     contentEl.innerHTML = `
-      <div class="detail-hero ${isDetailArtistFav ? "detail-artist-is-fav" : ""}">
+      <div class="detail-hero ${isDetailArtistFav ? "detail-artist-is-fav" : ""}" ${isDetailArtistFav ? `data-heart-tier="${detailArtistTier}"` : ""}>
         <div class="detail-avatar-wrap" title="編集モード時：タップでオススメ切替">
           ${renderAvatarHTML(artist, true)}
         </div>
-        <h2 class="detail-artist-name">${artist.name === "神崎エルザ (ガンゲイル・オンライン)" ? `<span class="name-pc-only">${esc(artist.name)}</span><span class="name-mob-only">神崎エルザ(GGO)</span>` : esc(artist.name)}${isRecommendedArtist(artist.name) ? `<span class="detail-fav-heart" title="かるのオススメ" aria-label="かるのオススメ"><svg class="heart-soft-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.6c-.35 0-.7-.12-1-.35C7.1 17.2 2 12.8 2 7.8 2 4.5 4.6 2 7.9 2c1.75 0 3.25.8 4.1 2.05C12.85 2.8 14.35 2 16.1 2 19.4 2 22 4.5 22 7.8c0 5-5.1 9.4-9 12.45-.3.23-.65.35-1 .35Z"/></svg></span>` : ""}</h2>
+        <h2 class="detail-artist-name">${artist.name === "神崎エルザ (ガンゲイル・オンライン)" ? `<span class="name-pc-only">${esc(artist.name)}</span><span class="name-mob-only">神崎エルザ(GGO)</span>` : esc(artist.name)}${isDetailArtistFav ? buildHeartBadgeSpanHTML(detailArtistTier, "detail-fav-heart", "かるのオススメ") : ""}</h2>
         <div class="detail-meta-row">
           ${roleBadgeHTML}
         </div>
@@ -3241,17 +3627,22 @@
       mobRecBtn.classList.toggle("active-cat", state.view === "recommend");
     }
 
-    // Sync list-col-header labels & song-list-mode (hide 登録楽曲数 and show 曲名 across full width in 楽曲検索 & オススメ曲)
+    // Sync list-col-header labels, song-list-mode, and recommend-artist-mode ("高評価曲数")
     const isSongListMode =
       (state.view === "recommend" && state.recommendTab === "song") ||
       (state.view === "search" && state.searchTarget === "song");
+    const isRecommendArtistMode = state.view === "recommend" && state.recommendTab === "artist";
     const isGroupSearchMode = state.view === "search" && state.searchTarget === "group";
+    document.body.setAttribute("data-current-rec-tab", state.recommendTab || "artist");
     document.body.classList.toggle("song-list-mode", isSongListMode);
+    document.body.classList.toggle("recommend-artist-mode", isRecommendArtistMode);
     const listColHeaderEl = document.getElementById("listColHeader") || document.querySelector(".list-col-header");
     if (listColHeaderEl) {
       listColHeaderEl.classList.toggle("song-list-mode", isSongListMode);
+      listColHeaderEl.classList.toggle("recommend-artist-mode", isRecommendArtistMode);
       listColHeaderEl.classList.toggle("group-search-header-hidden", isGroupSearchMode);
-      listColHeaderEl.classList.toggle("recommend-mobile-header-hidden", state.view === "recommend");
+      // On Smartphone, hide column header only on "かるのオススメ" -> "楽曲" tab; on "アーティスト" tab show "アーティスト" + "高評価曲数"
+      listColHeaderEl.classList.toggle("recommend-mobile-header-hidden", state.view === "recommend" && isSongListMode);
     }
     const listColRankEl = document.getElementById("listColRankLabel") || document.querySelector(".list-col-header > span:first-child");
     if (listColRankEl) {
@@ -3260,6 +3651,10 @@
     const listColMainEl = document.getElementById("listColMainLabel") || document.querySelector(".list-col-header > span:nth-child(3)");
     if (listColMainEl) {
       listColMainEl.textContent = isSongListMode ? "曲名" : "アーティスト";
+    }
+    const listColFavCountEl = document.getElementById("listColFavCountLabel");
+    if (listColFavCountEl) {
+      listColFavCountEl.style.display = isRecommendArtistMode ? "" : "none";
     }
 
     // Highlight active stat pill (PC) & stat card (Mobile)
@@ -3978,8 +4373,11 @@
     let activeDragState = null;
     let suppressNextRowClick = false;
 
-    function commitRecommendSectionOrder(sectionEl) {
+    function commitRecommendSectionOrder(sectionEl, recordUndo = true) {
       if (!sectionEl) return;
+      if (recordUndo) {
+        pushEditHistorySnapshot();
+      }
       const rows = Array.from(sectionEl.querySelectorAll(".artist-row"));
       rows.forEach((r, idx) => {
         const rankEl = r.querySelector(".row-rank");
@@ -3991,26 +4389,49 @@
           .map(r => makeSongKey(r.getAttribute("data-artist-aid") || r.getAttribute("data-artist-name"), r.getAttribute("data-rec-song-title")))
           .filter(Boolean);
         const sectionKeySet = new Set(newSectionKeys);
-        const allKeys = Array.from(recommendedSongSet);
+        const allEntries = Array.from(recommendedSongMap.entries());
         let repIdx = 0;
-        const nextKeys = allKeys.map(k => sectionKeySet.has(k) ? newSectionKeys[repIdx++] : k);
-        recommendedSongSet.clear();
-        nextKeys.forEach(k => recommendedSongSet.add(k));
+        const nextEntries = allEntries.map(([k, tier]) => {
+          if (sectionKeySet.has(k)) {
+            const nextKey = newSectionKeys[repIdx++];
+            return [nextKey, recommendedSongMap.get(nextKey) || tier];
+          }
+          return [k, tier];
+        });
+        recommendedSongMap.clear();
+        nextEntries.forEach(([k, tier]) => recommendedSongMap.set(k, tier));
       } else {
         const newSectionAids = rows
           .map(r => r.getAttribute("data-artist-aid") || resolveToAid(r.getAttribute("data-artist-name")))
           .filter(Boolean);
+        // Ensure auto-promoted artists in the reordered section are also registered in recommendedAidMap with their current tier
+        newSectionAids.forEach(aid => {
+          if (!recommendedAidMap.has(aid)) {
+            const t = getArtistHeartTier(aid);
+            if (t > 0) recommendedAidMap.set(aid, t);
+          }
+        });
         const sectionAidSet = new Set(newSectionAids);
-        const allAids = Array.from(recommendedAidSet);
+        const allEntries = Array.from(recommendedAidMap.entries());
         let repIdx = 0;
-        const nextAids = allAids.map(aid => sectionAidSet.has(aid) ? newSectionAids[repIdx++] : aid);
-        recommendedAidSet.clear();
-        nextAids.forEach(aid => recommendedAidSet.add(aid));
+        const nextEntries = allEntries.map(([aid, tier]) => {
+          if (sectionAidSet.has(aid)) {
+            const nextAid = newSectionAids[repIdx++];
+            return [nextAid, recommendedAidMap.get(nextAid) || getArtistHeartTier(nextAid) || tier];
+          }
+          return [aid, tier];
+        });
+        recommendedAidMap.clear();
+        nextEntries.forEach(([aid, tier]) => {
+          recommendedAidMap.set(aid, tier);
+          artistTierOrderMap.set(aid, favOrderSeqCounter++);
+        });
       }
 
       saveFavOrderMemory();
       saveUnsavedDraft();
       updateFavEditBannerStatus();
+      syncHistoryButtons();
     }
 
     function getVisibleSectionRows(section, hiddenSourceRow) {
@@ -4078,6 +4499,7 @@
         } catch (_e) {}
       }
 
+      const draggedTier = row.getAttribute("data-heart-tier") || "3";
       const rowRect = row.getBoundingClientRect();
       const pointerOffsetY = clientY - rowRect.top;
 
@@ -4101,6 +4523,7 @@
       placeholderEl.removeAttribute("data-artist-name");
       placeholderEl.removeAttribute("data-artist-aid");
       placeholderEl.removeAttribute("data-rec-song-title");
+      placeholderEl.setAttribute("data-heart-tier", draggedTier);
       section.insertBefore(placeholderEl, row);
       row.style.display = "none";
 
@@ -4113,6 +4536,7 @@
         section,
         handle,
         ghostEl,
+        draggedTier,
         startTop: rowRect.top,
         pointerOffsetY,
         rowHeight: rowRect.height,
@@ -4123,13 +4547,17 @@
 
     function moveRecommendDragSession(clientY) {
       if (!activeDragState) return;
-      const { row, placeholderEl, section, ghostEl, pointerOffsetY, rowHeight } = activeDragState;
+      const { row, placeholderEl, section, ghostEl, draggedTier, pointerOffsetY, rowHeight } = activeDragState;
 
-      // Move floating card smoothly with finger/cursor, clamped to the current Activity Role section bounds
-      const secRect = section.getBoundingClientRect();
-      const headerEl = section.querySelector(".recommend-role-group-header");
-      const minTop = headerEl ? headerEl.getBoundingClientRect().bottom + 2 : secRect.top;
-      const maxTop = Math.max(minTop, secRect.bottom - Math.min(rowHeight, 44) + 8);
+      const siblings = getVisibleSectionRows(section, row);
+      // Restrict drag reordering strictly to rows with the exact same heart grade (`draggedTier`)
+      const sameTierSiblings = siblings.filter(r => r === placeholderEl || (r.getAttribute("data-heart-tier") || "3") === draggedTier);
+      if (sameTierSiblings.length <= 1) return;
+
+      const firstSame = sameTierSiblings[0];
+      const lastSame = sameTierSiblings[sameTierSiblings.length - 1];
+      const minTop = firstSame ? firstSame.getBoundingClientRect().top - 4 : section.getBoundingClientRect().top;
+      const maxTop = lastSame ? Math.max(minTop, lastSame.getBoundingClientRect().bottom - rowHeight + 4) : section.getBoundingClientRect().bottom;
       const desiredTop = Math.max(minTop, Math.min(maxTop, clientY - pointerOffsetY));
       if (ghostEl) {
         ghostEl.style.top = `${desiredTop}px`;
@@ -4146,11 +4574,8 @@
         }
       }
 
-      const siblings = getVisibleSectionRows(section, row);
-      if (siblings.length <= 1) return;
-
-      const prevIdx = siblings.indexOf(placeholderEl);
-      const nonPlaceholderRows = siblings.filter(r => r !== placeholderEl);
+      const prevIdx = sameTierSiblings.indexOf(placeholderEl);
+      const nonPlaceholderSameTierRows = sameTierSiblings.filter(r => r !== placeholderEl);
 
       // Record current layout tops for smooth FLIP transition if slot moves
       const prevTopsMap = new Map();
@@ -4158,10 +4583,10 @@
 
       const dragCenterY = clientY;
       let targetSib = null;
-      let targetIdx = nonPlaceholderRows.length;
+      let targetIdx = nonPlaceholderSameTierRows.length;
 
-      for (let i = 0; i < nonPlaceholderRows.length; i++) {
-        const sib = nonPlaceholderRows[i];
+      for (let i = 0; i < nonPlaceholderSameTierRows.length; i++) {
+        const sib = nonPlaceholderSameTierRows[i];
         const layoutTop = getRowLayoutTop(sib);
         const h = sib.offsetHeight || rowHeight;
         const midY = layoutTop + h / 2;
@@ -4176,7 +4601,12 @@
         if (targetSib) {
           section.insertBefore(placeholderEl, targetSib);
         } else {
-          section.appendChild(placeholderEl);
+          const lastInTier = nonPlaceholderSameTierRows[nonPlaceholderSameTierRows.length - 1];
+          if (lastInTier && lastInTier.nextSibling) {
+            section.insertBefore(placeholderEl, lastInTier.nextSibling);
+          } else {
+            section.appendChild(placeholderEl);
+          }
         }
         activeDragState.moved = true;
         updateDragPlaceholderAndGhostRank(section, placeholderEl, ghostEl, row);
@@ -4219,7 +4649,7 @@
       suppressNextRowClick = true;
       setTimeout(() => { suppressNextRowClick = false; }, 80);
       if (moved) {
-        commitRecommendSectionOrder(section);
+        commitRecommendSectionOrder(section, true);
       }
     }
 
@@ -4265,19 +4695,25 @@
     window.addEventListener("touchend", () => finishRecommendDrag());
     window.addEventListener("touchcancel", () => finishRecommendDrag());
 
-    // Expose programmatic helper for reordering within a role section (used by drag & tests)
+    // Expose programmatic helper for reordering within a role section (restricted to same heart grade!)
     window.__reorderRecommendSectionRow = function(sectionEl, fromIndex, toIndex) {
       if (!sectionEl) return false;
       const rows = Array.from(sectionEl.querySelectorAll(".artist-row"));
       if (fromIndex < 0 || fromIndex >= rows.length || toIndex < 0 || toIndex >= rows.length || fromIndex === toIndex) return false;
       const movingRow = rows[fromIndex];
       const targetRow = rows[toIndex];
+      const movingTier = movingRow.getAttribute("data-heart-tier") || "3";
+      const targetTier = targetRow.getAttribute("data-heart-tier") || "3";
+      if (movingTier !== targetTier) {
+        // Cannot swap across different heart grades!
+        return false;
+      }
       if (fromIndex < toIndex) {
         sectionEl.insertBefore(movingRow, targetRow.nextSibling);
       } else {
         sectionEl.insertBefore(movingRow, targetRow);
       }
-      commitRecommendSectionOrder(sectionEl);
+      commitRecommendSectionOrder(sectionEl, true);
       return true;
     };
 
@@ -4326,9 +4762,25 @@
       const recSongTitle = row.getAttribute("data-rec-song-title");
 
       if (favQuickEditMode) {
-        // Song-matched row in "すべて検索" or "楽曲を検索":
-        // - Clicking the avatar icon must NOT heart the artist.
-        // - Clicking anywhere else on the row (the song title / non-avatar area) toggles the song heart!
+        // 1) Song row in "かるのオススメ" -> "楽曲" tab (`.recommend-song-row` / `recSongTitle`):
+        //    - Clicking the avatar icon must do nothing.
+        //    - Clicking anywhere else on the row (song title / wide non-avatar area) removes the heart (if same grade selected) or switches to the selected heart grade, without opening Artist Detail!
+        if (row.classList.contains("recommend-song-row") || recSongTitle) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.target.closest(".row-avatar-wrap")) {
+            return;
+          }
+          const aObj = ARTIST_MAP.get(name);
+          if (aObj && aObj.aid && recSongTitle) {
+            toggleRecommendedSong(aObj.aid, recSongTitle);
+          }
+          return;
+        }
+
+        // 2) Song-matched row in "すべて検索" or "楽曲を検索":
+        //    - Clicking the avatar icon must NOT heart the artist.
+        //    - Clicking anywhere else on the row (the song title / non-avatar area) toggles/switches the song heart!
         if (row.classList.contains("song-matched-row")) {
           e.preventDefault();
           e.stopPropagation();
@@ -4344,16 +4796,11 @@
           return;
         }
 
-        // Normal artist row or "かるのオススメ" row -> tapping the circular avatar toggles ❤
+        // 3) Normal artist row or "かるのオススメ" -> "アーティスト" row -> tapping the circular avatar toggles/switches artist ❤
         if (e.target.closest(".row-avatar-wrap")) {
           e.preventDefault();
           e.stopPropagation();
-          if (recSongTitle) {
-            const aObj = ARTIST_MAP.get(name);
-            if (aObj && aObj.aid) toggleRecommendedSong(aObj.aid, recSongTitle);
-          } else {
-            toggleRecommendedArtist(name);
-          }
+          toggleRecommendedArtist(name);
           return;
         }
       }
@@ -4548,8 +4995,13 @@
       }
 
       favQuickEditMode = true;
+      activeHeartTier = 3;
+      editUndoStack.length = 0;
+      editRedoStack.length = 0;
       hideFavEditError();
       document.body.classList.add("fav-quick-edit-mode");
+      syncActiveHeartTierUI();
+      syncHistoryButtons();
 
       // Automatically switch open detail panel to "かるが聴いてる曲" ("archive") so song hearting & manual song addition are immediately accessible!
       if (state.selectedArtistName) {
@@ -4578,10 +5030,13 @@
     function closeFavQuickEditModeCleanly() {
       favQuickEditMode = false;
       isSavingFavorites = false;
+      editUndoStack.length = 0;
+      editRedoStack.length = 0;
       hideFavEditError();
       document.body.classList.remove("fav-quick-edit-mode");
       renderDetailPanel(false);
       updateFavEditBannerStatus();
+      syncHistoryButtons();
     }
 
     // Save changes to server ONLY when pressing 「完了して閉じる」
@@ -4715,8 +5170,8 @@
         if (!data || !data.ok) return;
 
         const ordMem = loadFavOrderMemory();
-        const rawFetchedIds = Array.isArray(data.ids) ? data.ids.map(resolveToAid).filter(Boolean) : [];
-        const rawFetchedSongFavs = normalizeSongKeyArray(data.songFavs);
+        const rawFetchedIds = normalizeArtistIdWithTierArray(data.ids);
+        const rawFetchedSongFavs = normalizeSongFavWithTierArray(data.songFavs);
         const fetchedIds = reconcileOrderWithMemory(rawFetchedIds, ordMem.ids);
         const fetchedSongFavs = reconcileOrderWithMemory(rawFetchedSongFavs, ordMem.songFavs);
         const fetchedCustomSongs = normalizeSongKeyArray(data.customSongs);
@@ -4826,8 +5281,8 @@
         const data = await resp.json().catch(() => null);
 
         if (resp.status === 409 && data && data.serverData) {
-          serverFavIds = (data.serverData.ids || []).map(resolveToAid).filter(Boolean);
-          serverSongFavs = normalizeSongKeyArray(data.serverData.songFavs);
+          serverFavIds = normalizeArtistIdWithTierArray(data.serverData.ids);
+          serverSongFavs = normalizeSongFavWithTierArray(data.serverData.songFavs);
           serverCustomSongs = normalizeSongKeyArray(data.serverData.customSongs);
           serverVersion = data.serverData.version || 1;
           if (confirmBtn) {
@@ -4852,8 +5307,8 @@
           localStorage.setItem(FAV_MIGRATION_STATE_KEY, "migrated");
         } catch (e) {}
 
-        serverFavIds = (data.ids || legacyAids).map(resolveToAid).filter(Boolean);
-        serverSongFavs = normalizeSongKeyArray(data.songFavs);
+        serverFavIds = normalizeArtistIdWithTierArray(data.ids || legacyAids);
+        serverSongFavs = normalizeSongFavWithTierArray(data.songFavs);
         serverCustomSongs = normalizeSongKeyArray(data.customSongs);
         serverVersion = typeof data.version === "number" ? data.version : 1;
         hasFetchedServerOnce = true;
@@ -4895,8 +5350,8 @@
     function openFavConflictModal(serverData) {
       if (!favConflictModal || !serverData) return;
       lastConflictServerData = {
-        ids: (serverData.ids || []).map(resolveToAid).filter(Boolean),
-        songFavs: normalizeSongKeyArray(serverData.songFavs),
+        ids: normalizeArtistIdWithTierArray(serverData.ids),
+        songFavs: normalizeSongFavWithTierArray(serverData.songFavs),
         customSongs: normalizeSongKeyArray(serverData.customSongs),
         version: typeof serverData.version === "number" ? serverData.version : 1,
         updatedAt: serverData.updatedAt || null
@@ -4961,6 +5416,23 @@
     if (brandIconEl) brandIconEl.addEventListener("click", handleSecretLogoTap);
     const mobTopLeftEl = document.querySelector(".mobile-top-left");
     if (mobTopLeftEl) mobTopLeftEl.addEventListener("click", handleSecretLogoTap);
+
+    // Heart tier selector tabs in Edit Mode banner (`最上位` / `第2` / `第1`)
+    const favQeTierTabsEl = document.getElementById("favQeTierTabs");
+    if (favQeTierTabsEl) {
+      favQeTierTabsEl.addEventListener("click", e => {
+        const tabBtn = e.target.closest("[data-select-heart-tier]");
+        if (!tabBtn) return;
+        const nextTier = Number(tabBtn.getAttribute("data-select-heart-tier")) || 3;
+        if (nextTier === 1 || nextTier === 2 || nextTier === 3) {
+          activeHeartTier = nextTier;
+          syncActiveHeartTierUI();
+          if (state.selectedArtistName && state.detailMode === "archive") {
+            renderDetailPanel(false);
+          }
+        }
+      });
+    }
 
     // 「完了して閉じる」 button
     const exitFavQeBtn = document.getElementById("exitFavQuickEditBtn");
