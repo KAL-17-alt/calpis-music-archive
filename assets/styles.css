@@ -5689,3 +5689,113 @@ body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row .row-drag-ha
     display: none !important;
   }
 }
+
+
+/* ==========================================================================
+   v55 Polish:
+   1. Smartphone "すべて検索": hide right-side song count (`～曲`) when a song matches
+   2. Smartphone "かるのオススメ": hide `#listColHeader` ("曲名" / "アーティスト・登録楽曲数")
+   3. "グループを検索": hide `#listColHeader` on both PC & Smartphone
+   4. Fix PC & Smartphone "かるのオススメ" Edit Mode right-edge drag handle layout & responsiveness
+   5. Smartphone search input clear button (`#clearSearchBtn`): larger, well-proportioned `×` inside circle
+   ========================================================================== */
+
+/* (3) Hide column header completely in "グループを検索" on both PC & Smartphone */
+.list-col-header.group-search-header-hidden,
+body[data-current-view="search"][data-search-target="group"] #listColHeader {
+  display: none !important;
+}
+
+/* (4) PC & Smartphone Edit Mode on "かるのオススメ":
+       Ensure `.row-drag-handle` is always visible flush at the right edge of `.artist-row`
+       (never pushed outside the row on PC's 586px center panel) */
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row,
+body.fav-quick-edit-mode[data-current-view="recommend"]:not(.song-list-mode) .artist-row.recommend-artist-row,
+body.fav-quick-edit-mode[data-current-view="recommend"].song-list-mode .artist-row.recommend-song-row {
+  grid-template-columns: 36px 46px minmax(0, 1fr) 36px !important;
+  gap: 10px !important;
+  padding-right: 12px !important;
+}
+
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-role,
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-group,
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-agency,
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-subs,
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-Updating,
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-count {
+  display: none !important;
+}
+
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-rank {
+  grid-column: 1 !important;
+}
+
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-avatar-wrap {
+  grid-column: 2 !important;
+}
+
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-name-wrap {
+  grid-column: 3 !important;
+  min-width: 0 !important;
+}
+
+body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row > .row-drag-handle {
+  grid-column: 4 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 34px !important;
+  height: 36px !important;
+  justify-self: end !important;
+  touch-action: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+@media (max-width: 900px) {
+  /* (1) Smartphone "すべて検索": when a song matches (`.song-matched-row`), hide `.row-count` (`～曲`) and use full width */
+  body[data-current-view="search"][data-search-target="all"] .artist-row.song-matched-row {
+    grid-template-columns: 28px 42px minmax(0, 1fr) !important;
+    padding-right: 12px !important;
+  }
+
+  body[data-current-view="search"][data-search-target="all"] .artist-row.song-matched-row > .row-count {
+    display: none !important;
+  }
+
+  body[data-current-view="search"][data-search-target="all"] .artist-row.song-matched-row > .row-name-wrap {
+    grid-column: 3 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  /* (2) Smartphone "かるのオススメ": completely hide column header (`#listColHeader`) */
+  .list-col-header.recommend-mobile-header-hidden,
+  body[data-current-view="recommend"] #listColHeader {
+    display: none !important;
+  }
+
+  /* (4) Smartphone Edit Mode on "かるのオススメ": compact 4-column grid with right-edge drag handle */
+  body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row,
+  body.fav-quick-edit-mode[data-current-view="recommend"]:not(.song-list-mode) .artist-row.recommend-artist-row,
+  body.fav-quick-edit-mode[data-current-view="recommend"].song-list-mode .artist-row.recommend-song-row,
+  body.fav-quick-edit-mode[data-current-view="recommend"] .artist-row.recommend-song-row {
+    grid-template-columns: 28px 42px minmax(0, 1fr) 34px !important;
+    gap: 8px !important;
+    padding: 8px 8px 8px 10px !important;
+  }
+
+  /* (5) Smartphone search input clear button (`#clearSearchBtn`): larger `×` inside circle */
+  .search-clear-btn,
+  #clearSearchBtn {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
