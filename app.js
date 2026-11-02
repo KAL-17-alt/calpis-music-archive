@@ -6048,7 +6048,6 @@
     updateFavEditBannerStatus = function() {
       const diffBadge = document.getElementById("favQeDiffBadge");
       const discardBtn = document.getElementById("discardFavQuickEditBtn");
-      const migrateBtn = document.getElementById("openLegacyMigrateBtn");
       const exitBtn = document.getElementById("exitFavQuickEditBtn");
 
       const curIds = getSortedCurrentAids();
@@ -6079,16 +6078,6 @@
       if (discardBtn) {
         discardBtn.style.display = anyChanged && !isSavingFavorites ? "inline-flex" : "none";
       }
-      if (migrateBtn) {
-        const legacyAids = getLegacyLocalStorageAids();
-        let migState = null; try { migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY); } catch (_e) {}
-        migrateBtn.style.display = (legacyAids.length > 0 && migState !== "migrated" && !isSavingFavorites)
-          ? "inline-flex"
-          : "none";
-        if (legacyAids.length > 0) {
-          migrateBtn.textContent = `端末の既存ハート(${legacyAids.length}件)を移行`;
-        }
-      }
       if (exitBtn && !isSavingFavorites) {
         exitBtn.disabled = false;
         exitBtn.textContent = "完了して閉じる";
@@ -6112,27 +6101,11 @@
       permanentlyExcludeOwnerFromAnalytics();
       if (favQuickEditMode) return;
       manualReorderCount = 0;
-      const existingDraft = loadUnsavedDraft();
-      let restoredDraft = false;
-
-      if (
-        existingDraft &&
-        (!areStringArraysEqual(existingDraft.ids, existingDraft.baseIds) ||
-          !areStringArraysEqual(existingDraft.songFavs, existingDraft.baseSongFavs) ||
-          !areStringArraysEqual(existingDraft.customSongs, existingDraft.baseCustomSongs))
-      ) {
-        editSessionBaseIds = existingDraft.baseIds;
-        editSessionBaseSongFavs = existingDraft.baseSongFavs;
-        editSessionBaseCustomSongs = existingDraft.baseCustomSongs;
-        editSessionBaseVersion = existingDraft.baseVersion;
-        setAllSharedStates(existingDraft.ids, existingDraft.songFavs, existingDraft.customSongs);
-        restoredDraft = true;
-      } else {
-        editSessionBaseIds = hasFetchedServerOnce ? [...serverFavIds] : getSortedCurrentAids();
-        editSessionBaseSongFavs = hasFetchedServerOnce ? [...serverSongFavs] : getSortedCurrentSongFavs();
-        editSessionBaseCustomSongs = hasFetchedServerOnce ? [...serverCustomSongs] : getSortedCurrentCustomSongs();
-        editSessionBaseVersion = serverVersion;
-      }
+      clearUnsavedDraft();
+      editSessionBaseIds = hasFetchedServerOnce ? [...serverFavIds] : getSortedCurrentAids();
+      editSessionBaseSongFavs = hasFetchedServerOnce ? [...serverSongFavs] : getSortedCurrentSongFavs();
+      editSessionBaseCustomSongs = hasFetchedServerOnce ? [...serverCustomSongs] : getSortedCurrentCustomSongs();
+      editSessionBaseVersion = serverVersion;
 
       editSessionBaseEffectiveMap = captureEffectiveArtistTierMap();
       favQuickEditMode = true;
@@ -6153,19 +6126,7 @@
       updateFavEditBannerStatus();
       applySilentFavoritesDOMUpdate();
 
-      if (restoredDraft) {
-        showOwnerFavToast("前回の未保存の編集内容を復元しました（「完了して閉じる」で保存、「取消」で破棄できます）");
-      } else {
-        const legacyAids = getLegacyLocalStorageAids();
-        let migState = null; try { migState = localStorage.getItem(FAV_MIGRATION_STATE_KEY); } catch (_e) {}
-        if (serverVersion === 0 && legacyAids.length > 0 && migState !== "migrated" && migState !== "skipped") {
-          openFavMigrationModal();
-        }
-      }
-
-      if (!restoredDraft) {
-        fetchServerFavorites({ silent: true, fresh: true });
-      }
+      fetchServerFavorites({ silent: true, fresh: true });
     }
 
     function closeFavQuickEditModeCleanly() {
@@ -6183,7 +6144,7 @@
     // Save changes to server ONLY when pressing 「完了して閉じる」
     async function saveFavoritesToServer(options = {}) {
       if (isSavingFavorites) return;
-      const forceOverwrite = Boolean(options.forceOverwrite);
+      const forceOverwrite = options.forceOverwrite !== undefined ? Boolean(options.forceOverwrite) : true;
       const targetIds = Array.isArray(options.customIds) ? [...options.customIds] : getSortedCurrentAids();
       const targetSongFavs = Array.isArray(options.customSongFavs) ? [...options.customSongFavs] : getSortedCurrentSongFavs();
       const targetCustomSongs = Array.isArray(options.customAddedSongs) ? [...options.customAddedSongs].sort() : getSortedCurrentCustomSongs();
@@ -6202,7 +6163,7 @@
         areStringArraysEqual(targetCustomSongs, serverCustomSongs)
       );
 
-      if (!forceOverwrite && noDiffFromSession && noDiffFromServer) {
+      if (!options.forceOverwrite && noDiffFromSession && noDiffFromServer) {
         clearUnsavedDraft();
         closeFavQuickEditModeCleanly();
         return;
@@ -6241,13 +6202,6 @@
         });
 
         const data = await resp.json().catch(() => null);
-
-        if (resp.status === 409 && data && data.serverData) {
-          isSavingFavorites = false;
-          updateFavEditBannerStatus();
-          openFavConflictModal(data.serverData);
-          return;
-        }
 
         if (!resp.ok || !data || !data.ok) {
           const errMsg = (data && data.message)
@@ -6367,181 +6321,6 @@
       } catch (_err) {}
     }
 
-    // ==================== Owner-Only Initial Migration Modal ====================
-    const favMigrationModal = document.getElementById("favMigrationModal");
-    function openFavMigrationModal() {
-      if (!favQuickEditMode) return;
-      const legacyAids = getLegacyLocalStorageAids();
-      if (!favMigrationModal || legacyAids.length === 0) return;
-      const countBadge = document.getElementById("favMigrationCountBadge");
-      const previewList = document.getElementById("favMigrationPreviewList");
-      const errBox = document.getElementById("favMigrationErrorBox");
-      if (countBadge) countBadge.textContent = `${legacyAids.length} 名義`;
-      if (previewList) {
-        const names = legacyAids.map(resolveAidToName).filter(Boolean);
-        previewList.textContent = names.join("、");
-      }
-      if (errBox) errBox.style.display = "none";
-      favMigrationModal.classList.add("open");
-      favMigrationModal.setAttribute("aria-hidden", "false");
-    }
-
-    function closeFavMigrationModal() {
-      if (!favMigrationModal) return;
-      favMigrationModal.classList.remove("open");
-      favMigrationModal.setAttribute("aria-hidden", "true");
-    }
-
-    async function executeLegacyMigration(forceOverwrite = false) {
-      const legacyAids = getLegacyLocalStorageAids();
-      if (legacyAids.length === 0) {
-        closeFavMigrationModal();
-        return;
-      }
-      const confirmBtn = document.getElementById("confirmFavMigrationBtn");
-      const errBox = document.getElementById("favMigrationErrorBox");
-      if (confirmBtn) {
-        confirmBtn.disabled = true;
-        confirmBtn.textContent = "サーバーへ移行中...";
-      }
-      if (errBox) errBox.style.display = "none";
-
-      try {
-        const resp = await fetch(FAV_API_ENDPOINT, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Calpis-Client": "archive-v1",
-            "X-Calpis-Edit-Intent": "1"
-          },
-          body: JSON.stringify({
-            action: "migrate",
-            ids: legacyAids,
-            songFavs: getSortedCurrentSongFavs(),
-            customSongs: getSortedCurrentCustomSongs(),
-            baseVersion: serverVersion,
-            forceOverwrite,
-            clientRequestId: `mig_${Date.now()}`
-          }),
-          cache: "no-store"
-        });
-        const data = await resp.json().catch(() => null);
-
-        if (resp.status === 409 && data && data.serverData) {
-          serverFavIds = normalizeArtistIdWithTierArray(data.serverData.ids);
-          serverSongFavs = normalizeSongFavWithTierArray(data.serverData.songFavs);
-          serverCustomSongs = normalizeSongKeyArray(data.serverData.customSongs);
-          serverVersion = data.serverData.version || 1;
-          if (confirmBtn) {
-            confirmBtn.disabled = false;
-            confirmBtn.textContent = "サーバーの既存データを上書きしてこの端末から移行する";
-            confirmBtn.dataset.forceOverwrite = "1";
-          }
-          if (errBox) {
-            errBox.textContent = `サーバーには既に共有データ（${serverFavIds.length}名義・v${serverVersion}）が存在します。この端末のデータ（${legacyAids.length}名義）で上書きする場合はもう一度ボタンを押してください。`;
-            errBox.style.display = "block";
-          }
-          return;
-        }
-
-        if (!resp.ok || !data || !data.ok) {
-          throw new Error((data && data.message) || `移行エラー (HTTP ${resp.status})`);
-        }
-
-        try {
-          const rawOrig = localStorage.getItem(RECOMMENDED_STORAGE_KEY);
-          if (rawOrig) localStorage.setItem(RECOMMENDED_BACKUP_KEY, rawOrig);
-          localStorage.setItem(FAV_MIGRATION_STATE_KEY, "migrated");
-        } catch (e) {}
-
-        serverFavIds = normalizeArtistIdWithTierArray(data.ids || legacyAids);
-        serverSongFavs = normalizeSongFavWithTierArray(data.songFavs);
-        serverCustomSongs = normalizeSongKeyArray(data.customSongs);
-        serverVersion = typeof data.version === "number" ? data.version : 1;
-        hasFetchedServerOnce = true;
-
-        editSessionBaseIds = [...serverFavIds];
-        editSessionBaseSongFavs = [...serverSongFavs];
-        editSessionBaseCustomSongs = [...serverCustomSongs];
-        editSessionBaseVersion = serverVersion;
-
-        setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
-        saveFavServerCache(serverFavIds, serverSongFavs, serverCustomSongs, serverVersion, data.updatedAt);
-        clearUnsavedDraft();
-
-        if (confirmBtn) {
-          confirmBtn.disabled = false;
-          confirmBtn.textContent = "確認してこの端末からサーバーへ移行する";
-          delete confirmBtn.dataset.forceOverwrite;
-        }
-        closeFavMigrationModal();
-        updateFavEditBannerStatus();
-        applySilentFavoritesDOMUpdate();
-        showOwnerFavToast(`既存の「かるのオススメ」（${serverFavIds.length}名義）をサーバーへ移行しました`);
-      } catch (err) {
-        if (confirmBtn) {
-          confirmBtn.disabled = false;
-          confirmBtn.textContent = "再試行：この端末からサーバーへ移行する";
-        }
-        if (errBox) {
-          errBox.textContent = `${err && err.message ? err.message : "通信エラーが発生しました。"}（既存のハート設定は端末内に安全に保持されています）`;
-          errBox.style.display = "block";
-        }
-      }
-    }
-
-    // ==================== Conflict Resolution Modal ====================
-    const favConflictModal = document.getElementById("favConflictModal");
-    let lastConflictServerData = null;
-
-    function openFavConflictModal(serverData) {
-      if (!favConflictModal || !serverData) return;
-      lastConflictServerData = {
-        ids: normalizeArtistIdWithTierArray(serverData.ids),
-        songFavs: normalizeSongFavWithTierArray(serverData.songFavs),
-        customSongs: normalizeSongKeyArray(serverData.customSongs),
-        version: typeof serverData.version === "number" ? serverData.version : 1,
-        updatedAt: serverData.updatedAt || null
-      };
-
-      const curIds = getSortedCurrentAids();
-      const curSongs = getSortedCurrentSongFavs();
-      const curCustom = getSortedCurrentCustomSongs();
-
-      const localDiff = computeDiffCounts(editSessionBaseIds, curIds);
-      const localSongDiff = computeDiffCounts(editSessionBaseSongFavs, curSongs);
-      const localCustomDiff = computeDiffCounts(editSessionBaseCustomSongs, curCustom);
-
-      const localSumEl = document.getElementById("favConflictLocalSummary");
-      const localDetEl = document.getElementById("favConflictLocalDetail");
-      const srvSumEl = document.getElementById("favConflictServerSummary");
-      const srvDetEl = document.getElementById("favConflictServerDetail");
-
-      if (localSumEl) localSumEl.textContent = `名義:${curIds.length} / 曲♥:${curSongs.length}`;
-      if (localDetEl) {
-        const lines = [];
-        if (localDiff.added.length > 0) lines.push(`【名義追加】${localDiff.added.map(resolveAidToName).filter(Boolean).join("、")}`);
-        if (localDiff.removed.length > 0) lines.push(`【名義解除】${localDiff.removed.map(resolveAidToName).filter(Boolean).join("、")}`);
-        if (localSongDiff.hasChanges) lines.push(`【曲♥変更】+${localSongDiff.added.length} / -${localSongDiff.removed.length}`);
-        if (localCustomDiff.hasChanges) lines.push(`【曲追加】+${localCustomDiff.added.length}`);
-        localDetEl.textContent = lines.length > 0 ? lines.join(" / ") : "変更なし";
-      }
-
-      if (srvSumEl) srvSumEl.textContent = `名義:${lastConflictServerData.ids.length} / 曲♥:${lastConflictServerData.songFavs.length} (v${lastConflictServerData.version})`;
-      if (srvDetEl) {
-        srvDetEl.textContent = `他端末でバージョン v${lastConflictServerData.version} が保存されています。「両方の変更を合体して保存」を押すと両方の編集内容を統合します。`;
-      }
-
-      favConflictModal.classList.add("open");
-      favConflictModal.setAttribute("aria-hidden", "false");
-    }
-
-    function closeFavConflictModal() {
-      if (!favConflictModal) return;
-      favConflictModal.classList.remove("open");
-      favConflictModal.setAttribute("aria-hidden", "true");
-    }
-
     // Secret 5-tap on top-left logo (.brand-disc-icon or .mobile-top-left) within 1.5 seconds (1500ms)
     let secretLogoTapTimes = [];
     function handleSecretLogoTap() {
@@ -6612,126 +6391,6 @@
       closeKeepDraftBtn.addEventListener("click", () => {
         saveUnsavedDraft();
         setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
-        closeFavQuickEditModeCleanly();
-        applySilentFavoritesDOMUpdate();
-      });
-    }
-
-    const openLegacyMigrateBtn = document.getElementById("openLegacyMigrateBtn");
-    if (openLegacyMigrateBtn) {
-      openLegacyMigrateBtn.addEventListener("click", openFavMigrationModal);
-    }
-    const closeFavMigrationModalBtn = document.getElementById("closeFavMigrationModalBtn");
-    if (closeFavMigrationModalBtn) {
-      closeFavMigrationModalBtn.addEventListener("click", closeFavMigrationModal);
-    }
-    const postponeFavMigrationBtn = document.getElementById("postponeFavMigrationBtn");
-    if (postponeFavMigrationBtn) {
-      postponeFavMigrationBtn.addEventListener("click", closeFavMigrationModal);
-    }
-    const skipDeviceFavMigrationBtn = document.getElementById("skipDeviceFavMigrationBtn");
-    if (skipDeviceFavMigrationBtn) {
-      skipDeviceFavMigrationBtn.addEventListener("click", () => {
-        try {
-          localStorage.setItem(FAV_MIGRATION_STATE_KEY, "skipped");
-        } catch (e) {}
-        closeFavMigrationModal();
-        if (hasFetchedServerOnce) {
-          setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
-          editSessionBaseIds = [...serverFavIds];
-          editSessionBaseSongFavs = [...serverSongFavs];
-          editSessionBaseCustomSongs = [...serverCustomSongs];
-          editSessionBaseVersion = serverVersion;
-          updateFavEditBannerStatus();
-          applySilentFavoritesDOMUpdate();
-        }
-      });
-    }
-    const confirmFavMigrationBtn = document.getElementById("confirmFavMigrationBtn");
-    if (confirmFavMigrationBtn) {
-      confirmFavMigrationBtn.addEventListener("click", () => {
-        const force = confirmFavMigrationBtn.dataset.forceOverwrite === "1";
-        executeLegacyMigration(force);
-      });
-    }
-
-    // Conflict Modal buttons (3-way merge across ids, songFavs, and customSongs)
-    const closeFavConflictModalBtn = document.getElementById("closeFavConflictModalBtn");
-    if (closeFavConflictModalBtn) {
-      closeFavConflictModalBtn.addEventListener("click", closeFavConflictModal);
-    }
-    const conflictMergeSaveBtn = document.getElementById("conflictMergeSaveBtn");
-    if (conflictMergeSaveBtn) {
-      conflictMergeSaveBtn.addEventListener("click", () => {
-        if (!lastConflictServerData) return;
-        const mergeThreeWay = (baseArr, localArr, serverArr) => {
-          const diff = computeDiffCounts(baseArr, localArr);
-          const merged = new Set(serverArr);
-          diff.added.forEach(x => merged.add(x));
-          diff.removed.forEach(x => merged.delete(x));
-          return Array.from(merged);
-        };
-
-        const mergedIds = mergeThreeWay(editSessionBaseIds, getSortedCurrentAids(), lastConflictServerData.ids);
-        const mergedSongFavs = mergeThreeWay(editSessionBaseSongFavs, getSortedCurrentSongFavs(), lastConflictServerData.songFavs);
-        const mergedCustomSongs = mergeThreeWay(editSessionBaseCustomSongs, getSortedCurrentCustomSongs(), lastConflictServerData.customSongs);
-
-        serverFavIds = [...lastConflictServerData.ids];
-        serverSongFavs = [...lastConflictServerData.songFavs];
-        serverCustomSongs = [...lastConflictServerData.customSongs];
-        serverVersion = lastConflictServerData.version;
-
-        editSessionBaseIds = [...serverFavIds];
-        editSessionBaseSongFavs = [...serverSongFavs];
-        editSessionBaseCustomSongs = [...serverCustomSongs];
-        editSessionBaseVersion = serverVersion;
-
-        setAllSharedStates(mergedIds, mergedSongFavs, mergedCustomSongs);
-        saveUnsavedDraft();
-        closeFavConflictModal();
-        renderDetailPanel(false);
-        applySilentFavoritesDOMUpdate();
-        saveFavoritesToServer({
-          customIds: mergedIds,
-          customSongFavs: mergedSongFavs,
-          customAddedSongs: mergedCustomSongs,
-          customBaseVersion: lastConflictServerData.version
-        });
-      });
-    }
-    const conflictForceOverwriteBtn = document.getElementById("conflictForceOverwriteBtn");
-    if (conflictForceOverwriteBtn) {
-      conflictForceOverwriteBtn.addEventListener("click", () => {
-        if (!lastConflictServerData) return;
-        editSessionBaseVersion = lastConflictServerData.version;
-        closeFavConflictModal();
-        saveFavoritesToServer({
-          customIds: getSortedCurrentAids(),
-          customSongFavs: getSortedCurrentSongFavs(),
-          customAddedSongs: getSortedCurrentCustomSongs(),
-          customBaseVersion: lastConflictServerData.version,
-          forceOverwrite: true
-        });
-      });
-    }
-    const conflictLoadServerBtn = document.getElementById("conflictLoadServerBtn");
-    if (conflictLoadServerBtn) {
-      conflictLoadServerBtn.addEventListener("click", () => {
-        if (!lastConflictServerData) return;
-        serverFavIds = [...lastConflictServerData.ids];
-        serverSongFavs = [...lastConflictServerData.songFavs];
-        serverCustomSongs = [...lastConflictServerData.customSongs];
-        serverVersion = lastConflictServerData.version;
-
-        editSessionBaseIds = [...serverFavIds];
-        editSessionBaseSongFavs = [...serverSongFavs];
-        editSessionBaseCustomSongs = [...serverCustomSongs];
-        editSessionBaseVersion = serverVersion;
-
-        setAllSharedStates(serverFavIds, serverSongFavs, serverCustomSongs);
-        saveFavServerCache(serverFavIds, serverSongFavs, serverCustomSongs, serverVersion, lastConflictServerData.updatedAt);
-        clearUnsavedDraft();
-        closeFavConflictModal();
         closeFavQuickEditModeCleanly();
         applySilentFavoritesDOMUpdate();
       });
