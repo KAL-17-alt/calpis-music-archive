@@ -1185,7 +1185,7 @@ module.exports = async function handler(req, res) {
   }
 
   const clientRequestId = typeof body.clientRequestId === "string" ? body.clientRequestId.trim().slice(0, 80) : "";
-  const forceOverwrite = body.forceOverwrite === true;
+  const forceOverwrite = true;
   const nowIso = new Date().toISOString();
 
   try {
