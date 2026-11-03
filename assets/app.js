@@ -550,6 +550,9 @@
     return true;
   }
 
+  // Avoid invoking the song-search cache builder before its const/let dependencies exist.
+  let songSearchCacheReady = false;
+
   /**
    * Merges `customAddedSongSet` into each artist's `a.songs` and updates `a.count` and search normalization arrays.
    */
@@ -599,7 +602,9 @@
         a._normSongAliasesNoSpace = a._normSongAliases.map(arr => arr.map(al => stripSpaces(al)));
       }
     });
-    if (typeof rebuildAllArtistSongSearchCaches === "function") {
+    // On the first boot, canonical-song constants are initialized later.
+    // The first full cache build runs once after those constants are ready.
+    if (songSearchCacheReady) {
       rebuildAllArtistSongSearchCaches();
     }
   }
@@ -1976,6 +1981,7 @@
   }
 
   rebuildAllArtistSongSearchCaches();
+  songSearchCacheReady = true;
 
   // Fast Map from artist name to artist object
   const ARTIST_MAP = new Map();
