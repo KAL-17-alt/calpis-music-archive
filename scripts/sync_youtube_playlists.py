@@ -839,7 +839,7 @@ CURATED_V56_ARTISTS = [
       "歌手"
     ],
     "groupSubRole": "",
-    "sub": null,
+    "sub": None,
     "subBucket": "unknown",
     "subDate": "2026-11-01",
     "al": [
@@ -890,7 +890,7 @@ CURATED_V56_ARTISTS = [
       "歌い手"
     ],
     "groupSubRole": "",
-    "sub": null,
+    "sub": None,
     "subBucket": "unknown",
     "subDate": "2026-11-01",
     "al": [
@@ -1052,7 +1052,7 @@ CURATED_V56_ARTISTS = [
       "歌い手"
     ],
     "groupSubRole": "",
-    "sub": null,
+    "sub": None,
     "subBucket": "unknown",
     "subDate": "2026-11-01",
     "al": [
@@ -1108,7 +1108,7 @@ CURATED_V56_ARTISTS = [
       "音楽グループ(その他)"
     ],
     "groupSubRole": "音楽グループ(その他)",
-    "sub": null,
+    "sub": None,
     "subBucket": "unknown",
     "subDate": "2026-11-01",
     "al": [
@@ -1130,7 +1130,7 @@ CURATED_V56_ARTISTS = [
       },
       {
         "text": "・000・",
-        "target": null
+        "target": None
       },
       {
         "text": "めありー",
