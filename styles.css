@@ -7111,8 +7111,28 @@ body.fav-quick-edit-mode[data-current-view="recommend"] #listColTotalHeartLabel 
   align-items: center;
 }
 
-/* Same-song group ranking mode ("同一曲数順") */
-body.same-song-group-mode .list-col-header .col-pc-only {
+/* Ensure heart-filter-badge and qe-tier-icon always render in their exact pink/rose colors on PC & Mobile, never gray */
+.heart-filter-badge.heart-tier-3,
+.qe-tier-icon-3 .heart-tier-pc {
+  color: #f43f5e !important;
+  filter: drop-shadow(0 0 5px rgba(244, 63, 94, 0.42));
+}
+
+.heart-filter-badge.heart-tier-2,
+.qe-tier-icon-2 .heart-tier-pc {
+  color: #fb7185 !important;
+  filter: drop-shadow(0 0 3px rgba(251, 113, 133, 0.28));
+}
+
+.heart-filter-badge.heart-tier-1,
+.qe-tier-icon-1 .heart-tier-pc {
+  color: #fda4af !important;
+  filter: none;
+}
+
+/* Same-song group ranking mode ("同一曲数順"): hide icon column & expand song title width */
+body.same-song-group-mode .list-col-header .col-pc-only,
+body.same-song-group-mode .list-col-header > span:nth-child(2) {
   display: none !important;
 }
 
@@ -7121,18 +7141,24 @@ body.same-song-group-mode .list-col-header .list-col-count {
   display: block !important;
 }
 
+body.same-song-group-mode .artist-row.same-song-group-row .row-name-wrap,
+body.same-song-group-mode .artist-row.same-song-group-row .row-song-primary {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
 @media (min-width: 901px) {
   body.same-song-group-mode .list-col-header,
   body.same-song-group-mode .artist-row.same-song-group-row {
-    grid-template-columns: calc(44px * var(--pc-font-scale, 1)) calc(44px * var(--pc-font-scale, 1)) minmax(220px, 1fr) auto !important;
+    grid-template-columns: calc(44px * var(--pc-font-scale, 1)) minmax(260px, 1fr) auto !important;
   }
 }
 
 @media (max-width: 900px) {
   body.same-song-group-mode .list-col-header,
   body.same-song-group-mode .artist-row.same-song-group-row {
-    grid-template-columns: 24px 38px minmax(0, 1fr) auto !important;
-    gap: 7px !important;
+    grid-template-columns: 24px minmax(0, 1fr) auto !important;
+    gap: 8px !important;
   }
 }
 

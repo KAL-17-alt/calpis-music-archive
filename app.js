@@ -273,6 +273,9 @@
   const FAV_SERVER_CACHE_KEY = "calpis_fav_server_cache_v1";
   const FAV_UNSAVED_DRAFT_KEY = "calpis_fav_unsaved_draft_v1";
   const FAV_MIGRATION_STATE_KEY = "calpis_fav_migration_state_v1";
+
+
+  let isInitialSongCacheReady = false;
   const FAV_ORDER_MEMORY_KEY = "calpis_fav_order_memory_v1";
   const FAV_API_ENDPOINT = "./api/favorites";
 
@@ -291,7 +294,7 @@
   function buildHeartBadgeSpanHTML(tier, className = "artist-fav-heart", label = "かるのオススメ") {
     const t = (tier === 1 || tier === 2 || tier === 3) ? tier : 0;
     if (!t) return "";
-    const tierName = t === 3 ? "最上位" : (t === 2 ? "第2グレード" : "第1グレード");
+    const tierName = t === 3 ? "Lv.3" : (t === 2 ? "Lv.2" : "Lv.1");
     const fullTitle = `${label}（${tierName}）`;
     return `<span class="${className} heart-tier-${t}" data-heart-tier="${t}" title="${fullTitle}" aria-label="${fullTitle}">${buildHeartTierInnerHTML(t)}</span>`;
   }
@@ -550,9 +553,6 @@
     return true;
   }
 
-  // Avoid invoking the song-search cache builder before its const/let dependencies exist.
-  let songSearchCacheReady = false;
-
   /**
    * Merges `customAddedSongSet` into each artist's `a.songs` and updates `a.count` and search normalization arrays.
    */
@@ -602,10 +602,9 @@
         a._normSongAliasesNoSpace = a._normSongAliases.map(arr => arr.map(al => stripSpaces(al)));
       }
     });
-    // On the first boot, canonical-song constants are initialized later.
-    // The first full cache build runs once after those constants are ready.
-    if (songSearchCacheReady) {
+    if (isInitialSongCacheReady && typeof rebuildAllArtistSongSearchCaches === "function") {
       rebuildAllArtistSongSearchCaches();
+  isInitialSongCacheReady = true;
     }
   }
 
@@ -1981,7 +1980,6 @@
   }
 
   rebuildAllArtistSongSearchCaches();
-  songSearchCacheReady = true;
 
   // Fast Map from artist name to artist object
   const ARTIST_MAP = new Map();
@@ -3292,16 +3290,16 @@
           </div>
           <div class="preset-pills">
             <button type="button" class="pill-btn heart-filter-pill ${heartAllAct ? "active" : ""}" data-filter-heart="all" aria-pressed="${heartAllAct}">
-              <span class="heart-filter-all-mark" aria-hidden="true">${HEART_SVG_SINGLE}</span><span>すべて</span>
+              <span>すべて</span>
             </button>
             <button type="button" class="pill-btn heart-filter-pill ${heart3Act ? "active" : ""}" data-filter-heart="3" aria-pressed="${heart3Act}">
-              ${buildHeartBadgeSpanHTML(3, "heart-filter-badge", "最上位")}<span>最上位</span>
+              ${buildHeartBadgeSpanHTML(3, "artist-fav-heart heart-filter-badge", "Lv.3")}<span>Lv.3</span>
             </button>
             <button type="button" class="pill-btn heart-filter-pill ${heart2Act ? "active" : ""}" data-filter-heart="2" aria-pressed="${heart2Act}">
-              ${buildHeartBadgeSpanHTML(2, "heart-filter-badge", "第2")}<span>第2</span>
+              ${buildHeartBadgeSpanHTML(2, "artist-fav-heart heart-filter-badge", "Lv.2")}<span>Lv.2</span>
             </button>
             <button type="button" class="pill-btn heart-filter-pill ${heart1Act ? "active" : ""}" data-filter-heart="1" aria-pressed="${heart1Act}">
-              ${buildHeartBadgeSpanHTML(1, "heart-filter-badge", "第1")}<span>第1</span>
+              ${buildHeartBadgeSpanHTML(1, "artist-fav-heart heart-filter-badge", "Lv.1")}<span>Lv.1</span>
             </button>
           </div>
         </div>
@@ -3412,9 +3410,9 @@
     }
     if (Array.isArray(state.heartFilter) && state.heartFilter.length > 0) {
       if (state.heartFilter.includes("all")) {
-        chips.push({ key: "heart:all", label: "高評価: ❤すべて" });
+        chips.push({ key: "heart:all", label: "高評価: すべて" });
       } else {
-        const tierLabelMap = { "3": "最上位", "2": "第2", "1": "第1" };
+        const tierLabelMap = { "3": "Lv.3", "2": "Lv.2", "1": "Lv.1" };
         state.heartFilter.forEach(ht => {
           chips.push({ key: `heart:${ht}`, label: `高評価: ${tierLabelMap[ht] || ht}` });
         });
@@ -3755,16 +3753,13 @@
     `;
   }
 
-  // Build a single Canonical Song Group Row HTML for "同一曲数順" in "楽曲を検索"
+  // Build a single Canonical Song Group Row HTML for "同一曲数順" in "楽曲を検索" (no icon column; expanded song title width)
   function buildCanonicalSongGroupRowHTML(group, rowIndex = 999) {
     const rankNum = group.rank || (rowIndex + 1);
     const rankClass = rankNum <= 3 ? `top-${rankNum}` : "";
     return `
       <div class="artist-row same-song-group-row" data-canonical-song-key="${esc(group.canonicalKey)}" data-canonical-song-title="${esc(group.displayTitle)}" role="button" tabindex="0" title="「${esc(group.displayTitle)}」の該当楽曲（${group.count}曲）を表示">
         <div class="row-rank ${rankClass}">${rankNum}</div>
-        <div class="row-avatar-wrap same-song-note-avatar" aria-hidden="true">
-          <div class="avatar-fallback same-song-note-badge">♪</div>
-        </div>
         <div class="row-name-wrap">
           <div class="row-song-primary">♪ <span class="row-matched-song-token">${esc(group.displayTitle)}</span></div>
           <div class="row-name row-name-with-song"><span class="row-artist-prefix">名義:</span>${esc(group.sampleArtistsText)}</div>
@@ -4871,7 +4866,7 @@
     }
     const listColMainEl = document.getElementById("listColMainLabel") || document.querySelector(".list-col-header > span:nth-child(3)");
     if (listColMainEl) {
-      listColMainEl.textContent = isSongListMode ? "曲名" : "アーティスト";
+      listColMainEl.textContent = (isSongListMode || isSameSongGroupMode) ? "曲名" : "アーティスト";
     }
     const listColFavCountEl = document.getElementById("listColFavCountLabel");
     if (listColFavCountEl) {
