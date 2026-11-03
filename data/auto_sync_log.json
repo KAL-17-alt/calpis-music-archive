@@ -1,5 +1,384 @@
 [
   {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "深影",
+    "song": "DEEP SHADOW",
+    "videoId": "fzHFXaKrgg4"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "Roselia",
+    "song": "この蒼き闇と光",
+    "type": "orig",
+    "confidence": 1.0,
+    "videoId": "IOTOr1UCyis"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "春奈るな",
+    "song": "Ripple Effect - Piano & Strings",
+    "videoId": "KkZslWc4uZ8"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "松永依織",
+    "song": "UNLOCKER",
+    "type": "orig",
+    "confidence": 0.98,
+    "videoId": "WmXMNdHxGyE"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "Endorfin.",
+    "song": "Cirro.Strato",
+    "videoId": "mpL9umDdLsg"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "Kotoha",
+    "song": "透明夜",
+    "type": "orig",
+    "confidence": 0.98,
+    "videoId": "Vyuer2ovBY8"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "音ノ瀬らこ",
+    "song": "デビットビット",
+    "videoId": "qei_BlNv1kU"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "majiko",
+    "song": "Kids",
+    "videoId": "e368cqKO45g"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "miolly",
+    "song": "君模様",
+    "videoId": "h1heeS37r1E"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "しほ",
+    "song": "Rabbit Foot",
+    "type": "orig",
+    "confidence": 0.88,
+    "videoId": "fq3VMADMHSI"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "ナナヲアカリ",
+    "song": "ぴ",
+    "type": "orig",
+    "confidence": 0.98,
+    "videoId": "zll6sYCdSQ8"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "Kotoha",
+    "song": "時空超えてユニバース",
+    "type": "cover",
+    "confidence": 0.98,
+    "videoId": "GTptRX3Hv_4"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "久遠たま",
+    "song": "PHANTOM MINDS",
+    "type": "cover",
+    "confidence": 0.98,
+    "videoId": "R8riCh-ieWw"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "MADE",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "HMq0Tyyh9iY"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "駄駄",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "xmCbMx7go_Q"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "パズル",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "jcvzwweSNGs"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "椿",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "cx-bMvJ8b7U"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "為る",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "Qo6_hbTd-TI"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "ハルニー",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "8YtlzzY5ZeY"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "プロジェクト",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "FTEsfjAZTw0"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "iCO",
+    "song": "烏ら烏ら",
+    "videoId": "bDB5ozr2pLw"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "iCO",
+    "song": "DAYBREAK IT",
+    "videoId": "ao71f8PAn_M"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "紺",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "sTJ7BH93nO0"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "Devie",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "yDCXdRSN1rs"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "果実のとりこ",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "h62kntj9ddw"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "ぽろぽろ",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "f2_AEZrhTCo"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "6のつき",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "0-glTXQHwU4"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "iCO",
+    "song": "灯火の導",
+    "videoId": "JWSj8OiMqiY"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "ワンダア",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "8OXy9Y4XpCw"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "「i」",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "nCEVcBajTZ4"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "Ans.",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "DCe3BvEBuR4"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "塵と宝石",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "0pa5ZIFWhxA"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "ne_on",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "ggy-YWyRUB4"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "iCO",
+    "song": "塵と宝石",
+    "videoId": "YyCIsQnIR34"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "RE:DO",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "WvIcLmJbz54"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_skipped_non_target",
+    "videoId": "HbkMoGFmePs",
+    "rawVideoTitle": "Introduction",
+    "reason": "概要欄にボーカル記載がなくインスト曲であるためスキップ。"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "iCO",
+    "song": "メメ",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "FRx2VBotONo"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "iCO",
+    "song": "DAYBREAK IT",
+    "videoId": "2ExyS-9d65A"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "Endorfin.",
+    "song": "水花",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "cNZhWyHMOB0"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "鹿乃",
+    "song": "Letters To Me",
+    "type": "cover",
+    "confidence": 0.95,
+    "videoId": "oXXXfkwBNhU"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "あくび・でもんすぺーど",
+    "song": "Siren’s Siren",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "7oQJfeYuiKo"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "つぐ",
+    "song": "Sanctum",
+    "type": "orig",
+    "confidence": 0.9,
+    "videoId": "pWCqw0Fa9yg"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "linked_existing_song_to_mugen2",
+    "artist": "有世華望",
+    "song": "SweetVice",
+    "videoId": "B-PXCGNqD2A"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "花たん",
+    "song": "Träumend",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "WX3KgUuKdeM"
+  },
+  {
+    "date": "2026-11-03",
+    "action": "auto_added_song",
+    "artist": "メーメントヴァニタス",
+    "song": "エイリアンズ",
+    "type": "cover",
+    "confidence": 0.95,
+    "videoId": "1OfsP5XWyQk"
+  },
+  {
     "date": "2026-10-31",
     "action": "auto_added_song",
     "artist": "DUSTCELL",
