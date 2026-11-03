@@ -3290,7 +3290,7 @@
           </div>
           <div class="preset-pills">
             <button type="button" class="pill-btn heart-filter-pill ${heartAllAct ? "active" : ""}" data-filter-heart="all" aria-pressed="${heartAllAct}">
-              <span>すべて</span>
+              <span class="heart-filter-all-mark" aria-hidden="true">${HEART_SVG_SINGLE}</span><span>すべて</span>
             </button>
             <button type="button" class="pill-btn heart-filter-pill ${heart3Act ? "active" : ""}" data-filter-heart="3" aria-pressed="${heart3Act}">
               ${buildHeartBadgeSpanHTML(3, "artist-fav-heart heart-filter-badge", "Lv.3")}<span>Lv.3</span>
@@ -3304,17 +3304,6 @@
           </div>
         </div>
 
-        ${isSongSearchOnly ? `
-        <div>
-          <div class="filter-group-title">
-            <span>同一曲の集計（楽曲検索専用）</span>
-            ${state.sameSongCountMode ? `<button type="button" class="clear-all-chips-btn" data-clear-same-song="1">解除</button>` : ""}
-          </div>
-          <div class="preset-pills">
-            <button type="button" class="pill-btn ${state.sameSongCountMode ? "active" : ""}" data-filter-same-song="1" aria-pressed="${Boolean(state.sameSongCountMode)}">同一曲数順</button>
-          </div>
-        </div>
-        ` : ""}
 
         <div>
           <div class="filter-group-title">
@@ -3410,7 +3399,7 @@
     }
     if (Array.isArray(state.heartFilter) && state.heartFilter.length > 0) {
       if (state.heartFilter.includes("all")) {
-        chips.push({ key: "heart:all", label: "高評価: すべて" });
+        chips.push({ key: "heart:all", label: "高評価: ❤すべて" });
       } else {
         const tierLabelMap = { "3": "Lv.3", "2": "Lv.2", "1": "Lv.1" };
         state.heartFilter.forEach(ht => {
