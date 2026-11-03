@@ -809,7 +809,7 @@
   {
     "name": "琶舞",
     "cat": 1,
-    "count": 58,
+    "count": 59,
     "reading": "べま",
     "kana": "へ",
     "row": "は",
@@ -873,7 +873,8 @@
       "二時間だけのバカンスfeaturing 椎名林檎 -宇多田ヒカル",
       "ファイアダンス",
       "One Last Kiss",
-      "Tiger"
+      "Tiger",
+      "III"
     ],
     "topSongs": [
       "戯れ",
@@ -929,7 +930,7 @@
   {
     "name": "久遠たま",
     "cat": 1,
-    "count": 55,
+    "count": 54,
     "reading": "くおんたま",
     "kana": "く",
     "row": "か",
@@ -989,8 +990,7 @@
       "不死鳥のフランメ",
       "Fire◎Flower",
       "タブレット",
-      "蒼穹のファンファーレ",
-      "PHANTOM MINDS"
+      "蒼穹のファンファーレ"
     ],
     "topSongs": [
       "光るなら",
@@ -1398,7 +1398,7 @@
   {
     "name": "明透",
     "cat": 1,
-    "count": 45,
+    "count": 46,
     "reading": "あす",
     "kana": "あ",
     "row": "あ",
@@ -1449,7 +1449,8 @@
       "ラヴィ",
       "再会",
       "二時間だけのバカンスfeaturing 椎名林檎 -宇多田ヒカル",
-      "赤い洗礼"
+      "赤い洗礼",
+      "III"
     ],
     "topSongs": [
       "スロウリー",
@@ -2022,104 +2023,6 @@
     "aid": "a_eedab311"
   },
   {
-    "name": "花たん",
-    "cat": 1,
-    "count": 36,
-    "reading": "はなたん",
-    "kana": "は",
-    "row": "は",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/ZQ9L8ZdfimDtpfrI6Nm39_lhdYasUTfWisbtb60z4ZZm7awODL9pH5qJfVNix_FA54EQ3A_pPA=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "飴か夢",
-      "Niwaka Ame",
-      "pale",
-      "「笹舟」PV【*＊Flower✿Drops＊*】",
-      "歌に形はないけれど",
-      "glow",
-      "君と僕",
-      "生花",
-      "Flower Rail",
-      "凍る花",
-      "TRUE MAGIC.....",
-      "蕚 - Utena -",
-      "Linaria (vocal ver)",
-      "栞",
-      "Savior of Cross",
-      "上海幻想曲",
-      "カラフル",
-      "HEARTSTRINGS",
-      "ときめきの導火線",
-      "CRITICAL ERROR",
-      "Paranoia (Original Mix)",
-      "恋ノ蟲",
-      "Brand New Voice",
-      "言葉繋ぎ",
-      "gradation",
-      "冷たいぬくもり",
-      "Hajimete no Oto",
-      "Planetarium",
-      "Little Traveler",
-      "Ray of Light",
-      "Orange",
-      "不夜城",
-      "カスミソウ",
-      "心影 -Music Video-",
-      "Birthday",
-      "Träumend"
-    ],
-    "topSongs": [
-      "ロミオとシンデレラ",
-      "歌に形はないけれど",
-      "心做し",
-      "自傷無色",
-      "ゴーストルール"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Hanatan",
-      "YURiCa",
-      "hanatan",
-      "ハナタン"
-    ],
-    "role": "歌い手",
-    "imgType": "youtube_official",
-    "sub": 251000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "feYqEPmPR9A",
-      "Re6JJ_njYR4",
-      "ynQRuBu_-2U",
-      "iXmQ2gNzGn0",
-      "flugA1Kit_g"
-    ],
-    "subDate": "2026-10-28",
-    "youtubeChannelUrl": "https://www.youtube.com/@HaNaTaN_MUSiC",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手",
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@HaNaTaN_MUSiC",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_70ad5e32"
-  },
-  {
     "name": "角巻わため",
     "cat": 1,
     "count": 35,
@@ -2313,6 +2216,103 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UC1uv2Oq6kNxgATlCiez59hw",
     "aid": "a_c57dbf8b"
+  },
+  {
+    "name": "花たん",
+    "cat": 1,
+    "count": 35,
+    "reading": "はなたん",
+    "kana": "は",
+    "row": "は",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/ZQ9L8ZdfimDtpfrI6Nm39_lhdYasUTfWisbtb60z4ZZm7awODL9pH5qJfVNix_FA54EQ3A_pPA=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "飴か夢",
+      "Niwaka Ame",
+      "pale",
+      "「笹舟」PV【*＊Flower✿Drops＊*】",
+      "歌に形はないけれど",
+      "glow",
+      "君と僕",
+      "生花",
+      "Flower Rail",
+      "凍る花",
+      "TRUE MAGIC.....",
+      "蕚 - Utena -",
+      "Linaria (vocal ver)",
+      "栞",
+      "Savior of Cross",
+      "上海幻想曲",
+      "カラフル",
+      "HEARTSTRINGS",
+      "ときめきの導火線",
+      "CRITICAL ERROR",
+      "Paranoia (Original Mix)",
+      "恋ノ蟲",
+      "Brand New Voice",
+      "言葉繋ぎ",
+      "gradation",
+      "冷たいぬくもり",
+      "Hajimete no Oto",
+      "Planetarium",
+      "Little Traveler",
+      "Ray of Light",
+      "Orange",
+      "不夜城",
+      "カスミソウ",
+      "心影 -Music Video-",
+      "Birthday"
+    ],
+    "topSongs": [
+      "ロミオとシンデレラ",
+      "歌に形はないけれど",
+      "心做し",
+      "自傷無色",
+      "ゴーストルール"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Hanatan",
+      "YURiCa",
+      "hanatan",
+      "ハナタン"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 251000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "feYqEPmPR9A",
+      "Re6JJ_njYR4",
+      "ynQRuBu_-2U",
+      "iXmQ2gNzGn0",
+      "flugA1Kit_g"
+    ],
+    "subDate": "2026-10-28",
+    "youtubeChannelUrl": "https://www.youtube.com/@HaNaTaN_MUSiC",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手",
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@HaNaTaN_MUSiC",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_70ad5e32"
   },
   {
     "name": "皇美緒奈",
@@ -2694,6 +2694,102 @@
     "aid": "a_a5b6b02d"
   },
   {
+    "name": "あかつきるき",
+    "cat": 1,
+    "count": 31,
+    "reading": "あかつきるき",
+    "kana": "あ",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/dZ7b1GnuX_PmB3NLfYVCNUGsTePf2RmGdSM-FOuqkR6al5n9STNUp5GNWM1xYI_MJiJ0Vf5N6g=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "黒猫乙女",
+      "主",
+      "snooze",
+      "ドリームランド",
+      "晴る",
+      "怪獣",
+      "Loveit?",
+      "日本の夏",
+      "悪魔の子",
+      "いれない",
+      "アリシス feat.初音ミク",
+      "さみしいひと",
+      "CH4NGE",
+      "COUNTER:SIDE] Life Begins As Gone",
+      "月に吠える",
+      "フォニイ",
+      "마.피.아. In the morning",
+      "'Anpanman'",
+      "ヲズワルド",
+      "ラブカ？",
+      "アイシテの証明",
+      "拍手喝采歌合",
+      "夜に駆ける",
+      "GETCHA!",
+      "チルドレンレコード(Re:boot)",
+      "福寿草",
+      "勿忘",
+      "プロポーズ",
+      "ネオンを消して",
+      "華奢なリップ",
+      "ALL IN"
+    ],
+    "topSongs": [
+      "フォニイ",
+      "夜に駆ける",
+      "晴る",
+      "CH4NGE",
+      "黒猫乙女"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Akatsuki Ruki",
+      "Ruki Akatsuki",
+      "akatsukiruki",
+      "akatukiruki",
+      "アカツキルキ"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 52500,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "s6TmvB_QuV4",
+      "2HkY21MejLE",
+      "tyPPFm3xHEg",
+      "FsZQQ58_sPo",
+      "WtBnWOEJ6YE"
+    ],
+    "subDate": "2026-10-28",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCv0hpsgpGWYdBsotEA3_5fQ",
+    "youtubeChannelId": "UCv0hpsgpGWYdBsotEA3_5fQ",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "1×1=∞"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCv0hpsgpGWYdBsotEA3_5fQ",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_833fb012"
+  },
+  {
     "name": "ときのそら",
     "cat": 1,
     "count": 31,
@@ -2787,101 +2883,6 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UCp6993wxpyDPHUpavwDFqgg",
     "aid": "a_a19dc12d"
-  },
-  {
-    "name": "あかつきるき",
-    "cat": 1,
-    "count": 30,
-    "reading": "あかつきるき",
-    "kana": "あ",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/dZ7b1GnuX_PmB3NLfYVCNUGsTePf2RmGdSM-FOuqkR6al5n9STNUp5GNWM1xYI_MJiJ0Vf5N6g=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "黒猫乙女",
-      "主",
-      "snooze",
-      "ドリームランド",
-      "晴る",
-      "怪獣",
-      "Loveit?",
-      "日本の夏",
-      "悪魔の子",
-      "いれない",
-      "アリシス feat.初音ミク",
-      "さみしいひと",
-      "CH4NGE",
-      "COUNTER:SIDE] Life Begins As Gone",
-      "月に吠える",
-      "フォニイ",
-      "마.피.아. In the morning",
-      "'Anpanman'",
-      "ヲズワルド",
-      "ラブカ？",
-      "アイシテの証明",
-      "拍手喝采歌合",
-      "夜に駆ける",
-      "GETCHA!",
-      "チルドレンレコード(Re:boot)",
-      "福寿草",
-      "勿忘",
-      "プロポーズ",
-      "ネオンを消して",
-      "華奢なリップ"
-    ],
-    "topSongs": [
-      "フォニイ",
-      "夜に駆ける",
-      "晴る",
-      "CH4NGE",
-      "黒猫乙女"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Akatsuki Ruki",
-      "Ruki Akatsuki",
-      "akatsukiruki",
-      "akatukiruki",
-      "アカツキルキ"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 52500,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "s6TmvB_QuV4",
-      "2HkY21MejLE",
-      "tyPPFm3xHEg",
-      "FsZQQ58_sPo",
-      "WtBnWOEJ6YE"
-    ],
-    "subDate": "2026-10-28",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCv0hpsgpGWYdBsotEA3_5fQ",
-    "youtubeChannelId": "UCv0hpsgpGWYdBsotEA3_5fQ",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [
-      "1×1=∞"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCv0hpsgpGWYdBsotEA3_5fQ",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_833fb012"
   },
   {
     "name": "Akie秋絵",
@@ -5608,88 +5609,6 @@
     "aid": "a_427a0593"
   },
   {
-    "name": "松永依織",
-    "cat": 1,
-    "count": 19,
-    "reading": "まつながいおり",
-    "kana": "ま",
-    "row": "ま",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/_G-kZ_dgKoOW-iqSqXg_6s8qYcZ0XMsKPvDgKtHgWztRRy2zsxySoFAmmNwzwlYYWbzQtr3w2g=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Fallen",
-      "平行線",
-      "プリズムシェイク",
-      "We are Travelers",
-      "カクテルライツ",
-      "彼は誰時の走り方",
-      "Wagamama Conflict",
-      "大衆性ロマン",
-      "フルスロットル！！！！！！",
-      "永遠の場所",
-      "Blazing Out",
-      "Awaken Now",
-      "Crazy Rock Girl",
-      "Crossed Identity",
-      "ありがとう",
-      "NAMED",
-      "オーバーハレイション！",
-      "蒼穹のファンファーレ",
-      "UNLOCKER"
-    ],
-    "topSongs": [
-      "カクテル・ライツ",
-      "アカシア",
-      "ファンサ",
-      "アゲハ蝶",
-      "世界に一つだけの花"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Iori Matsunaga",
-      "Matsunaga Iori",
-      "matsunagaiori",
-      "matunagaiori",
-      "マツナガイオリ",
-      "RIOT MUSIC (Blitz Wing)"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 188000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "7S8dBFRYByY",
-      "oe2f0fnNylo",
-      "qpp148YvmBI",
-      "qQ6e3jd2_rI",
-      "CXgDuAYGAHI"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "RIOT MUSIC (Blitz Wing)",
-    "agencyGroup": "RIOT MUSIC",
-    "vocalParts": [],
-    "agencyGroupCount": 15,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@IORIMATSUNAGA",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@IORIMATSUNAGA",
-    "aid": "a_061403f1"
-  },
-  {
     "name": "凛々咲",
     "cat": 1,
     "count": 19,
@@ -5931,6 +5850,163 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/@773urara",
     "aid": "a_13ae23b0"
+  },
+  {
+    "name": "松永依織",
+    "cat": 1,
+    "count": 18,
+    "reading": "まつながいおり",
+    "kana": "ま",
+    "row": "ま",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/_G-kZ_dgKoOW-iqSqXg_6s8qYcZ0XMsKPvDgKtHgWztRRy2zsxySoFAmmNwzwlYYWbzQtr3w2g=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Fallen",
+      "平行線",
+      "プリズムシェイク",
+      "We are Travelers",
+      "カクテルライツ",
+      "彼は誰時の走り方",
+      "Wagamama Conflict",
+      "大衆性ロマン",
+      "フルスロットル！！！！！！",
+      "永遠の場所",
+      "Blazing Out",
+      "Awaken Now",
+      "Crazy Rock Girl",
+      "Crossed Identity",
+      "ありがとう",
+      "NAMED",
+      "オーバーハレイション！",
+      "蒼穹のファンファーレ"
+    ],
+    "topSongs": [
+      "カクテル・ライツ",
+      "アカシア",
+      "ファンサ",
+      "アゲハ蝶",
+      "世界に一つだけの花"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Iori Matsunaga",
+      "Matsunaga Iori",
+      "matsunagaiori",
+      "matunagaiori",
+      "マツナガイオリ",
+      "RIOT MUSIC (Blitz Wing)"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 188000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "7S8dBFRYByY",
+      "oe2f0fnNylo",
+      "qpp148YvmBI",
+      "qQ6e3jd2_rI",
+      "CXgDuAYGAHI"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "RIOT MUSIC (Blitz Wing)",
+    "agencyGroup": "RIOT MUSIC",
+    "vocalParts": [],
+    "agencyGroupCount": 15,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@IORIMATSUNAGA",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@IORIMATSUNAGA",
+    "aid": "a_061403f1"
+  },
+  {
+    "name": "羊羊",
+    "cat": 1,
+    "count": 18,
+    "reading": "ようよう",
+    "kana": "よ",
+    "row": "や",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/u_b6QEKefShjJ9QGhAv8RMP1uazjsa1yLjSk0IHoHnRgWgtefZ4MQl89nXTAebfL1SIjz7DnsnE=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "ハーモニー カバー 羊羊",
+      "nuit カバー 羊羊",
+      "Supernatural カバー 羊羊",
+      "ツバサ カバー 羊羊",
+      "Complicated カバー 羊羊",
+      "Sunny Day Sunday カバー 羊羊",
+      "ボーイフレンド カバー 羊羊",
+      "HOWEVER カバー 羊羊",
+      "White key カバー 羊羊",
+      "WHITE BREATH カバー 羊羊",
+      "Imitation Rain カバー 羊羊",
+      "走れ！ カバー 羊羊",
+      "気づいたら片想い カバー 羊羊",
+      "薄明",
+      "NullPointerException",
+      "Don't get in my way",
+      "華奢なリップ",
+      "ALL IN"
+    ],
+    "topSongs": [
+      "夜に駆ける",
+      "喜劇",
+      "シンデレラボーイ",
+      "POP STAR",
+      "春泥棒"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "youyou"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 322000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "aRZ3l4CqXAA",
+      "p_l3LANRAHU",
+      "dLgF2jAInHk",
+      "SwqmgHtDge8",
+      "L6tGkl6LFRo"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCHT_vElA_6ERjOvRbww01dw",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCHT_vElA_6ERjOvRbww01dw",
+    "aid": "a_c35ccf35"
   },
   {
     "name": "nayuta",
@@ -6406,160 +6482,6 @@
     "aid": "a_765a2a9f"
   },
   {
-    "name": "鹿乃",
-    "cat": 1,
-    "count": 17,
-    "reading": "かの",
-    "kana": "か",
-    "row": "か",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/CU708MbFZE9EbZ7y4wvoDP0KGI8bnCqhw7oh_dh9e2uXCvwj8yTpvjBwJ1jHDry2IpaPBzy7HA=s900-c-k-c0x00ffffff-no-rj",
-    "imgType": "youtube_official",
-    "songs": [
-      "クライヤ",
-      "Dear",
-      "小夜子",
-      "サリシノハラ",
-      "プリマステラ",
-      "Pale moonlight",
-      "Hiraeth",
-      "優しさの記憶",
-      "愛と哀",
-      "午前0時の無力な神様",
-      "Daybreak",
-      "コンパスソング",
-      "evergreen",
-      "今をかける少女",
-      "なんで",
-      "Melodic Aster*",
-      "Letters To Me"
-    ],
-    "topSongs": [
-      "ハロ／ハワユ",
-      "Stella-rium",
-      "クライヤ",
-      "Dear",
-      "小夜子"
-    ],
-    "topTypes": [
-      "カバー",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "URG6YnTPcac",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "歌い手",
-    "sub": 535000,
-    "subBucket": "100kTo1m",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [
-      "鹿乃まほろ"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [
-      "MKLNtic"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手",
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/user/bambinoonico",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/user/bambinoonico",
-    "aid": "a_ae3898d5"
-  },
-  {
-    "name": "羊羊",
-    "cat": 1,
-    "count": 17,
-    "reading": "ようよう",
-    "kana": "よ",
-    "row": "や",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/u_b6QEKefShjJ9QGhAv8RMP1uazjsa1yLjSk0IHoHnRgWgtefZ4MQl89nXTAebfL1SIjz7DnsnE=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "ハーモニー カバー 羊羊",
-      "nuit カバー 羊羊",
-      "Supernatural カバー 羊羊",
-      "ツバサ カバー 羊羊",
-      "Complicated カバー 羊羊",
-      "Sunny Day Sunday カバー 羊羊",
-      "ボーイフレンド カバー 羊羊",
-      "HOWEVER カバー 羊羊",
-      "White key カバー 羊羊",
-      "WHITE BREATH カバー 羊羊",
-      "Imitation Rain カバー 羊羊",
-      "走れ！ カバー 羊羊",
-      "気づいたら片想い カバー 羊羊",
-      "薄明",
-      "NullPointerException",
-      "Don't get in my way",
-      "華奢なリップ"
-    ],
-    "topSongs": [
-      "夜に駆ける",
-      "喜劇",
-      "シンデレラボーイ",
-      "POP STAR",
-      "春泥棒"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "youyou"
-    ],
-    "role": "歌い手",
-    "imgType": "youtube_official",
-    "sub": 322000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "aRZ3l4CqXAA",
-      "p_l3LANRAHU",
-      "dLgF2jAInHk",
-      "SwqmgHtDge8",
-      "L6tGkl6LFRo"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCHT_vElA_6ERjOvRbww01dw",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCHT_vElA_6ERjOvRbww01dw",
-    "aid": "a_c35ccf35"
-  },
-  {
     "name": "Nornis",
     "cat": 1,
     "count": 16,
@@ -6728,6 +6650,84 @@
     "ytChannelLabel": "YouTubeチャンネル →",
     "ytChannelType": "official",
     "aid": "a_f4f80911"
+  },
+  {
+    "name": "鹿乃",
+    "cat": 1,
+    "count": 16,
+    "reading": "かの",
+    "kana": "か",
+    "row": "か",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/CU708MbFZE9EbZ7y4wvoDP0KGI8bnCqhw7oh_dh9e2uXCvwj8yTpvjBwJ1jHDry2IpaPBzy7HA=s900-c-k-c0x00ffffff-no-rj",
+    "imgType": "youtube_official",
+    "songs": [
+      "クライヤ",
+      "Dear",
+      "小夜子",
+      "サリシノハラ",
+      "プリマステラ",
+      "Pale moonlight",
+      "Hiraeth",
+      "優しさの記憶",
+      "愛と哀",
+      "午前0時の無力な神様",
+      "Daybreak",
+      "コンパスソング",
+      "evergreen",
+      "今をかける少女",
+      "なんで",
+      "Melodic Aster*"
+    ],
+    "topSongs": [
+      "ハロ／ハワユ",
+      "Stella-rium",
+      "クライヤ",
+      "Dear",
+      "小夜子"
+    ],
+    "topTypes": [
+      "カバー",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "URG6YnTPcac",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "歌い手",
+    "sub": 535000,
+    "subBucket": "100kTo1m",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [
+      "鹿乃まほろ"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "MKLNtic"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手",
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/user/bambinoonico",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/user/bambinoonico",
+    "aid": "a_ae3898d5"
   },
   {
     "name": "不知火フレア",
@@ -7976,81 +7976,6 @@
     "aid": "a_9c50e851"
   },
   {
-    "name": "Kotoha",
-    "cat": 1,
-    "count": 14,
-    "reading": "kotoha",
-    "kana": "",
-    "row": "",
-    "alpha": "K",
-    "img": "https://yt3.googleusercontent.com/M3-WdLYpxxTxME9amJAiiZE4YMa8LUHtheCV0mh2f3cWKnDKV_9NfUigN1jJ-l7H57mfz5Ke=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "テトリス",
-      "嫌いにさせて",
-      "快晴",
-      "雪は何色",
-      "ヒロインは平均以下。",
-      "ダミーロマンス",
-      "透明夜(feat.MIMI)",
-      "推し変なんて許さない！",
-      "irony",
-      "劇薬中毒 /＝LOVE（イコールラブ）",
-      "次元通信",
-      "Fire◎Flower",
-      "透明夜",
-      "時空超えてユニバース"
-    ],
-    "topSongs": [
-      "誇り高きアイドル",
-      "ファンサ",
-      "可愛くてごめん",
-      "ヒロイン育成計画",
-      "同担☆拒否"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "ことは",
-      "コトハ"
-    ],
-    "role": "歌い手",
-    "imgType": "youtube_official",
-    "sub": 581000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "Qou76O_Rys0",
-      "AFUVw-b_Wyc",
-      "JFBu-Cj14eY",
-      "A_EnCRee0Vc",
-      "3pzekERQPAQ"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [
-      "ハコニワリリィ"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@Kotoha_ktnh",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@Kotoha_ktnh",
-    "aid": "a_30622bc7"
-  },
-  {
     "name": "硝子宮",
     "cat": 1,
     "count": 14,
@@ -8609,78 +8534,6 @@
     "aid": "a_9332c41f"
   },
   {
-    "name": "Roselia",
-    "cat": 1,
-    "count": 13,
-    "reading": "roselia",
-    "kana": "",
-    "row": "",
-    "alpha": "R",
-    "img": "https://yt3.googleusercontent.com/Tux86oXhLOFrEy7JhlwgFWqMHNPtq2m68JGOLGIKWkFIeuGFAd_rTNXwPb-t1X0KnzhiiJNe=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Dazzle the Destiny",
-      "PASSIONATE ANTHEM",
-      "LOUDER",
-      "Ringing Bloom",
-      "シャルル",
-      "深愛",
-      "Legendary",
-      "“UNIONS” Road",
-      "－HEROIC ADVENT－",
-      "R",
-      "陽だまりロードナイト",
-      "BRAVE JEWEL",
-      "この蒼き闇と光"
-    ],
-    "topSongs": [
-      "FIRE BIRD",
-      "BLACK SHOUT",
-      "Neo-Aspect",
-      "LOUDER",
-      "PASSIONATE ANTHEM"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "ろぜりあ",
-      "ロゼリア"
-    ],
-    "role": "音楽グループ",
-    "imgType": "youtube_official",
-    "sub": 138000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "en5avELIxfU",
-      "g85rkjvAVl4",
-      "Zw7u9uW4pzE",
-      "vMHCWDr4VXc",
-      "aMLTI64iwjg"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "BanG Dream!",
-    "agencyGroup": "BanG Dream!",
-    "vocalParts": [],
-    "agencyGroupCount": 18,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(アニゲー関連)",
-    "roles": [
-      "音楽グループ"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCLeeo2KeEketIWQ2QK8qXLw",
-    "ytChannelLabel": "YouTubeチャンネル（トピック） →",
-    "ytChannelType": "topic",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCLeeo2KeEketIWQ2QK8qXLw",
-    "aid": "a_72a655de"
-  },
-  {
     "name": "珀",
     "cat": 1,
     "count": 13,
@@ -8977,6 +8830,79 @@
     "aid": "a_244524a4"
   },
   {
+    "name": "Kotoha",
+    "cat": 1,
+    "count": 12,
+    "reading": "kotoha",
+    "kana": "",
+    "row": "",
+    "alpha": "K",
+    "img": "https://yt3.googleusercontent.com/M3-WdLYpxxTxME9amJAiiZE4YMa8LUHtheCV0mh2f3cWKnDKV_9NfUigN1jJ-l7H57mfz5Ke=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "テトリス",
+      "嫌いにさせて",
+      "快晴",
+      "雪は何色",
+      "ヒロインは平均以下。",
+      "ダミーロマンス",
+      "透明夜(feat.MIMI)",
+      "推し変なんて許さない！",
+      "irony",
+      "劇薬中毒 /＝LOVE（イコールラブ）",
+      "次元通信",
+      "Fire◎Flower"
+    ],
+    "topSongs": [
+      "誇り高きアイドル",
+      "ファンサ",
+      "可愛くてごめん",
+      "ヒロイン育成計画",
+      "同担☆拒否"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "ことは",
+      "コトハ"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 581000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "Qou76O_Rys0",
+      "AFUVw-b_Wyc",
+      "JFBu-Cj14eY",
+      "A_EnCRee0Vc",
+      "3pzekERQPAQ"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "ハコニワリリィ"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@Kotoha_ktnh",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@Kotoha_ktnh",
+    "aid": "a_30622bc7"
+  },
+  {
     "name": "MEDA",
     "cat": 1,
     "count": 12,
@@ -9045,6 +8971,77 @@
     "ytChannelLabel": "YouTubeチャンネル →",
     "ytChannelType": "official",
     "aid": "a_1ff1dfaf"
+  },
+  {
+    "name": "Roselia",
+    "cat": 1,
+    "count": 12,
+    "reading": "roselia",
+    "kana": "",
+    "row": "",
+    "alpha": "R",
+    "img": "https://yt3.googleusercontent.com/Tux86oXhLOFrEy7JhlwgFWqMHNPtq2m68JGOLGIKWkFIeuGFAd_rTNXwPb-t1X0KnzhiiJNe=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Dazzle the Destiny",
+      "PASSIONATE ANTHEM",
+      "LOUDER",
+      "Ringing Bloom",
+      "シャルル",
+      "深愛",
+      "Legendary",
+      "“UNIONS” Road",
+      "－HEROIC ADVENT－",
+      "R",
+      "陽だまりロードナイト",
+      "BRAVE JEWEL"
+    ],
+    "topSongs": [
+      "FIRE BIRD",
+      "BLACK SHOUT",
+      "Neo-Aspect",
+      "LOUDER",
+      "PASSIONATE ANTHEM"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "ろぜりあ",
+      "ロゼリア"
+    ],
+    "role": "音楽グループ",
+    "imgType": "youtube_official",
+    "sub": 138000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "en5avELIxfU",
+      "g85rkjvAVl4",
+      "Zw7u9uW4pzE",
+      "vMHCWDr4VXc",
+      "aMLTI64iwjg"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "BanG Dream!",
+    "agencyGroup": "BanG Dream!",
+    "vocalParts": [],
+    "agencyGroupCount": 18,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(アニゲー関連)",
+    "roles": [
+      "音楽グループ"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCLeeo2KeEketIWQ2QK8qXLw",
+    "ytChannelLabel": "YouTubeチャンネル（トピック） →",
+    "ytChannelType": "topic",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCLeeo2KeEketIWQ2QK8qXLw",
+    "aid": "a_72a655de"
   },
   {
     "name": "荒波子タビ (아라하시 타비 ARAHASHI TABI)",
@@ -9938,77 +9935,6 @@
     "aid": "a_262ef752"
   },
   {
-    "name": "ナナヲアカリ",
-    "cat": 1,
-    "count": 11,
-    "reading": "ななをあかり",
-    "kana": "な",
-    "row": "な",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/ytc/AIdro_m5aj2kqed00p81efL6Jo5Ym5j3gu3NzSTbFlXwBZXU8w=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Higher's High",
-      "奇縁ロマンス",
-      "∞劣等星",
-      "ボーイゼンガールズ",
-      "クライソング",
-      "ブループリント",
-      "ツギハギ",
-      "忘れないでベイベー",
-      "ギミギミ聖域",
-      "ウツムキブレザー",
-      "ぴ"
-    ],
-    "topSongs": [
-      "チューリングラブ feat. Sou",
-      "恋愛脳",
-      "ダダダダ天使",
-      "ワンルームシュガーライフ",
-      "インスタントヘヴン"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Nanaoakari",
-      "Nanawo Akari",
-      "nanaoakari"
-    ],
-    "role": "歌手",
-    "imgType": "youtube_official",
-    "sub": 1000000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "ErWR65pA3ZA",
-      "IEEJA1ZeQaI",
-      "ANp0qch3XVM",
-      "rnSsptZaYsM",
-      "0vkIP4mZan4"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌手"
-    ],
-    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。『チューリングラブ feat. Sou』や『恋愛脳』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCrrNHoXQ1uTYsR6v41pDalQ",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCrrNHoXQ1uTYsR6v41pDalQ",
-    "aid": "a_90b6e318"
-  },
-  {
     "name": "米倉千尋",
     "cat": 1,
     "count": 11,
@@ -10788,42 +10714,43 @@
     "aid": "a_28aa0fad"
   },
   {
-    "name": "しほ",
+    "name": "ナナヲアカリ",
     "cat": 1,
     "count": 10,
-    "reading": "しほ",
-    "kana": "し",
-    "row": "さ",
+    "reading": "ななをあかり",
+    "kana": "な",
+    "row": "な",
     "alpha": "",
-    "img": "https://yt3.googleusercontent.com/IWk24KAZE1-UCo6xbxd9Q5zX-YL5PCjGVSbJsRJ75gLEUqQjL2tpS3T6cpjWhzq_ijywrQ2Gcw=s240-c-k-c0x00ffffff-no-rj",
+    "img": "https://yt3.googleusercontent.com/ytc/AIdro_m5aj2kqed00p81efL6Jo5Ym5j3gu3NzSTbFlXwBZXU8w=s240-c-k-c0x00ffffff-no-rj",
     "songs": [
-      "花時計 piano arrange",
-      "解けない夏",
-      "No Logic",
-      "ジャガーノート",
-      "HALO",
-      "ジェリーフィッシュ",
-      "Fire◎Flower",
-      "夏はぐれ 〖Official Music Video〗",
-      "1/6 -out of the gravity-",
-      "Rabbit Foot"
+      "Higher's High",
+      "奇縁ロマンス",
+      "∞劣等星",
+      "ボーイゼンガールズ",
+      "クライソング",
+      "ブループリント",
+      "ツギハギ",
+      "忘れないでベイベー",
+      "ギミギミ聖域",
+      "ウツムキブレザー"
     ],
     "topSongs": [
-      "花時計 piano arrange",
-      "解けない夏",
-      "No Logic",
-      "ジャガーノート",
-      "HALO"
+      "チューリングラブ feat. Sou",
+      "恋愛脳",
+      "ダダダダ天使",
+      "ワンルームシュガーライフ",
+      "インスタントヘヴン"
     ],
     "topStatus": "completed_5_songs",
     "al": [
-      "shiho",
-      "siho"
+      "Nanaoakari",
+      "Nanawo Akari",
+      "nanaoakari"
     ],
-    "role": "歌い手",
+    "role": "歌手",
     "imgType": "youtube_official",
-    "sub": 163000,
-    "subBucket": "100kTo1m",
+    "sub": 1000000,
+    "subBucket": "over1m",
     "topTypes": [
       "オリジナル",
       "オリジナル",
@@ -10832,15 +10759,13 @@
       "オリジナル"
     ],
     "topLinks": [
-      "zqjOKjBRq-g",
-      "lKnDDGaW3_o",
-      "taeC5IBnF7Y",
-      "jhE8XYbmroA",
-      "2Dg63T9sJws"
+      "ErWR65pA3ZA",
+      "IEEJA1ZeQaI",
+      "ANp0qch3XVM",
+      "rnSsptZaYsM",
+      "0vkIP4mZan4"
     ],
     "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UC3i4x9_cRUfIBhtDDAlBS3w",
-    "youtubeChannelId": "UC3i4x9_cRUfIBhtDDAlBS3w",
     "agency": "",
     "agencyGroup": "",
     "vocalParts": [],
@@ -10849,13 +10774,14 @@
     "memberOf": [],
     "groupSubRole": "",
     "roles": [
-      "歌い手"
+      "歌手"
     ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UC3i4x9_cRUfIBhtDDAlBS3w",
+    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。『チューリングラブ feat. Sou』や『恋愛脳』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCrrNHoXQ1uTYsR6v41pDalQ",
     "ytChannelLabel": "YouTubeチャンネル →",
     "ytChannelType": "official",
-    "aid": "a_466d5a2a"
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCrrNHoXQ1uTYsR6v41pDalQ",
+    "aid": "a_90b6e318"
   },
   {
     "name": "春猿火",
@@ -11811,6 +11737,75 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/@ShigaRiko",
     "aid": "a_ef3ea140"
+  },
+  {
+    "name": "しほ",
+    "cat": 1,
+    "count": 9,
+    "reading": "しほ",
+    "kana": "し",
+    "row": "さ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/IWk24KAZE1-UCo6xbxd9Q5zX-YL5PCjGVSbJsRJ75gLEUqQjL2tpS3T6cpjWhzq_ijywrQ2Gcw=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "花時計 piano arrange",
+      "解けない夏",
+      "No Logic",
+      "ジャガーノート",
+      "HALO",
+      "ジェリーフィッシュ",
+      "Fire◎Flower",
+      "夏はぐれ 〖Official Music Video〗",
+      "1/6 -out of the gravity-"
+    ],
+    "topSongs": [
+      "花時計 piano arrange",
+      "解けない夏",
+      "No Logic",
+      "ジャガーノート",
+      "HALO"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "shiho",
+      "siho"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 163000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "zqjOKjBRq-g",
+      "lKnDDGaW3_o",
+      "taeC5IBnF7Y",
+      "jhE8XYbmroA",
+      "2Dg63T9sJws"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UC3i4x9_cRUfIBhtDDAlBS3w",
+    "youtubeChannelId": "UC3i4x9_cRUfIBhtDDAlBS3w",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UC3i4x9_cRUfIBhtDDAlBS3w",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_466d5a2a"
   },
   {
     "name": "白河しらせ",
@@ -17769,71 +17764,6 @@
     "aid": "a_3f452a6e"
   },
   {
-    "name": "メーメントヴァニタス",
-    "cat": 1,
-    "count": 6,
-    "reading": "めーめんとゔぁにたす",
-    "kana": "め",
-    "row": "ま",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/CX_LUUtWu3-gGT_QOK3BFfzu_gXcWd7DHjSyxJl4k3NCc4dxg1TTyBXhh7q0NaNOdCzl6D6dtE4=w512-rj",
-    "songs": [
-      "琥珀色の街、上海蟹の朝",
-      "僕は初音ミクとキスをした",
-      "地獄でなぜ悪い",
-      "花火",
-      "ひかげぼっこ",
-      "エイリアンズ"
-    ],
-    "topSongs": [
-      "琥珀色の街、上海蟹の朝",
-      "僕は初音ミクとキスをした",
-      "地獄でなぜ悪い",
-      "花火",
-      "ロックンロールは鳴り止まないっ"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "mementovanitasu",
-      "RIOT MUSIC (無原唱レコード)"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 193000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "MLAewKVGak4",
-      "h-9YstN0nrs",
-      "12LWGDvKq9w",
-      "Y1NOCcfAkUo",
-      "znScklWjNc0"
-    ],
-    "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/@MEMENTOVANITAS",
-    "agency": "RIOT MUSIC (無原唱レコード)",
-    "agencyGroup": "RIOT MUSIC",
-    "vocalParts": [],
-    "agencyGroupCount": 15,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@MEMENTOVANITAS",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_b4f343df"
-  },
-  {
     "name": "桃瀬にな",
     "cat": 1,
     "count": 6,
@@ -20383,6 +20313,70 @@
     "aid": "a_31166636"
   },
   {
+    "name": "メーメントヴァニタス",
+    "cat": 1,
+    "count": 5,
+    "reading": "めーめんとゔぁにたす",
+    "kana": "め",
+    "row": "ま",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/CX_LUUtWu3-gGT_QOK3BFfzu_gXcWd7DHjSyxJl4k3NCc4dxg1TTyBXhh7q0NaNOdCzl6D6dtE4=w512-rj",
+    "songs": [
+      "琥珀色の街、上海蟹の朝",
+      "僕は初音ミクとキスをした",
+      "地獄でなぜ悪い",
+      "花火",
+      "ひかげぼっこ"
+    ],
+    "topSongs": [
+      "琥珀色の街、上海蟹の朝",
+      "僕は初音ミクとキスをした",
+      "地獄でなぜ悪い",
+      "花火",
+      "ロックンロールは鳴り止まないっ"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "mementovanitasu",
+      "RIOT MUSIC (無原唱レコード)"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 193000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "MLAewKVGak4",
+      "h-9YstN0nrs",
+      "12LWGDvKq9w",
+      "Y1NOCcfAkUo",
+      "znScklWjNc0"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/@MEMENTOVANITAS",
+    "agency": "RIOT MUSIC (無原唱レコード)",
+    "agencyGroup": "RIOT MUSIC",
+    "vocalParts": [],
+    "agencyGroupCount": 15,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@MEMENTOVANITAS",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_b4f343df"
+  },
+  {
     "name": "夜乃くろむ",
     "cat": 1,
     "count": 5,
@@ -22375,71 +22369,6 @@
     "aid": "a_27d332b9"
   },
   {
-    "name": "つぐ",
-    "cat": 1,
-    "count": 4,
-    "reading": "つぐ",
-    "kana": "つ",
-    "row": "た",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/CwXun6lX9E8NemsXUv29xIgoP2NlUCkg4BNzfB10_9wDrLSKaR-EE20wiiSm0PAwU8k2j08-4g=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "天天天国地獄国",
-      "エル・タンゴ・エゴイスタ",
-      "main dishが足りてない",
-      "Sanctum"
-    ],
-    "topSongs": [
-      "天天天国地獄国",
-      "エル・タンゴ・エゴイスタ",
-      "main dishが足りてない",
-      "桜ロック",
-      "ラビットホール"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "tsugu",
-      "tugu"
-    ],
-    "role": "歌い手",
-    "imgType": "youtube_official",
-    "sub": 45000,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "1Go-qlXNroE",
-      "1UpFa3Ai7zk",
-      "",
-      "yaIYL_JtxgU",
-      "lDCBLFTMVmo"
-    ],
-    "subDate": "2026-10-28",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [
-      "薄明生徒会"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCNe668-4r9j7h2mXtGt0maw",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCNe668-4r9j7h2mXtGt0maw",
-    "aid": "a_7b807520"
-  },
-  {
     "name": "鶴乃つる",
     "cat": 1,
     "count": 4,
@@ -24039,68 +23968,6 @@
     "aid": "a_c1c74d8d"
   },
   {
-    "name": "あくび・でもんすぺーど",
-    "cat": 1,
-    "count": 3,
-    "reading": "あくび・でもんすぺーど",
-    "kana": "あ",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/F2zp1Q9TSeiUgvv-5lrmYH1zJDos1Tr_51Zs6h_uP2E-5VL_SqGiFVJjQ2lDcA0_boO1NSscfQ=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "八月の夜",
-      "デビルじゃないもん",
-      "Siren’s Siren"
-    ],
-    "topSongs": [
-      "八月の夜",
-      "デビルじゃないもん",
-      "神っぽいな",
-      "KING",
-      "青と夏"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "akubidemonsupedo",
-      "ミリプロ"
-    ],
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 533000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "fuUpxIEihkc",
-      "",
-      "k4U1mjvmBtI",
-      "A4CGHw0xzh4",
-      "DjNbcHCxVD4"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "ミリプロ",
-    "agencyGroup": "ミリプロ",
-    "vocalParts": [],
-    "agencyGroupCount": 10,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@Akubi.demonspade",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@Akubi.demonspade",
-    "aid": "a_539b0ab8"
-  },
-  {
     "name": "石原夏織",
     "cat": 1,
     "count": 3,
@@ -25559,6 +25426,70 @@
     "ytChannelType": "",
     "youtubeChannelUrl": "",
     "aid": "a_8e268b36"
+  },
+  {
+    "name": "つぐ",
+    "cat": 1,
+    "count": 3,
+    "reading": "つぐ",
+    "kana": "つ",
+    "row": "た",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/CwXun6lX9E8NemsXUv29xIgoP2NlUCkg4BNzfB10_9wDrLSKaR-EE20wiiSm0PAwU8k2j08-4g=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "天天天国地獄国",
+      "エル・タンゴ・エゴイスタ",
+      "main dishが足りてない"
+    ],
+    "topSongs": [
+      "天天天国地獄国",
+      "エル・タンゴ・エゴイスタ",
+      "main dishが足りてない",
+      "桜ロック",
+      "ラビットホール"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "tsugu",
+      "tugu"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 45000,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "1Go-qlXNroE",
+      "1UpFa3Ai7zk",
+      "",
+      "yaIYL_JtxgU",
+      "lDCBLFTMVmo"
+    ],
+    "subDate": "2026-10-28",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "薄明生徒会"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCNe668-4r9j7h2mXtGt0maw",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCNe668-4r9j7h2mXtGt0maw",
+    "aid": "a_7b807520"
   },
   {
     "name": "綴",
@@ -28177,6 +28108,67 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/user/AKIAKANEch",
     "aid": "a_4318e5f0"
+  },
+  {
+    "name": "あくび・でもんすぺーど",
+    "cat": 1,
+    "count": 2,
+    "reading": "あくび・でもんすぺーど",
+    "kana": "あ",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/F2zp1Q9TSeiUgvv-5lrmYH1zJDos1Tr_51Zs6h_uP2E-5VL_SqGiFVJjQ2lDcA0_boO1NSscfQ=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "八月の夜",
+      "デビルじゃないもん"
+    ],
+    "topSongs": [
+      "八月の夜",
+      "デビルじゃないもん",
+      "神っぽいな",
+      "KING",
+      "青と夏"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "akubidemonsupedo",
+      "ミリプロ"
+    ],
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 533000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "fuUpxIEihkc",
+      "",
+      "k4U1mjvmBtI",
+      "A4CGHw0xzh4",
+      "DjNbcHCxVD4"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "ミリプロ",
+    "agencyGroup": "ミリプロ",
+    "vocalParts": [],
+    "agencyGroupCount": 10,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@Akubi.demonspade",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@Akubi.demonspade",
+    "aid": "a_539b0ab8"
   },
   {
     "name": "甘葛すもあ",
@@ -51707,7 +51699,7 @@
   {
     "name": "Endorfin.",
     "cat": 2,
-    "count": 62,
+    "count": 61,
     "reading": "endorfin.",
     "kana": "",
     "row": "",
@@ -51774,8 +51766,7 @@
       "彗星のパラソル",
       "Cirro.Strato",
       "サマーエンディング",
-      "八月と青とラムネ",
-      "水花"
+      "八月と青とラムネ"
     ],
     "topSongs": [
       "Horizon Claire",
@@ -52022,97 +52013,6 @@
     "ytChannelType": "",
     "youtubeChannelUrl": "",
     "aid": "a_fc922db5"
-  },
-  {
-    "name": "iCO",
-    "cat": 2,
-    "count": 27,
-    "reading": "ico",
-    "kana": "",
-    "row": "",
-    "alpha": "I",
-    "img": "https://yt3.googleusercontent.com/V64-aUWKfK-zfygufitToQ2dG98ENtKeSWqObZmaS_e8uGzUiJcBWpyjVpLgAMJK749JbazPD64=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "ウツシヨ",
-      "トロイメライヤ",
-      "烏ら烏ら",
-      "灯火の導",
-      "DAYBREAK IT",
-      "君へのカルタ",
-      "Magnus",
-      "青に酔う",
-      "MADE",
-      "駄駄",
-      "パズル",
-      "椿",
-      "為る",
-      "ハルニー",
-      "プロジェクト",
-      "紺",
-      "Devie",
-      "果実のとりこ",
-      "ぽろぽろ",
-      "6のつき",
-      "ワンダア",
-      "「i」",
-      "Ans.",
-      "塵と宝石",
-      "ne_on",
-      "RE:DO",
-      "メメ"
-    ],
-    "topSongs": [
-      "ウツシヨ",
-      "アサルトダンス",
-      "君へのカルタ",
-      "Magnus",
-      "DAYBREAK IT"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "音楽グループ(その他)",
-    "imgType": "youtube_official",
-    "sub": 34600,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "HEKVBaYpAqY",
-      "ggst2QrEYa8",
-      "jUA7weexlG4",
-      "LU3Ra_pB3rg",
-      "-9SzaJA5Mt4"
-    ],
-    "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/@ico_official_youtube",
-    "vocal": "吉國唯",
-    "al": [
-      "吉國唯"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [
-      {
-        "text": "吉國唯",
-        "target": null
-      }
-    ],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(その他)",
-    "roles": [
-      "音楽グループ(その他)"
-    ],
-    "profileBio": "iCOは、吉國唯（Vo./Gt.）とヒロチカ（Dr.）によるオルタナティブロックユニット。2021年に始動し、退廃的かつ文学的な詞世界と、鋭利なギターリフに吉國唯の艶やかで切迫感のある歌声が絡み合うロックサウンドを展開している。",
-    "ytChannelUrl": "https://www.youtube.com/@ico_official_youtube",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_82526d3d"
   },
   {
     "name": "Rita",
@@ -52743,6 +52643,84 @@
     "aid": "a_0114ca1c"
   },
   {
+    "name": "伊藤美来",
+    "cat": 2,
+    "count": 18,
+    "reading": "いとうみく",
+    "kana": "い",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/A0VC_7ifI3MP6DVzqoYjoqqFWMwssgMQeupJKmwGsJJK6QNfkzEZ4cHJXVx1yV_DcyocX2cf=s900-c-k-c0x00ffffff-no-rj",
+    "imgType": "youtube_official",
+    "songs": [
+      "点と線",
+      "Overture 〜Songs Begin to Turn〜",
+      "rotate",
+      "Now On Air",
+      "プラリネ",
+      "夜明けまでに",
+      "空色ミサンガ",
+      "織姫な恋心",
+      "A Quiet Flame",
+      "らびちゅ",
+      "Cinema",
+      "青100色",
+      "Shocking Blue",
+      "No.6",
+      "Yes! Precious Harmony! (コッコロ)",
+      "fragile (森谷美鈴)",
+      "恋はMovie",
+      "ワタシイロ"
+    ],
+    "topSongs": [
+      "Plunderer",
+      "青100色",
+      "点と線",
+      "Overture 〜Songs Begin to Turn〜",
+      "rotate"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "D9UD-jAiq38",
+      "yVpq5HufROU",
+      "",
+      "",
+      ""
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "声優",
+    "sub": 75200,
+    "subBucket": "10kTo100k",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [
+      "コッコロ",
+      "森谷美鈴"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "声優"
+    ],
+    "profileBio": "伊藤美来は、東京都出身の声優・アーティスト。スタイルキューブ所属。『五等分の花嫁』中野三玖役、『BanG Dream!』弦巻こころ役（ハロー、ハッピーワールド！）、『プリンセスコネクト！Re:Dive』コッコロ役などを担当し、2016年にソロデビュー。『Shocking Blue』『Plunderer』『点と線』など透明感と凛とした華やかさを持つ歌声で活躍している。",
+    "ytChannelUrl": "https://www.youtube.com/@itomiku-official",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@itomiku-official",
+    "aid": "a_85cc0d70"
+  },
+  {
     "name": "鬼頭明里",
     "cat": 2,
     "count": 18,
@@ -52820,83 +52798,6 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/@kitoakari_official",
     "aid": "a_15824c70"
-  },
-  {
-    "name": "伊藤美来",
-    "cat": 2,
-    "count": 17,
-    "reading": "いとうみく",
-    "kana": "い",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/A0VC_7ifI3MP6DVzqoYjoqqFWMwssgMQeupJKmwGsJJK6QNfkzEZ4cHJXVx1yV_DcyocX2cf=s900-c-k-c0x00ffffff-no-rj",
-    "imgType": "youtube_official",
-    "songs": [
-      "点と線",
-      "Overture 〜Songs Begin to Turn〜",
-      "rotate",
-      "Now On Air",
-      "プラリネ",
-      "夜明けまでに",
-      "空色ミサンガ",
-      "織姫な恋心",
-      "A Quiet Flame",
-      "らびちゅ",
-      "Cinema",
-      "青100色",
-      "Shocking Blue",
-      "No.6",
-      "Yes! Precious Harmony! (コッコロ)",
-      "fragile (森谷美鈴)",
-      "恋はMovie"
-    ],
-    "topSongs": [
-      "Plunderer",
-      "青100色",
-      "点と線",
-      "Overture 〜Songs Begin to Turn〜",
-      "rotate"
-    ],
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "D9UD-jAiq38",
-      "yVpq5HufROU",
-      "",
-      "",
-      ""
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "声優",
-    "sub": 75200,
-    "subBucket": "10kTo100k",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [
-      "コッコロ",
-      "森谷美鈴"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "声優"
-    ],
-    "profileBio": "伊藤美来は、東京都出身の声優・アーティスト。スタイルキューブ所属。『五等分の花嫁』中野三玖役、『BanG Dream!』弦巻こころ役（ハロー、ハッピーワールド！）、『プリンセスコネクト！Re:Dive』コッコロ役などを担当し、2016年にソロデビュー。『Shocking Blue』『Plunderer』『点と線』など透明感と凛とした華やかさを持つ歌声で活躍している。",
-    "ytChannelUrl": "https://www.youtube.com/@itomiku-official",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@itomiku-official",
-    "aid": "a_85cc0d70"
   },
   {
     "name": "いとうかなこ",
@@ -55262,6 +55163,78 @@
     "aid": "a_ec754f6f"
   },
   {
+    "name": "iCO",
+    "cat": 2,
+    "count": 8,
+    "reading": "ico",
+    "kana": "",
+    "row": "",
+    "alpha": "I",
+    "img": "https://yt3.googleusercontent.com/V64-aUWKfK-zfygufitToQ2dG98ENtKeSWqObZmaS_e8uGzUiJcBWpyjVpLgAMJK749JbazPD64=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "ウツシヨ",
+      "トロイメライヤ",
+      "烏ら烏ら",
+      "灯火の導",
+      "DAYBREAK IT",
+      "君へのカルタ",
+      "Magnus",
+      "青に酔う"
+    ],
+    "topSongs": [
+      "ウツシヨ",
+      "アサルトダンス",
+      "君へのカルタ",
+      "Magnus",
+      "DAYBREAK IT"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "音楽グループ(その他)",
+    "imgType": "youtube_official",
+    "sub": 34600,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "HEKVBaYpAqY",
+      "ggst2QrEYa8",
+      "jUA7weexlG4",
+      "LU3Ra_pB3rg",
+      "-9SzaJA5Mt4"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/@ico_official_youtube",
+    "vocal": "吉國唯",
+    "al": [
+      "吉國唯"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [
+      {
+        "text": "吉國唯",
+        "target": null
+      }
+    ],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(その他)",
+    "roles": [
+      "音楽グループ(その他)"
+    ],
+    "profileBio": "iCOは、吉國唯（Vo./Gt.）とヒロチカ（Dr.）によるオルタナティブロックユニット。2021年に始動し、退廃的かつ文学的な詞世界と、鋭利なギターリフに吉國唯の艶やかで切迫感のある歌声が絡み合うロックサウンドを展開している。",
+    "ytChannelUrl": "https://www.youtube.com/@ico_official_youtube",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_82526d3d"
+  },
+  {
     "name": "神崎エルザ (ガンゲイル・オンライン)",
     "cat": 2,
     "count": 8,
@@ -56670,6 +56643,75 @@
     "aid": "a_aa5784c7"
   },
   {
+    "name": "NELKE",
+    "cat": 2,
+    "count": 5,
+    "reading": "nelke",
+    "kana": "",
+    "row": "",
+    "alpha": "N",
+    "img": "https://yt3.googleusercontent.com/z1iZExUfacmI4NsqTsQJo9WhCwBlev5KJq9e7RJahSYYhPVk7d17oCt0nBlSWM-Qwcc_G0AZpWI=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Incarnation",
+      "Greedy!!｜Official",
+      "Echo｜Official",
+      "Bouquet",
+      "あなたみたいに"
+    ],
+    "topSongs": [
+      "Incarnation",
+      "Greedy!!",
+      "Echo",
+      "Bouquet",
+      "カレンデュラ"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "音楽グループ(その他)",
+    "imgType": "youtube_official",
+    "sub": 97700,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "Kkz53t3lK5o",
+      "pK6iadnsSm8",
+      "dMFgrE1qoYI",
+      "t-Mi9qad2-Q",
+      "r17mSm5E_co"
+    ],
+    "subDate": "2026-10-28",
+    "youtubeChannelUrl": "https://www.youtube.com/@NELKE_RIRIKO_Official",
+    "vocal": "RIRIKO",
+    "al": [
+      "RIRIKO"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [
+      {
+        "text": "RIRIKO",
+        "target": "RIRIKO"
+      }
+    ],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(その他)",
+    "roles": [
+      "音楽グループ(その他)"
+    ],
+    "profileBio": "NELKEは、シンガーソングライター・RIRIKO（Vo./Gt.）を中心に結成された5人組バンドプロジェクト。ドラマチックなコード進行と疾走感あふれるバンドアンサンブル、RIRIKOの芯のあるエモーショナルな歌声で聴き手の心を揺さぶるロックナンバーを届けている。",
+    "ytChannelUrl": "https://www.youtube.com/@NELKE_RIRIKO_Official",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_35851722"
+  },
+  {
     "name": "supercell",
     "cat": 2,
     "count": 5,
@@ -57470,74 +57512,6 @@
     "ytChannelType": "topic",
     "youtubeChannelUrl": "https://www.youtube.com/results?search_query=Larval%20Stage%20Planning%20-%20Topic&sp=EgIQAg%3D%3D",
     "aid": "a_6ff12e1d"
-  },
-  {
-    "name": "NELKE",
-    "cat": 2,
-    "count": 4,
-    "reading": "nelke",
-    "kana": "",
-    "row": "",
-    "alpha": "N",
-    "img": "https://yt3.googleusercontent.com/z1iZExUfacmI4NsqTsQJo9WhCwBlev5KJq9e7RJahSYYhPVk7d17oCt0nBlSWM-Qwcc_G0AZpWI=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Incarnation",
-      "Greedy!!｜Official",
-      "Echo｜Official",
-      "Bouquet"
-    ],
-    "topSongs": [
-      "Incarnation",
-      "Greedy!!",
-      "Echo",
-      "Bouquet",
-      "カレンデュラ"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "音楽グループ(その他)",
-    "imgType": "youtube_official",
-    "sub": 97700,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "Kkz53t3lK5o",
-      "pK6iadnsSm8",
-      "dMFgrE1qoYI",
-      "t-Mi9qad2-Q",
-      "r17mSm5E_co"
-    ],
-    "subDate": "2026-10-28",
-    "youtubeChannelUrl": "https://www.youtube.com/@NELKE_RIRIKO_Official",
-    "vocal": "RIRIKO",
-    "al": [
-      "RIRIKO"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [
-      {
-        "text": "RIRIKO",
-        "target": "RIRIKO"
-      }
-    ],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(その他)",
-    "roles": [
-      "音楽グループ(その他)"
-    ],
-    "profileBio": "NELKEは、シンガーソングライター・RIRIKO（Vo./Gt.）を中心に結成された5人組バンドプロジェクト。ドラマチックなコード進行と疾走感あふれるバンドアンサンブル、RIRIKOの芯のあるエモーショナルな歌声で聴き手の心を揺さぶるロックナンバーを届けている。",
-    "ytChannelUrl": "https://www.youtube.com/@NELKE_RIRIKO_Official",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_35851722"
   },
   {
     "name": "NOMELON NOLEMON",
