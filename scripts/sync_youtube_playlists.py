@@ -371,7 +371,7 @@ def verify_gemini_connection(api_key: str, preferred_model: str | None = None) -
     candidates = get_candidate_models(preferred_model)
     safe_print(f"[VERIFY GEMINI] Testing generateContent inference. Candidate models: {candidates}")
     payload = {
-        "contents": [{"parts": [{"text": 'Return JSON: {"ok": true}'}]}],
+        "contents": [{"parts": [{"text": 'Return JSON: {"ok": True}'}]}],
         "generationConfig": {
             "temperature": 0.0,
             "maxOutputTokens": 32,
@@ -638,71 +638,675 @@ def add_song_to_existing_artist(target_artist: dict, song_title: str, song_type:
     return True
 
 
-def is_safe_for_auto_registration(
+
+# =========================================================================
+# V67: ADVANCED MASTER ARTIST MATCHING, COLLAB SPLITTING & GROUNDING ENGINE
+# =========================================================================
+CONFIRMED_V67_PENDING_RESOLUTIONS = [
+    {
+        "videoId": "AUyhNumi-6U",
+        "songTitle": "徒、花吹雪",
+        "songType": "orig",
+        "targets": [{"aid": "a_d1be502e", "name": "るる"}],
+    },
+    {
+        "videoId": "Vwma-WCXOWk",
+        "songTitle": "ALL IN",
+        "songType": "cover",
+        "targets": [
+            {"aid": "a_c35ccf35", "name": "羊羊"},
+            {"aid": "a_833fb012", "name": "あかつきるき"},
+        ],
+    },
+    {
+        "videoId": "dk2sChUDVSI",
+        "songTitle": "ワタシイロ",
+        "songType": "orig",
+        "targets": [{"aid": "a_85cc0d70", "name": "伊藤美来"}],
+    },
+    {
+        "videoId": "pJtFWEIpWac",
+        "songTitle": "あなたみたいに",
+        "songType": "orig",
+        "targets": [{"aid": "a_35851722", "name": "NELKE"}],
+    },
+    {
+        "videoId": "YwyA-5yfRbs",
+        "songTitle": "III",
+        "songType": "cover",
+        "targets": [
+            {"aid": "a_b5ac7fba", "name": "明透"},
+            {"aid": "a_55aed341", "name": "琶舞"},
+        ],
+    },
+]
+
+
+
+_HIRA_TO_ROMA = {
+    "きゃ": "kya", "きゅ": "kyu", "きょ": "kyo",
+    "しゃ": "sha", "しゅ": "shu", "しょ": "sho",
+    "ちゃ": "cha", "ちゅ": "chu", "ちょ": "cho",
+    "にゃ": "nya", "にゅ": "nyu", "にょ": "nyo",
+    "ひゃ": "hya", "ひゅ": "hyu", "ひょ": "hyo",
+    "みゃ": "mya", "みゅ": "myu", "みょ": "myo",
+    "りゃ": "rya", "りゅ": "ryu", "りょ": "ryo",
+    "ぎゃ": "gya", "ぎゅ": "gyu", "ぎょ": "gyo",
+    "じゃ": "ja", "じゅ": "ju", "じょ": "jo",
+    "びゃ": "bya", "びゅ": "byu", "びょ": "byo",
+    "ぴゃ": "pya", "ぴゅ": "pyu", "ぴょ": "pyo",
+    "ふぁ": "fa", "ふぃ": "fi", "ふぇ": "fe", "ふぉ": "fo",
+    "てぃ": "ti", "でぃ": "di", "うぃ": "wi", "うぇ": "we", "うぉ": "wo",
+    "あ": "a", "い": "i", "う": "u", "え": "e", "お": "o",
+    "か": "ka", "き": "ki", "く": "ku", "け": "ke", "こ": "ko",
+    "さ": "sa", "し": "shi", "す": "su", "せ": "se", "そ": "so",
+    "た": "ta", "ち": "chi", "つ": "tsu", "て": "te", "と": "to",
+    "な": "na", "に": "ni", "ぬ": "nu", "ね": "ne", "の": "no",
+    "は": "ha", "ひ": "hi", "ふ": "fu", "へ": "he", "ほ": "ho",
+    "ま": "ma", "み": "mi", "む": "mu", "め": "me", "も": "mo",
+    "や": "ya", "ゆ": "yu", "よ": "yo",
+    "ら": "ra", "り": "ri", "る": "ru", "れ": "re", "ろ": "ro",
+    "わ": "wa", "を": "o", "ん": "n",
+    "が": "ga", "ぎ": "gi", "ぐ": "gu", "げ": "ge", "ご": "go",
+    "ざ": "za", "じ": "ji", "ず": "zu", "ぜ": "ze", "ぞ": "zo",
+    "だ": "da", "ぢ": "ji", "づ": "zu", "で": "de", "ど": "do",
+    "ば": "ba", "び": "bi", "ぶ": "bu", "べ": "be", "ぼ": "bo",
+    "ぱ": "pa", "ぴ": "pi", "ぷ": "pu", "ぺ": "pe", "ぽ": "po",
+    "ぁ": "a", "ぃ": "i", "ぅ": "u", "ぇ": "e", "ぉ": "o",
+    "ゃ": "ya", "ゅ": "yu", "ょ": "yo",
+}
+
+def _hira_to_romaji_variants(hira_str: str) -> set[str]:
+    s = unicodedata.normalize("NFKC", str(hira_str or "")).strip()
+    if not s or not re.match(r"^[ぁ-んー\s]+$", s):
+        return set()
+    res = ""
+    i = 0
+    n = len(s)
+    while i < n:
+        if s[i] == "っ":
+            nxt = ""
+            if i + 2 < n and s[i+1:i+3] in _HIRA_TO_ROMA:
+                nxt = _HIRA_TO_ROMA[s[i+1:i+3]]
+            elif i + 1 < n and s[i+1] in _HIRA_TO_ROMA:
+                nxt = _HIRA_TO_ROMA[s[i+1]]
+            if nxt:
+                res += nxt[0]
+            i += 1
+            continue
+        if s[i] == "ー":
+            i += 1
+            continue
+        if i + 1 < n and s[i:i+2] in _HIRA_TO_ROMA:
+            res += _HIRA_TO_ROMA[s[i:i+2]]
+            i += 2
+            continue
+        if s[i] in _HIRA_TO_ROMA:
+            res += _HIRA_TO_ROMA[s[i]]
+            i += 1
+            continue
+        res += s[i]
+        i += 1
+    out = {res}
+    # Long vowel contractions common in English Topic channels (e.g. itou -> ito, yuuki -> yuki, oohashi -> ohashi)
+    for v in list(out):
+        out.add(v.replace("ou", "o").replace("uu", "u").replace("oo", "o"))
+    # Also generate Given-Family reversed order for 4..8 mora readings when split at common surname boundaries
+    # or check if hira_str has 2 parts
+    for m_len in range(2, len(s) - 1):
+        p1 = s[:m_len]
+        p2 = s[m_len:]
+        if p1.startswith("っ") or p2.startswith("っ") or p1.startswith("ん") or p2.startswith("ん"):
+            continue
+        r1_set = set()
+        r2_set = set()
+        # simple conversion of p1, p2
+        for idx_p, part in ((1, p1), (2, p2)):
+            acc = ""
+            j = 0
+            while j < len(part):
+                if j + 1 < len(part) and part[j:j+2] in _HIRA_TO_ROMA:
+                    acc += _HIRA_TO_ROMA[part[j:j+2]]
+                    j += 2
+                elif part[j] in _HIRA_TO_ROMA:
+                    acc += _HIRA_TO_ROMA[part[j]]
+                    j += 1
+                else:
+                    acc += part[j]
+                    j += 1
+            variants_p = {acc, acc.replace("ou", "o").replace("uu", "u").replace("oo", "o")}
+            if idx_p == 1:
+                r1_set = variants_p
+            else:
+                r2_set = variants_p
+        for a1 in r1_set:
+            for a2 in r2_set:
+                out.add(a2 + a1)
+    return {x for x in out if len(x) >= 3}
+
+def normalize_artist_lookup_key(s: str) -> str:
+    """Normalizes an artist name/alias for case-, width-, and whitespace/delimiter-insensitive matching."""
+    if not s:
+        return ""
+    norm = unicodedata.normalize("NFKC", str(s)).lower().strip()
+    # Strip trailing "- topic" from YouTube auto-generated Topic channel names
+    norm = re.sub(r"\s*-\s*topic\s*$", "", norm, flags=re.IGNORECASE)
+    norm = re.sub(r"[\s\u3000\-_・.／/()（）【】「」『』]+", "", norm)
+    return norm
+
+
+def is_short_or_ambiguous_name(norm_key: str) -> bool:
+    """Returns True if the normalized key is very short (e.g. <=2 kana/ascii chars like 'るる', 'れい', 'm') and requires channel/context grounding."""
+    if not norm_key:
+        return True
+    if len(norm_key) <= 1:
+        return True
+    if len(norm_key) == 2 and re.match(r"^[ぁ-んァ-ヶーa-z0-9]{2}$", norm_key):
+        return True
+    return False
+
+
+def extract_channel_identifiers(url_or_str: str) -> tuple[set[str], set[str]]:
+    """Extracts YouTube channel IDs (UC...) and @handles from a URL or alias string."""
+    cids = set()
+    handles = set()
+    s = str(url_or_str or "").strip()
+    if not s:
+        return cids, handles
+    for m in re.finditer(r"\b(UC[0-9A-Za-z_\-]{20,24})\b", s):
+        cids.add(m.group(1))
+    for m in re.finditer(r"@([0-9A-Za-z_.\-]{2,60})", s):
+        handles.add(m.group(1).lower())
+    return cids, handles
+
+
+class MasterArtistMatcher:
+    """
+    Indexes all existing artists in `artists_master.json` by:
+    - Stable `aid`
+    - Exact `name` & parenthetical parts (e.g. `わん子 (綰子 /Wanko)` -> `わん子`, `綰子 /Wanko`, `綰子`, `Wanko`)
+    - Confirmed aliases (`al`)
+    - Readings (`reading`)
+    - YouTube channel IDs (`UC...`) and `@handles`
+    Handles homonym detection so multiple artists sharing an alias or reading are never blindly guessed.
+    """
+
+    def __init__(self, artists: list[dict]):
+        self.artists = artists
+        self.by_aid: dict[str, dict] = {}
+        self.by_exact_name: dict[str, dict] = {}
+        self.by_norm_name: dict[str, list[dict]] = {}
+        self.by_norm_alias: dict[str, list[dict]] = {}
+        self.by_norm_reading: dict[str, list[dict]] = {}
+        self.by_channel_id: dict[str, list[dict]] = {}
+        self.by_handle: dict[str, list[dict]] = {}
+
+        for a in artists:
+            if not isinstance(a, dict) or not a.get("name"):
+                continue
+            aid = ensure_artist_stable_aid(a)
+            self.by_aid[aid] = a
+            name = a["name"].strip()
+            self.by_exact_name[name] = a
+
+            # Index full name and base/parenthetical parts
+            name_variants = {name}
+            m_paren = re.match(r"^([^\(（]+?)\s*[\(（]([^\)）]+)[\)）]$", name)
+            if m_paren:
+                base_p = m_paren.group(1).strip()
+                inner_p = m_paren.group(2).strip()
+                if base_p:
+                    name_variants.add(base_p)
+                if inner_p and not any(k in inner_p for k in ("シリーズ", "スタジオ", "オンライン", "プリティー", "ステージ", "レヴュー")):
+                    for sub_p in re.split(r"[/／]", inner_p):
+                        if sub_p.strip():
+                            name_variants.add(sub_p.strip())
+
+            for nv in name_variants:
+                for k_fn in (normalize_text_key, normalize_artist_lookup_key):
+                    nk = k_fn(nv)
+                    if nk:
+                        lst = self.by_norm_name.setdefault(nk, [])
+                        if a not in lst:
+                            lst.append(a)
+
+            # Index aliases
+            for al in a.get("al") or []:
+                if not al or not isinstance(al, str):
+                    continue
+                cids, hnds = extract_channel_identifiers(al)
+                for cid in cids:
+                    lst = self.by_channel_id.setdefault(cid, [])
+                    if a not in lst:
+                        lst.append(a)
+                for h in hnds:
+                    lst = self.by_handle.setdefault(h, [])
+                    if a not in lst:
+                        lst.append(a)
+                for k_fn in (normalize_text_key, normalize_artist_lookup_key):
+                    ak = k_fn(al)
+                    if ak:
+                        lst = self.by_norm_alias.setdefault(ak, [])
+                        if a not in lst:
+                            lst.append(a)
+
+            # Index reading
+            rd = (a.get("reading") or "").strip()
+            if rd:
+                rk = normalize_artist_lookup_key(rd)
+                if rk:
+                    lst = self.by_norm_reading.setdefault(rk, [])
+                    if a not in lst:
+                        lst.append(a)
+
+            # Index ytChannelUrl
+            cids, hnds = extract_channel_identifiers(a.get("ytChannelUrl") or "")
+            for cid in cids:
+                lst = self.by_channel_id.setdefault(cid, [])
+                if a not in lst:
+                    lst.append(a)
+            for h in hnds:
+                lst = self.by_handle.setdefault(h, [])
+                if a not in lst:
+                    lst.append(a)
+
+    def get_all_known_tokens_for_artist(self, artist: dict) -> set[str]:
+        tokens = set()
+        name = (artist.get("name") or "").strip()
+        if name:
+            tokens.add(normalize_text_key(name))
+            tokens.add(normalize_artist_lookup_key(name))
+            m_paren = re.match(r"^([^\(（]+?)\s*[\(（]([^\)）]+)[\)）]$", name)
+            if m_paren:
+                tokens.add(normalize_text_key(m_paren.group(1)))
+                tokens.add(normalize_artist_lookup_key(m_paren.group(1)))
+        for al in artist.get("al") or []:
+            if al and isinstance(al, str) and not al.startswith("UC"):
+                tokens.add(normalize_text_key(al))
+                tokens.add(normalize_artist_lookup_key(al))
+        # Include reading & romaji variants (including reversed Given-Family order like "Miku Ito" for "いとうみく")
+        rd = (artist.get("reading") or "").strip()
+        if rd:
+            tokens.add(normalize_artist_lookup_key(rd))
+            for rv in _hira_to_romaji_variants(rd):
+                tokens.add(rv)
+        # Also include handle name if present in ytChannelUrl (e.g. @itomiku-official -> itomiku, @NELKE_RIRIKO_Official -> nelke, ririko)
+        _, hnds = extract_channel_identifiers(artist.get("ytChannelUrl") or "")
+        for h in hnds:
+            tokens.add(h)
+            tokens.add(re.sub(r"[_.\-]+", "", h))
+            for part in re.split(r"[_.\-]+", h):
+                if len(part) >= 3 and part not in ("official", "channel", "music", "ch", "youtube"):
+                    tokens.add(part)
+        return {t for t in tokens if t}
+
+    def is_artist_grounded_in_video(self, artist: dict, vmeta: dict) -> tuple[bool, str]:
+        """
+        Verifies whether `artist` has concrete grounding in `vmeta` (channelId match, Topic channel match,
+        channelTitle match, or explicit name/alias in video title or description).
+        Protects against short-name homonym false positives (e.g. 2-char name 'るる' matching unrelated words).
+        """
+        raw_title = vmeta.get("title") or ""
+        raw_channel = vmeta.get("channelTitle") or ""
+        raw_desc = vmeta.get("description") or ""
+        channel_id = (vmeta.get("channelId") or "").strip()
+
+        # 1. Direct YouTube Channel ID match
+        if channel_id and channel_id in self.by_channel_id:
+            if artist in self.by_channel_id[channel_id]:
+                return True, "channel_id_exact"
+
+        # 2. YouTube Channel Title match (including "<Name> - Topic" or official channel title)
+        clean_ch = re.sub(r"\s*-\s*Topic\s*$", "", raw_channel, flags=re.IGNORECASE).strip()
+        clean_ch_norm = normalize_artist_lookup_key(clean_ch)
+        known_tokens = self.get_all_known_tokens_for_artist(artist)
+
+        if clean_ch_norm and clean_ch_norm in known_tokens:
+            return True, "channel_title_exact"
+        # Check if channel title starts with or contains artist name (for >=2 char non-ambiguous names or with Official/Ch suffix)
+        for kt in known_tokens:
+            if len(kt) >= 2 and clean_ch_norm:
+                if clean_ch_norm == kt or re.sub(r"(?:official|channel|ch|music|公式|チャンネル)+$", "", clean_ch_norm) == kt:
+                    return True, "channel_title_official"
+                if len(kt) >= 3 and kt in clean_ch_norm:
+                    return True, "channel_title_contains"
+
+        # 3. Video Title & Description match (with boundary protection for short 2-char names)
+        norm_title = normalize_text_key(raw_title)
+        norm_desc = normalize_text_key(raw_desc)
+        nospace_title = normalize_artist_lookup_key(raw_title)
+
+        for kt in known_tokens:
+            if not kt:
+                continue
+            if is_short_or_ambiguous_name(kt):
+                # For short names like "るる", require explicit delimiter boundaries in title/channel/desc
+                # e.g. "徒、花吹雪 / るる", "【るる】", "歌：るる", "Vocal: るる", "るる - "
+                pat = rf"(?:^|[\s/／・×✕✖&＆、,「」『』【】\(\)（）\[\]：:—\-]){re.escape(kt)}(?:$|[\s/／・×✕✖&＆、,「」『』【】\(\)（）\[\]：:—\-])"
+                if re.search(pat, norm_title) or re.search(pat, normalize_text_key(raw_channel)) or re.search(pat, norm_desc):
+                    return True, "delimited_short_name_in_meta"
+            else:
+                if kt in norm_title or kt in nospace_title:
+                    return True, "name_in_video_title"
+                if kt in norm_desc:
+                    return True, "name_in_video_description"
+
+        return False, ""
+
+    def match_single_artist_query(self, raw_query: str, vmeta: dict | None = None) -> tuple[dict | None, str]:
+        """
+        Attempts to match a single artist name/alias query against master data.
+        Returns (matched_artist_or_None, ambiguity_or_match_note).
+        """
+        q = (raw_query or "").strip()
+        if not q:
+            return None, "アーティスト名が空です"
+
+        # Direct aid lookup
+        if q in self.by_aid:
+            return self.by_aid[q], "matched_by_aid"
+
+        # 1. Exact name match
+        if q in self.by_exact_name:
+            cand = self.by_exact_name[q]
+            if vmeta is not None:
+                grounded, g_src = self.is_artist_grounded_in_video(cand, vmeta)
+                if not grounded and is_short_or_ambiguous_name(normalize_artist_lookup_key(q)):
+                    return None, f"同名異人防止：「{q}」は短い一般的な名前のためチャンネルIDまたは明示的な名義表記による根拠が必要です"
+            return cand, "matched_by_exact_name"
+
+        # 2. Normalized name or alias match
+        candidates = []
+        for k_fn in (normalize_text_key, normalize_artist_lookup_key):
+            nk = k_fn(q)
+            if not nk:
+                continue
+            for a in self.by_norm_name.get(nk, []):
+                if a not in candidates:
+                    candidates.append(a)
+            for a in self.by_norm_alias.get(nk, []):
+                if a not in candidates:
+                    candidates.append(a)
+
+        # 3. If no name/alias match, check channel ID from vmeta if query matches channel title
+        if not candidates and vmeta is not None:
+            cid = (vmeta.get("channelId") or "").strip()
+            if cid and cid in self.by_channel_id and len(self.by_channel_id[cid]) == 1:
+                ch_artist = self.by_channel_id[cid][0]
+                clean_ch = re.sub(r"\s*-\s*Topic\s*$", "", vmeta.get("channelTitle") or "", flags=re.IGNORECASE).strip()
+                if normalize_artist_lookup_key(q) == normalize_artist_lookup_key(clean_ch):
+                    return ch_artist, "matched_by_channel_id"
+
+        if not candidates:
+            return None, ""
+
+        if len(candidates) == 1:
+            cand = candidates[0]
+            if vmeta is not None:
+                grounded, _ = self.is_artist_grounded_in_video(cand, vmeta)
+                if not grounded and is_short_or_ambiguous_name(normalize_artist_lookup_key(q)):
+                    return None, f"同名異人防止：「{q}」は同名異人の可能性があるため動画メタデータ上の根拠が必要です"
+            return cand, "matched_by_normalized_name_or_alias"
+
+        # Multiple candidates (homonyms): disambiguate using vmeta grounding
+        if vmeta is not None:
+            grounded_cands = []
+            for c in candidates:
+                ok, g_src = self.is_artist_grounded_in_video(c, vmeta)
+                if ok:
+                    score = 3 if g_src == "channel_id_exact" else (2 if "channel" in g_src else 1)
+                    grounded_cands.append((score, c))
+            grounded_cands.sort(key=lambda x: -x[0])
+            if len(grounded_cands) == 1:
+                return grounded_cands[0][1], "disambiguated_by_video_grounding"
+            if len(grounded_cands) >= 2 and grounded_cands[0][0] > grounded_cands[1][0]:
+                return grounded_cands[0][1], "disambiguated_by_channel_priority"
+
+        cand_names = "、".join(c["name"] for c in candidates[:5])
+        return None, f"複数の既存名義候補（{cand_names}）があり特定できないため要確認"
+
+    def find_candidate_hints_for_video(self, vmeta: dict) -> list[dict]:
+        """
+        Lightweight Python pre-matcher that finds existing master artist candidates appearing in a video's
+        channelId, channelTitle, title, or description so Gemini can be given exact master artist names.
+        """
+        hints = []
+        seen_aids = set()
+        cid = (vmeta.get("channelId") or "").strip()
+        if cid and cid in self.by_channel_id:
+            for a in self.by_channel_id[cid]:
+                if a["aid"] not in seen_aids:
+                    seen_aids.add(a["aid"])
+                    hints.append({
+                        "name": a["name"],
+                        "aid": a["aid"],
+                        "role": a.get("role", ""),
+                        "matchSource": "channelId",
+                    })
+
+        raw_ch = vmeta.get("channelTitle") or ""
+        clean_ch = re.sub(r"\s*-\s*Topic\s*$", "", raw_ch, flags=re.IGNORECASE).strip()
+        if clean_ch:
+            ch_match, _ = self.match_single_artist_query(clean_ch, vmeta)
+            if ch_match and ch_match["aid"] not in seen_aids:
+                seen_aids.add(ch_match["aid"])
+                hints.append({
+                    "name": ch_match["name"],
+                    "aid": ch_match["aid"],
+                    "role": ch_match.get("role", ""),
+                    "matchSource": "channelTitle",
+                })
+
+        # Also scan title & description for existing artist names
+        for a in self.artists:
+            if len(hints) >= 8:
+                break
+            if a["aid"] in seen_aids:
+                continue
+            ok, src = self.is_artist_grounded_in_video(a, vmeta)
+            if ok and src in ("channel_id_exact", "channel_title_exact", "channel_title_official", "name_in_video_title", "delimited_short_name_in_meta"):
+                seen_aids.add(a["aid"])
+                hints.append({
+                    "name": a["name"],
+                    "aid": a["aid"],
+                    "role": a.get("role", ""),
+                    "matchSource": src,
+                })
+        return hints
+
+
+COLLAB_SPLIT_REGEX = re.compile(
+    r"\s*(?:×|✕|✖|＆|&|、|,|／|/|\bfeat\.?\b|\bft\.?\b|\bwith\b|\band\b)\s*",
+    flags=re.IGNORECASE,
+)
+
+
+def extract_and_resolve_vocalists(
     item: dict,
-    target_artist: dict | None,
     vmeta: dict,
+    matcher: MasterArtistMatcher,
+) -> tuple[list[dict], list[str], bool, str]:
+    """
+    Resolves one or more singing artists for a video:
+    1. Checks if `artistName` as a whole is an existing unit/solo artist in `artists_master.json`.
+    2. Otherwise, splits collaboration expressions (from `item['vocalists']`, `item['artistName']`, or video title)
+       into individual vocalist names, excludes composer/originalArtist names, and matches each against `matcher`.
+    Returns:
+      (matched_artists_list, unmatched_names_list, is_collaboration, resolution_note)
+    """
+    raw_artist_str = (item.get("artistName") or "").strip()
+    raw_vocalists = item.get("vocalists")
+    composer_norm = normalize_artist_lookup_key(item.get("composer") or "")
+    orig_artist_norm = normalize_artist_lookup_key(item.get("originalArtist") or "")
+    song_type = "cover" if str(item.get("songType") or "").strip().lower() == "cover" else "orig"
+
+    # Step 1: If `raw_artist_str` directly matches a single existing artist/unit in master data, check if the video
+    # is actually a collaboration with another existing artist not included in `raw_artist_str`
+    whole_match, whole_note = matcher.match_single_artist_query(raw_artist_str, vmeta)
+    if whole_match and (not isinstance(raw_vocalists, list) or len(raw_vocalists) <= 1):
+        # Check if video title explicitly has `A × B` or `A & B` with another known artist when `whole_match` is a solo artist
+        role_str = whole_match.get("role") or ""
+        raw_title = vmeta.get("title") or ""
+        if not role_str.startswith("音楽グループ") and any(sep in raw_title for sep in ("×", "✕", "✖", "＆", "&")):
+            # Check if multiple candidate hints are grounded in the video title
+            title_hints = [
+                h for h in matcher.find_candidate_hints_for_video(vmeta)
+                if h["matchSource"] in ("name_in_video_title", "delimited_short_name_in_meta", "channel_id_exact", "channel_title_exact")
+            ]
+            if len(title_hints) >= 2:
+                collab_artists = []
+                for h in title_hints:
+                    a_obj = matcher.by_aid.get(h["aid"])
+                    if a_obj and a_obj not in collab_artists:
+                        # Exclude original artist on covers
+                        if song_type == "cover" and orig_artist_norm and normalize_artist_lookup_key(a_obj["name"]) == orig_artist_norm:
+                            continue
+                        if composer_norm and normalize_artist_lookup_key(a_obj["name"]) == composer_norm:
+                            continue
+                        collab_artists.append(a_obj)
+                if len(collab_artists) >= 2:
+                    return collab_artists, [], True, "動画タイトル・チャンネル情報からコラボ参加者の既存名義を特定"
+        return [whole_match], [], False, whole_note
+
+    # Step 2: Build list of candidate participant names from `vocalists` and/or splitting `raw_artist_str`
+    participant_strings = []
+    if isinstance(raw_vocalists, list) and len(raw_vocalists) > 0:
+        for v in raw_vocalists:
+            vs = str(v or "").strip()
+            if vs:
+                # If an element in vocalists still has collaboration separators and isn't an existing unit, split it
+                m_unit, _ = matcher.match_single_artist_query(vs, vmeta)
+                if m_unit:
+                    participant_strings.append(vs)
+                else:
+                    for part in COLLAB_SPLIT_REGEX.split(vs):
+                        if part.strip():
+                            participant_strings.append(part.strip())
+    elif raw_artist_str:
+        for part in COLLAB_SPLIT_REGEX.split(raw_artist_str):
+            if part.strip():
+                participant_strings.append(part.strip())
+
+    # Deduplicate participant strings while preserving order
+    seen_p = set()
+    clean_participants = []
+    for p in participant_strings:
+        pk = normalize_artist_lookup_key(p)
+        if not pk or pk in seen_p:
+            continue
+        # Filter out composer or original artist if accidentally listed as a vocalist on a cover
+        if composer_norm and pk == composer_norm and len(participant_strings) > 1:
+            continue
+        if song_type == "cover" and orig_artist_norm and pk == orig_artist_norm and len(participant_strings) > 1:
+            continue
+        seen_p.add(pk)
+        clean_participants.append(p)
+
+    # Step 3: If still empty, check channelId / channelTitle match directly
+    if not clean_participants and vmeta is not None:
+        cid = (vmeta.get("channelId") or "").strip()
+        if cid and cid in matcher.by_channel_id and len(matcher.by_channel_id[cid]) == 1:
+            return [matcher.by_channel_id[cid][0]], [], False, "チャンネルIDから既存名義を特定"
+        clean_ch = re.sub(r"\s*-\s*Topic\s*$", "", vmeta.get("channelTitle") or "", flags=re.IGNORECASE).strip()
+        if clean_ch:
+            ch_match, ch_note = matcher.match_single_artist_query(clean_ch, vmeta)
+            if ch_match:
+                return [ch_match], [], False, ch_note
+
+    matched_artists = []
+    unmatched_names = []
+    notes = []
+    for p in clean_participants:
+        m_art, m_note = matcher.match_single_artist_query(p, vmeta)
+        if m_art:
+            if m_art not in matched_artists:
+                matched_artists.append(m_art)
+            if m_note:
+                notes.append(m_note)
+        else:
+            unmatched_names.append(p)
+            if m_note:
+                notes.append(m_note)
+
+    is_collab = (len(clean_participants) >= 2) or (len(matched_artists) >= 2) or bool(item.get("isCollaboration"))
+    return matched_artists, unmatched_names, is_collab, " / ".join(dict.fromkeys(n for n in notes if n))
+
+
+def evaluate_auto_registration_decision(
+    item: dict,
+    matched_artists: list[dict],
+    unmatched_names: list[str],
+    is_collab: bool,
+    resolution_note: str,
+    vmeta: dict,
+    matcher: MasterArtistMatcher,
     confidence: float,
     threshold: float = AUTO_APPROVE_CONFIDENCE,
 ) -> tuple[bool, str]:
     """
-    Determines whether an AI-classified video is safe to auto-register directly to `target_artist`.
-    Returns (is_safe, reason_if_not_safe).
+    Evaluates whether a video can be auto-registered to `matched_artists` (1 or more existing artists).
+    Enforces all rules in Sections 3, 4, 5, 6:
+    - Never creates a combined 'A＆B' or 'A×B' artist for collaborations.
+    - If any collaboration participant is unmatched, holds for review with specific reason.
+    - Allows official Topic channels and videos without artist name in title when channel/metadata grounding is solid.
+    - Never rejects solely because Gemini wrote a vague reason or mislabeled an existing artist as new.
+    - Protects against composer / original-artist / homonym mix-ups.
     """
-    if target_artist is None:
-        return False, "サイト未登録の新規名義のため仮設定（要確認）"
-
-    if confidence < threshold:
-        return False, f"確信度が基準値未満 ({confidence:.2f} < {threshold:.2f}) のため要確認"
-
-    if item.get("ambiguous") is True or item.get("needsReview") is True:
-        return False, item.get("reason") or "AIが複数人歌唱・名義曖昧と判定したため要確認"
-
-    raw_ai_artist = (item.get("artistName") or "").strip()
     song_title = (item.get("songTitle") or "").strip()
-    if not raw_ai_artist or not song_title:
-        return False, "曲名またはアーティスト名が空のため要確認"
+    if not song_title:
+        return False, "曲名が抽出できないため要確認"
 
-    # Check if AI returned multiple artists / collaboration string that isn't the artist's actual name/alias
-    known_names_norm = {normalize_text_key(target_artist["name"])}
-    for al in target_artist.get("al") or []:
-        if al:
-            known_names_norm.add(normalize_text_key(al))
+    if unmatched_names and not matched_artists:
+        return False, f"サイト未登録の新規名義候補（{'、'.join(unmatched_names)}）のため要確認"
 
-    collab_tokens = ["×", " feat", " ft.", " with ", " & ", "、", "／", "/"]
-    if normalize_text_key(raw_ai_artist) not in known_names_norm:
-        return False, f"AI抽出名義「{raw_ai_artist}」が登録名義と完全一致しないため要確認"
+    if unmatched_names and matched_artists:
+        return False, (
+            f"コラボ参加者の一部（{'、'.join(unmatched_names)}）が既存名義と照合できないため要確認"
+            f"（一致済み：{ '、'.join(a['name'] for a in matched_artists) }）"
+        )
 
-    raw_title = vmeta.get("title") or ""
-    raw_channel = vmeta.get("channelTitle") or ""
-    raw_desc = vmeta.get("description") or ""
-    channel_id = vmeta.get("channelId") or ""
-    combined_meta_norm = normalize_text_key(f"{raw_title} {raw_channel} {raw_desc}")
+    if not matched_artists:
+        return False, resolution_note or "歌唱名義を特定できないため要確認"
 
-    # Grounding check: Is the target artist's name, alias, or channel ID actually present in the video metadata?
-    artist_channel_url = target_artist.get("ytChannelUrl") or ""
-    channel_matched = bool(channel_id and channel_id in artist_channel_url)
-    name_matched = any(kn and kn in combined_meta_norm for kn in known_names_norm if len(kn) >= 2)
-    if not name_matched and any(kn and kn in combined_meta_norm for kn in known_names_norm):
-        name_matched = True
+    # Verify grounding of each matched existing artist in the video metadata
+    ungrounded = []
+    for a in matched_artists:
+        ok, _ = matcher.is_artist_grounded_in_video(a, vmeta)
+        if not ok:
+            ungrounded.append(a["name"])
 
-    if not channel_matched and not name_matched:
-        return False, "動画タイトル・概要欄・チャンネル名にアーティスト名義の明示的な一致が確認できないため要確認（作曲者・原曲者取り違え防止）"
+    if ungrounded:
+        return False, (
+            f"動画タイトル・概要欄・チャンネル情報に名義（{'、'.join(ungrounded)}）の明示的な根拠が確認できないため要確認"
+            "（作曲者・原曲者・同名異人の取り違え防止）"
+        )
 
-    # Check for multi-vocalist collaboration indicators in video title when artist is a solo singer
-    role_str = target_artist.get("role") or ""
-    if not role_str.startswith("音楽グループ"):
-        # If title has `A × B` or `A & B` around the artist name, hold for review so user can check if both singers should be credited
-        for sep in ("×", "✕", "✖"):
-            if sep in raw_title and sep not in target_artist["name"]:
-                return False, f"動画タイトルにコラボ表記（{sep}）が含まれるため複数人歌唱の確認が必要"
+    # Check if composer or originalArtist was mistaken for the sole vocalist
+    composer_str = (item.get("composer") or "").strip()
+    orig_artist_str = (item.get("originalArtist") or "").strip()
+    song_type = "cover" if str(item.get("songType") or "").strip().lower() == "cover" else "orig"
+    if len(matched_artists) == 1:
+        sole_norm = normalize_artist_lookup_key(matched_artists[0]["name"])
+        if song_type == "cover" and orig_artist_str and normalize_artist_lookup_key(orig_artist_str) == sole_norm:
+            # Only allow if it is explicitly a self-cover on the artist's own channel
+            cid = (vmeta.get("channelId") or "").strip()
+            if not (cid and matched_artists[0] in matcher.by_channel_id.get(cid, [])):
+                return False, f"カバー曲において原曲アーティスト（{orig_artist_str}）と歌唱者の区別が曖昧なため要確認"
 
-    # Prevent mistaking uploader/composer channel for vocalist on cover or vocaloid-feat videos
-    is_own_ch = item.get("isOwnChannel")
-    if is_own_ch is False and not name_matched:
-        return False, "本人以外のチャンネル投稿動画であり名義一致が確認できないため要確認"
+    # Confidence check: if all matched artists are grounded in video metadata (e.g. channelId/Topic/title),
+    # allow >= 0.75 when Gemini only lowered confidence due to collaboration or Topic channel; otherwise require threshold.
+    effective_threshold = 0.75 if (is_collab or "- topic" in (vmeta.get("channelTitle") or "").lower()) else threshold
+    if confidence < effective_threshold:
+        return False, f"確信度が基準値未満 ({confidence:.2f} < {effective_threshold:.2f}) のため要確認"
 
-    return True, ""
+    matched_names_str = "、".join(a["name"] for a in matched_artists)
+    clean_reason = (
+        f"既存名義（{matched_names_str}）へのコラボ曲追加として自動確定"
+        if len(matched_artists) >= 2
+        else f"既存名義「{matched_names_str}」と照合一致（チャンネル・動画メタデータで根拠確認済み）"
+    )
+    return True, clean_reason
+
 
 
 
@@ -1197,7 +1801,10 @@ def apply_curated_renames_and_additions(
     artists: list[dict],
     pending_list: list[dict],
     processed_ids: set[str],
-) -> bool:
+    mugen2_state: dict | None = None,
+    now_iso: str = "",
+    today_str: str = "",
+) -> tuple[bool, list[dict]]:
     changed = False
     # 1. Song renames + deduplication
     for a in artists:
@@ -1317,7 +1924,71 @@ def apply_curated_renames_and_additions(
             pending_list[:] = kept
             changed = True
 
-    return changed
+    # 5. Apply the 5 confirmed v67 pending resolutions (existing artists only; never create new artists or alter existing metadata)
+    curated_logs = []
+    aid_map = {a.get("aid"): a for a in artists if isinstance(a, dict) and a.get("aid")}
+    name_map = {a.get("name"): a for a in artists if isinstance(a, dict) and a.get("name")}
+    confirmed_vids = set()
+
+    for res in CONFIRMED_V67_PENDING_RESOLUTIONS:
+        vid = res["videoId"]
+        confirmed_vids.add(vid)
+        s_title = res["songTitle"]
+        s_type = res["songType"]
+        for tgt in res["targets"]:
+            target_a = aid_map.get(tgt["aid"]) or name_map.get(tgt["name"])
+            if not target_a:
+                continue
+            added = add_song_to_existing_artist(target_a, s_title, s_type, vid)
+            if added:
+                changed = True
+            if mugen2_state is not None:
+                vmap = mugen2_state.get("videoMap") or {}
+                existing_targets = _extract_video_targets(vmap.get(vid) or {})
+                already_mapped = any(
+                    t["aid"] == target_a["aid"] and normalize_text_key(t["songTitle"]) == normalize_text_key(s_title)
+                    for t in existing_targets
+                )
+                if not already_mapped:
+                    register_mugen2_video_mapping(
+                        mugen2_state=mugen2_state,
+                        vid=vid,
+                        artist=target_a,
+                        song_title=s_title,
+                        song_type=s_type,
+                        source="confirmed_pending_resolution",
+                        confidence=1.0,
+                        now_iso=now_iso or "2026-11-03T06:00:00Z",
+                    )
+                    changed = True
+            if added or vid not in processed_ids:
+                curated_logs.append({
+                    "date": today_str or "2026-11-03",
+                    "timestamp": now_iso or "2026-11-03T06:00:00Z",
+                    "action": "confirmed_pending_song_added" if added else "confirmed_pending_song_linked",
+                    "registrationType": "newly_added_song" if added else "linked_existing_song",
+                    "aid": target_a["aid"],
+                    "artist": target_a["name"],
+                    "song": s_title,
+                    "type": s_type,
+                    "videoId": vid,
+                    "status": "success",
+                    "result": "既存名義へ楽曲を新規追加完了" if added else "既存曲に動画IDを紐付け完了（重複追加なし）",
+                })
+        if vid not in processed_ids:
+            processed_ids.add(vid)
+            changed = True
+
+    if pending_list:
+        before_len = len(pending_list)
+        pending_list[:] = [
+            p for p in pending_list
+            if isinstance(p, dict) and (p.get("videoId") or "").strip() not in confirmed_vids
+        ]
+        if len(pending_list) != before_len:
+            changed = True
+
+    return changed, curated_logs
 
 
 def apply_approved_pending_items(
@@ -1325,6 +1996,8 @@ def apply_approved_pending_items(
     pending_list: list[dict],
     processed_ids: set[str],
     today_str: str,
+    mugen2_state: dict | None = None,
+    now_iso: str = "",
 ) -> tuple[list[dict], list[dict]]:
     """
     Processes items in `pending_review.json`:
@@ -1379,19 +2052,40 @@ def apply_approved_pending_items(
                 remaining_pending.append(item_copy)
                 continue
 
-            target_artist = by_name.get(artist_name) or alias_map.get(normalize_text_key(artist_name))
-            if target_artist:
-                added = add_song_to_existing_artist(target_artist, song_title, song_type, vid)
+            matcher = MasterArtistMatcher(artists)
+            matched_targets, unmatched_parts, _, _ = extract_and_resolve_vocalists(
+                item={"artistName": artist_name, "vocalists": item.get("vocalists"), "songType": song_type},
+                vmeta={"title": item.get("rawVideoTitle", ""), "channelTitle": item.get("rawChannelTitle", "")},
+                matcher=matcher,
+            )
+            if matched_targets and not unmatched_parts:
+                for target_artist in matched_targets:
+                    added = add_song_to_existing_artist(target_artist, song_title, song_type, vid)
+                    if mugen2_state is not None and vid:
+                        register_mugen2_video_mapping(
+                            mugen2_state=mugen2_state,
+                            vid=vid,
+                            artist=target_artist,
+                            song_title=song_title,
+                            song_type=song_type,
+                            source="approved_pending",
+                            confidence=1.0,
+                            now_iso=now_iso or f"{today_str}T00:00:00Z",
+                        )
+                    applied_logs.append({
+                        "date": today_str,
+                        "timestamp": now_iso or f"{today_str}T00:00:00Z",
+                        "action": "approved_song_added" if added else "approved_song_already_exists",
+                        "registrationType": "newly_added_song" if added else "linked_existing_song",
+                        "aid": target_artist.get("aid", ""),
+                        "artist": target_artist["name"],
+                        "song": song_title,
+                        "type": song_type,
+                        "videoId": vid,
+                        "status": "success",
+                    })
                 if vid:
                     processed_ids.add(vid)
-                applied_logs.append({
-                    "date": today_str,
-                    "action": "approved_song_added" if added else "approved_song_already_exists",
-                    "artist": target_artist["name"],
-                    "song": song_title,
-                    "type": song_type,
-                    "videoId": vid,
-                })
             else:
                 raw_role = (item.get("role") or ("歌い手" if song_type == "cover" else "歌手")).strip()
                 explicit_cat = item.get("cat")
@@ -1506,44 +2200,58 @@ def classify_videos_with_gemini(
     api_key: str,
     candidate_models: list[str],
     working_model_cache: dict,
+    matcher: MasterArtistMatcher | None = None,
 ) -> list[dict]:
+    enriched_videos = []
+    for v in videos:
+        vc = dict(v)
+        if matcher is not None:
+            vc["matchedExistingCandidates"] = matcher.find_candidate_hints_for_video(v)
+        enriched_videos.append(vc)
+
     prompt = f"""あなたは女性ボーカル楽曲アーカイブ「かるが聴いている歌い手・アーティスト」のデータ管理AIです。
-以下のYouTube動画リストについて、それぞれの動画から「曲名」「歌唱しているボーカル名義（アーティスト名）」「オリジナル曲(orig)かカバー曲(cover)か」「確信度(confidence: 0.0〜1.0の数値)」を判別し、JSON配列で返してください。
+以下のYouTube動画リストについて、それぞれの動画から「曲名(songTitle)」「実際に歌唱しているボーカル名義リスト(vocalists)」「代表表記(artistName)」「オリジナル曲(orig)かカバー曲(cover)か(songType)」「確信度(confidence: 0.0〜1.0の数値)」を判別し、JSON配列で返してください。
 
 【サイト登録ルール・最重要注意事項】
 1. 対象は「女性ボーカル」または「女性ボーカルを含む音楽ユニット」のみです。男性ソロボーカル曲やインスト曲の場合は `"skip": true` にしてください。
-2. 【作曲者・原曲者・投稿チャンネルの取り違え防止】
-   - ボカロP・作曲者・公式アニメ/ゲームチャンネルに投稿されている動画で、ボーカル（feat. 〇〇 / Vocal: 〇〇 / 歌：〇〇 / CV: 〇〇）が歌っている場合は、作曲者やチャンネル名ではなく必ず「歌唱している女性ボーカリストまたはユニット名義」を `"artistName"` にしてください。また本人以外のチャンネルに投稿されている場合は `"isOwnChannel": false` にしてください。
-   - カバー曲（歌ってみた）の場合、原曲の歌手や作曲者ではなく「カバーして歌っている本人」を `"artistName"` にしてください。
-3. 【確信度 (confidence: 0.0〜1.0) と曖昧ケースの判定基準】
-   - `0.85〜1.0`: 動画タイトル・チャンネル名・概要欄から歌唱名義と曲名が明確に特定でき、既存の登録アーティスト名義（またはその明確な別名義）と一意に一致する場合。
-   - `0.0〜0.84`: 少しでも迷う場合（複数人コラボ・合唱で単一名義にするか迷う場合、歌唱者と作曲者の区別が曖昧な場合、同名異人の可能性がある場合、未登録の新規名義である場合など）は `0.80` 以下の数値にし、`"ambiguous": true` を設定してください。
-   - 主な既存名義の例（一部）: {", ".join(existing_names[:450])}
-4. `"songTitle"` には「【歌ってみた】」「MV」「Official Music Video」「/ アーティスト名」「cover」「Covered by ...」などの装飾を除いた純粋な曲名のみを入れてください。
-5. `"songType"` は `"orig"`（オリジナル曲）または `"cover"`（歌ってみた・カバー曲）のいずれかにしてください。
-6. 新規名義または要確認の項目に備えて、ひらがな読み `"reading"`、頭文字ひらがな1文字 `"kana"`、英字頭文字 `"alpha"`（英字名義のみA-Z、それ以外は空文字）、活動形態 `"role"`（`"Vtuber"`, `"Vsinger"`, `"歌い手"`, `"歌手"`, `"声優"`, `"音楽グループ(アニゲー関連)"`, `"音楽グループ(その他)"` のいずれか）、所属事務所・作品 `"agency"`（不明なら空文字）、そして `"role"` が `"歌手"`, `"声優"`, `"音楽グループ(アニゲー関連)"`（キャラものを除く）, `"音楽グループ(その他)"` の場合は2〜3文の丁寧なプロフィール紹介文 `"profileBio"` も仮作成してください。また判定理由や注意点を `"reason"` に短く記載してください。
+2. 【既存名義の優先照合（最重要）】
+   - 各動画データの `"matchedExistingCandidates"` に、Python側でチャンネルID・タイトル・概要欄から照合した既存アーティスト候補が含まれています。
+   - 歌唱者が既存の登録アーティストである場合は、必ず既存アーティストの正式名義を `"vocalists"` および `"artistName"` に使用してください。既存アーティストを新規名義と誤認しないでください。
+   - `"xxx - Topic"` のようなYouTube自動生成トピックチャンネルや、動画タイトルにアーティスト名が含まれない公式チャンネル投稿動画であっても、チャンネル名や `"matchedExistingCandidates"` から歌唱者が特定できる場合は `"ambiguous": false`、高い `"confidence"` (`0.90`以上) を設定してください。
+3. 【コラボ曲・複数人歌唱の分解ルール】
+   - 「羊羊＆あかつきるき」「明透×琶舞」のような複数人の一時的なコラボ曲（`&`, `＆`, `×`, `feat.`, `with`, `covered by` 等）では、`"A＆B"` や `"A×B"` という連名の新規名義を作らず、必ず `"vocalists": ["参加者1", "参加者2"]` のように個別の歌唱参加者リストとして抽出してください（正式な既存ユニット名義で活動しているグループ曲のみ `"isCollaboration": false` でユニット名義1つにします）。
+   - コラボ曲であっても、参加している歌唱者が明確に特定できる場合は `"ambiguous": false`、`"confidence": 0.90` 以上にしてください（「コラボ曲だから」という理由だけで `"ambiguous": true` にしないでください）。
+4. 【作曲者・原曲者・投稿チャンネルの取り違え防止】
+   - ボカロP・作曲者・公式アニメ/ゲームチャンネルに投稿されている動画で、ボーカル（feat. 〇〇 / Vocal: 〇〇 / 歌：〇〇 / CV: 〇〇）が歌っている場合は、作曲者ではなく必ず「実際に歌っている女性ボーカリストまたはユニット名義」を `"vocalists"` / `"artistName"` にしてください。作曲者名は `"composer"` に、カバー曲の原曲歌手名は `"originalArtist"` に分離して記載してください。
+5. `"songTitle"` には「【歌ってみた】」「MV」「Official Music Video」「/ アーティスト名」「cover」「Covered by ...」などの装飾を除いた純粋な曲名のみを入れてください。
+6. `"songType"` は `"orig"`（オリジナル曲）または `"cover"`（歌ってみた・カバー曲）のいずれかにしてください。
+7. 主な既存名義の例（一部）: {", ".join(existing_names[:350])}
 
 【入力動画データ】
-{json.dumps(videos, ensure_ascii=False, indent=2)}
+{json.dumps(enriched_videos, ensure_ascii=False, indent=2)}
 
 【出力JSONスキーマ（配列のみ出力）】
 [
   {{
     "videoId": "動画ID",
     "skip": false,
-    "confidence": 0.92,
+    "confidence": 0.95,
     "ambiguous": false,
-    "artistName": "歌唱アーティスト名義",
+    "isCollaboration": false,
+    "vocalists": ["歌唱アーティスト名義1"],
+    "artistName": "歌唱アーティスト名義1",
     "songTitle": "純粋な曲名",
     "songType": "orig または cover",
+    "originalArtist": "カバー曲の場合の原曲アーティスト名（不明またはオリジナル曲なら空文字）",
+    "composer": "作曲者・ボカロP名（不明なら空文字）",
     "isOwnChannel": true,
     "reading": "ひらがなよみ",
     "kana": "頭文字ひらがな1文字",
     "alpha": "英字頭文字(A-Z)または空文字",
     "role": "歌い手 / Vsinger / Vtuber / 歌手 / 声優 / 音楽グループ(アニゲー関連) / 音楽グループ(その他)",
     "agency": "所属事務所・作品名（なければ空文字）",
-    "profileBio": "歌手・声優・音楽グループの場合の2〜3文のプロフィール紹介文（それ以外は空文字）",
-    "reason": "AIの判定メモ・要確認理由"
+    "profileBio": "新規名義で歌手・声優・音楽グループの場合のみ2〜3文のプロフィール紹介文（既存名義は空文字）",
+    "reason": "判定根拠（どの情報から歌唱者と曲名を特定したか）"
   }}
 ]"""
 
@@ -1562,7 +2270,6 @@ def classify_videos_with_gemini(
     )
     try:
         text = resp["candidates"][0]["content"]["parts"][0]["text"].strip()
-        # Strip markdown fences if a model wraps JSON in ```json ... ```
         if text.startswith("```"):
             text = re.sub(r"^```(?:json)?\s*", "", text)
             text = re.sub(r"\s*```$", "", text)
@@ -1572,7 +2279,6 @@ def classify_videos_with_gemini(
         return parsed
     except Exception as e:
         raise ValueError(f"Invalid JSON structure from Gemini model '{used_model}': {e}")
-
 
 
 def ensure_artist_stable_aid(artist: dict, used_aids: set[str] | None = None) -> str:
@@ -1819,6 +2525,37 @@ def identify_mugen2_playlist_id(playlist_ids: list[str], api_key: str) -> tuple[
     return playlist_ids[-1], playlist_ids[:-1]
 
 
+def _extract_video_targets(entry: dict) -> list[dict]:
+    if not isinstance(entry, dict):
+        return []
+    targets = []
+    seen = set()
+    raw_targets = entry.get("targets")
+    if isinstance(raw_targets, list):
+        for t in raw_targets:
+            if isinstance(t, dict) and t.get("aid") and t.get("songTitle"):
+                key = (str(t["aid"]), normalize_text_key(t["songTitle"]))
+                if key not in seen:
+                    seen.add(key)
+                    targets.append({
+                        "aid": str(t["aid"]),
+                        "artistName": str(t.get("artistName") or ""),
+                        "songTitle": str(t["songTitle"]),
+                        "songType": "cover" if t.get("songType") == "cover" else "orig",
+                    })
+    if entry.get("aid") and entry.get("songTitle"):
+        key = (str(entry["aid"]), normalize_text_key(entry["songTitle"]))
+        if key not in seen:
+            seen.add(key)
+            targets.append({
+                "aid": str(entry["aid"]),
+                "artistName": str(entry.get("artistName") or ""),
+                "songTitle": str(entry["songTitle"]),
+                "songType": "cover" if entry.get("songType") == "cover" else "orig",
+            })
+    return targets
+
+
 def register_mugen2_video_mapping(
     mugen2_state: dict,
     vid: str,
@@ -1835,14 +2572,40 @@ def register_mugen2_video_mapping(
     canonical_song = find_canonical_song_in_artist(artist, song_title) or song_title.strip()
     if not canonical_song:
         return
+    norm_type = "cover" if song_type == "cover" else "orig"
 
     vmap = mugen2_state.setdefault("videoMap", {})
-    existing_entry = vmap.get(vid) or {}
+    existing_entry = vmap.get(vid) if isinstance(vmap.get(vid), dict) else {}
+    targets = _extract_video_targets(existing_entry)
+    t_key = (aid, normalize_text_key(canonical_song))
+    updated_targets = []
+    found_target = False
+    for t in targets:
+        if (t["aid"], normalize_text_key(t["songTitle"])) == t_key:
+            updated_targets.append({
+                "aid": aid,
+                "artistName": artist["name"],
+                "songTitle": canonical_song,
+                "songType": norm_type,
+            })
+            found_target = True
+        else:
+            updated_targets.append(t)
+    if not found_target:
+        updated_targets.append({
+            "aid": aid,
+            "artistName": artist["name"],
+            "songTitle": canonical_song,
+            "songType": norm_type,
+        })
+
+    primary = updated_targets[0]
     vmap[vid] = {
-        "aid": aid,
-        "artistName": artist["name"],
-        "songTitle": canonical_song,
-        "songType": "cover" if song_type == "cover" else "orig",
+        "aid": primary["aid"],
+        "artistName": primary["artistName"],
+        "songTitle": primary["songTitle"],
+        "songType": primary["songType"],
+        "targets": updated_targets,
         "source": existing_entry.get("source") or source,
         "confidence": confidence,
         "inMugen2": True,
@@ -1851,11 +2614,24 @@ def register_mugen2_video_mapping(
         "firstSeenInMugen2At": existing_entry.get("firstSeenInMugen2At") or now_iso,
         "lastSeenInMugen2At": now_iso,
     }
-    mugen2_state.setdefault("knownVideoCatalog", {})[vid] = {
-        "aid": aid,
-        "artistName": artist["name"],
-        "songTitle": canonical_song,
-        "songType": "cover" if song_type == "cover" else "orig",
+
+    catalog = mugen2_state.setdefault("knownVideoCatalog", {})
+    existing_cat = catalog.get(vid) if isinstance(catalog.get(vid), dict) else {}
+    cat_targets = _extract_video_targets(existing_cat)
+    if not any((t["aid"], normalize_text_key(t["songTitle"])) == t_key for t in cat_targets):
+        cat_targets.append({
+            "aid": aid,
+            "artistName": artist["name"],
+            "songTitle": canonical_song,
+            "songType": norm_type,
+        })
+    cat_primary = cat_targets[0]
+    catalog[vid] = {
+        "aid": cat_primary["aid"],
+        "artistName": cat_primary["artistName"],
+        "songTitle": cat_primary["songTitle"],
+        "songType": cat_primary["songType"],
+        "targets": cat_targets,
         "source": source,
         "confidence": confidence,
     }
@@ -2039,18 +2815,23 @@ def reconcile_mugen2_deletions_and_restorations(
             continue
         if vid in catalog:
             cat_info = catalog[vid]
-            target_a = aid_to_artist.get(cat_info.get("aid")) or name_to_artist.get(cat_info.get("artistName"))
-            if target_a:
-                register_mugen2_video_mapping(
-                    mugen2_state=mugen2_state,
-                    vid=vid,
-                    artist=target_a,
-                    song_title=cat_info["songTitle"],
-                    song_type=cat_info.get("songType", "orig"),
-                    source=cat_info.get("source", "catalog"),
-                    confidence=1.0,
-                    now_iso=now_iso,
-                )
+            cat_targets = _extract_video_targets(cat_info)
+            registered_any = False
+            for ct in cat_targets:
+                target_a = aid_to_artist.get(ct.get("aid")) or name_to_artist.get(ct.get("artistName"))
+                if target_a:
+                    register_mugen2_video_mapping(
+                        mugen2_state=mugen2_state,
+                        vid=vid,
+                        artist=target_a,
+                        song_title=ct["songTitle"],
+                        song_type=ct.get("songType", cat_info.get("songType", "orig")),
+                        source=cat_info.get("source", "catalog"),
+                        confidence=1.0,
+                        now_iso=now_iso,
+                    )
+                    registered_any = True
+            if registered_any:
                 processed_ids.add(vid)
                 continue
         if vid in processed_ids and vid not in unmapped:
@@ -2116,30 +2897,34 @@ def reconcile_mugen2_deletions_and_restorations(
                     # 1st missing sync: keep inMugen2=True until confirmed on 2nd consecutive sync!
                     info["inMugen2"] = True
 
-    # Step 4: Group tracked Mugen2 videos by (aid, normalized_song_title) and evaluate visibility per song
+    # Step 4: Group tracked Mugen2 videos by (aid, normalized_song_title) across all targets of each video
     songs_by_norm_key = {}
     for vid, info in vmap.items():
         if not isinstance(info, dict) or info.get("everInMugen2") is False:
             continue
-        aid = info.get("aid") or ""
-        s_title = info.get("songTitle") or ""
-        if not aid or not s_title:
-            continue
-        target_a = aid_to_artist.get(aid) or name_to_artist.get(info.get("artistName") or "")
-        if not target_a:
-            continue
-        canonical_song = find_canonical_song_in_artist(target_a, s_title) or s_title
-        nkey = f"{target_a['aid']}\t{normalize_text_key(canonical_song)}"
-        bucket = songs_by_norm_key.setdefault(nkey, {
-            "artist": target_a,
-            "songTitle": canonical_song,
-            "activeVids": [],
-            "missingVids": [],
-        })
-        if info.get("inMugen2") is True:
-            bucket["activeVids"].append(vid)
-        else:
-            bucket["missingVids"].append(vid)
+        targets = _extract_video_targets(info)
+        for tgt in targets:
+            aid = tgt.get("aid") or ""
+            s_title = tgt.get("songTitle") or ""
+            if not aid or not s_title:
+                continue
+            target_a = aid_to_artist.get(aid) or name_to_artist.get(tgt.get("artistName") or "")
+            if not target_a:
+                continue
+            canonical_song = find_canonical_song_in_artist(target_a, s_title) or s_title
+            nkey = f"{target_a['aid']}\t{normalize_text_key(canonical_song)}"
+            bucket = songs_by_norm_key.setdefault(nkey, {
+                "artist": target_a,
+                "songTitle": canonical_song,
+                "activeVids": [],
+                "missingVids": [],
+            })
+            if info.get("inMugen2") is True:
+                if vid not in bucket["activeVids"]:
+                    bucket["activeVids"].append(vid)
+            else:
+                if vid not in bucket["missingVids"]:
+                    bucket["missingVids"].append(vid)
 
     for nkey, bucket in songs_by_norm_key.items():
         target_a = bucket["artist"]
@@ -2407,24 +3192,53 @@ def run_sync(
         except Exception as e:
             safe_print(f"[WARN] Could not parse data/recommended_artists.json: {e}")
 
-    # Step 2: Now that state files are verified intact, apply any user-approved or skipped items in `data/pending_review.json`,
+    # Step 2: Load mugen2_state and apply curated resolutions and user-approved items in `data/pending_review.json`,
     # even if there are 0 new playlist videos today!
-    curated_changed = apply_curated_renames_and_additions(artists, pending_list, processed_ids)
+    mugen2_state = load_mugen2_state(MUGEN2_STATE_JSON_PATH, artists)
+    curated_changed, curated_logs = apply_curated_renames_and_additions(
+        artists=artists,
+        pending_list=pending_list,
+        processed_ids=processed_ids,
+        mugen2_state=mugen2_state,
+        now_iso=now_iso,
+        today_str=today_str,
+    )
     pending_before_count = len(pending_list)
-    pending_list, approved_logs = apply_approved_pending_items(artists, pending_list, processed_ids, today_str)
-    if curated_changed and not approved_logs:
-        recompute_and_save_production_data(artists)
-        atomic_write_json(PENDING_JSON_PATH, pending_list)
-        atomic_write_text(PENDING_MD_PATH, render_pending_markdown(pending_list))
-        atomic_write_json(PROCESSED_JSON_PATH, sorted(processed_ids))
-    added_logs = list(approved_logs)
+    pending_list, approved_logs = apply_approved_pending_items(
+        artists=artists,
+        pending_list=pending_list,
+        processed_ids=processed_ids,
+        today_str=today_str,
+        mugen2_state=mugen2_state,
+        now_iso=now_iso,
+    )
+    added_logs = list(curated_logs) + list(approved_logs)
 
-    if approved_logs or len(pending_list) != pending_before_count:
+    if curated_changed or approved_logs or len(pending_list) != pending_before_count:
         recompute_and_save_production_data(artists)
+        atomic_write_json(MUGEN2_STATE_JSON_PATH, mugen2_state)
         atomic_write_json(PENDING_JSON_PATH, pending_list)
         atomic_write_text(PENDING_MD_PATH, render_pending_markdown(pending_list))
         atomic_write_json(PROCESSED_JSON_PATH, sorted(processed_ids))
-        safe_print(f"[PENDING] Processed {len(approved_logs)} approved/skipped item(s) from pending_review.json.")
+        if added_logs:
+            existing_logs = []
+            if os.path.exists(SYNC_LOG_JSON_PATH):
+                try:
+                    loaded_logs = load_json_strict(SYNC_LOG_JSON_PATH)
+                    if isinstance(loaded_logs, list):
+                        existing_logs = loaded_logs
+                except Exception:
+                    existing_logs = []
+            existing_vids_in_log = {
+                (lg.get("videoId"), lg.get("aid")) for lg in existing_logs if isinstance(lg, dict)
+            }
+            dedup_new_logs = [
+                lg for lg in added_logs
+                if (lg.get("videoId"), lg.get("aid")) not in existing_vids_in_log
+            ]
+            if dedup_new_logs:
+                atomic_write_json(SYNC_LOG_JSON_PATH, dedup_new_logs + existing_logs[:499])
+        safe_print(f"[PENDING] Processed {len(added_logs)} curated/approved item(s).")
 
     # Also ensure currently pending videoIds are not re-analyzed while awaiting user review
     pending_vids = {str(p.get("videoId")).strip() for p in pending_list if isinstance(p, dict) and p.get("videoId")}
@@ -2434,7 +3248,6 @@ def run_sync(
         return 0
 
     # Step 3: Identify "無限2" (sole monitored playlist for add/delete/restore; "無限" is fixed data)
-    mugen2_state = load_mugen2_state(MUGEN2_STATE_JSON_PATH, artists)
     mugen2_pid, mugen1_pids = identify_mugen2_playlist_id(playlist_ids, yt_key)
     mugen2_state["mugen2PlaylistId"] = mugen2_pid
     mugen2_state["mugen1PlaylistIds"] = mugen1_pids
@@ -2517,13 +3330,7 @@ def run_sync(
     meta_by_vid = {m["videoId"]: m for m in vid_meta_list if m.get("videoId")}
     ordered_meta_list = [meta_by_vid[v] for v in new_vids if v in meta_by_vid]
 
-    by_name = {a["name"]: a for a in artists}
-    alias_map = {}
-    for a in artists:
-        alias_map[normalize_text_key(a["name"])] = a
-        for al in a.get("al") or []:
-            if al:
-                alias_map[normalize_text_key(al)] = a
+    matcher = MasterArtistMatcher(artists)
     existing_names = [a["name"] for a in artists]
 
     candidate_models = get_candidate_models(pref_model)
@@ -2541,6 +3348,7 @@ def run_sync(
                 api_key=gm_key,
                 candidate_models=candidate_models,
                 working_model_cache=working_model_cache,
+                matcher=matcher,
             )
         except Exception as e:
             safe_print(
@@ -2568,6 +3376,7 @@ def run_sync(
                 processed_ids.add(vid)
                 added_logs.append({
                     "date": today_str,
+                    "timestamp": now_iso,
                     "action": "auto_skipped_non_target",
                     "videoId": vid,
                     "rawVideoTitle": vmeta.get("title", ""),
@@ -2577,95 +3386,133 @@ def run_sync(
 
             artist_name = (item.get("artistName") or "").strip()
             song_title = (item.get("songTitle") or "").strip()
+            if song_title in CURATED_SONG_RENAME_MAP:
+                song_title = CURATED_SONG_RENAME_MAP[song_title]
             song_type = "cover" if str(item.get("songType") or "").strip().lower() == "cover" else "orig"
             confidence = parse_confidence(item.get("confidence"))
 
-            if not artist_name or not song_title:
-                safe_print(f"[WARN] Video '{vid}' returned empty artistName or songTitle; routing to pending_review.json.")
-
-            target_artist = by_name.get(artist_name) or alias_map.get(normalize_text_key(artist_name))
-            is_safe, hold_reason = is_safe_for_auto_registration(
+            matched_artists, unmatched_names, is_collab, res_note = extract_and_resolve_vocalists(
                 item=item,
-                target_artist=target_artist,
                 vmeta=vmeta,
+                matcher=matcher,
+            )
+            is_safe, final_reason = evaluate_auto_registration_decision(
+                item=item,
+                matched_artists=matched_artists,
+                unmatched_names=unmatched_names,
+                is_collab=is_collab,
+                resolution_note=res_note,
+                vmeta=vmeta,
+                matcher=matcher,
                 confidence=confidence,
                 threshold=AUTO_APPROVE_CONFIDENCE,
             )
 
-            if is_safe and target_artist is not None:
-                added = add_song_to_existing_artist(target_artist, song_title, song_type, vid)
-                # Always record the video->(artist, song) correspondence in mugen2_state so that
-                # even if the song also existed in fixed playlist "無限", "無限2" state takes priority!
-                register_mugen2_video_mapping(
-                    mugen2_state=mugen2_state,
-                    vid=vid,
-                    artist=target_artist,
-                    song_title=song_title,
-                    song_type=song_type,
-                    source="auto_sync",
-                    confidence=round(confidence, 3),
-                    now_iso=now_iso,
-                )
+            if is_safe and len(matched_artists) >= 1:
+                for target_artist in matched_artists:
+                    added = add_song_to_existing_artist(target_artist, song_title, song_type, vid)
+                    register_mugen2_video_mapping(
+                        mugen2_state=mugen2_state,
+                        vid=vid,
+                        artist=target_artist,
+                        song_title=song_title,
+                        song_type=song_type,
+                        source="auto_sync",
+                        confidence=round(confidence, 3),
+                        now_iso=now_iso,
+                    )
+                    if added:
+                        auto_registered_count += 1
+                        added_logs.append({
+                            "date": today_str,
+                            "timestamp": now_iso,
+                            "action": "auto_added_song",
+                            "registrationType": "newly_added_song",
+                            "aid": target_artist.get("aid", ""),
+                            "artist": target_artist["name"],
+                            "song": song_title,
+                            "type": song_type,
+                            "confidence": round(confidence, 3),
+                            "videoId": vid,
+                            "reason": final_reason,
+                            "status": "success",
+                        })
+                    else:
+                        added_logs.append({
+                            "date": today_str,
+                            "timestamp": now_iso,
+                            "action": "linked_existing_song_to_mugen2",
+                            "registrationType": "linked_existing_song",
+                            "aid": target_artist.get("aid", ""),
+                            "artist": target_artist["name"],
+                            "song": song_title,
+                            "type": song_type,
+                            "videoId": vid,
+                            "reason": final_reason,
+                            "status": "success",
+                        })
                 processed_ids.add(vid)
-                if added:
-                    auto_registered_count += 1
-                    added_logs.append({
-                        "date": today_str,
-                        "action": "auto_added_song",
-                        "artist": target_artist["name"],
-                        "song": song_title,
-                        "type": song_type,
-                        "confidence": round(confidence, 3),
-                        "videoId": vid,
-                    })
-                else:
-                    added_logs.append({
-                        "date": today_str,
-                        "action": "linked_existing_song_to_mugen2",
-                        "artist": target_artist["name"],
-                        "song": song_title,
-                        "videoId": vid,
-                    })
             else:
-                # Add to pending_review.json (avoid duplicate videoId in pending_list)
+                # Add to pending_review.json (never overwrite existing artist metadata if matched_artists is non-empty!)
                 if vid not in pending_vids:
+                    is_existing_candidate = len(matched_artists) >= 1 and len(unmatched_names) == 0
+                    primary_existing = matched_artists[0] if is_existing_candidate else None
                     is_own_ch = bool(item.get("isOwnChannel", True))
-                    ch_info = fetch_channel_info(vmeta.get("channelId", ""), yt_key) if is_own_ch else {}
-                    ch_url = f"https://www.youtube.com/channel/{ch_info['channelId']}" if ch_info.get("channelId") else ""
-                    raw_role = (item.get("role") or ("歌い手" if song_type == "cover" else "歌手")).strip()
-                    reason_text = item.get("reason") or hold_reason or "要確認"
-                    if hold_reason and hold_reason not in reason_text:
-                        reason_text = f"{hold_reason} ({reason_text})" if item.get("reason") else hold_reason
+                    ch_info = fetch_channel_info(vmeta.get("channelId", ""), yt_key) if (is_own_ch and not primary_existing) else {}
+                    ch_url = (
+                        primary_existing.get("ytChannelUrl", "")
+                        if primary_existing
+                        else (f"https://www.youtube.com/channel/{ch_info['channelId']}" if ch_info.get("channelId") else "")
+                    )
+                    raw_role = (
+                        primary_existing.get("role", "歌い手")
+                        if primary_existing
+                        else (item.get("role") or ("歌い手" if song_type == "cover" else "歌手")).strip()
+                    )
+                    # Ensure reason is consistent with isNewArtist
+                    ai_reason = (item.get("reason") or "").strip()
+                    if is_existing_candidate:
+                        # Strip contradictory "新規名義" wording from AI reason when Python matched an existing artist
+                        ai_reason = re.sub(r"新規名義[^。、]*[。、]?", "", ai_reason).strip()
+                    reason_text = final_reason or ai_reason or "要確認"
+                    if ai_reason and ai_reason not in reason_text:
+                        reason_text = f"{reason_text} ({ai_reason})"
+
+                    disp_artist_name = (
+                        "、".join(a["name"] for a in matched_artists)
+                        if is_existing_candidate
+                        else (artist_name or "要確認名義")
+                    )
 
                     pending_list.append({
                         "approved": False,
                         "skip": False,
                         "date": today_str,
-                        "isNewArtist": target_artist is None,
+                        "isNewArtist": not is_existing_candidate,
                         "confidence": round(confidence, 3),
                         "videoId": vid,
                         "videoUrl": f"https://www.youtube.com/watch?v={vid}",
                         "rawVideoTitle": vmeta.get("title", ""),
                         "rawChannelTitle": vmeta.get("channelTitle", ""),
-                        "artistName": target_artist["name"] if target_artist else (artist_name or "要確認名義"),
+                        "artistName": disp_artist_name,
+                        "vocalists": [a["name"] for a in matched_artists] if is_existing_candidate else (item.get("vocalists") or ([artist_name] if artist_name else [])),
                         "songTitle": song_title or vmeta.get("title", "要確認曲名"),
                         "songType": song_type,
                         "role": raw_role,
-                        "groupSubRole": raw_role if raw_role.startswith("音楽グループ(") else "",
-                        "agency": item.get("agency") or "",
-                        "agencyGroup": item.get("agency") or "",
-                        "reading": item.get("reading") or artist_name,
-                        "kana": (item.get("kana") or "")[:1],
-                        "alpha": (item.get("alpha") or "")[:1].upper(),
+                        "groupSubRole": primary_existing.get("groupSubRole", "") if primary_existing else (raw_role if raw_role.startswith("音楽グループ(") else ""),
+                        "agency": primary_existing.get("agency", "") if primary_existing else (item.get("agency") or ""),
+                        "agencyGroup": primary_existing.get("agencyGroup", "") if primary_existing else (item.get("agency") or ""),
+                        "reading": primary_existing.get("reading", "") if primary_existing else (item.get("reading") or artist_name),
+                        "kana": primary_existing.get("kana", "") if primary_existing else (item.get("kana") or "")[:1],
+                        "alpha": primary_existing.get("alpha", "") if primary_existing else (item.get("alpha") or "")[:1].upper(),
                         "ytChannelUrl": ch_url,
-                        "sub": ch_info.get("sub"),
-                        "img": ch_info.get("avatar") or vmeta.get("thumbnail") or "",
-                        "profileBio": item.get("profileBio") or "",
+                        "sub": primary_existing.get("sub") if primary_existing else ch_info.get("sub"),
+                        "img": primary_existing.get("img", "") if primary_existing else (ch_info.get("avatar") or vmeta.get("thumbnail") or ""),
+                        "profileBio": primary_existing.get("profileBio", "") if primary_existing else (item.get("profileBio") or ""),
                         "reason": reason_text,
                     })
                     pending_vids.add(vid)
                     pending_added_count += 1
-                # Also mark vid as processed so we don't re-query Gemini while it sits in pending_review.json
                 processed_ids.add(vid)
 
         if i + 15 < len(ordered_meta_list):
