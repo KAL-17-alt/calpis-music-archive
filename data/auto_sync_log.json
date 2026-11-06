@@ -1,5 +1,98 @@
 [
   {
+    "date": "2026-11-06",
+    "timestamp": "2026-11-06T01:19:02Z",
+    "action": "hidden_by_mugen2_deletion",
+    "aid": "a_5cf40b70",
+    "artist": "アキ・ローゼンタール",
+    "song": "The Fantasy Seeker",
+    "videoIds": [
+      "Kc0Nb55pkW4"
+    ]
+  },
+  {
+    "date": "2026-11-06",
+    "timestamp": "2026-11-06T01:19:02Z",
+    "action": "linked_existing_song_to_mugen2",
+    "registrationType": "linked_existing_song",
+    "aid": "a_4f5cfdef",
+    "artist": "SERRA",
+    "song": "ダリラ",
+    "type": "orig",
+    "videoId": "nvGC0u3d_gQ",
+    "reason": "既存名義「SERRA」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
+    "date": "2026-11-06",
+    "timestamp": "2026-11-06T01:19:02Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_4f5cfdef",
+    "artist": "SERRA",
+    "song": "Wavin'on the sky",
+    "type": "orig",
+    "confidence": 0.99,
+    "videoId": "IYI4iqpkrj4",
+    "reason": "既存名義「SERRA」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
+    "date": "2026-11-06",
+    "timestamp": "2026-11-06T01:19:02Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_4f5cfdef",
+    "artist": "SERRA",
+    "song": "喝采シンドローム",
+    "type": "orig",
+    "confidence": 0.99,
+    "videoId": "tjoBcDddPzg",
+    "reason": "既存名義「SERRA」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
+    "date": "2026-11-06",
+    "timestamp": "2026-11-06T01:19:02Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_4f5cfdef",
+    "artist": "SERRA",
+    "song": "INSOMNIA -Awake-",
+    "type": "orig",
+    "confidence": 0.99,
+    "videoId": "NEZYUqFhlaw",
+    "reason": "既存名義「SERRA」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
+    "date": "2026-11-06",
+    "timestamp": "2026-11-06T01:19:02Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_4f5cfdef",
+    "artist": "SERRA",
+    "song": "MASQUERADE",
+    "type": "orig",
+    "confidence": 0.99,
+    "videoId": "VkMziMwlms0",
+    "reason": "既存名義「SERRA」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
+    "date": "2026-11-06",
+    "timestamp": "2026-11-06T01:19:02Z",
+    "action": "linked_existing_song_to_mugen2",
+    "registrationType": "linked_existing_song",
+    "aid": "a_4f5cfdef",
+    "artist": "SERRA",
+    "song": "Bare Mask",
+    "type": "orig",
+    "videoId": "xwN7QI6gmBE",
+    "reason": "既存名義「SERRA」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
     "date": "2026-11-03",
     "timestamp": "2026-11-03T06:00:00Z",
     "action": "confirmed_pending_song_linked",
