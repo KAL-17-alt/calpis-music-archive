@@ -1,5 +1,44 @@
 [
   {
+    "date": "2026-11-07",
+    "timestamp": "2026-11-07T00:32:59Z",
+    "action": "hidden_by_mugen2_deletion",
+    "aid": "a_2f30fc9d",
+    "artist": "鈴木このみ",
+    "song": "夢の続き",
+    "videoIds": [
+      "NPc__cmzLL8"
+    ]
+  },
+  {
+    "date": "2026-11-07",
+    "timestamp": "2026-11-07T00:32:59Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_2e71c468",
+    "artist": "朱名",
+    "song": "名もなき詩",
+    "type": "cover",
+    "confidence": 0.95,
+    "videoId": "GEyZ-B6OkZw",
+    "reason": "既存名義「朱名」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
+    "date": "2026-11-07",
+    "timestamp": "2026-11-07T00:32:59Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_0114ca1c",
+    "artist": "ReoNa",
+    "song": "Wake Me Up",
+    "type": "orig",
+    "confidence": 0.95,
+    "videoId": "zkcCCb4nMGc",
+    "reason": "既存名義「ReoNa」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
     "date": "2026-11-06",
     "timestamp": "2026-11-06T01:19:02Z",
     "action": "hidden_by_mugen2_deletion",

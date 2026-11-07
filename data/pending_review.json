@@ -143,5 +143,34 @@
     "img": "https://yt3.ggpht.com/WambsloNWiTueR2lSU3--kbgutrW8iwX9inWXU8vImfiDWZuuctW6_R61ZoXUhN-xbCi3LUvu9o=s800-c-k-c0x00ffffff-no-rj",
     "profileBio": "",
     "reason": "サイト未登録の新規名義候補（épeler）のため要確認 (概要欄のクレジット（Vocal：épeler）およびタイトルから、えのぐの楽曲「ヴァーチャルバーサーカー」のカバー曲と判定。)"
+  },
+  {
+    "approved": false,
+    "skip": false,
+    "date": "2026-11-07",
+    "isNewArtist": true,
+    "confidence": 0.95,
+    "videoId": "L4NpZ8zSQuE",
+    "videoUrl": "https://www.youtube.com/watch?v=L4NpZ8zSQuE",
+    "rawVideoTitle": "【歌ってみた】Automatic / 宇多田ヒカル 【ぽめろ・ぱんち / にじさんじ】",
+    "rawChannelTitle": "ぽめろ・ぱんち / Pomelo Punch 【にじさんじ】",
+    "artistName": "ぽめろ・ぱんち",
+    "vocalists": [
+      "ぽめろ・ぱんち"
+    ],
+    "songTitle": "Automatic",
+    "songType": "cover",
+    "role": "Vtuber",
+    "groupSubRole": "",
+    "agency": "にじさんじ",
+    "agencyGroup": "にじさんじ",
+    "reading": "ぽめろぱんち",
+    "kana": "ぽ",
+    "alpha": "P",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCa1HO5wU6csVDePt9EPYqmA",
+    "sub": 85000,
+    "img": "https://yt3.ggpht.com/36Qye1vl49-2TDxBpqxPKOnkptxmuAP1ptfUkHol2fr_Iu85ppD-gZDejTwaykQSatHKzPPnYQ=s800-c-k-c0x00ffffff-no-rj",
+    "profileBio": "にじさんじ所属の元魔法少女、現フリーターとして活動するバーチャルライバー。歌ってみた動画やオリジナル楽曲の発表など音楽活動も行っている。",
+    "reason": "サイト未登録の新規名義候補（ぽめろ・ぱんち）のため要確認 (チャンネル名および動画タイトルより、歌唱者はにじさんじ所属の「ぽめろ・ぱんち」であり、宇多田ヒカルの楽曲「Automatic」をカバーしているため特定。)"
   }
 ]
