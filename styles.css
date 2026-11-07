@@ -7234,3 +7234,230 @@ body.same-song-group-mode .artist-row.same-song-group-row .row-song-primary {
     padding: 4px 9px;
   }
 }
+
+
+/* ==========================================================================
+   V69: かる専用モード (Blue Theme) & 「銘曲」絞り込み (☆☆☆/☆☆/☆ + 未聴行色分け・追加ボタン)
+   ========================================================================== */
+body.karu-special-mode {
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-soft: rgba(59, 130, 246, 0.16);
+  --accent-border: rgba(59, 130, 246, 0.45);
+}
+
+body.karu-special-mode .hero-header {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.19) 0%, rgba(18, 18, 18, 0.92) 100%) !important;
+}
+
+body.karu-special-mode .stat-pill.active-cat,
+body.karu-special-mode button.stat-pill.interactive.active-cat {
+  background: rgba(59, 130, 246, 0.15) !important;
+  border-color: rgba(59, 130, 246, 0.48) !important;
+}
+
+body.karu-special-mode .filter-chip {
+  background: rgba(59, 130, 246, 0.16);
+  border-color: rgba(59, 130, 246, 0.42);
+}
+
+body.karu-special-mode .search-main-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+body.karu-special-mode .artist-row.selected {
+  background-color: rgba(59, 130, 246, 0.15);
+}
+
+body.karu-special-mode .artist-row:active {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+body.karu-special-mode .top5-badge-dot,
+body.karu-special-mode .mobile-top-dot,
+body.karu-special-mode .recommend-role-dot {
+  background: #3b82f6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.68);
+}
+
+body.karu-special-mode .top5-rank-num {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.36);
+  color: #60a5fa;
+}
+
+body.karu-special-mode .detail-song-item.highlight-match {
+  background-color: rgba(59, 130, 246, 0.14);
+}
+
+body.karu-special-mode .mob-stat-card.active-cat {
+  border-color: rgba(59, 130, 246, 0.52);
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.14) 0%, #171717 100%);
+}
+
+body.karu-special-mode .mob-stat-icon {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+body.karu-special-mode .nav-btn.nav-home-btn,
+body.karu-special-mode .mob-home-btn {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.32) 0%, rgba(37, 99, 235, 0.18) 100%) !important;
+  border-color: rgba(96, 165, 250, 0.45) !important;
+  box-shadow: 0 2px 12px rgba(59, 130, 246, 0.22) !important;
+  color: #93c5fd !important;
+}
+
+body.karu-special-mode .nav-btn.nav-home-btn:hover,
+body.karu-special-mode .mob-home-btn:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.44) 0%, rgba(37, 99, 235, 0.28) 100%) !important;
+  border-color: #60a5fa !important;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.34) !important;
+}
+
+body.karu-special-mode .vocal-artist-link,
+body.karu-special-mode .history-nav-btn:hover:not(:disabled),
+body.karu-special-mode button.detail-role-badge.interactive-role-btn:hover {
+  background: rgba(59, 130, 246, 0.18);
+  border-color: #60a5fa;
+  color: #60a5fa;
+}
+
+body.karu-special-mode .search-target-tab.active {
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.32);
+}
+
+body.karu-special-mode .row-song-primary,
+body.karu-special-mode .row-match-sub.row-match-song-both,
+body.karu-special-mode .about-modal-title-icon,
+body.karu-special-mode .about-green-text,
+body.karu-special-mode .same-song-group-count,
+body.karu-special-mode .same-song-drill-text strong {
+  color: #60a5fa;
+}
+
+body.karu-special-mode .custom-sort-option.active {
+  background: rgba(59, 130, 246, 0.18);
+  color: #60a5fa;
+}
+
+body.karu-special-mode .rec-flat-mode-toggle-btn.active {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.94), rgba(59, 130, 246, 0.88)) !important;
+  border-color: #60a5fa !important;
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.34) !important;
+}
+
+/* 「銘曲」絞り込みピル & ☆バッジ */
+.meikyoku-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.meikyoku-pill-stars {
+  color: #fbbf24;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-size: 0.96em;
+}
+
+.meikyoku-filter-pill.active {
+  background: rgba(59, 130, 246, 0.22) !important;
+  border-color: #60a5fa !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.28);
+}
+
+.meikyoku-star-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: calc(11px * var(--fs));
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  vertical-align: middle;
+}
+
+.meikyoku-star-badge.stars-lv-3 {
+  color: #fde047;
+  background: rgba(250, 204, 21, 0.16);
+  border: 1px solid rgba(250, 204, 21, 0.45);
+}
+
+.meikyoku-star-badge.stars-lv-2 {
+  color: #93c5fd;
+  background: rgba(59, 130, 246, 0.16);
+  border: 1px solid rgba(96, 165, 250, 0.42);
+}
+
+.meikyoku-star-badge.stars-lv-1 {
+  color: #cbd5e1;
+  background: rgba(148, 163, 184, 0.14);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.cand-meikyoku-stars {
+  margin-left: 5px;
+  margin-right: 0;
+  padding: 0 5px;
+  font-size: 10px;
+}
+
+/* 未聴の「銘曲」行（色を変えて区別＋「＋ 聴いてる曲に追加」ボタン） */
+.artist-row.meikyoku-unheard-row {
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.13) 0%, rgba(59, 130, 246, 0.08) 100%);
+  border-left: 3px solid #c084fc;
+}
+
+.artist-row.meikyoku-unheard-row:hover {
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.20) 0%, rgba(59, 130, 246, 0.14) 100%);
+}
+
+.artist-row.meikyoku-unheard-row .row-song-primary {
+  color: #e9d5ff !important;
+}
+
+.meikyoku-unheard-tag {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 7px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: calc(10px * var(--fs));
+  font-weight: 700;
+  color: #f3e8ff;
+  background: rgba(168, 85, 247, 0.28);
+  border: 1px solid rgba(192, 132, 252, 0.48);
+  vertical-align: middle;
+}
+
+.meikyoku-add-listening-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: calc(11px * var(--fs));
+  font-weight: 700;
+  color: #eff6ff;
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  border: 1px solid rgba(147, 197, 253, 0.55);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.32);
+  cursor: pointer;
+  vertical-align: middle;
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.meikyoku-add-listening-btn:hover {
+  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  box-shadow: 0 3px 10px rgba(59, 130, 246, 0.45);
+  transform: translateY(-1px);
+}
+
+.meikyoku-add-listening-btn:active {
+  transform: translateY(0);
+}
