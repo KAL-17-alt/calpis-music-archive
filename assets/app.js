@@ -1372,6 +1372,8 @@
     sortBy: "countDesc",   // "countDesc" | "countAsc" | "favCountDesc" | "kanaAsc" | "alphaAsc" | "subDesc" | "subAsc"
     savedSortBy: "countDesc", // Sort order saved before 50-on or Alphabet filter auto-switches sort
     lastIndexType: "",     // "kana" | "alpha" | "" (tracks which index filter was operated most recently)
+    karuSpecialMode: false,// True when owner activates "かる専用モード" via 5 taps on Home button
+    meikyokuFilter: [],    // "all" | "3" | "2" | "1" (available in "かる専用モード")
     heartFilter: [],       // "all" | "3" | "2" | "1"
     roles: [],             // Selected activity roles (OR within group)
     subBuckets: [],        // Removed from filter drawer in v26
@@ -1415,6 +1417,7 @@
       sortBy: state.sortBy,
       savedSortBy: state.savedSortBy,
       lastIndexType: state.lastIndexType,
+      meikyokuFilter: [...(state.meikyokuFilter || [])],
       heartFilter: [...(state.heartFilter || [])],
       roles: [...state.roles],
       agencyGroup: state.agencyGroup,
@@ -1470,6 +1473,7 @@
     state.sortBy = snap.sortBy;
     state.savedSortBy = snap.savedSortBy;
     state.lastIndexType = snap.lastIndexType;
+    state.meikyokuFilter = [...(snap.meikyokuFilter || [])];
     state.heartFilter = [...(snap.heartFilter || [])];
     state.roles = [...(snap.roles || [])];
     state.agencyGroup = snap.agencyGroup || "";
@@ -1985,6 +1989,94 @@
   const ARTIST_MAP = new Map();
   DATA.forEach(a => ARTIST_MAP.set(a.name, a));
 
+  // =========================================================================
+  // V69: かる専用モード & 「銘曲」(☆3段階) カタログ・判定・追加ロジック
+  // =========================================================================
+  const MEIKYOKU_RAW_CATALOG = [["a_4d4111fd", "AZKi", "from A to Z", 3, "AZKiの名前の由来（AからZまで）を冠した象徴曲"], ["a_4d4111fd", "AZKi", "Operation Z", 1, "AZKiの「Z」を冠した楽曲"], ["a_90992207", "星街すいせい", "スイちゃんのメンテナンスソング", 2, "愛称「スイちゃん」を冠した定番曲"], ["a_90992207", "星街すいせい", "天球、彗星は夜を跨いで （Still Still Stellar ver.）", 3, "「すいせい＝彗星」を冠した初期代表曲"], ["a_90992207", "星街すいせい", "彗星", 2, "「すいせい＝彗星」そのもののタイトル曲"], ["a_90992207", "星街すいせい", "comet", 2, "「すいせい＝comet（彗星）」を冠した1stオリジナル曲"], ["a_90992207", "星街すいせい", "Stellar Stellar", 1, "「星街」の星（Stellar）を重ねた代表曲"], ["a_b5ac7fba", "明透", "Aster", 2, "「明透（あす）」の音と響きを重ねた楽曲"], ["a_d0dde61f", "幸祜", "此処へ", 3, "「幸祜（ここ）」の読み「ここ＝此処」をもじった楽曲"], ["a_aca476b9", "ワルキューレ", "Walkure Attack!", 3, "ユニット名「ワルキューレ（Walküre）」を冠した代表曲"], ["a_aca476b9", "ワルキューレ", "ワルキューレのバースデイソング", 3, "ユニット名「ワルキューレ」を冠した楽曲"], ["a_aca476b9", "ワルキューレ", "ようこそ! ワルキューレ・ワールドへ", 3, "ユニット名「ワルキューレ」を冠した楽曲"], ["a_aca476b9", "ワルキューレ", "ワルキューレがとまらない", 3, "ユニット名「ワルキューレ」を冠した楽曲"], ["a_aca476b9", "ワルキューレ", "ワルキューレは裏切らない", 3, "ユニット名「ワルキューレ」を冠した楽曲"], ["a_aca476b9", "ワルキューレ", "ワルキューレはあきらめない", 3, "ユニット名「ワルキューレ」を冠した楽曲"], ["a_eedab311", "MyGO!!!!!", "迷星叫", 2, "「MyGO!!!!!（迷子）」の「迷」を冠した1stシングル表題曲"], ["a_eedab311", "MyGO!!!!!", "迷路日々", 2, "「MyGO!!!!!（迷子）」の「迷」を冠した楽曲"], ["a_36e3f97b", "角巻わため", "WataMeister", 2, "「わため（Watame）」＋マイスターの造語タイトル"], ["a_36e3f97b", "角巻わため", "わための子守唄", 2, "自身の名前「わため」を冠した初期代表曲"], ["a_a19dc12d", "ときのそら", "そらのとき", 3, "「ときのそら」を逆さにした記念楽曲"], ["a_a19dc12d", "ときのそら", "決意のソラへ", 2, "自身の名前「そら（ソラ）」を織り込んだ楽曲"], ["a_a19dc12d", "ときのそら", "空ノ空", 2, "自身の名前「そら（空）」を重ねた楽曲"], ["a_a19dc12d", "ときのそら", "ケ・セラ・ソラ！", 2, "ケ・セラ・セラと「ソラ」をもじった楽曲"], ["a_a19dc12d", "ときのそら", "ポラリスソラリス", 2, "「ソラ」を織り込んだタイトル曲"], ["a_8b347a8f", "Ave Mujica", "天球(そら)のMúsica", 2, "バンド名「Mujica（Música）」を冠した象徴曲"], ["a_8b347a8f", "Ave Mujica", "Ave Mujica", 3, "バンド名をそのまま冠したセルフタイトル代表曲"], ["a_33bb0812", "大神ミオ", "Howling", 1, "「大神（狼＝オオカミ）」の遠吠え（Howling）を象徴する1stオリジナル曲"], ["a_33bb0812", "大神ミオ", "狼煙", 1, "「大神（狼）」の字を冠した楽曲"], ["a_57bfdcbe", "三月のパンタシア", "三月がずっと続けばいい", 2, "ユニット名「三月」を冠した代表曲"], ["a_57bfdcbe", "三月のパンタシア", "March", 2, "「三月＝March」を冠した楽曲"], ["a_46e4d26b", "音ノ乃のの", "ののの音々ネ！", 3, "「音ノ乃のの」の名前と「音」をもじった自己紹介的楽曲"], ["a_9fa6b1ed", "HACHI", "√64", 3, "√64＝8（ハチ＝HACHI）のひねった数式ネーミング曲"], ["a_9fa6b1ed", "HACHI", "八月の蛍", 2, "「HACHI＝八」を冠した代表曲"], ["a_9fa6b1ed", "HACHI", "HONEY BEES", 3, "HACHI→蜂→HONEY BEES（ファンネーム）を冠した象徴曲"], ["a_7fabb917", "樋口楓", "MapleStep", 2, "「楓＝Maple（メイプル）」を冠した楽曲"], ["a_07a34d60", "MaiR", "AIR", 2, "「MaiR」の名前の核である「AIR」を冠した楽曲"], ["a_13ae23b0", "七海うらら", "それはうららか？", 3, "自身の名前「うらら」と「うららか」を掛けた楽曲"], ["a_13ae23b0", "七海うらら", "Seventh Heaven", 2, "「七海」の「七＝Seventh」を冠したデビュー象徴曲"], ["a_6765a58f", "猫 The Sappiness", "猫のみぞ知る", 2, "ユニット名の「猫」を冠した楽曲"], ["a_6765a58f", "猫 The Sappiness", "猫猫的宇宙論", 2, "ユニット名の「猫」を冠した楽曲"], ["a_ed64487b", "宵-Yoi", "宵月", 2, "自身の名義「宵」を冠した楽曲"], ["a_da53af28", "藍月なくる", "Azura Luno", 3, "エスペラント語で「青い月＝藍月」を意味するタイトル曲"], ["a_5cf40b70", "アキ・ローゼンタール", "ROSE of the LAMP", 2, "「ローゼンタール（薔薇＝ROSE）」を冠した楽曲"], ["a_5cf40b70", "アキ・ローゼンタール", "異薔薇", 2, "「ローゼンタール（薔薇）」と「茨（いばら）」をもじった楽曲"], ["a_1bc12d55", "柊優花", "Holly", 2, "英語で「柊＝Holly」を意味するタイトル曲"], ["a_3640e084", "VESPERBELL", "Bell Ringer", 2, "ユニット名「VESPERBELL」の「BELL」を冠した楽曲"], ["a_d7f1147f", "緑仙", "エヴァーグリーン", 2, "「緑仙」の「緑＝グリーン」を冠した楽曲"], ["a_d7f1147f", "緑仙", "Welcome☆Greeny night", 2, "「緑仙」の「緑＝Greeny」を冠した楽曲"], ["a_91cb75ec", "癒月ちょこ", "ChocoLove", 2, "自身の名前「ちょこ（Choco）」を冠した1stオリジナル曲"], ["a_72a655de", "Roselia", "R", 1, "バンド名「Roselia」の頭文字「R」を冠したアンセム曲"], ["a_8fbb546f", "桃鈴ねね", "ももいろの砂時計", 1, "「桃鈴」の「桃（ももいろ）」を冠した楽曲"], ["a_8fbb546f", "桃鈴ねね", "モモノネ", 3, "「桃鈴ねね」の「桃（モモ）＋音（ネ）」をもじった1stアルバム表題曲"], ["a_8fbb546f", "桃鈴ねね", "ねねちのギラギラファンミーティング", 2, "愛称「ねねち」を冠した代表曲"], ["a_8fbb546f", "桃鈴ねね", "ねねねねねねねね！大爆走", 2, "自身の名前「ねね」を連呼した1stオリジナル代表曲"], ["a_8a241491", "花譜", "花十カクメイ前日譚", 2, "自身の名前「花譜」の「花」を冠した楽曲"], ["a_8a241491", "花譜", "花女", 2, "自身の名前「花譜」の「花」を冠した自伝的楽曲"], ["a_466fc1ef", "理芽", "kotowari", 2, "「理芽」の「理＝ことわり（kotowari）」をもじった楽曲"], ["a_fddf1df7", "TRUE", "10周年記念楽曲「TRUE」", 3, "アーティスト名「TRUE」をそのまま冠した10周年象徴曲"], ["a_2e7b2fee", "夢限大みゅーたいぷ", "みゅーたんとミュータント", 2, "ユニット略称「みゅーたいぷ／みゅーたん」をもじった楽曲"], ["a_2e7b2fee", "夢限大みゅーたいぷ", "アイの夢限", 2, "ユニット名「夢限大」の「夢限」を冠した楽曲"], ["a_2e7b2fee", "夢限大みゅーたいぷ", "夢現妄想世界", 2, "「夢限」と「夢現」を掛けたデビュー曲"], ["a_6f1479fd", "赤井はあと", "RED HEART (Remastered)", 3, "「赤井＝RED」「はあと＝HEART」を直訳した1stオリジナル代表曲"], ["a_3538e6d4", "大空スバル", "ぷ・れ・あ・で・す！", 2, "「スバル（昴）＝プレアデス星団」をもじった楽曲"], ["a_bee65f2a", "サニーピース", "EVERYDAY! SUNNYDAY!", 2, "ユニット名「サニーピース」の「SUNNY」を冠した楽曲"], ["a_bee65f2a", "サニーピース", "SUNNY PEACE for You and Me！", 3, "ユニット名「SUNNY PEACE」をそのまま冠した代表曲"], ["a_bee65f2a", "サニーピース", "SUNNY PEACE HARMONY", 3, "ユニット名「SUNNY PEACE」を冠した楽曲"], ["a_5d92f0b0", "猫又おかゆ", "ネコカブリーナ", 2, "「猫又」の「ネコ」を冠した代表曲"], ["a_5d92f0b0", "猫又おかゆ", "デタバレネコ", 2, "「猫又」の「ネコ」を冠した楽曲"], ["a_5d92f0b0", "猫又おかゆ", "カミサマ・ネコサマ", 2, "「猫又」の「ネコ」を冠した代表曲"], ["a_8a6dabbf", "深影", "DEEP SHADOW", 3, "「深影＝DEEP SHADOW」を英語にした象徴曲"], ["a_8a6dabbf", "深影", "透影", 2, "「深影」の「影」を対比させたタイトル曲"], ["a_2ce39887", "むﾄ", "無知", 1, "「むﾄ」の「む＝無」を冠した1stオリジナル曲"], ["a_3bc2268b", "ASCA", "明日世界が終わるとしても", 1, "「ASCA（あすか＝明日歌）」の頭文字「明日」を冠した代表曲"], ["a_3bc2268b", "ASCA", "雲雀", 1, "「ASCA（飛鳥）」の鳥モチーフを象徴する代表曲"], ["a_56909d9f", "月乃", "つきのうた（It's my song, It's your song）", 3, "「月乃（つきの）」＋「うた（月の歌）」を掛けた象徴曲"], ["a_d5812f2c", "百鬼あやめ", "宵の余、良い！", 1, "百鬼あやめの一人称「余（よ）」をもじった代表曲"], ["a_4deb53fd", "ベイビーレイズJAPAN", "ベイビーステップ", 2, "グループ名「ベイビーレイズ」の「ベイビー」を冠した楽曲"], ["a_19819bed", "ヨノ", "You're Notes", 3, "「ヨノ（Yo-No）」の音と「You're Notes」をもじった楽曲"], ["a_284aa2ca", "wouca", "音を浮かべて", 3, "「音を浮か（おとをうか）＝wouca（をうか）」の名前の由来そのものの楽曲"], ["a_9a25fe7d", "Cheeky Parade", "C.P.U !?", 2, "グループ名「Cheeky Parade」の頭文字「C.P.」をもじった代表曲"], ["a_e87df19d", "DIALOGUE+", "ダイアローグ+インビテーション!", 3, "ユニット名「DIALOGUE+（ダイアローグ＋）」を冠した自己紹介曲"], ["a_318e9245", "nano.RIPE", "なないろびより", 1, "バンド名「nano（なの／なな）」の響きを重ねた代表曲"], ["a_041bf59a", "結束バンド", "UNITE", 2, "「結束＝UNITE」を意味する楽曲"], ["a_041bf59a", "結束バンド", "夢を束ねて", 2, "「結束バンド」の「束ねる」を織り込んだ楽曲"], ["a_041bf59a", "結束バンド", "あのバンド", 2, "「結束バンド」自身を指す代名詞的ナンバー"], ["a_2e788591", "兎田ぺこら", "兎座ストーリー", 2, "「兎田ぺこら」の「兎」を冠した楽曲"], ["a_2e788591", "兎田ぺこら", "ぺこらんだむぶれいん!", 2, "自身の名前「ぺこら」＋ランダムを掛けた1stオリジナル曲"], ["a_2e788591", "兎田ぺこら", "いいわけバニー", 1, "「兎田（バニー）」を冠した代表曲"], ["a_2e788591", "兎田ぺこら", "全人類 兎化計画!", 2, "「兎田」の「兎化」を冠した周年記念曲"], ["a_0ca6e225", "ウタヒメドリーム", "ウタヒメドリーム", 3, "プロジェクト・ユニット名をそのまま冠したテーマ曲"], ["a_3d1dc7ed", "焔魔るり", "その刹那、焔につき。", 2, "自身の名前「焔魔」の「焔」を冠したオリジナル曲"], ["a_02d24e1c", "風真いろは", "いろはすてっぷ！", 2, "自身の名前「いろは」を冠した1stオリジナル曲"], ["a_02d24e1c", "風真いろは", "風を仰ぎし麗容な", 2, "苗字「風真」の「風」を冠した和風オリジナル曲"], ["a_02d24e1c", "風真いろは", "風向きエントロピー", 2, "苗字「風真」の「風」を冠した楽曲"], ["a_27d332b9", "月ノ美兎", "ウラノミト", 3, "「月ノ美兎（ツキノミト）」をもじった「ウラノミト」の1stシングル曲"], ["a_27d332b9", "月ノ美兎", "月の兎はヴァーチュアルの夢をみる", 3, "「月ノ美兎」の「月」と「兎」をそのまま織り込んだアルバム表題曲"], ["a_5e1833de", "火威青", "Club Blue Fire", 3, "「火威＝Fire」「青＝Blue」を英語でもじったオリジナル曲"], ["a_59490a3b", "La prière", "進め!ラブリーアイドル☆ラプリエール", 3, "ユニット名「La prière（ラプリエール）」を冠した楽曲"], ["a_e65243ee", "MORE MORE JUMP!", "モア!ジャンプ!モア!", 3, "ユニット名「MORE MORE JUMP!」を組み替えた代表曲"], ["a_fa1e33b1", "青い子", "The Blueness Of Summer Moon", 2, "「青い子」の「青＝Blueness」を冠したオリジナル曲"], ["a_4555c653", "鷹嶺ルイ", "ホロホーク", 2, "ホロライブ＋「鷹＝ホーク（Hawk）」をもじった代表曲"], ["a_8cbe3586", "宝鐘マリン", "I’m Your Treasure Box *あなたは マリンせんちょうを たからばこからみつけた。", 3, "「宝鐘＝Treasure」「マリン船長」を織り込んだ代表曲"], ["a_8cbe3586", "宝鐘マリン", "Ahoy!! 我ら宝鐘海賊団☆", 2, "「宝鐘海賊団」を冠した自己紹介アンセム曲"], ["a_18389736", "湊あくあ", "#あくあ色ぱれっと", 3, "自身の名前「あくあ」を冠した代表曲"], ["a_18389736", "湊あくあ", "海想列車", 1, "「湊（みなと）／あくあ（水・海）」と「回想／海想」を掛けた楽曲"], ["a_5399029a", "悠木碧", "Mon Ciel Bleu～わたしのあおいそら～", 2, "自身の名前「碧（あおい）＝Bleu」を織り込んだ楽曲"], ["a_bd806987", "Leo/need", "needLe", 3, "ユニット名「Leo/need」のスペルを組み替えた（need＋Le）初期代表曲"], ["a_c6dd8a71", "Mori Calliope", "失礼しますが、RIP♡", 1, "死神（Mori＝Memento Mori）モチーフを象徴するデビュー曲"], ["a_36d718eb", "SorAZ", "紅藍クロニクル", 2, "AZKiのイメージカラー「紅」とときのそらの「藍」を冠したユニット曲"], ["a_0d1fb4ec", "しぐれうい", "うい麦畑でつかまえて", 2, "ライ麦畑と自身の名前「うい」をもじった代表曲"], ["a_2e71c468", "朱名", "朱月の季節", 2, "自身の名前「朱名」の「朱」を冠した楽曲"], ["a_6ec569ac", "私立恵比寿中学", "フォーエバー中坊", 2, "「恵比寿中学（エビ中）」の「中坊（中学生）」を冠した楽曲"], ["a_e36b16a8", "名取さな", "エッビーナースデイ", 1, "ナース（名取さな）＋ハッピーバースデーをもじった代表曲"], ["a_e36b16a8", "名取さな", "さなのおうた。", 2, "自身の名前「さな」をそのまま冠した1stオリジナル代表曲"], ["a_16f49962", "放課後クライマックスガールズ", "夢咲きAfter school", 2, "「放課後＝After school」を冠した1st代表曲"], ["a_16f49962", "放課後クライマックスガールズ", "クライマックスアイランド", 2, "ユニット名の「クライマックス」を冠した楽曲"], ["a_87ea3b04", "夜空メル", "Choco♡Melty", 2, "自身の名前「メル（Melty）」を織り込んだ楽曲"], ["a_87ea3b04", "夜空メル", "かぷっとNight☆Sky", 2, "苗字「夜空＝Night☆Sky」をもじった1stオリジナル代表曲"], ["a_dddebc7b", "Airots", "みどりのこだま~echo of Airots~", 3, "ユニット名「Airots」をサブタイトルに冠した象徴曲"], ["a_3ea47af5", "Universe", "스텔라이브 (StelLive) Universe", 3, "名義「Universe」をそのまま冠したテーマ曲"], ["a_bcf19e11", "青木陽菜", "BLUE BUD", 3, "苗字「青木」の「青＝BLUE」「木（新芽）＝BUD」を英訳した1stオリジナル曲"], ["a_72148352", "赤い公園", "夜の公園", 2, "バンド名「赤い公園」の「公園」を冠した楽曲"], ["a_39733e9b", "北小路ヒスイ", "ヒスイ色のミライ", 3, "自身の名前「ヒスイ」をそのまま冠した1stオリジナル曲"], ["a_55eaaff6", "獅白ぼたん", "Lioness' Pride", 2, "「獅白（獅子＝Lioness）」を英語でもじった1stオリジナル代表曲"], ["a_ad9090ea", "縞子", "縞模様", 3, "自身の名前「縞子」の「縞」を冠した楽曲"], ["a_8de423f1", "すーぱーそに子 (第一宇宙速度)", "SUPERORBITAL", 3, "「すーぱーそに子（SUPER）」＋「第一宇宙速度（ORBITAL）」を掛け合わせたデビュー代表曲"], ["a_b408a530", "小鳥遊キアラ", "HINOTORI", 3, "不死鳥キアラ＋苗字「小鳥遊」の「鳥（TORI）」を掛けた1stオリジナル代表曲"], ["a_b408a530", "小鳥遊キアラ", "HOLOTORI Dance!", 2, "ホロライブ＋苗字「小鳥遊」の「鳥（TORI）」をもじった楽曲"], ["a_02edec58", "箱乃なかみ", "WHIT∄ BOX", 2, "「箱乃なかみ」の「箱＝BOX」を冠したオリジナル曲"], ["a_066b0ee9", "HONK THE HORN", "HORN", 2, "バンド名「HONK THE HORN」の「HORN」をそのまま冠した楽曲"], ["a_80260a0f", "壱百満天原サロメ", "壱百満点☆パクスサロメーナ", 3, "「壱百満天原＝壱百満点」＋「サロメ＝サロメーナ」を完全にもじった1stオリジナル代表曲"], ["a_a18e3319", "P丸様。", "P-KATSU", 2, "「P丸様。」の頭文字「P」と推し活（P活）をもじった楽曲"], ["a_b3384e2d", "本間ひまわり", "Sun! Sun! Sunflower", 3, "自身の名前「ひまわり＝Sunflower」を英訳した1stオリジナル代表曲"], ["a_8cd059b9", "前島麻由", "Mayu-kko", 2, "自身の名前「麻由（Mayu）」をもじった楽曲"], ["a_ef2beb49", "マジカル・パンチライン", "Magiかよ!? BiliBili☆パンチライン", 3, "グループ名「マジカル・パンチライン」をもじった自己紹介的代表曲"], ["a_a1c00d7a", "美雲ΔJUNNA (ワルキューレ)", "ダイアモンド クレバス～Mikumo Ver.～", 1, "自身の名義「美雲（Mikumo）」を冠したバージョン"], ["a_152d65f5", "雪花ラミィ", "Lamy＊Love♡Fest☆", 2, "自身の名前「ラミィ（Lamy）」をそのまま冠したオリジナル代表曲"], ["a_152d65f5", "雪花ラミィ", "Fleur", 1, "苗字「雪花」の「花＝Fleur（フランス語）」を冠したオリジナル曲"], ["a_a72cdb75", "夕月ティア", "ゆうづつすーぱーはいぱーみらくるそんぐ！", 2, "苗字「夕月（ゆうづき／ゆうづつ）」をもじった1stオリジナル曲"], ["a_2f88384d", "ラプラス・ダークネス", "Dark Breath", 3, "「ダークネス（Darkness）」と「Dark Breath（ダークブレス）」の韻をもじった1stオリジナル曲"], ["a_5688b63c", "竜胆尊", "常夜鬼譚", 1, "鬼の女王・竜胆尊の「鬼」モチーフを冠した1stオリジナル曲"], ["a_b1f88cad", "アイ (B小町)", "サインはB", 2, "所属グループ「B小町」の「B」を冠した代表曲"], ["a_db7d4049", "をとは", "O108ROCKET", 3, "「をとは＝O108（お・と・は）」の語呂合わせネーミング曲"], ["a_db7d4049", "をとは", "OTOMEROID", 2, "「をとは（OTO）」の音をもじった楽曲"], ["a_c06e0ae1", "初星学園", "初", 2, "「初星学園」の頭文字「初」を冠した全体テーマ曲"], ["a_c06e0ae1", "初星学園", "Campus mode!!", 2, "「初星学園」の「学園＝Campus」を冠した全体アンセム曲"], ["a_85cc0d70", "伊藤美来", "No.6", 1, "名前「美来（みく）」の数字モチーフ・6thシングル曲"], ["a_3b38c4fa", "さくらみこ", "Sakuraful March", 2, "自身の名前「さくら（Sakura）」＋Fullをもじったオリジナル曲"], ["a_3b38c4fa", "さくらみこ", "サクラカゼ", 2, "自身の名前「さくら（サクラ）」を冠した代表曲"], ["a_3b38c4fa", "さくらみこ", "flower rhapsody", 1, "「さくら＝花（flower）」モチーフの1stアルバム表題曲"], ["a_3b38c4fa", "さくらみこ", "さくら色ハイテンション！", 2, "自身の名前「さくら」を冠した初期オリジナル代表曲"], ["a_21592d44", "nao", "N.O.S", 1, "名義「nao」のアルファベットを織り込んだ楽曲"], ["a_028cf065", "月詠み", "朔日 feat. 吉乃", 1, "「月詠み」の月齢（朔日＝新月）を冠した楽曲"], ["a_028cf065", "月詠み", "月が満ちる", 2, "プロジェクト名「月詠み」の「月」を冠した1st Story象徴曲"], ["a_1ffe3260", "トゲナシトゲアリ", "荊の薔薇", 1, "バンド名「トゲナシトゲアリ」の「トゲ（荊）」モチーフ曲"], ["a_d43902b0", "ナナツカゼ", "七ツ風", 3, "アーティスト名「ナナツカゼ」をそのまま漢字にした象徴曲"], ["a_5f1145bf", "みらくらぱーく！", "みらくりえーしょん", 3, "ユニット名「みらくらぱーく！」＋「クリエイション」をもじった象徴曲"], ["a_82abfc73", "イルミネーションスターズ", "ヒカリのdestination", 3, "「イルミネーション＝ヒカリ」を冠した1stユニット代表曲"], ["a_82abfc73", "イルミネーションスターズ", "星が流れて", 2, "「スターズ＝星」を冠したユニット曲"], ["a_82abfc73", "イルミネーションスターズ", "星の数だけ", 2, "「スターズ＝星」を冠したユニット曲"], ["a_82abfc73", "イルミネーションスターズ", "Shower of light", 2, "「イルミネーション＝light（光のシャワー）」を冠したユニット曲"], ["a_f722877f", "Guilty Kiss", "Guilty Night, Guilty Kiss!", 3, "ユニット名「Guilty Kiss」をそのまま冠した代表曲"], ["a_f722877f", "Guilty Kiss", "Guilty!? Farewell party", 2, "ユニット名の「Guilty」を冠した楽曲"], ["a_f722877f", "Guilty Kiss", "Guilty Eyes Fever", 2, "ユニット名の「Guilty」を冠した楽曲"], ["a_339a28dc", "月のテンペスト", "MELODIES (月のテンペストver.)", 2, "ユニット名「月のテンペスト」を冠したバージョン"], ["a_339a28dc", "月のテンペスト", "月下儚美", 2, "ユニット名「月のテンペスト」の「月」を冠した1st代表曲"], ["a_339a28dc", "月のテンペスト", "Daytime Moon", 2, "ユニット名「月のテンペスト」の「月＝Moon」を冠した楽曲"], ["a_339a28dc", "月のテンペスト", "月ノヒカリ", 2, "ユニット名「月のテンペスト」の「月」を冠した楽曲"], ["a_d52b4416", "星見プロダクション", "星色のカレイドスコープ", 2, "「星見」の「星」を冠した全体曲"], ["a_d52b4416", "星見プロダクション", "The Sun, Moon and Stars", 1, "「星見」の「星＝Stars」を織り込んだ楽曲"], ["a_d52b4416", "星見プロダクション", "星の海の記憶", 2, "「星見」の「星」を冠した代表曲"], ["a_16da2065", "TRINITYAiLE", "Aile to Yell", 3, "ユニット名「TRINITYAiLE」の「AiLE（翼）」と「Yell（エール）」をもじった1st代表曲"], ["a_16da2065", "TRINITYAiLE", "les plumes", 1, "フランス語で「羽根（＝Aile）」を意味するモチーフ曲"], ["a_cc2e2744", "ヒバナ", "消えゆく火花と夏の空", 3, "アーティスト名「ヒバナ＝火花」をそのまま織り込んだ象徴曲"], ["a_fef24112", "AIKATSU☆STARS!", "アイカツ☆ステップ!", 2, "ユニット名「AIKATSU☆（アイカツ☆）」を冠した代表曲"], ["a_fef24112", "AIKATSU☆STARS!", "スタージェット!", 1, "ユニット名「STARS!」の「スター」を冠した代表曲"], ["a_fef24112", "AIKATSU☆STARS!", "STARDOM!", 1, "ユニット名「STARS!」の「STAR」を冠した代表曲"], ["a_aa5784c7", "(K)NoW_NAME", "Knew day", 2, "ユニット名「(K)NoW_NAME」の「Know→Knew」をもじった1st代表曲"], ["a_9428a8e8", "tayori", "風のたより", 3, "ユニット名「tayori＝たより」をそのまま織り込んだ象徴曲"], ["a_86bf9210", "Saint Snow", "Lonely Snow Planet", 2, "ユニット名「Saint Snow」の「Snow」を冠した楽曲"], ["a_86bf9210", "Saint Snow", "Dazzling White Town", 1, "「Snow＝White（白銀の街）」をモチーフにした代表曲"], ["a_c079eca6", "B小町", "サインはB", 3, "グループ名「B小町」の「B」を冠した代表曲"], ["a_2680e198", "WHITE-LIPS", "凪 WHITE-LIPS", 3, "名義「WHITE-LIPS」を冠した楽曲"], ["a_66efc646", "月が綺麗じゃなくたって。", "月を詠む", 2, "ユニット名「月が綺麗じゃなくたって。」の「月」を冠した楽曲"], ["a_66efc646", "月が綺麗じゃなくたって。", "月が消えた", 2, "ユニット名「月が綺麗じゃなくたって。」の「月が…」をもじった楽曲"], ["a_fa287d9d", "Hana Hope", "flowers", 2, "自身の名前「Hana（花）＝flowers」を英訳した代表曲"], ["a_8d04906b", "Appare!", "アッパライナ", 3, "グループ名「Appare!（アッパレ）」をもじった代表曲"], ["a_1610e54e", "JYOCHO", "sugoi kawaii JYOCHO", 3, "バンド名「JYOCHO」をそのまま冠した楽曲"], ["a_b84f3ec3", "Neko Hacker", "TBC Hacker feat. ななひら & をとは", 2, "ユニット名「Neko Hacker」の「Hacker」を冠した楽曲"], ["a_b84f3ec3", "Neko Hacker", "くいしんぼハッカー feat. くいしんぼあかちゃん", 2, "ユニット名「Neko Hacker」の「Hacker＝ハッカー」を冠した代表曲"], ["a_ec619e5d", "いきづらい部！", "イキタクナイ every day", 3, "ユニット名「いきづらい部！」（生きづらい／行きたくない）をもじった1st代表曲"], ["a_9d0dd126", "サンドリオン", "君だけのオリオン", 2, "「サンドリオン（Sound＋Orion）」の「オリオン」を冠した代表曲"], ["a_9d0dd126", "サンドリオン", "Be Shine! Sound × Orion", 3, "「サンドリオン＝Sound × Orion」の名前の由来そのものを冠した象徴曲"], ["a_09cf915d", "Nagi", "空が凪いだら", 3, "自身の名前「Nagi＝凪（なぎ）」を動詞「凪いだら」として織り込んだ象徴曲"], ["a_23bc4d7c", "闇キューレ", "Glow in the dark", 2, "「闇キューレ」の「闇＝dark」を冠した象徴曲"], ["a_23bc4d7c", "闇キューレ", "Diva in Abyss", 2, "「闇キューレ」の「闇（深淵＝Abyss）の歌姫（Diva）」を冠した象徴曲"], ["a_3afeb587", "Aqours", "恋になりたいAQUARIUM", 3, "ユニット名「Aqours」の語源「AQUA（AQUARIUM）」を冠した初期代表曲"], ["a_3afeb587", "Aqours", "WATER BLUE NEW WORLD", 2, "ユニット名「Aqours（水＝WATER BLUE）」を冠した代表曲"], ["a_ec84f1bf", "Cleasky", "想い出はクリアスカイ", 3, "ユニット名「Cleasky＝クリアスカイ」をそのまま冠した代表曲"], ["a_4455fd36", "L.I.N.K.s", "Link with U", 3, "ユニット名「L.I.N.K.s」の「Link」をそのまま冠した代表曲"], ["a_d46c6afb", "藍空と月", "空と遊園地", 2, "ユニット名「藍空と月」の「空」を冠した楽曲"], ["a_6a5b3b94", "雨ニマケテモ", "アンブレラレコード", 1, "ユニット名「雨ニマケテモ」の「雨＝アンブレラ（傘）」モチーフ曲"], ["a_79fcf549", "杏夜くもり", "くもりのうた", 3, "自身の名前「くもり」をそのまま冠した象徴曲"], ["a_79fcf549", "杏夜くもり", "天気雨", 1, "自身の名前「くもり」の天気モチーフ曲"], ["a_6c50a895", "綾野ましろ", "ideal white", 3, "自身の名前「ましろ（真白＝white）」を英語で織り込んだデビュー代表曲"], ["a_6c50a895", "綾野ましろ", "vanilla sky", 1, "「ましろ（白＝vanilla）」をイメージさせる代表曲"], ["a_746fbb0d", "歌組雪月花", "回レ!雪月花", 3, "ユニット名「歌組雪月花」の「雪月花」をそのまま冠した代表曲"], ["a_fe67cd56", "スフィア", "A.T.M.O.S.P.H.E.R.E", 3, "タイトル末尾にユニット名「S.P.H.E.R.E（スフィア）」を織り込んだ1stアルバム象徴曲"], ["a_192435ae", "太陽と踊れ月夜に唄え", "幾望", 1, "ユニット名「月夜に唄え」の月齢（幾望＝満月前夜）モチーフ曲"], ["a_708b20ce", "第一宇宙速度", "SUPERORBITAL", 3, "バンド名「第一宇宙速度（Orbital velocity）」を英語にした象徴曲"], ["a_0fc240b5", "ダイヤモンドダスト", "空の箱 (DIAMOND DUST)", 2, "バンド名「ダイヤモンドダスト（DIAMOND DUST）」を冠したバージョン"], ["a_8ab330f5", "765PRO ALLSTARS", "M@STERPIECE", 1, "アイドルマスター（M@STER）の名を冠した劇場版象徴曲"], ["a_cbfdb822", "FUKA", "花風", 3, "名義「FUKA（ふうか＝風花）」の文字を逆さにした象徴曲"], ["a_9d492c92", "Aice5", "Love Aice5", 3, "ユニット名「Aice5」をそのまま冠した自己紹介代表曲"], ["a_29df268e", "Anemoneria", "anemos", 2, "ユニット名「Anemoneria」の語源「anemos（風）」を冠した楽曲"], ["a_79334a4a", "ChamJam", "ずっと ChamJam", 3, "ユニット名「ChamJam」をそのまま冠した代表曲"], ["a_fc11c6fa", "EScape", "I.D ~EScape from Utopia~", 3, "ユニット名「EScape」をそのまま織り込んだ代表曲"], ["a_ef1f09c8", "EverdreaM", "ever dream", 3, "ユニット名「EverdreaM」そのもののセルフタイトル曲"], ["a_ef1f09c8", "EverdreaM", "Dreams come true〜欲する翼〜", 2, "ユニット名「EverdreaM」の「Dream」を冠したデビュー曲"], ["a_a22985c6", "FAIRY STARS", "FairyTaleじゃいられない", 3, "ユニット名「FAIRY STARS」の「Fairy」を冠した代表曲"], ["a_091669b7", "Happy Clover", "PUNCH☆MIND☆HAPPINESS", 2, "ユニット名「Happy Clover」の「Happy＝HAPPINESS」を冠したOP主題歌"], ["a_1d7343c2", "iLiFE!", "アイドルライフスターターパック", 3, "グループ名「iLiFE!（＝アイドルライフ）」をそのまま冠した代表曲"], ["a_1d7343c2", "iLiFE!", "アイドルライフブースターパック", 3, "グループ名「iLiFE!（＝アイドルライフ）」をそのまま冠した代表曲"], ["a_1d7343c2", "iLiFE!", "サイクロンライフ!", 2, "グループ名「iLiFE!」の「ライフ!」を冠した楽曲"], ["a_e74478cd", "Kill×Your×Idol", "キル×キラ×killer★", 3, "グループ名「Kill×Your×Idol」の「Kill×」をもじった象徴曲"], ["a_7caef4d8", "Lyolite", "リオライト", 3, "名義「Lyolite＝リオライト」そのもののセルフタイトル曲"], ["a_f9915a55", "meltear", "ティアーズテイル", 2, "ユニット名「meltear」の「tear（ティアーズ）」を冠した代表曲"], ["a_1c4fd6cb", "OKINI☆PARTY'S", "オオキニ☆ぱーりーなぃと", 3, "ユニット名「OKINI☆PARTY'S」をもじった自己紹介代表曲"], ["a_dfedacc6", "petit fleurs", "ぷちふるぱーてぃー!", 3, "ユニット略称「ぷちふる（petit fleurs）」をそのまま冠した1st代表曲"], ["a_7a3b6bf1", "Qlover from kyoukaimetro", "Q & []", 2, "名義「Qlover」の頭文字「Q」を記号的にもじった楽曲"], ["a_7a3b6bf1", "Qlover from kyoukaimetro", "Tik[Q]et -解-", 2, "名義「Qlover」の「Q」を織り込んだ楽曲"], ["a_7a3b6bf1", "Qlover from kyoukaimetro", "Tik[Q]et -零-", 2, "名義「Qlover」の「Q」を織り込んだ楽曲"], ["a_4a7d87fc", "retrorain", "Rewrite the Rain", 2, "名義「retrorain」の「Rain」と頭文字Rを重ねた楽曲"], ["a_cd57d77d", "SHADE OF SPADE", "スペードのQ", 3, "名義「SHADE OF SPADE」の「SPADE＝スペード」を冠した楽曲"], ["a_cd57d77d", "SHADE OF SPADE", "KING of SPADE", 3, "名義「SHADE OF SPADE」の「SPADE」をそのまま冠した楽曲"], ["a_cd57d77d", "SHADE OF SPADE", "ESPADA", 2, "スペイン語で剣・スペードの語源「ESPADA（＝SPADE）」を冠した楽曲"], ["a_8a580c16", "Sherry 'n Cherry", "Cherry Colored Love", 3, "ユニット名「Sherry 'n Cherry」の「Cherry」を冠した代表曲"], ["a_1a2db459", "Sunflower Dolls", "Sunflower Dolls (OST)", 3, "ユニット名「Sunflower Dolls」そのもののテーマ曲"], ["a_1ed32114", "team うみフレ", "DEEP BLUE TOWNへおいでよ", 1, "ユニット名「うみ（海＝DEEP BLUE）」モチーフの代表曲"], ["a_1ed32114", "team うみフレ", "Dive to Blue", 1, "ユニット名「うみ（海＝Blue）」モチーフの楽曲"], ["a_1ed32114", "team うみフレ", "DEEP BLUE SONG", 1, "ユニット名「うみ（海＝DEEP BLUE）」モチーフの楽曲"], ["a_1ed32114", "team うみフレ", "Marine Bloomin'", 1, "ユニット名「うみ（海＝Marine）」モチーフの代表曲"], ["a_c0da0f22", "Team. Palette", "色彩", 1, "ユニット名「Palette（パレット＝色彩）」モチーフの楽曲"], ["a_960ab696", "AiRBLUE Flower", "Field of Flowers", 2, "ユニット名「AiRBLUE Flower」の「Flower」を冠した代表曲"], ["a_3d14e739", "廻花", "かいか", 3, "自身の名義「廻花＝かいか」をそのままひらがなにした1st象徴曲"], ["a_09e20099", "ケラケラ", "ケラケラじゃんけん", 3, "ユニット名「ケラケラ」をそのまま冠した代表曲"], ["a_2bb86498", "サイレンススズカ (ウマ娘 プリティーダービー)", "Silent Star (2021 Remastered Version)", 3, "自身の名前「サイレンス（Silent）」を冠したソロ象徴曲"], ["a_c5cd5589", "サンボンリボン", "たいくつりぼん", 2, "ユニット名「サンボンリボン」の「りぼん」を冠した楽曲"], ["a_9c4e21b8", "シャイニーカラーズ", "シャイノグラフィ (2023 Ver.)", 3, "「シャイニー（シャイノ）」を冠した全体象徴曲"], ["a_9c4e21b8", "シャイニーカラーズ", "いつか Shiny Days (2023 Ver.)", 2, "「シャイニー＝Shiny」を冠した全体曲"], ["a_7bb02d7f", "シャドウガーデンナンバーズ", "Shadow Garden", 3, "名義「シャドウガーデンナンバーズ」の「Shadow Garden」をそのまま冠した楽曲"], ["a_33818bbe", "空の標識", "絵空事、夏の終わり", 2, "ユニット名「空の標識」の「空（絵空事）」を冠した楽曲"], ["a_427b10d6", "たこやきレインボー", "にじースターダスト", 2, "グループ名「レインボー＝にじ（虹）」を冠した楽曲"], ["a_427b10d6", "たこやきレインボー", "虹色進化論", 2, "グループ名「レインボー＝虹色」を冠した代表曲"], ["a_427b10d6", "たこやきレインボー", "ナナイロダンス", 2, "グループ名「レインボー＝ナナイロ（七色）」を冠した代表曲"], ["a_427b10d6", "たこやきレインボー", "絶唱!なにわで生まれた少女たち", 1, "「たこやき（なにわ）」モチーフの自己紹介曲"], ["a_e089caf4", "ナナランド", "七色の絵の具で", 3, "グループ名「ナナランド」の「ナナ＝七（七色）」を冠した代表曲"], ["a_003d0cad", "花降る日々", "花降る日々", 3, "ユニット名「花降る日々」そのもののセルフタイトル曲"], ["a_520ad4be", "パジャマパーティーズ", "パジャマパーティー", 3, "ユニット名「パジャマパーティーズ」そのものの楽曲"], ["a_520ad4be", "パジャマパーティーズ", "パジャマパーティーズのうた", 3, "ユニット名「パジャマパーティーズ」をそのまま冠した代表曲"], ["a_278a79dd", "秘密結社holoX", "Just for X", 3, "ユニット名「holoX」の「X」を冠した全体象徴曲"], ["a_ace822a6", "兵藤雫 (サニーピース)", "Tiny Tiny Drops", 3, "自身の名前「雫＝Drops」を英語で冠したソロ象徴曲"], ["a_2049064f", "みかくにんぐッ!", "未確認ふゅーちゃー", 3, "ユニット名「みかくにんぐッ!（未確認）」をそのまま冠したOP代表曲"], ["a_f15ff63c", "夜のひと笑い", "ワライカタ", 2, "ユニット名「夜のひと笑い」の「笑い＝ワライカタ」をもじった楽曲"], ["a_b486fbbd", "ラストランプ", "燈", 2, "バンド名「ラストランプ」の「ランプ＝燈（ともしび）」を冠した象徴曲"], ["a_091caea0", "レイジー・レイジー", "クレイジークレイジー", 3, "ユニット名「レイジー・レイジー（Lazy Lazy）」と韻を踏んでもじった代表曲"], ["a_5aa3068b", "わーすた", "わーるどすたんだーど", 3, "「わーすた」の正式名称（The World Standard＝わーるどすたんだーど）そのものの楽曲"], ["a_5aa3068b", "わーすた", "The World Standard Dancing Club", 3, "グループ名の正式英語表記「The World Standard」をそのまま冠した代表曲"], ["a_5aa3068b", "わーすた", "わったらいふ！", 2, "「わーすた」＋「What a life!」をもじった楽曲"]];
+  const MEIKYOKU_BY_AID = new Map();
+  const MEIKYOKU_ENTRIES = [];
+
+  function initMeikyokuCatalog() {
+    MEIKYOKU_BY_AID.clear();
+    MEIKYOKU_ENTRIES.length = 0;
+    MEIKYOKU_RAW_CATALOG.forEach(row => {
+      const [aid, artistName, songTitle, stars, reason] = row;
+      const artist = AID_TO_ARTIST.get(aid) || ARTIST_MAP.get(artistName);
+      if (!artist) return;
+      const actualAid = artist.aid || aid;
+      const norm = normSearch(songTitle);
+      const normNoSpace = stripSpaces(norm);
+      const canonInfo = getCanonicalSongTitleAndKey(songTitle);
+      const normCanon = normSearch(canonInfo.displayTitle);
+      const normCanonNoSpace = stripSpaces(normCanon);
+      const aliases = (SONG_SEARCH_ALIASES_BY_NEW_TITLE[songTitle] || []).map(al => normSearch(al));
+      const aliasesNoSpace = aliases.map(al => stripSpaces(al));
+      const entry = {
+        aid: actualAid,
+        artist,
+        songTitle,
+        stars: Number(stars) || 2,
+        reason: reason || "",
+        norm,
+        normNoSpace,
+        normCanonical: normCanon,
+        normCanonicalNoSpace: normCanonNoSpace,
+        aliases,
+        aliasesNoSpace
+      };
+      MEIKYOKU_ENTRIES.push(entry);
+      if (!MEIKYOKU_BY_AID.has(actualAid)) {
+        MEIKYOKU_BY_AID.set(actualAid, []);
+      }
+      MEIKYOKU_BY_AID.get(actualAid).push(entry);
+    });
+  }
+  initMeikyokuCatalog();
+
+  function isSongInArtistListeningList(artist, targetTitle) {
+    if (!artist || !Array.isArray(artist.songs) || !targetTitle) return false;
+    if (artist.songs.includes(targetTitle)) return true;
+    const normCand = normSongTitleForCompare(targetTitle);
+    if (!normCand) return false;
+    return artist.songs.some(s => normSongTitleForCompare(s) === normCand);
+  }
+
+  function getMeikyokuStarTierForSong(aidOrName, songTitle) {
+    const aid = resolveToAid(aidOrName);
+    if (!aid || !songTitle) return 0;
+    const list = MEIKYOKU_BY_AID.get(aid);
+    if (!list || list.length === 0) return 0;
+    const normCand = normSongTitleForCompare(songTitle);
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].songTitle === songTitle || (normCand && normSongTitleForCompare(list[i].songTitle) === normCand)) {
+        return list[i].stars;
+      }
+    }
+    return 0;
+  }
+
+  function buildMeikyokuStarBadgeHTML(stars, extraClass = "") {
+    const n = Number(stars) || 0;
+    if (n <= 0) return "";
+    const starsStr = "☆".repeat(n);
+    return `<span class="meikyoku-star-badge stars-lv-${n} ${extraClass}" title="銘曲 Lv.${n}" aria-label="銘曲 Lv.${n}">${starsStr}</span>`;
+  }
+
+  function hasMeikyokuFilter() {
+    return Boolean(state.karuSpecialMode && Array.isArray(state.meikyokuFilter) && state.meikyokuFilter.length > 0);
+  }
+
+  function matchesMeikyokuStarFilter(stars) {
+    if (!hasMeikyokuFilter()) return true;
+    if (state.meikyokuFilter.includes("all")) return stars > 0;
+    return stars > 0 && state.meikyokuFilter.includes(String(stars));
+  }
+
+  function isMeikyokuListView() {
+    return Boolean(state.view === "search" && hasMeikyokuFilter());
+  }
+
+
   // Precompute clickable broad agency/content groups (>= 2 artists) for PC Filter Drawer
   const AGENCY_GROUP_COUNTS = new Map();
   DATA.forEach(a => {
@@ -2282,6 +2374,11 @@
     const kanaActive = hasKanaFilter();
     const alphaActive = hasAlphaFilter();
 
+    if (state.karuSpecialMode) {
+      state.lastIndexType = "";
+      state.sortBy = "kanaAsc";
+      return;
+    }
     if (!kanaActive && !alphaActive) {
       state.lastIndexType = "";
       state.sortBy = state.savedSortBy || "countDesc";
@@ -2319,6 +2416,19 @@
     const scAll = document.getElementById("scopeCntAll");
     const scCat1 = document.getElementById("scopeCntCat1");
     const scCat2 = document.getElementById("scopeCntCat2");
+    if (hasMeikyokuFilter()) {
+      let mAll = 0, mCat1 = 0, mCat2 = 0;
+      MEIKYOKU_ENTRIES.forEach(e => {
+        if (!matchesMeikyokuStarFilter(e.stars)) return;
+        mAll++;
+        if (e.artist && e.artist.cat === 1) mCat1++;
+        else if (e.artist && e.artist.cat === 2) mCat2++;
+      });
+      if (scAll) scAll.textContent = `${fmtNum(mAll)}曲`;
+      if (scCat1) scCat1.textContent = `${fmtNum(mCat1)}曲`;
+      if (scCat2) scCat2.textContent = `${fmtNum(mCat2)}曲`;
+      return;
+    }
     if (isSongTarget) {
       if (scAll) scAll.textContent = `${fmtNum(countSongsTotal)}曲`;
       if (scCat1) scCat1.textContent = `${fmtNum(countSongsCat1)}曲`;
@@ -2789,6 +2899,39 @@
 
   let currentSongSearchItems = [];
   let currentCanonicalSongGroups = [];
+  let currentMeikyokuItems = [];
+
+  function evaluateArtistOnlyMatch(a, q, qNoSpace) {
+    if (!q) return { matched: true, tier: 99, ratio: 0 };
+    if (
+      a._normName === q ||
+      (qNoSpace && a._normNameNoSpace === qNoSpace) ||
+      (a._normReading && (a._normReading === q || (qNoSpace && a._normReadingNoSpace === qNoSpace))) ||
+      a._normAliases.includes(q) ||
+      (qNoSpace && a._normAliasesNoSpace.includes(qNoSpace))
+    ) {
+      return { matched: true, tier: 1, ratio: computeArtistMatchRatio(a, q, qNoSpace, 1) };
+    }
+    if (
+      a._normName.startsWith(q) ||
+      (qNoSpace && a._normNameNoSpace.startsWith(qNoSpace)) ||
+      (a._normReading && (a._normReading.startsWith(q) || (qNoSpace && a._normReadingNoSpace.startsWith(qNoSpace)))) ||
+      a._normAliases.some(al => al.startsWith(q)) ||
+      (qNoSpace && a._normAliasesNoSpace.some(al => al.startsWith(qNoSpace)))
+    ) {
+      return { matched: true, tier: 2, ratio: computeArtistMatchRatio(a, q, qNoSpace, 2) };
+    }
+    if (
+      a._normName.includes(q) ||
+      (qNoSpace && a._normNameNoSpace.includes(qNoSpace)) ||
+      (a._normReading && (a._normReading.includes(q) || (qNoSpace && a._normReadingNoSpace.includes(qNoSpace)))) ||
+      a._normAliases.some(al => al.includes(q)) ||
+      (qNoSpace && a._normAliasesNoSpace.some(al => al.includes(qNoSpace)))
+    ) {
+      return { matched: true, tier: 3, ratio: computeArtistMatchRatio(a, q, qNoSpace, 3) };
+    }
+    return { matched: false, tier: 99, ratio: 0 };
+  }
 
   function matchesHeartTierFilter(tier) {
     if (!Array.isArray(state.heartFilter) || state.heartFilter.length === 0) return true;
@@ -2806,8 +2949,16 @@
   }
 
   function applyFilterAndSort() {
+    if (state.karuSpecialMode) {
+      state.sortBy = "kanaAsc";
+      state.searchArtistSort = "kanaAsc";
+      state.searchSongSort = "kanaAsc";
+      state.sameSongCountMode = false;
+    }
     const isSearch = state.view === "search";
-    const isSongSearchTab = isSearch && state.searchTarget === "song";
+    const meikyokuActive = hasMeikyokuFilter();
+    const isMeikyokuSearch = isSearch && meikyokuActive;
+    const isSongSearchTab = isSearch && state.searchTarget === "song" && !isMeikyokuSearch;
     const q = isSearch ? normSearch(state.searchQuery) : "";
     const qNoSpace = q ? stripSpaces(q) : "";
     const kanaActive = hasKanaFilter();
@@ -2847,7 +2998,10 @@
       } else if (isSearch) {
         if (state.searchScope === "cat1" && a.cat !== 1) return false;
         if (state.searchScope === "cat2" && a.cat !== 2) return false;
-        if (state.searchTarget === "song" && (!Array.isArray(a._searchableSongs) || a._searchableSongs.length === 0)) {
+        if (isMeikyokuSearch) {
+          const mkList = MEIKYOKU_BY_AID.get(a.aid);
+          if (!mkList || !mkList.some(m => matchesMeikyokuStarFilter(m.stars))) return false;
+        } else if (state.searchTarget === "song" && (!Array.isArray(a._searchableSongs) || a._searchableSongs.length === 0)) {
           return false;
         }
       }
@@ -2883,21 +3037,26 @@
         if (!matchKana && !matchAlpha) return false;
       }
 
+      if (meikyokuActive && !isSearch) {
+        const mkList = MEIKYOKU_BY_AID.get(a.aid);
+        if (!mkList || !mkList.some(m => matchesMeikyokuStarFilter(m.stars))) return false;
+      }
+
       // Apply artist-level heart filter when not in song-row views
-      if (hasHeartFilter && !isSongSearchTab && !(state.view === "recommend" && state.recommendTab === "song")) {
+      if (hasHeartFilter && !isSongSearchTab && !isMeikyokuSearch && !(state.view === "recommend" && state.recommendTab === "song")) {
         if (!isSearch || state.searchTarget === "artist" || !q) {
           if (!matchesHeartTierFilter(getArtistHeartTier(a.aid))) return false;
         }
       }
 
-      if (isSearch && !isSongSearchTab && q) {
+      if (isSearch && !isSongSearchTab && !isMeikyokuSearch && q) {
         if (!evaluateSearchMatch(a, q, qNoSpace)) return false;
         if (hasHeartFilter) {
           const artMatchesHeart = matchesHeartTierFilter(getArtistHeartTier(a.aid));
           const songMatchesHeart = Array.isArray(a._matchedSongsList) && a._matchedSongsList.some(s => matchesHeartTierFilter(getSongHeartTier(a.aid, s)));
           if (!artMatchesHeart && !songMatchesHeart) return false;
         }
-      } else if (!isSongSearchTab) {
+      } else if (!isSongSearchTab && !isMeikyokuSearch) {
         a._searchTier = 99;
         a._searchMatchRatio = 0;
         a._matchedSongPreview = null;
@@ -2910,9 +3069,79 @@
       return true;
     });
 
-    // Build individual song items & canonical song groups when in "楽曲を検索" (`isSongSearchTab`)
+    // Build individual song items & canonical song groups when in "楽曲を検索" (`isSongSearchTab`) or "銘曲" (`isMeikyokuSearch`)
     currentSongSearchItems = [];
     currentCanonicalSongGroups = [];
+    currentMeikyokuItems = [];
+
+    if (isMeikyokuSearch) {
+      currentFiltered.forEach(a => {
+        const mkList = MEIKYOKU_BY_AID.get(a.aid) || [];
+        const artMatch = q ? evaluateArtistOnlyMatch(a, q, qNoSpace) : { matched: true, tier: 99, ratio: 0 };
+        mkList.forEach(m => {
+          if (!matchesMeikyokuStarFilter(m.stars)) return;
+          const sTier = getSongHeartTier(a.aid, m.songTitle);
+          const aTier = getArtistHeartTier(a.aid);
+          if (hasHeartFilter && !matchesHeartTierFilter(sTier) && !matchesHeartTierFilter(aTier)) return;
+
+          let bestTier = 99;
+          let bestRatio = 0;
+          if (q) {
+            const sMatch = scoreSingleSongMatch(
+              q,
+              qNoSpace,
+              m.norm,
+              m.normNoSpace,
+              m.aliases,
+              m.aliasesNoSpace,
+              m.normCanonical,
+              m.normCanonicalNoSpace
+            );
+            if (!artMatch.matched && !sMatch) return;
+            if (artMatch.matched && sMatch) {
+              bestTier = Math.min(artMatch.tier, sMatch.tier);
+              bestRatio = Math.max(artMatch.ratio, sMatch.ratio);
+            } else if (artMatch.matched) {
+              bestTier = artMatch.tier;
+              bestRatio = artMatch.ratio;
+            } else if (sMatch) {
+              bestTier = sMatch.tier;
+              bestRatio = sMatch.ratio;
+            }
+          }
+
+          currentMeikyokuItems.push({
+            artist: a,
+            songTitle: m.songTitle,
+            stars: m.stars,
+            reason: m.reason,
+            isListening: isSongInArtistListeningList(a, m.songTitle),
+            tier: bestTier,
+            ratio: bestRatio
+          });
+        });
+      });
+
+      // Sort by 五十音順 of artist (keeping multiple songs of the same artist consecutive!), then by star tier descending, then song title 50-on
+      currentMeikyokuItems.sort((x, y) => {
+        if (q) {
+          if (x.tier !== y.tier) return x.tier - y.tier;
+          if (Math.abs((y.ratio || 0) - (x.ratio || 0)) > 1e-6) {
+            return (y.ratio || 0) - (x.ratio || 0);
+          }
+        }
+        if (x.artist.aid !== y.artist.aid) {
+          return compareArtistsBySortKey(x.artist, y.artist, "kanaAsc");
+        }
+        if (y.stars !== x.stars) return y.stars - x.stars;
+        return compareSongsKanaAsc(x.songTitle, y.songTitle, x.artist, y.artist);
+      });
+
+      currentMeikyokuItems.forEach((item, idx) => {
+        item.rank = idx + 1;
+      });
+      return;
+    }
 
     if (isSongSearchTab) {
       const exactKey = state.exactCanonicalSongKey || "";
@@ -3062,7 +3291,31 @@
     // - In Main views ("all" / "cat1" / "cat2"): sorts by state.sortBy.
     currentFiltered.sort((a, b) => {
       if (isSearch) {
-        if (state.searchTarget === "song") {
+        if (isMeikyokuListView()) {
+      const mkHits = currentMeikyokuItems.slice(0, 6);
+      if (mkHits.length === 0) {
+        bar.style.display = "none";
+        bar.innerHTML = "";
+        return;
+      }
+      const moreCount = Math.max(0, currentMeikyokuItems.length - mkHits.length);
+      const moreNoteHTML = moreCount > 0
+        ? `<span class="search-cand-more-note">＋ほか${fmtNum(moreCount)}件（下の一覧に表示）</span>`
+        : "";
+      bar.style.display = "flex";
+      bar.innerHTML = `<span class="search-cand-label">上位候補:</span>` + mkHits.map(item => {
+        const a = item.artist;
+        const starBadge = buildMeikyokuStarBadgeHTML(item.stars, "cand-meikyoku-stars");
+        return `
+          <button type="button" class="search-cand-chip exact-hit" data-cand-artist="${esc(a.name)}" title="${esc(a.name)} の詳細を表示">
+            <span class="search-cand-name">♪ ${esc(item.songTitle)}${starBadge}</span>
+            <span class="search-cand-count">${esc(a.name)}</span>
+          </button>
+        `;
+      }).join("") + moreNoteHTML;
+      return;
+    }
+    if (state.searchTarget === "song") {
           const songSortMode = state.searchSongSort || "kanaAsc";
           if (q && !state.searchSortOverride) {
             if (a._searchTier !== b._searchTier) return a._searchTier - b._searchTier;
@@ -3281,8 +3534,36 @@
     const heart2Act = state.heartFilter.includes("2");
     const heart1Act = state.heartFilter.includes("1");
 
+    const mkAllAct = state.meikyokuFilter.includes("all");
+    const mk3Act = state.meikyokuFilter.includes("3");
+    const mk2Act = state.meikyokuFilter.includes("2");
+    const mk1Act = state.meikyokuFilter.includes("1");
+    const meikyokuGroupHTML = state.karuSpecialMode ? `
+        <div class="meikyoku-filter-section">
+          <div class="filter-group-title">
+            <span>銘曲</span>
+            ${state.meikyokuFilter.length ? `<button type="button" class="clear-all-chips-btn" data-clear-meikyoku="1">解除</button>` : ""}
+          </div>
+          <div class="preset-pills">
+            <button type="button" class="pill-btn meikyoku-filter-pill ${mkAllAct ? "active" : ""}" data-filter-meikyoku="all" aria-pressed="${mkAllAct}">
+              <span class="meikyoku-pill-stars">☆</span><span>すべて</span>
+            </button>
+            <button type="button" class="pill-btn meikyoku-filter-pill ${mk3Act ? "active" : ""}" data-filter-meikyoku="3" aria-pressed="${mk3Act}">
+              <span class="meikyoku-pill-stars stars-lv-3">☆☆☆</span><span>Lv.3</span>
+            </button>
+            <button type="button" class="pill-btn meikyoku-filter-pill ${mk2Act ? "active" : ""}" data-filter-meikyoku="2" aria-pressed="${mk2Act}">
+              <span class="meikyoku-pill-stars stars-lv-2">☆☆</span><span>Lv.2</span>
+            </button>
+            <button type="button" class="pill-btn meikyoku-filter-pill ${mk1Act ? "active" : ""}" data-filter-meikyoku="1" aria-pressed="${mk1Act}">
+              <span class="meikyoku-pill-stars stars-lv-1">☆</span><span>Lv.1</span>
+            </button>
+          </div>
+        </div>
+    ` : "";
+
     return `
       <div class="filter-grid">
+        ${meikyokuGroupHTML}
         <div>
           <div class="filter-group-title">
             <span>高評価</span>
@@ -3390,7 +3671,17 @@
 
   function renderActiveFilterChips() {
     const chips = [];
-    if (state.view === "search" && state.searchTarget === "song") {
+    if (hasMeikyokuFilter()) {
+      if (state.meikyokuFilter.includes("all")) {
+        chips.push({ key: "meikyoku:all", label: "銘曲: ☆すべて" });
+      } else {
+        const starLabelMap = { "3": "☆☆☆ Lv.3", "2": "☆☆ Lv.2", "1": "☆ Lv.1" };
+        state.meikyokuFilter.forEach(mt => {
+          chips.push({ key: `meikyoku:${mt}`, label: `銘曲: ${starLabelMap[mt] || mt}` });
+        });
+      }
+    }
+    if (state.view === "search" && state.searchTarget === "song" && !isMeikyokuListView()) {
       if (state.exactCanonicalSongKey) {
         chips.push({ key: "exactCanonicalSong", label: `同一曲: 「${state.exactCanonicalSongTitle || state.searchQuery}」` });
       } else if (state.sameSongCountMode) {
@@ -3742,6 +4033,85 @@
     `;
   }
 
+  // Build a single Meikyoku Row HTML for "かる専用モード" -> "銘曲" filter (1 row per song; distinct style + Add button for unheard songs)
+  function buildMeikyokuSongRowHTML(item, rowIndex = 999) {
+    const a = item.artist;
+    const songTitle = item.songTitle;
+    const isListening = isSongInArtistListeningList(a, songTitle);
+    const isSelected = state.selectedArtistName === a.name;
+    const sTier = getSongHeartTier(a.aid, songTitle);
+    const isSngFav = sTier > 0;
+    const sngHeartHTML = isSngFav
+      ? buildHeartBadgeSpanHTML(sTier, "artist-fav-heart song-search-fav-heart", "かるのオススメ楽曲")
+      : "";
+    const starBadgeHTML = buildMeikyokuStarBadgeHTML(item.stars, "row-meikyoku-stars");
+    const unheardBadgeHTML = !isListening
+      ? `<span class="meikyoku-unheard-tag" title="かるが聴いてる曲に未登録の銘曲">未聴</span>`
+      : "";
+    const addBtnHTML = !isListening
+      ? `<button type="button" class="meikyoku-add-listening-btn" data-add-meikyoku-aid="${esc(a.aid)}" data-add-meikyoku-title="${esc(songTitle)}" title="「${esc(songTitle)}」をかるが聴いてる曲に追加">＋ 聴いてる曲に追加</button>`
+      : "";
+
+    const isUnclassified = !a.role || a.role === "判定保留";
+    const effRoles = getEffectiveRolesForArtist(a);
+    const rowRoles = effRoles.length > 0 ? effRoles : [isUnclassified ? "未分類" : a.role];
+    const rowRoleBadgesHTML = rowRoles
+      .map(r => `<span class="row-role-badge ${isUnclassified ? "unclassified" : ""}">${esc(r)}</span>`)
+      .join("");
+
+    const AGENCY_SHORT_LABELS = {
+      "アイドルマスターシリーズ": "アイマス",
+      "ラブライブ！シリーズ": "ラブライブ！",
+      "神椿スタジオ": "神椿",
+      "BanG Dream!": "バンドリ",
+      "ウマ娘 プリティーダービー": "ウマ娘",
+      "Tokyo 7th シスターズ": "ナナシス",
+      "ガールズバンドクライ": "ガルク",
+      "プロジェクトセカイ カラフルステージ！ feat. 初音ミク": "プロセカ",
+      "青春ブタ野郎シリーズ": "青ブタ",
+      "アイカツ！シリーズ": "アイカツ",
+      "少女☆歌劇 レヴュースタァライト": "スタァライト",
+      "INCS toenter (インクストゥエンター)": "INCS toenter",
+      "ソードアート・オンライン": "SAO",
+      "プリンセスコネクト！Re:Dive": "プリコネ",
+      "ブルーアーカイブ -Blue Archive-": "ブルアカ",
+      "ヘブンバーンズレッド": "ヘブバン",
+      "ライヴラリ (ゆにクリエイト)": "ライヴラリ",
+      "陰の実力者になりたくて！": "陰実",
+      "告白実行委員会 (HoneyWorks)": "告白実行委員会"
+    };
+    const rawAgency = (a.agencyGroup || a.agency || "").trim();
+    const shortAgency = rawAgency ? (AGENCY_SHORT_LABELS[rawAgency] || rawAgency) : "";
+    const agencyCellHTML = shortAgency
+      ? `<span class="row-agency-badge" title="所属（事務所・作品）：${esc(rawAgency)}">${esc(shortAgency)}</span>`
+      : `<span class="row-agency-empty">—</span>`;
+
+    const hasSub = a.sub !== null && a.sub !== undefined;
+    const subLabel = formatSubscribersJP(a.sub);
+    const subTitle = hasSub
+      ? `YouTube公式チャンネル公開登録者数（${a.subDate || "2026-10-27"}取得）`
+      : "YouTube公式チャンネル登録者数：未取得";
+
+    return `
+      <div class="artist-row song-matched-row meikyoku-song-row ${!isListening ? "meikyoku-unheard-row" : ""} ${isSelected ? "selected" : ""} ${isSngFav ? "song-is-fav" : ""}" data-artist-name="${esc(a.name)}" data-artist-aid="${esc(a.aid || "")}" data-primary-song="${esc(songTitle)}" data-meikyoku-stars="${item.stars}" role="button" tabindex="0">
+        <div class="row-rank">${item.rank || (rowIndex + 1)}</div>
+        <div class="row-avatar-wrap" title="">${renderAvatarHTML(a, false, rowIndex)}</div>
+        <div class="row-name-wrap">
+          <div class="row-song-primary">${starBadgeHTML}♪ <span class="row-matched-song-token ${isSngFav ? "is-song-fav" : ""}" data-matched-song-title="${esc(songTitle)}">${esc(songTitle)}${sngHeartHTML}</span>${unheardBadgeHTML}${addBtnHTML}</div>
+          <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}</div>
+        </div>
+        <div class="row-role col-pc-only">
+          ${rowRoleBadgesHTML}
+        </div>
+        <div class="row-agency col-pc-only col-agency-wide">
+          ${agencyCellHTML}
+        </div>
+        <div class="row-subs col-pc-only ${hasSub ? "" : "unacquired"}" title="${esc(subTitle)}">${esc(subLabel)}</div>
+        <div class="row-count">${fmtNum(a.count)}<span>曲</span></div>
+      </div>
+    `;
+  }
+
   // Build a single Canonical Song Group Row HTML for "同一曲数順" in "楽曲を検索" (no icon column; expanded song title width)
   function buildCanonicalSongGroupRowHTML(group, rowIndex = 999) {
     const rankNum = group.rank || (rowIndex + 1);
@@ -3809,9 +4179,14 @@
     const scrollEl = document.getElementById("centerScrollArea");
     const prevListScrollTop = (!resetScroll && scrollEl) ? scrollEl.scrollTop : 0;
 
-    const isGroupSearchOnly = state.view === "search" && state.searchTarget === "group";
-    const isSongSearchOnly = state.view === "search" && state.searchTarget === "song";
-    if (isGroupSearchOnly) {
+    const isMeikyokuMode = isMeikyokuListView();
+    const isGroupSearchOnly = state.view === "search" && state.searchTarget === "group" && !isMeikyokuMode;
+    const isSongSearchOnly = state.view === "search" && state.searchTarget === "song" && !isMeikyokuMode;
+    if (isMeikyokuMode) {
+      const unheardCnt = currentMeikyokuItems.filter(x => !isSongInArtistListeningList(x.artist, x.songTitle)).length;
+      const unheardNote = unheardCnt > 0 ? `（うち未聴 <strong>${fmtNum(unheardCnt)}</strong> 曲）` : "";
+      totalEl.innerHTML = `表示中: <strong>${fmtNum(currentMeikyokuItems.length)}</strong> 銘曲${unheardNote}`;
+    } else if (isGroupSearchOnly) {
       totalEl.innerHTML = `表示中: <strong>${fmtNum(currentMatchedGroups.length)}</strong> グループ`;
     } else if (isSongSearchOnly) {
       if (isSameSongGroupListView()) {
@@ -4207,6 +4582,22 @@
       return;
     }
 
+    if (isMeikyokuMode) {
+      if (currentMeikyokuItems.length === 0) {
+        listEl.innerHTML = `
+          <div class="empty-list-state">
+            <h3>条件に一致する銘曲が見つかりません</h3>
+            <p>検索キーワードや銘曲（☆）の段階・絞り込み条件を変更してお試しください。</p>
+          </div>
+        `;
+        return;
+      }
+      const sliceMk = currentMeikyokuItems.slice(0, state.renderLimit);
+      listEl.innerHTML = sliceMk.map((item, idx) => buildMeikyokuSongRowHTML(item, idx)).join("");
+      scheduleLookaheadAvatarPreload(12, 40);
+      return;
+    }
+
     if (isSongSearchOnly) {
       if (isSameSongGroupListView()) {
         if (currentCanonicalSongGroups.length === 0) {
@@ -4260,6 +4651,9 @@
   }
 
   function getActiveRenderListLength() {
+    if (isMeikyokuListView()) {
+      return currentMeikyokuItems.length;
+    }
     if (state.view === "search" && state.searchTarget === "song") {
       if (isSameSongGroupListView()) return currentCanonicalSongGroups.length;
       return currentSongSearchItems.length;
@@ -4271,6 +4665,17 @@
   function appendArtistRows(prevLimit, newLimit) {
     const listEl = document.getElementById("artistListContainer");
     if (!listEl) return;
+    if (isMeikyokuListView()) {
+      const sliceM = currentMeikyokuItems.slice(prevLimit, newLimit);
+      if (sliceM.length === 0) return;
+      const temp = document.createElement("div");
+      temp.innerHTML = sliceM.map((item, idx) => buildMeikyokuSongRowHTML(item, prevLimit + idx)).join("");
+      const frag = document.createDocumentFragment();
+      while (temp.firstElementChild) frag.appendChild(temp.firstElementChild);
+      listEl.appendChild(frag);
+      scheduleLookaheadAvatarPreload(prevLimit, 40);
+      return;
+    }
     if (state.view === "search" && state.searchTarget === "song") {
       if (isSameSongGroupListView()) {
         const sliceG = currentCanonicalSongGroups.slice(prevLimit, newLimit);
@@ -4637,6 +5042,15 @@
       };
     }
 
+    if (state.karuSpecialMode) {
+      return {
+        options: [
+          { value: "kanaAsc", label: "五十音順" }
+        ],
+        currentVal: "kanaAsc"
+      };
+    }
+
     if (state.view === "search") {
       const target = state.searchTarget || "all";
       if (target === "group") {
@@ -4824,10 +5238,13 @@
       mobRecBtn.classList.toggle("active-cat", state.view === "recommend");
     }
 
+    document.body.classList.toggle("karu-special-mode", Boolean(state.karuSpecialMode));
     // Sync list-col-header labels, song-list-mode, same-song-group-mode, and recommend-artist-mode ("高評価曲数")
     updateSearchScopeCounts();
-    const isSameSongGroupMode = isSameSongGroupListView();
+    const isMeikyokuMode = isMeikyokuListView();
+    const isSameSongGroupMode = !isMeikyokuMode && isSameSongGroupListView();
     const isSongListMode =
+      isMeikyokuMode ||
       (state.view === "recommend" && state.recommendTab === "song") ||
       (state.view === "search" && state.searchTarget === "song" && !isSameSongGroupMode);
     const isRecommendArtistMode = state.view === "recommend" && state.recommendTab === "artist";
@@ -5010,6 +5427,7 @@
     if (state.searchSongSort === "sameSongCountDesc") {
       state.searchSongSort = "kanaAsc";
     }
+    state.meikyokuFilter = [];
     state.heartFilter = [];
     state.sameSongCountMode = false;
     state.exactCanonicalSongKey = "";
@@ -5042,8 +5460,13 @@
     state.kanaChar = "";
     state.alphaChars = [];
     state.lastIndexType = "";
-    state.sortBy = "countDesc";
-    state.savedSortBy = "countDesc";
+    state.meikyokuFilter = [];
+    state.heartFilter = [];
+    state.sameSongCountMode = false;
+    state.exactCanonicalSongKey = "";
+    state.exactCanonicalSongTitle = "";
+    state.sortBy = state.karuSpecialMode ? "kanaAsc" : "countDesc";
+    state.savedSortBy = state.karuSpecialMode ? "kanaAsc" : "countDesc";
     state.recArtistSort = "recFavCountDesc";
     state.recSongSort = "recCustomOrder";
     state.searchArtistSort = "kanaAsc";
@@ -5076,6 +5499,37 @@
     if (e.target.closest("button")) {
       pushHistorySnapshot(false);
     }
+    const meikyokuBtn = e.target.closest("[data-filter-meikyoku]");
+    if (meikyokuBtn && state.karuSpecialMode) {
+      const mVal = meikyokuBtn.getAttribute("data-filter-meikyoku") || "";
+      if (mVal === "all") {
+        if (state.meikyokuFilter.includes("all")) {
+          state.meikyokuFilter = [];
+        } else {
+          state.meikyokuFilter = ["all"];
+        }
+      } else if (mVal === "1" || mVal === "2" || mVal === "3") {
+        state.meikyokuFilter = state.meikyokuFilter.filter(x => x !== "all");
+        const idx = state.meikyokuFilter.indexOf(mVal);
+        if (idx >= 0) state.meikyokuFilter.splice(idx, 1);
+        else state.meikyokuFilter.push(mVal);
+      }
+      if (state.meikyokuFilter.length > 0 && state.view !== "search") {
+        if (state.view === "cat1" || state.view === "cat2") {
+          state.searchScope = state.view;
+        }
+        state.view = "search";
+      }
+      updateUI(true);
+      return;
+    }
+
+    if (e.target.closest("[data-clear-meikyoku]")) {
+      state.meikyokuFilter = [];
+      updateUI(true);
+      return;
+    }
+
     const heartBtn = e.target.closest("[data-filter-heart]");
     if (heartBtn) {
       const hVal = heartBtn.getAttribute("data-filter-heart") || "";
@@ -5265,14 +5719,57 @@
       });
     }
 
-    // Home Button (PC Left Sidebar & Smartphone Top Header)
+    // Home Button (PC Left Sidebar & Smartphone Top Header) + 5-Tap Secret Toggle for "かる専用モード"
+    let homeTapTimestamps = [];
+    function toggleKaruSpecialMode() {
+      permanentlyExcludeOwnerFromAnalytics();
+      state.karuSpecialMode = !state.karuSpecialMode;
+      document.body.classList.toggle("karu-special-mode", state.karuSpecialMode);
+      if (state.karuSpecialMode) {
+        state.sortBy = "kanaAsc";
+        state.savedSortBy = "kanaAsc";
+        state.searchArtistSort = "kanaAsc";
+        state.searchSongSort = "kanaAsc";
+        state.sameSongCountMode = false;
+        state.exactCanonicalSongKey = "";
+        state.exactCanonicalSongTitle = "";
+      } else {
+        state.meikyokuFilter = [];
+        state.sortBy = "countDesc";
+        state.savedSortBy = "countDesc";
+      }
+      updateUI(true);
+      const toastEl = document.getElementById("favSyncToast");
+      if (toastEl) {
+        toastEl.textContent = state.karuSpecialMode
+          ? "かる専用モードに移行しました（五十音順・銘曲絞り込み対応）"
+          : "通常モードに戻りました";
+        toastEl.classList.remove("toast-warn");
+        toastEl.classList.add("show");
+        setTimeout(() => toastEl.classList.remove("show"), 2600);
+      }
+    }
+    window.__toggleKaruSpecialMode = toggleKaruSpecialMode;
+
+    function handleHomeButtonTap() {
+      const now = Date.now();
+      homeTapTimestamps = homeTapTimestamps.filter(t => now - t <= 2200);
+      homeTapTimestamps.push(now);
+      if (homeTapTimestamps.length >= 5) {
+        homeTapTimestamps = [];
+        toggleKaruSpecialMode();
+        return;
+      }
+      resetToHomeState();
+    }
+
     const pcHomeBtn = document.getElementById("pcHomeBtn");
     if (pcHomeBtn) {
-      pcHomeBtn.addEventListener("click", resetToHomeState);
+      pcHomeBtn.addEventListener("click", handleHomeButtonTap);
     }
     const mobTopHomeBtn = document.getElementById("mobTopHomeBtn");
     if (mobTopHomeBtn) {
-      mobTopHomeBtn.addEventListener("click", resetToHomeState);
+      mobTopHomeBtn.addEventListener("click", handleHomeButtonTap);
     }
 
     function triggerMobileSearchTransition(triggerBtn) {
@@ -5532,6 +6029,10 @@
         state.exactCanonicalSongKey = "";
         state.exactCanonicalSongTitle = "";
         if (state.searchSongSort === "sameSongCountDesc") state.searchSongSort = "kanaAsc";
+      } else if (key.startsWith("meikyoku:")) {
+        const mVal = key.slice(9);
+        if (mVal === "all") state.meikyokuFilter = [];
+        else state.meikyokuFilter = state.meikyokuFilter.filter(item => item !== mVal);
       } else if (key.startsWith("heart:")) {
         const hVal = key.slice(6);
         if (hVal === "all") state.heartFilter = [];
@@ -6127,10 +6628,95 @@
       return Boolean(sel && !sel.isCollapsed && String(sel.toString() || "").trim().length > 0);
     }
 
+    async function addUnheardMeikyokuToListening(aid, rawSongTitle) {
+      const resolvedAid = resolveToAid(aid);
+      if (!resolvedAid) return false;
+      const artist = AID_TO_ARTIST.get(resolvedAid);
+      if (!artist) return false;
+      let cleanTitle = String(rawSongTitle || "").replace(/[\r\n\t]+/g, " ").trim();
+      if (!cleanTitle) return false;
+      if (SONG_RENAME_MAP[cleanTitle]) {
+        cleanTitle = SONG_RENAME_MAP[cleanTitle];
+      }
+      if (isSongInArtistListeningList(artist, cleanTitle)) return false;
+      const key = makeSongKey(resolvedAid, cleanTitle);
+      if (!key) return false;
+
+      if (favQuickEditMode) {
+        pushEditHistorySnapshot();
+      }
+      customAddedSongSet.add(key);
+      syncCustomSongsIntoArchiveData();
+
+      renderStaticStats();
+      applyFilterAndSort();
+      renderArtistList(false);
+      if (state.selectedArtistName === artist.name) {
+        renderDetailPanel(false);
+      }
+
+      if (favQuickEditMode) {
+        saveUnsavedDraft();
+        updateFavEditBannerStatus();
+      } else {
+        const nextCustom = getSortedCurrentCustomSongs();
+        serverCustomSongs = [...nextCustom];
+        editSessionBaseCustomSongs = [...nextCustom];
+        saveFavServerCache(serverFavIds, serverSongFavs, serverCustomSongs, serverVersion, new Date().toISOString());
+        try {
+          const resp = await fetch(FAV_API_ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Calpis-Client": "archive-v1",
+              "X-Calpis-Edit-Intent": "1"
+            },
+            body: JSON.stringify({
+              action: "save",
+              ids: getSortedCurrentAids(),
+              songFavs: getSortedCurrentSongFavs(),
+              customSongs: nextCustom,
+              baseVersion: serverVersion,
+              forceOverwrite: true,
+              clientRequestId: `mk_add_${Date.now()}`
+            }),
+            cache: "no-store"
+          });
+          const data = await resp.json().catch(() => null);
+          if (resp && resp.ok && data && data.ok) {
+            if (typeof data.version === "number") {
+              serverVersion = data.version;
+              editSessionBaseVersion = serverVersion;
+            }
+            saveFavServerCache(serverFavIds, serverSongFavs, serverCustomSongs, serverVersion, data.updatedAt);
+          }
+        } catch (_e) {}
+      }
+      const toastEl = document.getElementById("favSyncToast");
+      if (toastEl) {
+        toastEl.textContent = `「${cleanTitle}」を ${artist.name} の聴いてる曲に追加しました`;
+        toastEl.classList.remove("toast-warn");
+        toastEl.classList.add("show");
+        setTimeout(() => toastEl.classList.remove("show"), 2600);
+      }
+      return true;
+    }
+
     listContainer.addEventListener("click", e => {
       if (suppressNextRowClick || e.target.closest("[data-drag-handle]")) {
         e.preventDefault();
         e.stopPropagation();
+        return;
+      }
+      const addMeikyokuBtn = e.target.closest("[data-add-meikyoku-aid]");
+      if (addMeikyokuBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const targetAid = addMeikyokuBtn.getAttribute("data-add-meikyoku-aid") || "";
+        const targetTitle = addMeikyokuBtn.getAttribute("data-add-meikyoku-title") || "";
+        if (targetAid && targetTitle) {
+          addUnheardMeikyokuToListening(targetAid, targetTitle);
+        }
         return;
       }
       if (isPcTextSelectionDrag(e)) {
