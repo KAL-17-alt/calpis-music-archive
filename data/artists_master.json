@@ -809,7 +809,7 @@
   {
     "name": "琶舞",
     "cat": 1,
-    "count": 59,
+    "count": 61,
     "reading": "べま",
     "kana": "へ",
     "row": "は",
@@ -874,7 +874,9 @@
       "ファイアダンス",
       "One Last Kiss",
       "Tiger",
-      "III"
+      "III",
+      "月夜にマリアージュ",
+      "捕食者"
     ],
     "topSongs": [
       "戯れ",
@@ -1164,6 +1166,118 @@
     "aid": "a_90992207"
   },
   {
+    "name": "明透",
+    "cat": 1,
+    "count": 49,
+    "reading": "あす",
+    "kana": "あ",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/9ZnqCjD_uxY7HoUblghpGtZfScGRBr7lSuND2Vb7gKpjU3C7P-DINZJ5CAOhsppOyOklN6fRRA=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "illumina",
+      "Aster",
+      "オレンジ",
+      "ライトイヤーズ",
+      "HEAVEN IS GONE",
+      "インパーフェクト",
+      "リンカーネイション",
+      "アンダーブーケ",
+      "Shiny",
+      "Spiral",
+      "0g",
+      "Link",
+      "Dazzling",
+      "アンメルト・アンブレラ",
+      "海の幽霊 - サンライトLIVE",
+      "クスシキ",
+      "Prema",
+      "烏",
+      "あぶく",
+      "花占い",
+      "Do Well",
+      "ビターエチュード",
+      "ルートキュア",
+      "Blue Jeans",
+      "レディース・ロール・メソッド / ASU - Feminine Role Method",
+      "美しい鰭",
+      "飛ぶ時",
+      "Little Bit / ASU - Little Bit",
+      "Cold Night",
+      "lulu.",
+      "不可幸力",
+      "マシュマリー",
+      "Winter Sparkler",
+      "Symbiotic Dominion",
+      "JANE DOE",
+      "華奢なリップfeat.ちゃんみな",
+      "Ｗ●ＲＫ",
+      "子供になってみた】おこちゃま戦争",
+      "長く短い祭",
+      "絶頂讃歌",
+      "絶対敵対メチャキライヤー",
+      "ラヴィ",
+      "再会",
+      "二時間だけのバカンスfeaturing 椎名林檎 -宇多田ヒカル",
+      "赤い洗礼",
+      "III",
+      "HOME",
+      "Little Bit",
+      "レディース・ロール・メソッド"
+    ],
+    "topSongs": [
+      "スロウリー",
+      "アンダーブーケ",
+      "ソラゴト",
+      "ライトイヤーズ",
+      "illumina"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "ASU",
+      "asu",
+      "アス",
+      "KAMITSUBAKI STUDIO (神椿スタジオ)"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 640000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "enFLXbbXWdk",
+      "8Hp1ynoAho8",
+      "PtJsY_PkpSI",
+      "WLlU2vfGnbE",
+      "Bpf1rejxmKA"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "KAMITSUBAKI STUDIO (神椿スタジオ)",
+    "agencyGroup": "神椿スタジオ",
+    "vocalParts": [],
+    "agencyGroupCount": 21,
+    "agencyClickable": true,
+    "memberOf": [
+      "Albemuth"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCBLGjbYv6-xxju1i44RjnnA",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCBLGjbYv6-xxju1i44RjnnA",
+    "aid": "a_b5ac7fba"
+  },
+  {
     "name": "高橋李依",
     "cat": 1,
     "count": 49,
@@ -1394,115 +1508,6 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/@wotaminxx",
     "aid": "a_da5941d9"
-  },
-  {
-    "name": "明透",
-    "cat": 1,
-    "count": 46,
-    "reading": "あす",
-    "kana": "あ",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/9ZnqCjD_uxY7HoUblghpGtZfScGRBr7lSuND2Vb7gKpjU3C7P-DINZJ5CAOhsppOyOklN6fRRA=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "illumina",
-      "Aster",
-      "オレンジ",
-      "ライトイヤーズ",
-      "HEAVEN IS GONE",
-      "インパーフェクト",
-      "リンカーネイション",
-      "アンダーブーケ",
-      "Shiny",
-      "Spiral",
-      "0g",
-      "Link",
-      "Dazzling",
-      "アンメルト・アンブレラ",
-      "海の幽霊 - サンライトLIVE",
-      "クスシキ",
-      "Prema",
-      "烏",
-      "あぶく",
-      "花占い",
-      "Do Well",
-      "ビターエチュード",
-      "ルートキュア",
-      "Blue Jeans",
-      "レディース・ロール・メソッド / ASU - Feminine Role Method",
-      "美しい鰭",
-      "飛ぶ時",
-      "Little Bit / ASU - Little Bit",
-      "Cold Night",
-      "lulu.",
-      "不可幸力",
-      "マシュマリー",
-      "Winter Sparkler",
-      "Symbiotic Dominion",
-      "JANE DOE",
-      "華奢なリップfeat.ちゃんみな",
-      "Ｗ●ＲＫ",
-      "子供になってみた】おこちゃま戦争",
-      "長く短い祭",
-      "絶頂讃歌",
-      "絶対敵対メチャキライヤー",
-      "ラヴィ",
-      "再会",
-      "二時間だけのバカンスfeaturing 椎名林檎 -宇多田ヒカル",
-      "赤い洗礼",
-      "III"
-    ],
-    "topSongs": [
-      "スロウリー",
-      "アンダーブーケ",
-      "ソラゴト",
-      "ライトイヤーズ",
-      "illumina"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "ASU",
-      "asu",
-      "アス",
-      "KAMITSUBAKI STUDIO (神椿スタジオ)"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 640000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "enFLXbbXWdk",
-      "8Hp1ynoAho8",
-      "PtJsY_PkpSI",
-      "WLlU2vfGnbE",
-      "Bpf1rejxmKA"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "KAMITSUBAKI STUDIO (神椿スタジオ)",
-    "agencyGroup": "神椿スタジオ",
-    "vocalParts": [],
-    "agencyGroupCount": 21,
-    "agencyClickable": true,
-    "memberOf": [
-      "Albemuth"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCBLGjbYv6-xxju1i44RjnnA",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCBLGjbYv6-xxju1i44RjnnA",
-    "aid": "a_b5ac7fba"
   },
   {
     "name": "Ceui",
@@ -11538,6 +11543,76 @@
     "aid": "a_781e6396"
   },
   {
+    "name": "稀羽すう",
+    "cat": 1,
+    "count": 9,
+    "reading": "うすわすう",
+    "kana": "う",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/0fgTiF4jhqmGZBOs51fIB50Ur920xGcmDTyc1CPspeYOkWEKn8h-sF37mktH77e4DqARjdW8Qw=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Starry night",
+      "トロイメライ",
+      "ゆーえふおー",
+      "らしく。",
+      "seaglass",
+      "思い出とペトリコール",
+      "ナラタージュ",
+      "夏に去りし君を想フ",
+      "star shine"
+    ],
+    "topSongs": [
+      "水星",
+      "Overdose",
+      "プロポーズ",
+      "花に亡霊",
+      "ゆーえふおー"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Usuwa Suu",
+      "usuwasuu",
+      "ウスワスウ",
+      "Re:AcT"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 113000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "mMYg8VdIxuQ",
+      "1PE2u_P-ucM",
+      "M-zApNKH7yM",
+      "Ayf8g4e45zA",
+      "5Pj-DXUpzVI"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "Re:AcT",
+    "agencyGroup": "Re:AcT",
+    "vocalParts": [],
+    "agencyGroupCount": 11,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@Suu_Usuwa",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@Suu_Usuwa",
+    "aid": "a_b5fd9586"
+  },
+  {
     "name": "おもちゃ菓子",
     "cat": 1,
     "count": 9,
@@ -12864,75 +12939,6 @@
     "ytChannelLabel": "YouTubeチャンネル →",
     "ytChannelType": "official",
     "aid": "a_cd37ed28"
-  },
-  {
-    "name": "稀羽すう",
-    "cat": 1,
-    "count": 8,
-    "reading": "うすわすう",
-    "kana": "う",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/0fgTiF4jhqmGZBOs51fIB50Ur920xGcmDTyc1CPspeYOkWEKn8h-sF37mktH77e4DqARjdW8Qw=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Starry night",
-      "トロイメライ",
-      "ゆーえふおー",
-      "らしく。",
-      "seaglass",
-      "思い出とペトリコール",
-      "ナラタージュ",
-      "夏に去りし君を想フ"
-    ],
-    "topSongs": [
-      "水星",
-      "Overdose",
-      "プロポーズ",
-      "花に亡霊",
-      "ゆーえふおー"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Usuwa Suu",
-      "usuwasuu",
-      "ウスワスウ",
-      "Re:AcT"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 113000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "mMYg8VdIxuQ",
-      "1PE2u_P-ucM",
-      "M-zApNKH7yM",
-      "Ayf8g4e45zA",
-      "5Pj-DXUpzVI"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "Re:AcT",
-    "agencyGroup": "Re:AcT",
-    "vocalParts": [],
-    "agencyGroupCount": 11,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@Suu_Usuwa",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@Suu_Usuwa",
-    "aid": "a_b5fd9586"
   },
   {
     "name": "大空スバル",
@@ -24357,6 +24363,70 @@
     "aid": "a_60e5624f"
   },
   {
+    "name": "蝸堂みかる",
+    "cat": 1,
+    "count": 3,
+    "reading": "かどうみかる",
+    "kana": "か",
+    "row": "か",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/6p0ViHZGOpjB_Ywf_hKGFFD3nuJUCig7_H4-Q05_WcRpw6knTFdBDcnvQPSAfOX78pUH7lAepQ=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "花が落ちたので、",
+      "lllトゥルティンアンテナlll 歌ってみた。",
+      "悪魔のキッス"
+    ],
+    "topSongs": [
+      "花が落ちたので、",
+      "lllトゥルティンアンテナlll",
+      "八月の夜",
+      "SHANTI",
+      "右肩の蝶"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "kadoumikaru",
+      "にじさんじ",
+      "みかるん",
+      "mikarun"
+    ],
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 133000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "FSxFoFCp3mg",
+      "KAM7aOZwSJ8",
+      "ovTI5rkblJ8",
+      "YzUZ4X_6A1g",
+      "RELf7Lg1mWw"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/@KadouMikaru",
+    "agency": "にじさんじ",
+    "agencyGroup": "にじさんじ",
+    "vocalParts": [],
+    "agencyGroupCount": 76,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@KadouMikaru",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_2f4b388b"
+  },
+  {
     "name": "かぴ",
     "cat": 1,
     "count": 3,
@@ -28741,69 +28811,6 @@
     "aid": "a_8f6b90f7"
   },
   {
-    "name": "蝸堂みかる",
-    "cat": 1,
-    "count": 2,
-    "reading": "かどうみかる",
-    "kana": "か",
-    "row": "か",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/6p0ViHZGOpjB_Ywf_hKGFFD3nuJUCig7_H4-Q05_WcRpw6knTFdBDcnvQPSAfOX78pUH7lAepQ=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "花が落ちたので、",
-      "lllトゥルティンアンテナlll 歌ってみた。"
-    ],
-    "topSongs": [
-      "花が落ちたので、",
-      "lllトゥルティンアンテナlll",
-      "八月の夜",
-      "SHANTI",
-      "右肩の蝶"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "kadoumikaru",
-      "にじさんじ",
-      "みかるん",
-      "mikarun"
-    ],
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 133000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "FSxFoFCp3mg",
-      "KAM7aOZwSJ8",
-      "ovTI5rkblJ8",
-      "YzUZ4X_6A1g",
-      "RELf7Lg1mWw"
-    ],
-    "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/@KadouMikaru",
-    "agency": "にじさんじ",
-    "agencyGroup": "にじさんじ",
-    "vocalParts": [],
-    "agencyGroupCount": 76,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@KadouMikaru",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_2f4b388b"
-  },
-  {
     "name": "神田沙也加",
     "cat": 1,
     "count": 2,
@@ -30077,6 +30084,67 @@
     "ytChannelType": "",
     "youtubeChannelUrl": "",
     "aid": "a_7897d976"
+  },
+  {
+    "name": "十河ののは",
+    "cat": 1,
+    "count": 2,
+    "reading": "とがわののは",
+    "kana": "と",
+    "row": "た",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/8Thk_Zey4xK8tgtqCTz0rw__MzIZBt_SUMzBQBUCJwDONP7l5ejX4BtILXjJuyIA7K7BlDezKA=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "〚 歌ってみた 〛パラソルサイダー〚 にじさんじ",
+      "悪魔のキッス"
+    ],
+    "topSongs": [
+      "パラソルサイダー",
+      "右肩の蝶",
+      "いーあるふぁんくらぶ",
+      "腐れ外道とチョコレゐト",
+      "ファンサ"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "togawanonoha",
+      "にじさんじ"
+    ],
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 117000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "9LZ9qo1Ap-I",
+      "D-uUmbUDMDg",
+      "Md468-dudbo",
+      "UhBhssSsmBY",
+      ""
+    ],
+    "subDate": "2026-10-28",
+    "youtubeChannelUrl": "https://www.youtube.com/@TogawaNonoha",
+    "agency": "にじさんじ",
+    "agencyGroup": "にじさんじ",
+    "vocalParts": [],
+    "agencyGroupCount": 76,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@TogawaNonoha",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_af1b6850"
   },
   {
     "name": "ドーラ",
@@ -43394,66 +43462,6 @@
     "ytChannelLabel": "YouTubeチャンネル →",
     "ytChannelType": "official",
     "aid": "a_a843eac1"
-  },
-  {
-    "name": "十河ののは",
-    "cat": 1,
-    "count": 1,
-    "reading": "とがわののは",
-    "kana": "と",
-    "row": "た",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/8Thk_Zey4xK8tgtqCTz0rw__MzIZBt_SUMzBQBUCJwDONP7l5ejX4BtILXjJuyIA7K7BlDezKA=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "〚 歌ってみた 〛パラソルサイダー〚 にじさんじ"
-    ],
-    "topSongs": [
-      "パラソルサイダー",
-      "右肩の蝶",
-      "いーあるふぁんくらぶ",
-      "腐れ外道とチョコレゐト",
-      "ファンサ"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "togawanonoha",
-      "にじさんじ"
-    ],
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 117000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "9LZ9qo1Ap-I",
-      "D-uUmbUDMDg",
-      "Md468-dudbo",
-      "UhBhssSsmBY",
-      ""
-    ],
-    "subDate": "2026-10-28",
-    "youtubeChannelUrl": "https://www.youtube.com/@TogawaNonoha",
-    "agency": "にじさんじ",
-    "agencyGroup": "にじさんじ",
-    "vocalParts": [],
-    "agencyGroupCount": 76,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@TogawaNonoha",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_af1b6850"
   },
   {
     "name": "兎咲ミミ",
@@ -65154,6 +65162,70 @@
     "aid": "a_324a9c3a"
   },
   {
+    "aid": "a_9c4e21b8",
+    "name": "シャイニーカラーズ",
+    "cat": 2,
+    "count": 2,
+    "reading": "しゃいにーからーず",
+    "kana": "し",
+    "row": "さ",
+    "alpha": "",
+    "img": "https://i.ytimg.com/vi/Bsm9rQc7uew/hqdefault.jpg",
+    "songs": [
+      "シャイノグラフィ (2023 Ver.)",
+      "OVERLAY OF HOPES"
+    ],
+    "topSongs": [
+      "シャイノグラフィ (2023 Ver.)",
+      "Spread the Wings!! (2023 Ver.)",
+      "Ambitious Eve (2023 Ver.)",
+      "いつか Shiny Days (2023 Ver.)",
+      "Resonance⁺ (2023 Ver.)"
+    ],
+    "topLinks": [
+      "Bsm9rQc7uew",
+      "caM83-aTCEs",
+      "b3vB7kK-C4s",
+      "p8mG8N7bF0g",
+      "3O2yQ5kY8jM"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "role": "音楽グループ(アニゲー関連)",
+    "roles": [
+      "音楽グループ(アニゲー関連)"
+    ],
+    "groupSubRole": "音楽グループ(アニゲー関連)",
+    "sub": null,
+    "subBucket": "unknown",
+    "subDate": "2026-11-01",
+    "al": [
+      "SHINY COLORS",
+      "THE IDOLM@STER SHINY COLORS",
+      "アイドルマスター シャイニーカラーズ",
+      "シャニマス",
+      "しゃいにーからーず",
+      "shinycolors",
+      "UCHQUx1njDuJQwBQ5uMPrr3Q"
+    ],
+    "agency": "アイドルマスター シャイニーカラーズ",
+    "agencyGroup": "アイドルマスターシリーズ",
+    "vocal": "",
+    "vocalParts": [],
+    "memberOf": [],
+    "profileBio": "『アイドルマスター シャイニーカラーズ』（283プロダクション）の全体曲名義。『シャイノグラフィ (2023 Ver.)』や『Spread the Wings!!』など、ユニットの垣根を越えた煌めくアンサンブル楽曲を届けている。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCHQUx1njDuJQwBQ5uMPrr3Q",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "agencyGroupCount": 88,
+    "agencyClickable": true
+  },
+  {
     "name": "白石沙季 (月のテンペスト)",
     "cat": 2,
     "count": 2,
@@ -67247,6 +67319,56 @@
     "ytChannelType": "",
     "youtubeChannelUrl": "",
     "aid": "a_78c72f2e"
+  },
+  {
+    "name": "Hina",
+    "cat": 2,
+    "count": 2,
+    "reading": "ひな",
+    "kana": "ひ",
+    "row": "は",
+    "alpha": "H",
+    "img": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20120%22%3E%3Ctitle%3EHina%3C/title%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231db954%22/%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230f5c2b%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%22120%22%20height%3D%22120%22%20rx%3D%2260%22%20fill%3D%22url%28%23g%29%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2254%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22800%22%20font-size%3D%2238%22%3EHin%3C/text%3E%3C/svg%3E",
+    "imgType": "generated_avatar",
+    "songs": [
+      "Luminous",
+      "Find Me"
+    ],
+    "topSongs": [
+      "Luminous",
+      "Find Me"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "orig"
+    ],
+    "topLinks": [
+      "",
+      "LMZOnSviMKY"
+    ],
+    "topStatus": "completed_1_songs",
+    "role": "歌手",
+    "sub": 6200,
+    "subBucket": "under10k",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌手"
+    ],
+    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。代表曲『Luminous』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
+    "ytChannelUrl": "",
+    "ytChannelLabel": "",
+    "ytChannelType": "",
+    "youtubeChannelUrl": "",
+    "aid": "a_5abd390f"
   },
   {
     "name": "FUKA",
@@ -81079,69 +81201,6 @@
     "aid": "a_b084c758"
   },
   {
-    "aid": "a_9c4e21b8",
-    "name": "シャイニーカラーズ",
-    "cat": 2,
-    "count": 1,
-    "reading": "しゃいにーからーず",
-    "kana": "し",
-    "row": "さ",
-    "alpha": "",
-    "img": "https://i.ytimg.com/vi/Bsm9rQc7uew/hqdefault.jpg",
-    "songs": [
-      "シャイノグラフィ (2023 Ver.)"
-    ],
-    "topSongs": [
-      "シャイノグラフィ (2023 Ver.)",
-      "Spread the Wings!! (2023 Ver.)",
-      "Ambitious Eve (2023 Ver.)",
-      "いつか Shiny Days (2023 Ver.)",
-      "Resonance⁺ (2023 Ver.)"
-    ],
-    "topLinks": [
-      "Bsm9rQc7uew",
-      "caM83-aTCEs",
-      "b3vB7kK-C4s",
-      "p8mG8N7bF0g",
-      "3O2yQ5kY8jM"
-    ],
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "role": "音楽グループ(アニゲー関連)",
-    "roles": [
-      "音楽グループ(アニゲー関連)"
-    ],
-    "groupSubRole": "音楽グループ(アニゲー関連)",
-    "sub": null,
-    "subBucket": "unknown",
-    "subDate": "2026-11-01",
-    "al": [
-      "SHINY COLORS",
-      "THE IDOLM@STER SHINY COLORS",
-      "アイドルマスター シャイニーカラーズ",
-      "シャニマス",
-      "しゃいにーからーず",
-      "shinycolors",
-      "UCHQUx1njDuJQwBQ5uMPrr3Q"
-    ],
-    "agency": "アイドルマスター シャイニーカラーズ",
-    "agencyGroup": "アイドルマスターシリーズ",
-    "vocal": "",
-    "vocalParts": [],
-    "memberOf": [],
-    "profileBio": "『アイドルマスター シャイニーカラーズ』（283プロダクション）の全体曲名義。『シャイノグラフィ (2023 Ver.)』や『Spread the Wings!!』など、ユニットの垣根を越えた煌めくアンサンブル楽曲を届けている。",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCHQUx1njDuJQwBQ5uMPrr3Q",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "agencyGroupCount": 88,
-    "agencyClickable": true
-  },
-  {
     "name": "シャドウガーデンナンバーズ",
     "cat": 2,
     "count": 1,
@@ -85978,52 +86037,6 @@
     "ytChannelType": "",
     "youtubeChannelUrl": "",
     "aid": "a_eb0c24f4"
-  },
-  {
-    "name": "Hina",
-    "cat": 2,
-    "count": 1,
-    "reading": "ひな",
-    "kana": "ひ",
-    "row": "は",
-    "alpha": "H",
-    "img": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20120%22%3E%3Ctitle%3EHina%3C/title%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231db954%22/%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230f5c2b%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%22120%22%20height%3D%22120%22%20rx%3D%2260%22%20fill%3D%22url%28%23g%29%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2254%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22800%22%20font-size%3D%2238%22%3EHin%3C/text%3E%3C/svg%3E",
-    "imgType": "generated_avatar",
-    "songs": [
-      "Luminous"
-    ],
-    "topSongs": [
-      "Luminous"
-    ],
-    "topTypes": [
-      "オリジナル"
-    ],
-    "topLinks": [
-      ""
-    ],
-    "topStatus": "completed_1_songs",
-    "role": "歌手",
-    "sub": 6200,
-    "subBucket": "under10k",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌手"
-    ],
-    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。代表曲『Luminous』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
-    "ytChannelUrl": "",
-    "ytChannelLabel": "",
-    "ytChannelType": "",
-    "youtubeChannelUrl": "",
-    "aid": "a_5abd390f"
   },
   {
     "name": "日野森志歩 (Leo/need)",
