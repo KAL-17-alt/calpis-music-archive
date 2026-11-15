@@ -1048,7 +1048,7 @@
   {
     "name": "星街すいせい",
     "cat": 1,
-    "count": 53,
+    "count": 54,
     "reading": "ほしまちすいせい",
     "kana": "ほ",
     "row": "は",
@@ -1107,7 +1107,8 @@
       "GET THE CROWN",
       "月に向かって撃て",
       "Crazy:B「Honeycomb Summer」",
-      "ゾンビゾンビゾンビ"
+      "ゾンビゾンビゾンビ",
+      "CapSule"
     ],
     "topSongs": [
       "ビビデバ",
@@ -6562,6 +6563,80 @@
     "aid": "a_765a2a9f"
   },
   {
+    "name": "Mori Calliope",
+    "cat": 1,
+    "count": 16,
+    "reading": "mori calliope",
+    "kana": "",
+    "row": "",
+    "alpha": "M",
+    "img": "https://yt3.googleusercontent.com/LYO40yqUG6y_YiIND-FCD_MSPOeREAoLSVdVLL0UDmFSuwbbblBDNpRx5CAKlO75NrtLo6CnsnQ=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "CapSule",
+      "Queen of the Night",
+      "UnAlive",
+      "居場所",
+      "Cursed Night",
+      "Memento",
+      "Last Days",
+      "Lose-Lose Days",
+      "Yona Yona Journey",
+      "NEZUMI Scheme",
+      "INSOMNIAC BLACK",
+      "Dawn Blue",
+      "Live Again",
+      "いじめっ子Bully",
+      "MERA MERA",
+      "Future Island"
+    ],
+    "topSongs": [
+      "失礼しますが、RIP♡",
+      "Red",
+      "Future Island",
+      "end of a life",
+      "Dead Beats"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 2660000,
+    "subBucket": "over1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "y4DppvDtvzw",
+      "-AuQZrUHjhg",
+      "eWNn24KHPRQ",
+      "BXB26PzV31k",
+      "gWlrZOSQqw8"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "ホロライブEnglish (hololive EN)",
+    "al": [
+      "ホロライブEnglish (hololive EN)"
+    ],
+    "agencyGroup": "ホロライブ",
+    "vocalParts": [],
+    "agencyGroupCount": 43,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCL_qhgtOy0dy1Agp8vkySQg",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCL_qhgtOy0dy1Agp8vkySQg",
+    "aid": "a_c6dd8a71"
+  },
+  {
     "name": "Nornis",
     "cat": 1,
     "count": 16,
@@ -9283,6 +9358,80 @@
     "aid": "a_49595bac"
   },
   {
+    "name": "鷹嶺ルイ",
+    "cat": 1,
+    "count": 12,
+    "reading": "たかねるい",
+    "kana": "た",
+    "row": "た",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/hoR2TgfGwUZ4mbNY07Ygu88wPLY0JcArmFKZDTwaPOtJmK78gdIg3dmp87NZM8SRBCpxlv02hg=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "魔眼ウインク",
+      "抗う君への鎮魂歌",
+      "FIRST CRY",
+      "ハートにピース",
+      "オーバード",
+      "ZIG-ZAG",
+      "ばかばっか",
+      "get lucky",
+      "DARE!?",
+      "ひみつのおしごと",
+      "アナスタシスガール",
+      "Soar"
+    ],
+    "topSongs": [
+      "オーバード",
+      "ばかばっか",
+      "魔眼ウインク",
+      "ホロホーク",
+      "EYE"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Lui Takane",
+      "Takane Lui",
+      "takanerui",
+      "タカネルイ",
+      "ホロライブ"
+    ],
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 1120000,
+    "subBucket": "over1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "O0aSJdN3mVY",
+      "By8x65oteIw",
+      "T9umJXIGM9w",
+      "hkJUWiVgLU4",
+      "dkCPkLmU7l4"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "ホロライブ",
+    "agencyGroup": "ホロライブ",
+    "vocalParts": [],
+    "agencyGroupCount": 43,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCs9_O1tRPMQTHQ-N_L6FU2g",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCs9_O1tRPMQTHQ-N_L6FU2g",
+    "aid": "a_4555c653"
+  },
+  {
     "name": "茶太",
     "cat": 1,
     "count": 12,
@@ -10796,6 +10945,78 @@
     "aid": "a_90b6e318"
   },
   {
+    "name": "博衣こより",
+    "cat": 1,
+    "count": 10,
+    "reading": "はくいこより",
+    "kana": "は",
+    "row": "は",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/2PoZqbHNPXXxjPRgtAuDGY_p6use0QRNk2rN0oXPeE9NtrQGuTuD1psw6sCFDGy8fO_3JwjQPxw=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "デコレート",
+      "管制塔より",
+      "Tear-Gazer",
+      "アンバランス",
+      "キミ=♡",
+      "エゴイスティック・シーソー",
+      "New Journey",
+      "Dear you 128√e980",
+      "WAO!!",
+      "RISING 酸"
+    ],
+    "topSongs": [
+      "WAO!!",
+      "乙女よ求めよQ.E.D.",
+      "Tear-Gazer",
+      "デコレート",
+      "アンバランス"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Hakui Koyori",
+      "Koyori Hakui",
+      "hakuikoyori",
+      "ハクイコヨリ",
+      "ホロライブ"
+    ],
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 1380000,
+    "subBucket": "over1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "IcNnXY7Idhg",
+      "kvmDTbmal64",
+      "_QIQk3StRmc",
+      "xIpIbc7IEWo",
+      "FLCs_rT8iKI"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "ホロライブ",
+    "agencyGroup": "ホロライブ",
+    "vocalParts": [],
+    "agencyGroupCount": 43,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UC6eWCld0KwmyHFbAqK3V-Rw",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UC6eWCld0KwmyHFbAqK3V-Rw",
+    "aid": "a_52fe8cf9"
+  },
+  {
     "name": "春猿火",
     "cat": 1,
     "count": 10,
@@ -11676,6 +11897,77 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UCsvRQFlf6xV3gyYmoOoHJNw",
     "aid": "a_9f1db8d1"
+  },
+  {
+    "name": "風真いろは",
+    "cat": 1,
+    "count": 9,
+    "reading": "かざまいろは",
+    "kana": "か",
+    "row": "か",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/gq-oA6rRB25b8hLDHhsLqcU1ZSmuuEtIDQabDoaZV1NS-rwAzOit4RdQHz5Afh3mN4FwYnPIPg=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "風を仰ぎし麗容な",
+      "ハードモード",
+      "風向きエントロピー",
+      "いろはすてっぷ！",
+      "Dreamy Sky",
+      "Dream Shower",
+      "ドリームキャッチピュアいろは！",
+      "ホントノワタシ",
+      "君にしか読めない手紙"
+    ],
+    "topSongs": [
+      "いろはすてっぷ!",
+      "風を仰ぎし麗容な",
+      "魔法少女まじかる☆ござる",
+      "ハードモード",
+      "風向きエントロピー"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Iroha Kazama",
+      "Kazama Iroha",
+      "kazamairoha",
+      "カザマイロハ",
+      "ホロライブ"
+    ],
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 1150000,
+    "subBucket": "over1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "LO8TO2kdftE",
+      "er-8qqxSpiE",
+      "0djtKywzvsw",
+      "ibQgoUhw5vs",
+      "fDiqCHyUmvE"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "ホロライブ",
+    "agencyGroup": "ホロライブ",
+    "vocalParts": [],
+    "agencyGroupCount": 43,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UC_vMYWcDjmfdpH6r4TTn1MQ",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UC_vMYWcDjmfdpH6r4TTn1MQ",
+    "aid": "a_02d24e1c"
   },
   {
     "name": "こはならむ",
@@ -14858,6 +15150,75 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/@96nekoch",
     "aid": "a_3ff217ca"
+  },
+  {
+    "name": "沙花叉クロヱ",
+    "cat": 1,
+    "count": 7,
+    "reading": "さかまたくろえ",
+    "kana": "さ",
+    "row": "さ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/SqeeKUiKq_tKkTrSkjveZr1OeZpScMzHE21XW799g9R7m4ia8ost8hSGylFL5A_j1w-_n6yUdw=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "P.E.T.",
+      "ラブフラストレーション",
+      "パラライズ",
+      "混ざる鈍色",
+      "右左君君右下上目きゅるんめちょかわ！",
+      "モードク",
+      "擬態ごっこ"
+    ],
+    "topSongs": [
+      "人生リセットボタンぽちーw",
+      "擬態ごっこ",
+      "右左君君右下上目きゅるんめちょかわ!",
+      "光あれ",
+      "P.E.T."
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Chloe Sakamata",
+      "Sakamata Chloe",
+      "sakamatakuroe",
+      "サカマタクロヱ",
+      "ホロライブ"
+    ],
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 1360000,
+    "subBucket": "over1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "IxOjRtMv3Cg",
+      "rtw9iea8QIw",
+      "u4PMVt_aGx0",
+      "Utu9hixW6mc",
+      "akfBMR6p0vA"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "ホロライブ",
+    "agencyGroup": "ホロライブ",
+    "vocalParts": [],
+    "agencyGroupCount": 43,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCIBY1ollUsauvVi4hW4cumw",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCIBY1ollUsauvVi4hW4cumw",
+    "aid": "a_804a5d69"
   },
   {
     "name": "桜川めぐ",
@@ -21607,72 +21968,6 @@
     "aid": "a_f29e9fb8"
   },
   {
-    "name": "風真いろは",
-    "cat": 1,
-    "count": 4,
-    "reading": "かざまいろは",
-    "kana": "か",
-    "row": "か",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/gq-oA6rRB25b8hLDHhsLqcU1ZSmuuEtIDQabDoaZV1NS-rwAzOit4RdQHz5Afh3mN4FwYnPIPg=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "風を仰ぎし麗容な",
-      "ハードモード",
-      "風向きエントロピー",
-      "いろはすてっぷ！"
-    ],
-    "topSongs": [
-      "いろはすてっぷ!",
-      "風を仰ぎし麗容な",
-      "魔法少女まじかる☆ござる",
-      "ハードモード",
-      "風向きエントロピー"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Iroha Kazama",
-      "Kazama Iroha",
-      "kazamairoha",
-      "カザマイロハ",
-      "ホロライブ"
-    ],
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 1150000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "LO8TO2kdftE",
-      "er-8qqxSpiE",
-      "0djtKywzvsw",
-      "ibQgoUhw5vs",
-      "fDiqCHyUmvE"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "ホロライブ",
-    "agencyGroup": "ホロライブ",
-    "vocalParts": [],
-    "agencyGroupCount": 43,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UC_vMYWcDjmfdpH6r4TTn1MQ",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UC_vMYWcDjmfdpH6r4TTn1MQ",
-    "aid": "a_02d24e1c"
-  },
-  {
     "name": "河野マリナ",
     "cat": 1,
     "count": 4,
@@ -22186,6 +22481,70 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UC_a1ZYZ8ZTXpjg9xUY9sj8w",
     "aid": "a_dfa78c6d"
+  },
+  {
+    "name": "小鳥遊キアラ",
+    "cat": 1,
+    "count": 4,
+    "reading": "たかなしきあら",
+    "kana": "た",
+    "row": "た",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/vnzn_RiKneABPPnp1-0SO4IAZQRXqVsL5RNDQYGR9GhT-Flm47vM4UJeyGfn4U_gteKqJMBwNA=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "HOLOTORI Dance!",
+      "DO U",
+      "Heart Challenger",
+      "HINOTORI"
+    ],
+    "topSongs": [
+      "HINOTORI",
+      "SPARKS",
+      "DO U",
+      "Fever Night",
+      "HOLOTORI Dance!"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "takanashikiara",
+      "takanasikiara",
+      "ホロライブEnglish (hololive EN)"
+    ],
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 1650000,
+    "subBucket": "over1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "eDfMDkgheQY",
+      "CqlBmb_JKh4",
+      "QI96hnhcr2E",
+      "SF4rteXN57w",
+      "BcO9bZavHRg"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "ホロライブEnglish (hololive EN)",
+    "agencyGroup": "ホロライブ",
+    "vocalParts": [],
+    "agencyGroupCount": 43,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCHsx4Hqa-1ORjQTh9TYDhww",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCHsx4Hqa-1ORjQTh9TYDhww",
+    "aid": "a_b408a530"
   },
   {
     "name": "多々星カイリ",
@@ -25374,71 +25733,6 @@
     "aid": "a_7ef39f52"
   },
   {
-    "name": "鷹嶺ルイ",
-    "cat": 1,
-    "count": 3,
-    "reading": "たかねるい",
-    "kana": "た",
-    "row": "た",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/hoR2TgfGwUZ4mbNY07Ygu88wPLY0JcArmFKZDTwaPOtJmK78gdIg3dmp87NZM8SRBCpxlv02hg=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "魔眼ウインク",
-      "抗う君への鎮魂歌",
-      "FIRST CRY"
-    ],
-    "topSongs": [
-      "オーバード",
-      "ばかばっか",
-      "魔眼ウインク",
-      "ホロホーク",
-      "EYE"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Lui Takane",
-      "Takane Lui",
-      "takanerui",
-      "タカネルイ",
-      "ホロライブ"
-    ],
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 1120000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "O0aSJdN3mVY",
-      "By8x65oteIw",
-      "T9umJXIGM9w",
-      "hkJUWiVgLU4",
-      "dkCPkLmU7l4"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "ホロライブ",
-    "agencyGroup": "ホロライブ",
-    "vocalParts": [],
-    "agencyGroupCount": 43,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCs9_O1tRPMQTHQ-N_L6FU2g",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCs9_O1tRPMQTHQ-N_L6FU2g",
-    "aid": "a_4555c653"
-  },
-  {
     "name": "立伝都々",
     "cat": 1,
     "count": 3,
@@ -27441,66 +27735,6 @@
     "aid": "a_6b0d31c0"
   },
   {
-    "name": "Mori Calliope",
-    "cat": 1,
-    "count": 2,
-    "reading": "mori calliope",
-    "kana": "",
-    "row": "",
-    "alpha": "M",
-    "img": "https://yt3.googleusercontent.com/LYO40yqUG6y_YiIND-FCD_MSPOeREAoLSVdVLL0UDmFSuwbbblBDNpRx5CAKlO75NrtLo6CnsnQ=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "CapSule",
-      "Queen of the Night"
-    ],
-    "topSongs": [
-      "失礼しますが、RIP♡",
-      "Red",
-      "Future Island",
-      "end of a life",
-      "Dead Beats"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 2660000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "y4DppvDtvzw",
-      "-AuQZrUHjhg",
-      "eWNn24KHPRQ",
-      "BXB26PzV31k",
-      "gWlrZOSQqw8"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "ホロライブEnglish (hololive EN)",
-    "al": [
-      "ホロライブEnglish (hololive EN)"
-    ],
-    "agencyGroup": "ホロライブ",
-    "vocalParts": [],
-    "agencyGroupCount": 43,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCL_qhgtOy0dy1Agp8vkySQg",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCL_qhgtOy0dy1Agp8vkySQg",
-    "aid": "a_c6dd8a71"
-  },
-  {
     "name": "Outer",
     "cat": 1,
     "count": 2,
@@ -28187,6 +28421,68 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UCHTnX0CSX_KObo5I9WuZ64g",
     "aid": "a_3fc3685b"
+  },
+  {
+    "name": "藍沢エマ",
+    "cat": 1,
+    "count": 2,
+    "reading": "あいざわえま",
+    "kana": "あ",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://i.ytimg.com/vi/gQMQvO78Ujg/mqdefault.jpg",
+    "imgType": "youtube_official",
+    "songs": [
+      "Shining Phrase！",
+      "藍染の空"
+    ],
+    "topSongs": [
+      "Shining Phrase！",
+      "陽キャJKに憧れる陰キャJKの歌",
+      "ファンサ",
+      "可愛くてごめん",
+      "オトナブルー"
+    ],
+    "topTypes": [
+      "カバー",
+      "カバー",
+      "カバー",
+      "カバー",
+      "カバー"
+    ],
+    "topLinks": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "Vtuber",
+    "sub": 675000,
+    "subBucket": "100kTo1m",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [
+      "ぶいすぽっ！",
+      "VSPO!"
+    ],
+    "agency": "ぶいすぽっ！",
+    "agencyGroup": "ぶいすぽっ！",
+    "vocalParts": [],
+    "agencyGroupCount": 19,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@AizawaEma",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@AizawaEma",
+    "aid": "a_14d57cbb"
   },
   {
     "name": "秋赤音",
@@ -30638,70 +30934,6 @@
     "ytChannelType": "",
     "youtubeChannelUrl": "",
     "aid": "a_820fbbf4"
-  },
-  {
-    "name": "博衣こより",
-    "cat": 1,
-    "count": 2,
-    "reading": "はくいこより",
-    "kana": "は",
-    "row": "は",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/2PoZqbHNPXXxjPRgtAuDGY_p6use0QRNk2rN0oXPeE9NtrQGuTuD1psw6sCFDGy8fO_3JwjQPxw=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "デコレート",
-      "管制塔より"
-    ],
-    "topSongs": [
-      "WAO!!",
-      "乙女よ求めよQ.E.D.",
-      "Tear-Gazer",
-      "デコレート",
-      "アンバランス"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Hakui Koyori",
-      "Koyori Hakui",
-      "hakuikoyori",
-      "ハクイコヨリ",
-      "ホロライブ"
-    ],
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 1380000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "IcNnXY7Idhg",
-      "kvmDTbmal64",
-      "_QIQk3StRmc",
-      "xIpIbc7IEWo",
-      "FLCs_rT8iKI"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "ホロライブ",
-    "agencyGroup": "ホロライブ",
-    "vocalParts": [],
-    "agencyGroupCount": 43,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UC6eWCld0KwmyHFbAqK3V-Rw",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UC6eWCld0KwmyHFbAqK3V-Rw",
-    "aid": "a_52fe8cf9"
   },
   {
     "name": "ハコス・ベールズ",
@@ -35809,67 +36041,6 @@
     "aid": "a_cefabc58"
   },
   {
-    "name": "藍沢エマ",
-    "cat": 1,
-    "count": 1,
-    "reading": "あいざわえま",
-    "kana": "あ",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://i.ytimg.com/vi/gQMQvO78Ujg/mqdefault.jpg",
-    "imgType": "youtube_official",
-    "songs": [
-      "Shining Phrase！"
-    ],
-    "topSongs": [
-      "Shining Phrase！",
-      "陽キャJKに憧れる陰キャJKの歌",
-      "ファンサ",
-      "可愛くてごめん",
-      "オトナブルー"
-    ],
-    "topTypes": [
-      "カバー",
-      "カバー",
-      "カバー",
-      "カバー",
-      "カバー"
-    ],
-    "topLinks": [
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "Vtuber",
-    "sub": 675000,
-    "subBucket": "100kTo1m",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [
-      "ぶいすぽっ！",
-      "VSPO!"
-    ],
-    "agency": "ぶいすぽっ！",
-    "agencyGroup": "ぶいすぽっ！",
-    "vocalParts": [],
-    "agencyGroupCount": 19,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@AizawaEma",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@AizawaEma",
-    "aid": "a_14d57cbb"
-  },
-  {
     "name": "アイナ・ジ・エンド",
     "cat": 1,
     "count": 1,
@@ -40524,69 +40695,6 @@
     "aid": "a_338d1d39"
   },
   {
-    "name": "沙花叉クロヱ",
-    "cat": 1,
-    "count": 1,
-    "reading": "さかまたくろえ",
-    "kana": "さ",
-    "row": "さ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/SqeeKUiKq_tKkTrSkjveZr1OeZpScMzHE21XW799g9R7m4ia8ost8hSGylFL5A_j1w-_n6yUdw=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "P.E.T."
-    ],
-    "topSongs": [
-      "人生リセットボタンぽちーw",
-      "擬態ごっこ",
-      "右左君君右下上目きゅるんめちょかわ!",
-      "光あれ",
-      "P.E.T."
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Chloe Sakamata",
-      "Sakamata Chloe",
-      "sakamatakuroe",
-      "サカマタクロヱ",
-      "ホロライブ"
-    ],
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 1360000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "IxOjRtMv3Cg",
-      "rtw9iea8QIw",
-      "u4PMVt_aGx0",
-      "Utu9hixW6mc",
-      "akfBMR6p0vA"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "ホロライブ",
-    "agencyGroup": "ホロライブ",
-    "vocalParts": [],
-    "agencyGroupCount": 43,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCIBY1ollUsauvVi4hW4cumw",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCIBY1ollUsauvVi4hW4cumw",
-    "aid": "a_804a5d69"
-  },
-  {
     "name": "朔炭パリカ",
     "cat": 1,
     "count": 1,
@@ -42528,67 +42636,6 @@
     "ytChannelType": "official",
     "youtubeChannelUrl": "https://www.youtube.com/channel/UCnUhgh7rNaLnvmya--q0pCw",
     "aid": "a_fc3112ad"
-  },
-  {
-    "name": "小鳥遊キアラ",
-    "cat": 1,
-    "count": 1,
-    "reading": "たかなしきあら",
-    "kana": "た",
-    "row": "た",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/vnzn_RiKneABPPnp1-0SO4IAZQRXqVsL5RNDQYGR9GhT-Flm47vM4UJeyGfn4U_gteKqJMBwNA=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "HOLOTORI Dance!"
-    ],
-    "topSongs": [
-      "HINOTORI",
-      "SPARKS",
-      "DO U",
-      "Fever Night",
-      "HOLOTORI Dance!"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "takanashikiara",
-      "takanasikiara",
-      "ホロライブEnglish (hololive EN)"
-    ],
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 1650000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "eDfMDkgheQY",
-      "CqlBmb_JKh4",
-      "QI96hnhcr2E",
-      "SF4rteXN57w",
-      "BcO9bZavHRg"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "ホロライブEnglish (hololive EN)",
-    "agencyGroup": "ホロライブ",
-    "vocalParts": [],
-    "agencyGroupCount": 43,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCHsx4Hqa-1ORjQTh9TYDhww",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCHsx4Hqa-1ORjQTh9TYDhww",
-    "aid": "a_b408a530"
   },
   {
     "name": "高橋瞳",
