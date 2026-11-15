@@ -3277,19 +3277,30 @@ def run_sync(
         added_logs.extend(mugen2_logs)
 
     # Filter to strictly NEW video IDs in 無限2 not yet in processed_ids
-    new_vids = []
+    unmapped_videos_map = mugen2_state.setdefault("unmappedMugen2Videos", {})
+    fresh_new_vids = []
+    previously_unavailable_vids = []
     new_seen = set()
     for v in mugen2_vids:
         if v not in processed_ids and v not in pending_vids and v not in new_seen:
             new_seen.add(v)
-            new_vids.append(v)
+            unmap_info = unmapped_videos_map.get(v)
+            if isinstance(unmap_info, dict) and unmap_info.get("reason") == "metadata_unavailable":
+                previously_unavailable_vids.append(v)
+            else:
+                fresh_new_vids.append(v)
 
-    if not new_vids:
+    all_unrecorded_vids = fresh_new_vids + previously_unavailable_vids
+    total_unrecorded_count = len(all_unrecorded_vids)
+
+    if total_unrecorded_count == 0:
         if mugen2_changed:
             recompute_and_save_production_data(artists)
             atomic_write_json(PROCESSED_JSON_PATH, sorted(processed_ids))
         atomic_write_json(MUGEN2_STATE_JSON_PATH, mugen2_state)
         sync_state["lastSyncAt"] = now_iso
+        sync_state["totalTrackedCount"] = len(processed_ids)
+        sync_state["remainingUnrecordedCount"] = 0
         atomic_write_json(SYNC_STATE_JSON_PATH, sync_state)
         if added_logs:
             existing_logs = []
@@ -3307,28 +3318,57 @@ def run_sync(
         )
         return 0
 
-    max_per_run = int(os.environ.get("MAX_NEW_VIDEOS_PER_RUN", "100"))
-    if len(new_vids) > max_per_run:
+    try:
+        raw_max_per_run = int(os.environ.get("MAX_NEW_VIDEOS_PER_RUN", "100"))
+    except Exception:
+        raw_max_per_run = 100
+    max_per_run = max(1, min(100, raw_max_per_run))
+
+    if total_unrecorded_count > max_per_run:
+        new_vids = all_unrecorded_vids[:max_per_run]
+        deferred_vids = all_unrecorded_vids[max_per_run:]
         safe_print(
-            f"[ERROR] Safety circuit breaker triggered: Found {len(new_vids)} unrecorded videos, "
+            f"[SAFEGUARD] Found {total_unrecorded_count} unrecorded video(s) in 無限2, "
             f"which exceeds MAX_NEW_VIDEOS_PER_RUN ({max_per_run}). "
-            "Aborting automatic Gemini analysis to protect quota and prevent unintended bulk registration."
+            f"Processing up to {len(new_vids)} video(s) in this run and safely deferring "
+            f"{len(deferred_vids)} video(s) to subsequent runs."
         )
-        return 1
+    else:
+        new_vids = list(all_unrecorded_vids)
+        deferred_vids = []
 
     if not gm_key:
-        safe_print(f"[ERROR] Found {len(new_vids)} new video(s), but GEMINI_API_KEY is not set. Leaving videos unprocessed for next retry.")
-        return 1
+        if mugen2_changed:
+            recompute_and_save_production_data(artists)
+            atomic_write_json(PROCESSED_JSON_PATH, sorted(processed_ids))
+        atomic_write_json(MUGEN2_STATE_JSON_PATH, mugen2_state)
+        safe_print(f"[WARN] Found {total_unrecorded_count} new video(s), but GEMINI_API_KEY is not set. Leaving videos unprocessed for next retry.")
+        return 0
 
-    safe_print(f"[SYNC] Found {len(new_vids)} new video(s) to analyze.")
+    safe_print(
+        f"[SYNC] Analyzing {len(new_vids)} video(s) in this run "
+        f"(total unrecorded: {total_unrecorded_count}, deferred to next run: {len(deferred_vids)})."
+    )
     try:
         vid_meta_list = fetch_videos_metadata(new_vids, yt_key)
     except Exception as e:
+        if mugen2_changed:
+            recompute_and_save_production_data(artists)
+            atomic_write_json(PROCESSED_JSON_PATH, sorted(processed_ids))
+        atomic_write_json(MUGEN2_STATE_JSON_PATH, mugen2_state)
         safe_print(f"[ERROR] Failed to fetch video metadata from YouTube API: {e}", [yt_key])
         return 1
 
     meta_by_vid = {m["videoId"]: m for m in vid_meta_list if m.get("videoId")}
-    ordered_meta_list = [meta_by_vid[v] for v in new_vids if v in meta_by_vid]
+    ordered_meta_list = []
+    for v in new_vids:
+        if v in meta_by_vid:
+            ordered_meta_list.append(meta_by_vid[v])
+            if isinstance(unmapped_videos_map.get(v), dict) and unmapped_videos_map[v].get("reason") == "metadata_unavailable":
+                unmapped_videos_map.pop(v, None)
+        else:
+            unmapped_videos_map[v] = {"reason": "metadata_unavailable", "checkedAt": now_iso}
+            safe_print(f"[WARN] Video '{v}' has no metadata on YouTube (private or deleted); leaving unprocessed.")
 
     matcher = MasterArtistMatcher(artists)
     existing_names = [a["name"] for a in artists]
@@ -3525,7 +3565,18 @@ def run_sync(
     atomic_write_json(PENDING_JSON_PATH, pending_list)
     atomic_write_text(PENDING_MD_PATH, render_pending_markdown(pending_list))
 
+    remaining_unrecorded = [
+        v for v in all_unrecorded_vids
+        if v not in processed_ids and v not in pending_vids
+    ]
+    succeeded_in_run_count = len([
+        v for v in new_vids
+        if v in processed_ids or v in pending_vids
+    ])
+
     sync_state["lastSyncAt"] = now_iso
+    sync_state["totalTrackedCount"] = len(processed_ids)
+    sync_state["remainingUnrecordedCount"] = len(remaining_unrecorded)
     if working_model_cache.get("model"):
         sync_state["lastActiveGeminiModel"] = working_model_cache["model"]
     atomic_write_json(SYNC_STATE_JSON_PATH, sync_state)
@@ -3542,12 +3593,14 @@ def run_sync(
         atomic_write_json(SYNC_LOG_JSON_PATH, added_logs + existing_logs[:499])
 
     safe_print(
-        f"[SYNC] Complete. Auto-registered: {auto_registered_count} | "
+        f"[SYNC] Complete. Succeeded in this run: {succeeded_in_run_count}/{len(new_vids)} | "
+        f"Auto-registered: {auto_registered_count} | "
         f"Added to pending review: {pending_added_count} | "
+        f"Remaining unrecorded for next run: {len(remaining_unrecorded)} | "
         f"Total pending items: {len(pending_list)} | "
         f"Active Gemini model: {working_model_cache.get('model', 'none')}"
     )
-    return 1 if had_batch_failure else 0
+    return 0
 
 
 def main() -> None:
