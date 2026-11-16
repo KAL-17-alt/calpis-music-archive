@@ -7502,6 +7502,123 @@ body.karu-special-mode .rec-flat-mode-toggle-btn.active {
   transform: translateY(0);
 }
 
+/* ==========================================================================
+   v71 Updates: "かる専用モード" Composer & Arranger Feature
+   - Strict visibility: hidden in normal mode, active only in body.karu-special-mode
+   - PC (> 900px): 5 tabs in 1 row ("すべて / アーティストを検索 / 楽曲を検索 / 作曲者を検索 / グループを検索")
+   - Smartphone (<= 900px): 4 tabs in Row 1 ("すべて / アーティスト / 楽曲 / 作曲者") + "グループ" in Row 2 below
+   - Iconless composer rows & composer detail view (name + Karu's listening songs only)
+   - Inline "作曲: 〇〇" + single-arranger "編曲: △△" next to "アーティスト: 〇〇" in song rows
+   ========================================================================== */
+body:not(.karu-special-mode) .karu-composer-tab,
+body:not(.karu-special-mode) .karu-song-credit {
+  display: none !important;
+}
+
+@media (min-width: 901px) {
+  body.karu-special-mode .search-target-tabs {
+    display: inline-flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 5px !important;
+  }
+
+  body.karu-special-mode .search-target-tab {
+    white-space: nowrap !important;
+    padding: 6px 11px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  body.karu-special-mode .search-target-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    width: 100% !important;
+    gap: 4px !important;
+    padding: 4px !important;
+  }
+
+  body.karu-special-mode .search-target-tabs > .search-target-tab {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 6px 4px !important;
+    font-size: 12px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+
+  body.karu-special-mode .search-target-tabs > .search-target-tab[data-search-target="group"] {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+}
+
+.karu-song-credit {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+@media (max-width: 900px) {
+  .karu-song-credit {
+    margin-left: 8px;
+  }
+}
+
+/* Composer list mode: no avatar icon column, expanded composer name column */
+body.composer-list-mode .list-col-header .col-pc-only,
+body.composer-list-mode .list-col-header > span:nth-child(2) {
+  display: none !important;
+}
+
+body.composer-list-mode #listColCountLabel,
+body.composer-list-mode .list-col-header .list-col-count {
+  display: block !important;
+}
+
+body.composer-list-mode .artist-row.composer-row .row-name-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+@media (min-width: 901px) {
+  body.composer-list-mode .list-col-header,
+  body.composer-list-mode .artist-row.composer-row {
+    grid-template-columns: calc(44px * var(--pc-font-scale, 1)) minmax(260px, 1fr) auto !important;
+  }
+}
+
+@media (max-width: 900px) {
+  body.composer-list-mode .list-col-header,
+  body.composer-list-mode .artist-row.composer-row {
+    grid-template-columns: 24px minmax(0, 1fr) auto !important;
+    gap: 8px !important;
+  }
+}
+
+.composer-arr-tag {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 0 5px;
+  border-radius: 4px;
+  font-size: 0.86em;
+  font-weight: 700;
+  color: #93c5fd;
+  background: rgba(59, 130, 246, 0.16);
+  border: 1px solid rgba(96, 165, 250, 0.35);
+}
+
+.composer-song-artist {
+  margin-left: 6px;
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.composer-detail-hero {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
 </style>
   <style>
     .fav-quick-edit-banner, .fav-sync-toast, .about-modal-backdrop, .heart-delete-modal-overlay { display: none; }
@@ -7779,6 +7896,7 @@ body.karu-special-mode .rec-flat-mode-toggle-btn.active {
               <button type="button" class="search-target-tab active" data-search-target="all" role="tab" aria-selected="true">すべて</button>
               <button type="button" class="search-target-tab" data-search-target="artist" role="tab" aria-selected="false"><span class="tab-label-pc">アーティストを検索</span><span class="tab-label-mob">アーティスト</span></button>
               <button type="button" class="search-target-tab" data-search-target="song" role="tab" aria-selected="false"><span class="tab-label-pc">楽曲を検索</span><span class="tab-label-mob">楽曲</span></button>
+              <button type="button" class="search-target-tab karu-composer-tab" data-search-target="composer" role="tab" aria-selected="false"><span class="tab-label-pc">作曲者を検索</span><span class="tab-label-mob">作曲者</span></button>
               <button type="button" class="search-target-tab" data-search-target="group" role="tab" aria-selected="false"><span class="tab-label-pc">グループを検索</span><span class="tab-label-mob">グループ</span></button>
             </div>
           </div>
