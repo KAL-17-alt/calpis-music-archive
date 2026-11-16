@@ -1360,7 +1360,8 @@
     recSongSort: "recCustomOrder",    // "recCustomOrder" (かるが好きな順, default) | "recFavCountDesc" (高評価曲が多い順)
     recFlatMode: false,               // True when "活動形態で分けない" is active in "かるのオススメ"
     searchScope: "all",    // "all" | "cat1" | "cat2"
-    searchTarget: "all",   // "all" | "artist" | "song" | "group"
+    searchTarget: "all",   // "all" | "artist" | "song" | "composer" | "group"
+    searchComposerSort: "kanaAsc",    // Default "五十音順" for search ("composer") | "countDesc"
     searchArtistSort: "kanaAsc",      // Default "五十音順" for search ("all" & "artist")
     searchSongSort: "kanaAsc",        // Default "五十音順" (by song title) for search ("song") | "alphaAsc" | "sameSongCountDesc"
     sameSongCountMode: false,         // True when "同一曲数順" is active in "楽曲を検索"
@@ -1383,6 +1384,7 @@
     kanaChar: "",          // Optional sub-character when a single 50-on row is focused
     alphaChars: [],        // Selected alphabet letters e.g. ["A", "B"] (multi-select supported)
     selectedArtistName: null,
+    selectedComposerName: null,
     detailMode: "archive", // "archive" (かるが聴いてる曲, default) | "top5" (代表曲 TOP 5)
     songSort: "titleAsc",  // "titleAsc" (default, persisted across artist switches) | "regAsc"
     pcFilterOpen: false,
@@ -1426,6 +1428,8 @@
       kanaChar: state.kanaChar,
       alphaChars: [...state.alphaChars],
       selectedArtistName: state.selectedArtistName,
+      selectedComposerName: state.selectedComposerName,
+      searchComposerSort: state.searchComposerSort || "kanaAsc",
       detailMode: state.detailMode,
       songSort: state.songSort,
       profileBackAvailable: state.profileBackAvailable
@@ -1482,6 +1486,8 @@
     state.kanaChar = snap.kanaChar || "";
     state.alphaChars = [...(snap.alphaChars || [])];
     state.selectedArtistName = snap.selectedArtistName || null;
+    state.selectedComposerName = snap.selectedComposerName || null;
+    state.searchComposerSort = snap.searchComposerSort || "kanaAsc";
     state.detailMode = snap.detailMode || "archive";
     state.songSort = snap.songSort || "titleAsc";
     // Never open the filter drawer on Undo or Redo
@@ -2409,6 +2415,249 @@
   }
 
   // Filter & Sort Pipeline with Exact-Match Priority
+
+  // =========================================================================
+  // v71: COMPOSER & ARRANGER ENGINE FOR "かる専用モード"
+  // =========================================================================
+  const CANONICAL_SONG_CREDITS = {"Fire◎Flower":{"c":["halyosy"],"a":["halyosy","is"]},"Snow＊Love (GAME Version)":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"Snow＊Love":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"Beyond the way":{"c":["Giga"],"a":["Giga"]},"Ready Steady":{"c":["Giga"],"a":["Giga"]},"Shining Phrase！":{"c":["Q-MHz"],"a":["Q-MHz","伊藤翼"]},"Tulip":{"c":["石濱翔(MONACA)"],"a":["石濱翔(MONACA)"]},"slash":{"c":["馬渕直純"],"a":["馬渕直純"]},"女性VTuberが歌う】Monster":{"c":["Ayase"],"a":["Ayase"]},"怪物":{"c":["Ayase"],"a":["Ayase"]},"Dec.":{"c":["Kanaria"],"a":["Kanaria"]},"ninelie":{"c":["澤野弘之"],"a":["澤野弘之"]},"アイデンティティ":{"c":["Kanaria"],"a":["Kanaria"]},"冬がくれた予感":{"c":["佐伯高志"],"a":["佐伯高志"]},"Booo!":{"c":["TOKOTOKO(西沢さんP)"],"a":["TOKOTOKO(西沢さんP)"]},"Loveit?":{"c":["biz","ZERA"],"a":["biz","ZERA"]},"One Last Kiss":{"c":["宇多田ヒカル"],"a":["宇多田ヒカル","A.G. Cook"]},"マシュマロ":{"c":["DECO*27"],"a":["DECO*27","tepe"]},"不埒なCANVAS":{"c":["信政誠"],"a":["信政誠"]},"再会":{"c":["Ayase"],"a":["Ayase"]},"GETCHA!":{"c":["Giga"],"a":["Giga"]},"POP IN 2":{"c":["照井順政"],"a":["照井順政"]},"SAYONARA MAYBE":{"c":["ツミキ"],"a":["ツミキ"]},"main dishが足りてない":{"c":["ツミキ"],"a":["ツミキ"]},"お呪い":{"c":["なきそ"],"a":["なきそ"]},"とんでいっちゃいたいの":{"c":["佐ق木宏人"],"a":["佐々倉有吾"]},"アイディスマイル":{"c":["とあ"],"a":["とあ"]},"オタク is LOVE!":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"ラヴィ":{"c":["すりぃ"],"a":["すりぃ"]},"レクイエム":{"c":["Kanaria"],"a":["Kanaria"]},"絶対敵対メチャキライヤー":{"c":["メドミア"],"a":["メドミア"]},"蒼穹のファンファーレ":{"c":["梶浦由記"],"a":["梶浦由記"]},"Beat Eater":{"c":["ポリスピカデリー"],"a":["ポリスピカデリー"]},"Brand new!":{"c":["烏屋茶房"],"a":["篠崎あやと","橘亮祐"]},"CH4NGE":{"c":["Giga"],"a":["Giga"]},"Close to you":{"c":["niki"],"a":["niki"]},"DEADPOOL":{"c":["春野"],"a":["春野"]},"RADIANT FORCE":{"c":["上松範康(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"SOS":{"c":["TAKU INOUE"],"a":["TAKU INOUE"]},"STAR TRAIN":{"c":["中田ヤスタカ"],"a":["中田ヤスタカ"]},"Starduster":{"c":["ジミーサムP"],"a":["ジミーサムP"]},"magnet":{"c":["minato(流星P)"],"a":["minato(流星P)"]},"snooze":{"c":["wotaku"],"a":["wotaku"]},"おもかげ":{"c":["Vaundy"],"a":["Vaundy"]},"アンチユー":{"c":["Chinozo"],"a":["Chinozo"]},"ガランド":{"c":["ピコン"],"a":["ピコン"]},"ザムザ":{"c":["てにをは"],"a":["てにをは"]},"シンデレラ":{"c":["DECO*27"],"a":["Rockwell"]},"チルドレンレコード(Re:boot)":{"c":["じん"],"a":["じん"]},"ネバーフィクション":{"c":["Kanaria"],"a":["Kanaria"]},"ノーザンクロス":{"c":["菅野よう子"],"a":["菅野よう子"]},"ハッピーミルフィーユ":{"c":["岩見陸"],"a":["ナナホシ管弦楽団"]},"ファイアダンス":{"c":["DECO*27"],"a":["Giga"]},"プロポーズ":{"c":["内緒のピアス"],"a":["内緒のピアス"]},"ヨワネハキ":{"c":["和ぬか"],"a":["100回嘔吐"]},"レディメイド":{"c":["すりぃ"],"a":["すりぃ"]},"化けの花":{"c":["なきそ"],"a":["なきそ"]},"君に、胸キュン。":{"c":["細野晴臣","坂本龍一","高橋幸宏"],"a":["YMO"]},"正しくなれない":{"c":["ACAね"],"a":["久保田真悟(Jazzin'park)","100回嘔吐"]},"疑心暗鬼":{"c":["梅とら"],"a":["梅とら"]},"蒼い鳥 (M@STER VERSION)":{"c":["椎名豪"],"a":["椎名豪"]},"逆光":{"c":["Vaundy"],"a":["Vaundy"]},"ALIVE":{"c":["重永亮介"],"a":["重永亮介"]},"Absolute 5":{"c":["sin"],"a":["sin"]},"Biri-Biri":{"c":["Ayase"],"a":["Ayase"]},"CapSule":{"c":["DECO*27"],"a":["Rockwell"]},"Departures 〜あなたにおくるアイの歌〜":{"c":["ryo"],"a":["ryo"]},"ERROR":{"c":["niki"],"a":["niki"]},"Flyer!":{"c":["Chinozo"],"a":["Chinozo"]},"G4L":{"c":["Giga"],"a":["Giga"]},"Gamble Rumble":{"c":["t-kimura"],"a":["t-kimura"]},"Gimme×Gimme":{"c":["八王子P","Giga"],"a":["八王子P","Giga"]},"Give a reason":{"c":["佐藤英敏"],"a":["大平勉"]},"おどりゃんせ":{"c":["ユリイ・カノン"],"a":["ユリイ・カノン"]},"抜錨":{"c":["岩見陸"],"a":["ナナホシ管弦楽団"]},"快晴":{"c":["Orangestar"],"a":["Orangestar"]},"空奏列車":{"c":["Orangestar"],"a":["Orangestar"]},"君の脈で踊りたかった":{"c":["ピコン"],"a":["ピコン"]},"フィクサー":{"c":["ぬゆり"],"a":["ぬゆり"]},"ロウワー/ぬゆり":{"c":["ぬゆり"],"a":["ぬゆり"]},"ロウワー":{"c":["ぬゆり"],"a":["ぬゆり"]},"携帯恋話-まふまふ":{"c":["まふまふ"],"a":["まふまふ"]},"携帯恋話":{"c":["まふまふ"],"a":["まふまふ"]},"命ばっかり":{"c":["ぬゆり"],"a":["ぬゆり"]},"てらてら":{"c":["和田たけあき"],"a":["和田たけあき"]},"メビウス":{"c":["柊キライ"],"a":["柊キライ"]},"阿修羅ちゃん":{"c":["Neru"],"a":["Neru"]},"おこちゃま戦争":{"c":["ギガP"],"a":["ギガP"]},"ロメオ":{"c":["HoneyWorks"],"a":["HoneyWorks"]},"い～やい～やい～や":{"c":["Neru","z'5"],"a":["Neru","z'5"]},"アングレイデイズ":{"c":["ツミキ"],"a":["ツミキ"]},"D/N/A":{"c":["Azari"],"a":["Azari"]},"マフィア(Mafia)":{"c":["wotaku"],"a":["wotaku"]},"おやすみ泣き声、さよなら歌姫":{"c":["尾崎世界観"],"a":["クリープハイプ"]},"舞台に立って":{"c":["Ayase"],"a":["Ayase"]},"エンゼルフィッシュ":{"c":["パトリチェフ"],"a":["パトリチェフ"]},"ソラニン":{"c":["後藤正文"],"a":["ASIAN KUNG-FU GENERATION"]},"[A]ddiction":{"c":["Giga","TeddyLoid"],"a":["Giga","TeddyLoid"]},"月のワルツ":{"c":["諫山実生"],"a":["安部潤"]},"トリコロージュ":{"c":["煮ル果実"],"a":["煮ル果実"]},"おおかみは赤ずきんに恋をした":{"c":["ひとしずく×やま△"],"a":["ひとしずく×やま△"]},"世界一可愛い私":{"c":["HoneyWorks"],"a":["HoneyWorks"]},"貴方の側に。":{"c":["りりあ。"],"a":["りりあ。"]},"若者のすべて":{"c":["志村正彦"],"a":["フジファブリック"]},"ラグトレイン":{"c":["稲葉曇"],"a":["稲葉曇"]},"トキヲ・ファンカ":{"c":["takamatt"],"a":["takamatt"]},"二時間だけのバカンス featuring 椎名林檎":{"c":["宇多田ヒカル"],"a":["宇多田ヒカル"]},"敗北の少年":{"c":["kemu"],"a":["kemu"]},"Mela!":{"c":["peppe","穴見真吾"],"a":["緑黄色社会","横山裕章"]},"ヴィラン":{"c":["てにをは"],"a":["てにをは"]},"Shout Baby":{"c":["長屋晴子"],"a":["緑黄色社会","Naoki Itai"]},"ヲズワルド":{"c":["煮ル果実"],"a":["煮ル果実"]},"メルティランドナイトメア":{"c":["はるまきごはん"],"a":["はるまきごはん"]},"さよならメモリーズ":{"c":["ryo"],"a":["ryo"]},"アウフヘーベン":{"c":["大森元貴"],"a":["大森元貴"]},"SPECIALZ":{"c":["常田大希"],"a":["King Gnu"]},"Q&A リサイタル！":{"c":["田淵智也"],"a":["古川貴浩"]},"青空のナミダ":{"c":["田中秀典"],"a":["渡辺拓也"]},"Get Over":{"c":["BOUNCEBACK"],"a":["矢崎俊輔","中尾昌文"]},"to the beginning":{"c":["梶浦由記"],"a":["梶浦由記"]},"シャル・ウィ・ダンス？":{"c":["ReoNa","毛蟹(LIVE LAB.)"],"a":["小松一也"]},"デーモンロード":{"c":["Kanaria"],"a":["Kanaria"]},"Tot Ⅿusica":{"c":["澤野弘之"],"a":["澤野弘之"]},"心予報":{"c":["Eve"],"a":["Numa"]},"メンタルチェンソー":{"c":["かいりきベア"],"a":["かいりきベア"]},"シス×ラブ":{"c":["HoneyWorks"],"a":["HoneyWorks"]},"Catch You Catch Me":{"c":["広瀬香美"],"a":["本間昭光","広瀬香美"]},"デビルじゃないもん":{"c":["DECO*27","ピノキオピー"],"a":["DECO*27","ピノキオピー"]},"わたしの一番かわいいところ":{"c":["ヤマモトショウ"],"a":["ヤマモトショウ"]},"ポニーテールとシュシュ":{"c":["多田慎也"],"a":["生田真心"]},"再会 (produced by Ayase)":{"c":["Ayase"],"a":["Ayase"]},"フロントメモリー":{"c":["の子"],"a":["神聖かまってちゃん"]},"たぶん":{"c":["Ayase"],"a":["Ayase"]},"春愁":{"c":["大森元貴"],"a":["大森元貴"]},"ヒステリックナイトガール":{"c":["PSYQUI"],"a":["PSYQUI"]},"凛として咲く花の如く":{"c":["TOMOSUKE"],"a":["TOMOSUKE"]},"イカサマライフゲイム":{"c":["kemu"],"a":["kemu"]},"ひゅるりらぱっぱ":{"c":["tuki."],"a":["usami"]},"蝶々結び":{"c":["野田洋次郎"],"a":["野田洋次郎"]},"ウミユリ海底譚":{"c":["n-buna"],"a":["n-buna"]},"君と夏フェス":{"c":["宮崎朝子"],"a":["SHISHAMO"]},"＊～アスタリスク～":{"c":["ORANGE RANGE"],"a":["ORANGE RANGE"]},"I LOVE...":{"c":["藤原聡"],"a":["Official髭男dism"]},"暗黒天国":{"c":["片倉三起也"],"a":["片倉三起也"]},"堕天":{"c":["DJ松永"],"a":["DJ松永"]},"KINGS":{"c":["atsuko","KATSU"],"a":["KATSU"]},"swim":{"c":["GEN"],"a":["04 Limited Sazabys"]},"猛独が襲う":{"c":["一二三"],"a":["一二三"]},"君の神様になりたい。":{"c":["カンザキイオリ"],"a":["カンザキイオリ"]},"春日影":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"春日影 (MyGO!!!!! ver.)":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"サインはB":{"c":["大石昌良"],"a":["大石昌良"]},"STAR☆T☆RAIN":{"c":["小野貴光"],"a":["玉木千尋"]},"HEART's♡KISS":{"c":["設楽哲也"],"a":["設楽哲也"]},"Full moon…!":{"c":["俊龍"],"a":["Sizuk"]},"ピーマン体操":{"c":["立山秋航"],"a":["立山秋航"]},"Say“I love you”":{"c":["大石昌良"],"a":["大石昌良"]},"深海のリトルクライ":{"c":["sasakure.UK"],"a":["sasakure.UK"]},"SHINING LINE*":{"c":["石濱翔(MONACA)"],"a":["石濱翔(MONACA)"]},"START DASH SENSATION":{"c":["石濱翔(MONACA)"],"a":["石濱翔(MONACA)"]},"song for you":{"c":["さかいゆう"],"a":["さかいゆう"]},"First Step":{"c":["田中秀和(MONACA)"],"a":["田中秀和(MONACA)"]},"星の海の記憶":{"c":["やしきん"],"a":["やしきん"]},"Pray for you":{"c":["北川勝利"],"a":["北川勝利"]},"KiLLKiSS":{"c":["長谷川大介(SUPA LOVE)","Diggy-MO'"],"a":["長谷川大介(SUPA LOVE)"]},"Georgette Me, Georgette You":{"c":["松坂康司(SUPA LOVE)","Diggy-MO'"],"a":["松坂康司(SUPA LOVE)"]},"Imprisoned XII":{"c":["松坂康司(SUPA LOVE)","Diggy-MO'"],"a":["松坂康司(SUPA LOVE)"]},"Crucifix X":{"c":["배영근(SUPA LOVE)","Diggy-MO'"],"a":["배영근(SUPA LOVE)"]},"八芒星ダンス":{"c":["あらケン(SUPA LOVE)","Diggy-MO'"],"a":["あらケン(SUPA LOVE)"]},"顔":{"c":["木下龍平(SUPA LOVE)","Diggy-MO'"],"a":["木下龍平(SUPA LOVE)"]},"天球(そら)のMúsica":{"c":["高橋涼(SUPA LOVE)","Diggy-MO'"],"a":["高橋涼(SUPA LOVE)"]},"黒のバースデイ":{"c":["賀佐泰洋(SUPA LOVE)"],"a":["賀佐泰洋(SUPA LOVE)"]},"ふたつの月 ~Deep Into The Forest~":{"c":["長谷川大介(SUPA LOVE)"],"a":["長谷川大介(SUPA LOVE)"]},"Choir ‘S’ Choir":{"c":["角本麻衣(SUPA LOVE)"],"a":["角本麻衣(SUPA LOVE)"]},"神さま、バカ":{"c":["진민호(SUPA LOVE)"],"a":["진민호(SUPA LOVE)"]},"Mas?uerade Rhapsody Re?uest":{"c":["あらケン(SUPA LOVE)"],"a":["あらケン(SUPA LOVE)"]},"Ave Mujica":{"c":["上松範康(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"素晴らしき世界 でも どこにもない場所":{"c":["長谷川大介(SUPA LOVE)","Diggy-MO'"],"a":["長谷川大介(SUPA LOVE)"]},"Angles":{"c":["長谷川大介(SUPA LOVE)","Diggy-MO'"],"a":["長谷川大介(SUPA LOVE)"]},"Symbol I : △":{"c":["長谷川大介(SUPA LOVE)","Diggy-MO'"],"a":["長谷川大介(SUPA LOVE)"]},"Symbol II : Air":{"c":["松坂康司(SUPA LOVE)","Diggy-MO'"],"a":["松坂康司(SUPA LOVE)"]},"Symbol III : ▽":{"c":["トミタカズキ(SUPA LOVE)","Diggy-MO'"],"a":["トミタカズキ(SUPA LOVE)"]},"Symbol IV : Earth":{"c":["長谷川大介(SUPA LOVE)","Diggy-MO'"],"a":["長谷川大介(SUPA LOVE)"]},"Ether":{"c":["長谷川大介(SUPA LOVE)","Diggy-MO'"],"a":["長谷川大介(SUPA LOVE)"]},"迷星叫":{"c":["長谷川大介(SUPA LOVE)"],"a":["長谷川大介(SUPA LOVE)"]},"名無声":{"c":["金崎真士(SUPA LOVE)"],"a":["金崎真士(SUPA LOVE)"]},"影色舞":{"c":["木下龍平(SUPA LOVE)"],"a":["木下龍平(SUPA LOVE)"]},"潜在表明":{"c":["鈴木裕明(SUPA LOVE)"],"a":["鈴木裕明(SUPA LOVE)"]},"音一会":{"c":["尾崎豪(SUPA LOVE)"],"a":["尾崎豪(SUPA LOVE)"]},"碧天伴走":{"c":["木下龍平(SUPA LOVE)"],"a":["木下龍平(SUPA LOVE)"]},"壱雫空":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"詩超絆":{"c":["横地健太(SUPA LOVE)"],"a":["横地健太(SUPA LOVE)"]},"迷路日々":{"c":["松坂康司(SUPA LOVE)"],"a":["松坂康司(SUPA LOVE)"]},"無路矢":{"c":["庄司夏葵(SUPA LOVE)"],"a":["庄司夏葵(SUPA LOVE)"]},"栞":{"c":["トミタカズキ(SUPA LOVE)"],"a":["トミタカズキ(SUPA LOVE)"]},"焚音打":{"c":["長谷川大介(SUPA LOVE)"],"a":["長谷川大介(SUPA LOVE)"]},"砂寸奏":{"c":["松坂康司(SUPA LOVE)"],"a":["松坂康司(SUPA LOVE)"]},"回層浮":{"c":["진민호(SUPA LOVE)"],"a":["진민호(SUPA LOVE)"]},"処救生":{"c":["松坂康司(SUPA LOVE)"],"a":["松坂康司(SUPA LOVE)"]},"輪符雨":{"c":["木下龍平(SUPA LOVE)"],"a":["木下龍平(SUPA LOVE)"]},"端程山":{"c":["トミタカズキ(SUPA LOVE)"],"a":["トミタカズキ(SUPA LOVE)"]},"明弦音":{"c":["鈴木裕明(SUPA LOVE)"],"a":["鈴木裕明(SUPA LOVE)"]},"孤壊牢":{"c":["木下龍平(SUPA LOVE)"],"a":["木下龍平(SUPA LOVE)"]},"霧周途":{"c":["松坂康司(SUPA LOVE)"],"a":["松坂康司(SUPA LOVE)"]},"歩拾道":{"c":["長谷川大介(SUPA LOVE)"],"a":["長谷川大介(SUPA LOVE)"]},"歌いましょう鳴らしましょう":{"c":["メガテラ・ゼロ"],"a":["メガテラ・ゼロ"]},"エガクミライ":{"c":["大介(Aqua Timez)"],"a":["大介(Aqua Timez)"]},"人間になりたいうた":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"R·I·O·T":{"c":["上松範康(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"UNSTOPPABLE":{"c":["藤田淳平(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"A DECLARATION OF ×××":{"c":["上松範康(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"EXPOSE ‘Burn out!!!’":{"c":["菊田大介(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"Invincible Fighter":{"c":["上松範康(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"Takin’ my Heart":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"DRIVE US CRAZY":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"HELL! or HELL?":{"c":["菊田大介(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"Beautiful Birthday":{"c":["菊田大介(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"!NVADE SHOW!":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"REIGNING":{"c":["菊田大介(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"mind of Prominence":{"c":["菊田大介(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"OUT OF CONTROL":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"BLACK SHOUT":{"c":["上松範康(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"LOUDER":{"c":["藤永龍太郎(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"FIRE BIRD":{"c":["上松範康(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"PASSIONATE ANTHEM":{"c":["藤永龍太郎(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"BRAVE JEWEL":{"c":["上松範康(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"R":{"c":["上松範康(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"Determination Symphony":{"c":["藤永龍太郎(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"熱色スターマイン":{"c":["上松範康(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"ONENESS":{"c":["上松範康(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"礎の花冠":{"c":["上松範康(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"ときめきエクスペリエンス！":{"c":["上松範康(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"キズナミュージック♪":{"c":["藤永龍太郎(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"イニシャル":{"c":["上松範康(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"ティアドロップス":{"c":["上松範康(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"STAR BEAT!〜ホシノコドウ〜":{"c":["上松範康(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"ミライトレイン":{"c":["藤永龍太郎(Elements Garden)"],"a":["藤永龍太郎(Elements Garden)"]},"Returns":{"c":["上松範康(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"Hey-day狂騒曲 (カプリチオ)":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"ツナグ、ソラモヨウ":{"c":["岩橋星実(Elements Garden)"],"a":["岩橋星実(Elements Garden)"]},"That Is How I Roll!":{"c":["岩橋星実(Elements Garden)"],"a":["岩橋星実(Elements Garden)"]},"Y.O.L.O！！！！！":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"しゅわりん☆どり～みん":{"c":["末益涼太(Elements Garden)"],"a":["末益涼太(Elements Garden)"]},"天下トーイツA to Z☆":{"c":["都丸椋太(Elements Garden)"],"a":["都丸椋太(Elements Garden)"]},"もういちど ルミナス":{"c":["末益涼太(Elements Garden)"],"a":["末益涼太(Elements Garden)"]},"ゆめゆめグラデーション":{"c":["都丸椋太(Elements Garden)"],"a":["都丸椋太(Elements Garden)"]},"えがおのオーケストラっ！":{"c":["藤間仁(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"ゴーカ！ごーかい！？ファントムシーフ！":{"c":["藤間仁(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"キミがいなくちゃっ！":{"c":["藤間仁(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"Daylight -デイライト-":{"c":["上松範康(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"ブルームブルーム":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"ハーモニー・デイ":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"寄る辺のSunny, Sunny":{"c":["菊田大介(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"Don't be afraid!":{"c":["岩橋星実(Elements Garden)"],"a":["岩橋星実(Elements Garden)"]},"コハク":{"c":["堀江晶太"],"a":["堀江晶太"]},"グラディエント":{"c":["仲町あられ","堀江晶太"],"a":["堀江晶太"]},"みゅーたんとミュータント":{"c":["原口沙輔"],"a":["原口沙輔"]},"夢現妄想世界":{"c":["堀江晶太"],"a":["堀江晶太"]},"ビッグマウス":{"c":["堀江晶太"],"a":["堀江晶太"]},"初":{"c":["原口沙輔"],"a":["原口沙輔","宮川弾"]},"Campus mode!!":{"c":["田淵智也"],"a":["滝澤俊輔(TRYTONELABO)"]},"標":{"c":["佐藤貴文"],"a":["兼松衆"]},"キミとセミブルー":{"c":["光増ハジメ(FirstCall)"],"a":["光増ハジメ(FirstCall)"]},"冠菊":{"c":["早川博隆(Rebrast)","河原レオ(Rebrast)"],"a":["河原レオ(Rebrast)"]},"仮装狂騒曲":{"c":["FAKE TYPE."],"a":["DYES IWASAKI(FAKE TYPE.)"]},"古今東西ちょちょいのちょい":{"c":["大石昌良"],"a":["大石昌良","やしきん"]},"雨上がりのアイリス":{"c":["神前暁(MONACA)"],"a":["神前暁(MONACA)"]},"Yellow Big Bang！":{"c":["ナユタン星人"],"a":["ナユタン星人"]},"Fighting My Way":{"c":["Giga"],"a":["Giga"]},"Luna say maybe":{"c":["美波"],"a":["美波","真船勝博"]},"白線":{"c":["ナユタン星人"],"a":["ナユタン星人"]},"光景":{"c":["長谷川白紙"],"a":["長谷川白紙"]},"コントラスト":{"c":["佐々木恵梨","鵜飼大幹","中村ヒロ"],"a":["中村ヒロ"]},"アイヴイ":{"c":["ツミキ"],"a":["ツミキ"]},"Tame-Lie-One-Step":{"c":["東優太"],"a":["東優太"]},"カクシタワタシ":{"c":["東優太"],"a":["東優太"]},"Fluorite":{"c":["Moe Shop"],"a":["Moe Shop"]},"The Rolling Riceball":{"c":["佐藤貴文"],"a":["半田彬倫"]},"小さな野望":{"c":["鬱P"],"a":["鬱P"]},"ナイワ":{"c":["佐伯youthK"],"a":["佐伯youthK"]},"みちなるひろがる":{"c":["いよわ"],"a":["いよわ"]},"Agitato":{"c":["宮田'レフティ'リョウ"],"a":["宮田'レフティ'リョウ"]},"Wildest Flower":{"c":["Giga"],"a":["Giga"]},"一体いつから":{"c":["大橋ちっぽけ"],"a":["岩崎隆一"]},"ORDER FAKE":{"c":["にほしか"],"a":["にほしか"]},"The Cute!!!":{"c":["金山秀士(Dream Monster)"],"a":["金山秀士(Dream Monster)"]},"Be proud":{"c":["kenchang"],"a":["斎藤優輝"]},"クライアイ":{"c":["GLIM SPANKY"],"a":["亀本寛貴"]},"極光":{"c":["重永亮介"],"a":["重永亮介"]},"Fragile Heart":{"c":["アッシュ井上(Dream Monster)"],"a":["アッシュ井上(Dream Monster)"]},"Atmosphere":{"c":["Heart's Cry"],"a":["Heart's Cry"]},"Wake up!!":{"c":["田中透真(Dream Monster)"],"a":["アッシュ井上(Dream Monster)","田中透真(Dream Monster)"]},"サンフェーデッド":{"c":["長谷川白紙"],"a":["長谷川白紙"]},"Cosmetic":{"c":["MOMONADY","YUKI FUNAKOSHI"],"a":["YUKI FUNAKOSHI"]},"Roar":{"c":["BOYHOOD"],"a":["BOYHOOD"]},"ヒカリのdestination":{"c":["中野領太(onetrap)"],"a":["中野領太(onetrap)"]},"虹になれ":{"c":["中野領太(onetrap)"],"a":["中野領太(onetrap)"]},"We can go now!":{"c":["矢野達也"],"a":["矢野達也"]},"Twinkle way":{"c":["中野領太(onetrap)"],"a":["中野領太(onetrap)"]},"Happy Funny Lucky":{"c":["中野領太(onetrap)"],"a":["中野領太(onetrap)"]},"PRISISM":{"c":["三好啓太"],"a":["三好啓太"]},"スマイルシンフォニア":{"c":["三好啓太"],"a":["三好啓太"]},"Shower of light":{"c":["三好啓太"],"a":["三好啓太"]},"枕木の歌":{"c":["三好啓太"],"a":["三好啓太"]},"無自覚アプリオリ":{"c":["四市田雲豹"],"a":["四市田雲豹"]},"くだらないや":{"c":["四市田雲豹"],"a":["四市田雲豹"]},"平行線の美学":{"c":["四市田雲豹"],"a":["四市田雲豹"]},"ハナムケのハナタバ":{"c":["園田健太郎"],"a":["園田健太郎"]},"Heads or Tails？":{"c":["YUU for YOU","Giz'Mo"],"a":["YUU for YOU"]},"泥濘鳴鳴":{"c":["ArmySlick","常楽寺澪"],"a":["ArmySlick"]},"Dream Believers":{"c":["渡辺拓也"],"a":["渡辺拓也"]},"On your mark":{"c":["EFFY"],"a":["EFFY"]},"永遠のEuphoria":{"c":["オオヤギヒロオ"],"a":["オオヤギヒロオ"]},"夏めきペイン":{"c":["小野寺祐輔(Arte Refact)"],"a":["小野寺祐輔(Arte Refact)"]},"DEEPNESS":{"c":["古河夕"],"a":["古河夕"]},"Legato":{"c":["渡辺拓也"],"a":["渡辺拓也"]},"Trick & Cute":{"c":["めんま"],"a":["めんま"]},"ツバサ・ラ・リベルテ":{"c":["めんま"],"a":["めんま"]},"Link to the FUTURE":{"c":["家原正樹"],"a":["家原正樹"]},"抱きしめる花びら":{"c":["塚田耕平"],"a":["塚田耕平"]},"STEP UP！":{"c":["渡辺拓也"],"a":["渡辺拓也"]},"Bloom the smile, Bloom the dream!":{"c":["塚田耕平"],"a":["塚田耕平"]},"Now or Never":{"c":["Hayato Yamamoto"],"a":["Hayato Yamamoto"]},"Hello, new dream!":{"c":["塚田耕平"],"a":["塚田耕平"]},"水彩世界":{"c":["栗原暁(Jazzin'park)","前田佑"],"a":["前田佑"]},"謳歌爛漫":{"c":["小野寺祐輔(Arte Refact)"],"a":["脇眞富(Arte Refact)"]},"眩耀夜行":{"c":["小野寺祐輔(Arte Refact)"],"a":["脇眞富(Arte Refact)"]},"Holiday∞Holiday":{"c":["桃宇アリサ","めんま"],"a":["めんま"]},"残陽":{"c":["めんま"],"a":["めんま"]},"フォーチュンムービー":{"c":["桃宇アリサ","めんま"],"a":["めんま"]},"Reflection in the mirror":{"c":["桃宇アリサ","めんま"],"a":["めんま"]},"素顔のピクセル":{"c":["桃宇アリサ","めんま"],"a":["めんま"]},"千変万華":{"c":["大熊淳生(Arte Refact)"],"a":["大熊淳生(Arte Refact)"]},"シュガーメルト":{"c":["山下洋介"],"a":["山下洋介"]},"Special Thanks":{"c":["塚田耕平"],"a":["塚田耕平"]},"月夜見海月":{"c":["塚田耕平"],"a":["塚田耕平"]},"アオクハルカ":{"c":["鶴﨑輝一"],"a":["鶴﨑輝一"]},"Celebration!":{"c":["塚田耕平"],"a":["CHOKKAKU"]},"ハナムスビ":{"c":["塚田耕平"],"a":["塚田耕平"]},"ユメワズライ":{"c":["めんま"],"a":["めんま"]},"AWOKE":{"c":["Kanata Okajima","Hayato Yamamoto"],"a":["Hayato Yamamoto"]},"Sparkly Spot":{"c":["渡辺拓也"],"a":["渡辺拓也"]},"Mirage Voyage":{"c":["Kanata Okajima","Hayato Yamamoto"],"a":["Hayato Yamamoto"]},"ツキマカセ":{"c":["福田陽司"],"a":["渡辺和紀"]},"希望的プリズム":{"c":["水流雄一朗","室屋優美","Haruka Kato"],"a":["水流雄一朗"]},"ジブンダイアリー":{"c":["森本練"],"a":["森本練"]},"パラレルダンサー":{"c":["Hayato Yamamoto"],"a":["Hayato Yamamoto"]},"Take It Over":{"c":["Hayato Yamamoto"],"a":["Hayato Yamamoto"]},"KNOT":{"c":["Hayato Yamamoto"],"a":["Hayato Yamamoto"]},"青春の輪郭":{"c":["森本練"],"a":["森本練"]},"レディバグ":{"c":["渡辺拓也"],"a":["鈴木雅也"]},"Proof":{"c":["Hayato Yamamoto"],"a":["Hayato Yamamoto"]},"バアドケージ":{"c":["森本練"],"a":["森本練"]},"アンペア":{"c":["Kanata Okajima","Hayato Yamamoto"],"a":["Hayato Yamamoto"]},"ド！ド！ド！":{"c":["山本玲史"],"a":["山本玲史"]},"ハクチューアラモード":{"c":["ナユタン星人"],"a":["ナユタン星人"]},"ココン東西":{"c":["大熊淳生(Arte Refact)"],"a":["大熊淳生(Arte Refact)"]},"ノンフィクションヒーローショー":{"c":["要田健"],"a":["要田健"]},"天才なのかもしれない":{"c":["大熊淳生(Arte Refact)"],"a":["大熊淳生(Arte Refact)"]},"以心☆電信":{"c":["大熊淳生(Arte Refact)"],"a":["大熊淳生(Arte Refact)"]},"マハラジャンボリー":{"c":["山本玲史"],"a":["山本玲史"]},"ファンファーレ！！！":{"c":["山本玲史"],"a":["山本玲史"]},"ジョーショーキリュー":{"c":["山本玲史"],"a":["山本玲史"]},"全方位キュン♡":{"c":["大熊淳生(Arte Refact)"],"a":["大熊淳生(Arte Refact)"]},"君のこころは輝いてるかい？":{"c":["光増ハジメ"],"a":["EFFY"]},"恋になりたいAQUARIUM":{"c":["佐々倉有吾"],"a":["渡辺和紀"]},"青空Jumping Heart":{"c":["伊藤賢","光増ハジメ"],"a":["EFFY"]},"ユメ語るよりユメ歌おう":{"c":["山口朗彦"],"a":["山口朗彦"]},"想いよひとつになれ":{"c":["佐伯高志"],"a":["佐伯高志"]},"MIRAI TICKET":{"c":["EFFY"],"a":["EFFY"]},"未来の僕らは知ってるよ":{"c":["光増ハジメ"],"a":["EFFY"]},"勇気はどこに？君の胸に！":{"c":["小高光太郎","UiNA"],"a":["小高光太郎"]},"MY舞☆TONIGHT":{"c":["EFFY"],"a":["EFFY"]},"WATER BLUE NEW WORLD":{"c":["佐伯高志"],"a":["佐伯高志"]},"Wonderful Stories":{"c":["Carlos K."],"a":["EFFY"]},"Thank you, FRIENDS!!":{"c":["TAKAROT","イワツボコーダイ"],"a":["TAKAROT"]},"僕らの走ってきた道は…":{"c":["EFFY"],"a":["EFFY"]},"Brightest Melody":{"c":["光増ハジメ"],"a":["EFFY"]},"未体験HORIZON":{"c":["小高光太郎","UiNA"],"a":["小高光太郎"]},"IDOLY PRIDE":{"c":["清竜人"],"a":["清竜人"]},"Shine Purity～輝きの純度～":{"c":["利根川貴之","坂和也"],"a":["坂和也 & Wicky.Recordings"]},"サヨナラから始まる物語":{"c":["大石昌良"],"a":["大石昌良","岸田勇気"]},"Fight oh! MIRAI oh!":{"c":["Q-MHz"],"a":["Q-MHz","伊藤翼"]},"The Sun, Moon and Stars":{"c":["沖井礼二"],"a":["沖井礼二"]},"星色のカレイドスコープ":{"c":["PA-NON","さかいゆう"],"a":["さかいゆう"]},"SUNNY PEACE HARMONY":{"c":["北川勝利"],"a":["北川勝利"]},"EVERYDAY! SUNNYDAY!":{"c":["北川勝利"],"a":["北川勝利"]},"Shining Days":{"c":["北川勝利"],"a":["北川勝利"]},"全力！絶対！！カウントダウン！！！":{"c":["やしきん"],"a":["やしきん"]},"SUNNY PEACE for You and Me！":{"c":["高尾奏之介(F.M.F)"],"a":["高尾奏之介(F.M.F)"]},"song for you (サニーピースver.)":{"c":["さかいゆう"],"a":["さかいゆう"]},"月下儚美":{"c":["利根川貴之","坂和也"],"a":["坂和也 & Wicky.Recordings"]},"The One and Only":{"c":["利根川貴之","坂和也"],"a":["坂和也 & Wicky.Recordings"]},"恋と花火":{"c":["利根川貴之","坂和也"],"a":["坂和也 & Wicky.Recordings"]},"裏と表":{"c":["利根川貴之","坂和也"],"a":["坂和也 & Wicky.Recordings"]},"Daytime Moon":{"c":["利根川貴之","坂和也"],"a":["坂和也 & Wicky.Recordings"]},"最愛よ君に届け":{"c":["利根川貴之","坂和也"],"a":["坂和也 & Wicky.Recordings"]},"Aile to Yell":{"c":["kz(livetune)"],"a":["kz(livetune)"]},"realiser":{"c":["kz(livetune)"],"a":["kz(livetune)"]},"les plumes":{"c":["kz(livetune)"],"a":["kz(livetune)"]},"Lumiere":{"c":["kz(livetune)"],"a":["kz(livetune)"]},"ひめごとリップ":{"c":["kz(livetune)"],"a":["kz(livetune)"]},"チョコラブ・キッス":{"c":["kz(livetune)"],"a":["kz(livetune)"]},"Shock out, Dance!!":{"c":["Q-MHz"],"a":["Q-MHz"]},"The Last Chance":{"c":["Q-MHz"],"a":["Q-MHz"]},"GIRI-GIRI borderless world":{"c":["Q-MHz"],"a":["Q-MHz"]},"Darkness sympathizer":{"c":["Q-MHz"],"a":["Q-MHz"]},"星のように夜を照らせ":{"c":["Q-MHz"],"a":["Q-MHz"]},"Blue sky summer":{"c":["Q-MHz"],"a":["Q-MHz"]},"一度だけの恋なら":{"c":["加藤裕介"],"a":["加藤裕介"]},"ルンがピカッと光ったら":{"c":["コモリタミノル"],"a":["コモリタミノル"]},"いけないボーダーライン":{"c":["コモリタミノル"],"a":["コモリタミノル"]},"僕らの戦場":{"c":["加藤裕介"],"a":["加藤裕介"]},"GIRAFFE BLUES":{"c":["h-wonder"],"a":["h-wonder"]},"絶対零度θノヴァティック":{"c":["光増ハジメ"],"a":["EFFY"]},"破滅の純情":{"c":["コモリタミノル"],"a":["コモリタミノル"]},"風は予告なく吹く":{"c":["コモリタミノル"],"a":["コモリタミノル"]},"ワルキューレがとまらない":{"c":["加藤裕介"],"a":["加藤裕介"]},"ワルキューレは裏切らない":{"c":["渡辺拓也"],"a":["渡辺拓也"]},"チェンジ!!!!!":{"c":["Rasmus Faber"],"a":["Rasmus Faber"]},"Dancing in the Moonlight":{"c":["北川勝利"],"a":["北川勝利","acane_madder"]},"未来はオンナのためにある":{"c":["齋藤大"],"a":["白戸佑輔"]},"ルンに花咲く恋もある":{"c":["コモリタミノル"],"a":["コモリタミノル"]},"ワルキューレはあきらめない":{"c":["加藤裕介"],"a":["加藤裕介"]},"唇の凍傷":{"c":["椿山日南子"],"a":["椿山日南子"]},"つらみ現在進行形":{"c":["堂島孝平"],"a":["白戸佑輔"]},"無限大DRIVE":{"c":["堂島孝平"],"a":["荒幡亮平"]},"キキワケナイ!":{"c":["おかもとえみ"],"a":["PARKGOLF"]},"マダマニア":{"c":["コモリタミノル"],"a":["コモリタミノル"]},"キズナ→スパイラル":{"c":["サエキけんぞう","照井順政"],"a":["照井順政"]},"愛してる":{"c":["北川勝利"],"a":["北川勝利","Tansa"]},"りんごのうた":{"c":["加藤裕介"],"a":["加藤裕介"]},"Alive〜祈りの唄〜":{"c":["Rasmus Faber"],"a":["Rasmus Faber"]},"宇宙のかけら":{"c":["Rasmus Faber"],"a":["Rasmus Faber"]},"恋! ハレイション THE WAR～album version～":{"c":["姉田ウ夢ヤ"],"a":["姉田ウ夢ヤ"]},"AXIA〜ダイスキでダイキライ〜":{"c":["加藤裕介"],"a":["河田貴央"]},"涙目爆発音":{"c":["堂島孝平"],"a":["北川勝利"]},"Silent Hacker":{"c":["Rasmus Faber"],"a":["Rasmus Faber"]},"おにゃの子☆girl":{"c":["TeddyLoid"],"a":["TeddyLoid"]},"Walküre Attack!":{"c":["加藤裕介"],"a":["加藤裕介"]},"Hear The Universe":{"c":["Rasmus Faber"],"a":["Rasmus Faber"]},"名もなき何もかも":{"c":["飛内将大"],"a":["玉井健二"]},"偽りの理":{"c":["百田留衣"],"a":["玉井健二","百田留衣"]},"気鬱、白濁す":{"c":["Misty mint"],"a":["玉井健二","KOHD"]},"理想的パラドクスとは":{"c":["吉岡大地"],"a":["玉井健二","大西省吾"]},"爆ぜて咲く":{"c":["Misty mint"],"a":["玉井健二","百田留衣"]},"黎明を穿つ":{"c":["Misty mint"],"a":["玉井健二","大西省吾"]},"極私的極彩色アンサー":{"c":["吉岡大地"],"a":["玉井健二","大濱健悟"]},"傷つき傷つけ痛くて辛い":{"c":["Misty mint"],"a":["玉井健二","大西省吾"]},"運命に賭けたい論理":{"c":["カイザー恵理菜"],"a":["玉井健二","南田健吾"]},"サヨナラサヨナラサヨナラ":{"c":["大濱健悟"],"a":["玉井健二","大濱健悟"]},"雑踏、僕らの街":{"c":["大濱健悟"],"a":["玉井健二","大濱健悟"]},"空の箱":{"c":["南田健吾"],"a":["玉井健二","大西省吾"]},"声なき魚":{"c":["大濱健悟"],"a":["玉井健二","大濱健悟"]},"視界の隅 朽ちる音":{"c":["大濱健悟"],"a":["玉井健二","大濱健悟"]},"心象的フラクタル":{"c":["okoge"],"a":["玉井健二","高橋亮人"]},"空白とカタルシス":{"c":["Misty mint","永澤和真"],"a":["玉井健二","百田留衣"]},"運命の華":{"c":["永澤和真"],"a":["玉井健二","永澤和真"]},"闇に溶けてく":{"c":["Misty mint"],"a":["玉井健二","百田留衣"]},"蝶に結いた赤い糸":{"c":["カイザー恵理菜"],"a":["玉井健二","大西省吾"]},"ダレモ":{"c":["遊部優介"],"a":["玉井健二","遊部優介"]},"もう何もいらない未来":{"c":["大濱健悟"],"a":["玉井健二","大濱健悟"]},"命をくれよ":{"c":["夜to臥"],"a":["玉井健二","大西省吾"]},"arrow":{"c":["富田拓志"],"a":["玉井健二","KOHD"]},"荊の薔薇":{"c":["大濱健悟"],"a":["玉井健二","大濱健悟"]},"蜃気楼ニ問フ":{"c":["Fushi"],"a":["玉井健二","Fushi"]},"ETERNAL FLAME (VOID)":{"c":["南田健吾"],"a":["玉井健二","大西省吾"]},"Cycle Of Sorrow":{"c":["古賀頌哉"],"a":["玉井健二","大西省吾"]},"ワールド・ランプシェード [reunion]":{"c":["buzzG"],"a":["buzzG"]},"ワールド・ランプシェード":{"c":["buzzG"],"a":["buzzG"]},"おやすみ泣き声、さよなら歌姫(Remix)":{"c":["尾崎世界観"],"a":["クリープハイプ"]},"永遠のあくる日":{"c":["てにをは"],"a":["てにをは"]},"睨めっ娘":{"c":["友成空"],"a":["友成空"]},"夢と葉桜":{"c":["青木月光"],"a":["青木月光"]},"メトロノーム":{"c":["米津玄師"],"a":["米津玄師"]},"君に最後の口づけを":{"c":["蝶々P"],"a":["蝶々P"]},"朝を呑む":{"c":["バルーン"],"a":["バルーン"]},"エゴロック(long ver.)":{"c":["すりぃ"],"a":["すりぃ"]},"エゴロック":{"c":["すりぃ"],"a":["すりぃ"]},"偽物人間40号":{"c":["¿?shimon"],"a":["¿?shimon"]},"カレシのジュード":{"c":["syudou"],"a":["syudou"]},"ダウナーウィッチ":{"c":["廉"],"a":["廉"]},"夜のピエロ":{"c":["biz"],"a":["biz"]},"夜撫でるメノウ":{"c":["Ayase"],"a":["Ayase"]},"ジェヘナ":{"c":["wotaku"],"a":["wotaku"]},"ボッカデラベリタ/ 柊キライ":{"c":["柊キライ"],"a":["柊キライ"]},"ボッカデラベリタ":{"c":["柊キライ"],"a":["柊キライ"]},"ルマ":{"c":["かいりきベア"],"a":["かいりきベア"]},"幽霊東京/ Ayase":{"c":["Ayase"],"a":["Ayase"]},"幽霊東京":{"c":["Ayase"],"a":["Ayase"]},"ラストダンス":{"c":["Eve"],"a":["Numa"]},"トーキョーゲットー":{"c":["Eve"],"a":["Numa"]},"音偽バナシ":{"c":["DECO*27"],"a":["kous"]},"アンドロメダアンドロメダ":{"c":["ナユタン星人"],"a":["ナユタン星人"]},"ライアーダンス":{"c":["DECO*27"],"a":["DECO*27"]},"さよならミッドナイト":{"c":["大柴広己"],"a":["れるりり"]},"リバーシブル・キャンペーン":{"c":["DECO*27"],"a":["kous"]},"雨とペトラ":{"c":["バルーン"],"a":["バルーン"]},"拝啓ドッペルゲンガー":{"c":["kemu"],"a":["kemu"]},"レディーレ":{"c":["バルーン"],"a":["バルーン"]},"レディーレ (Redire)":{"c":["バルーン"],"a":["バルーン"]},"コバルトメモリーズ":{"c":["はるまきごはん"],"a":["はるまきごはん"]},"愛に奇術師":{"c":["koyori"],"a":["koyori"]},"波に名前をつけること、僕らの呼吸に終わりがあること。":{"c":["キタニタツヤ"],"a":["キタニタツヤ"]},"金星のダンス":{"c":["ナユタン星人"],"a":["ナユタン星人"]},"命に嫌われている。":{"c":["カンザキイオリ"],"a":["カンザキイオリ"]},"チェチェ・チェック・ワンツー!":{"c":["和田たけあき"],"a":["和田たけあき"]},"フォニイ":{"c":["ツミキ"],"a":["ツミキ"]},"絶頂讃歌":{"c":["和ぬか"],"a":["100回嘔吐"]},"Overdose":{"c":["なとり"],"a":["なとり"]},"Shadow Shadow":{"c":["Azari"],"a":["Azari"]},"ドクトリーヌ":{"c":["煮ル果実"],"a":["煮ル果実"]},"不埒な喝采":{"c":["ポリスピカデリー"],"a":["ポリスピカデリー"]},"ギラギラ":{"c":["てにをは"],"a":["てにをは"]},"エンヴィーベイビー":{"c":["Kanaria"],"a":["Kanaria"]},"ジャンキーナイトタウンオーケストラ":{"c":["すりぃ"],"a":["すりぃ"]},"potatoになっていく":{"c":["Neru"],"a":["Neru"]},"ルーマー":{"c":["ポリスピカデリー"],"a":["ポリスピカデリー"]},"アルカリレットウセイ":{"c":["かいりきベア"],"a":["かいりきベア"]},"好き！雪！本気マジック":{"c":["Mitchie M"],"a":["Mitchie M"]},"曖昧劣情Lover":{"c":["koyori"],"a":["koyori"]},"翡翠のまち":{"c":["メル"],"a":["メル"]},"わたしのアール":{"c":["和田たけあき"],"a":["和田たけあき"]},"わたしのアール (Watashino R)":{"c":["和田たけあき"],"a":["和田たけあき"]},"余花にみとれて":{"c":["keeno"],"a":["keeno"]},"あだぽしゃ":{"c":["いよわ"],"a":["いよわ"]},"梅雨明けの":{"c":["しの"],"a":["しの"]},"晴れるまでいっしょ- 傘村トータ":{"c":["傘村トータ"],"a":["傘村トータ"]},"まにまに":{"c":["r-906"],"a":["r-906"]},"パメラ":{"c":["バルーン"],"a":["バルーン"]},"ワタシノテンシ":{"c":["HoneyWorks"],"a":["HoneyWorks"]},"コールボーイ":{"c":["syudou"],"a":["syudou"]},"うらみのワルツ":{"c":["きくお"],"a":["きくお"]},"女の子になりたい":{"c":["まふまふ"],"a":["まふまふ"]},"ピエロ":{"c":["KEI"],"a":["KEI"]},"命のユースティティア":{"c":["Neru"],"a":["Neru"]},"曖昧さ回避":{"c":["ポリスピカデリー"],"a":["ポリスピカデリー"]},"心拍数♯0822-Arrange ver.-":{"c":["蝶々P"],"a":["蝶々P"]},"心拍数♯0822 piano ver. [オリジナルPV付き]":{"c":["蝶々P"],"a":["蝶々P"]},"君色に染まる":{"c":["TOKOTOKO(西沢さんP)"],"a":["TOKOTOKO(西沢さんP)"]},"from Y to Y":{"c":["ジミーサムP"],"a":["ジミーサムP"]},"Just Be Friends-piano.ver-":{"c":["Dixie Flatline"],"a":["Dixie Flatline"]},"letter song":{"c":["doriko"],"a":["doriko"]},"弱虫モンブラン（Reloaded）":{"c":["DECO*27"],"a":["DECO*27"]},"飴か夢":{"c":["doriko"],"a":["doriko"]},"歌に形はないけれど":{"c":["doriko"],"a":["doriko"]},"glow":{"c":["keeno"],"a":["keeno"]},"エンパープル":{"c":["はるまきごはん"],"a":["はるまきごはん"]},"チーズケーキクライシス":{"c":["TOKOTOKO(西沢さんP)"],"a":["TOKOTOKO(西沢さんP)"]},"Awake Now":{"c":["雄之助"],"a":["雄之助"]},"虚無さん":{"c":["¿?shimon"],"a":["¿?shimon"]},"天天天国地獄国":{"c":["あいつのチョキ"],"a":["あいつのチョキ"]},"エル・タンゴ・エゴイスタ":{"c":["nyanyannya"],"a":["nyanyannya"]},"いのちの名前":{"c":["久石譲"],"a":["久石譲"]},"夕日坂":{"c":["doriko"],"a":["doriko"]},"海のまにまに":{"c":["Ayase"],"a":["Ayase"]},"「Anytime Anywhere」葬送のフリーレン Frieren ED":{"c":["milet","野村陽一郎","中村泰輔"],"a":["Evan Call"]},"歌ってみた 】ハウトゥー世界征服":{"c":["Neru"],"a":["Neru"]},"マカロン (Macaroon/ 마카롱)":{"c":["ATOLS"],"a":["ATOLS"]},"心とかいう名前の未発見の臓器の機能についての考察":{"c":["adstlaxy"],"a":["adstlaxy"]},"うそつき":{"c":["めざめP"],"a":["めざめP"]},"妄想疾患■ガール (Mousousikkan yami girl)":{"c":["もじゃ"],"a":["れるりり"]},"丸の内サディスティック (Marunouchi Sadistic)":{"c":["椎名林檎"],"a":["亀田誠治"]},"ドナーソング (Donor Song)":{"c":["大柴広己"],"a":["れるりり"]},"威風堂々 (kurokumo×konoco-If Do Do)":{"c":["梅とら"],"a":["梅とら"]},"一心不乱":{"c":["梅とら"],"a":["梅とら"]},"クイーンオブハート":{"c":["奏音69"],"a":["奏音69"]},"四季折の羽":{"c":["ひとしずく×やま△"],"a":["ひとしずく×やま△"]},"小夜子":{"c":["みきとP"],"a":["みきとP"]},"サリシノハラ":{"c":["みきとP"],"a":["みきとP"]},"小夜子 - FutureBass Remix":{"c":["みきとP"],"a":["みきとP"]},"腐れ外道とチョコレゐト":{"c":["ピノキオピー"],"a":["ピノキオピー"]},"繰り返し一粒":{"c":["猫虫"],"a":["猫虫"]},"吉原ラメント":{"c":["亜沙"],"a":["亜沙"]},"アイワナムチュー":{"c":["すりぃ"],"a":["すりぃ"]},"ノマド/バルーン":{"c":["バルーン"],"a":["バルーン"]},"Sleepwalk/なとり":{"c":["なとり"],"a":["なとり"]},"渇愛論Ⅱ/平田義久":{"c":["平田義久"],"a":["平田義久"]},"レトロポリス/R Sound Design":{"c":["R Sound Design"],"a":["R Sound Design"]},"デビル/てにをは":{"c":["てにをは"],"a":["てにをは"]},"ハルノ寂寞/稲葉曇":{"c":["稲葉曇"],"a":["稲葉曇"]},"明けない夜のリリィ(傘村トータ)":{"c":["傘村トータ"],"a":["傘村トータ"]},"今更だって僕は言うかな(Saucy Dog)":{"c":["石原慎也"],"a":["Saucy Dog"]},"One Love (嵐)":{"c":["加藤裕介"],"a":["石塚知生"]},"櫂(ヨルシカ)":{"c":["n-buna"],"a":["n-buna"]},"一縷(上白石萌音)":{"c":["野田洋次郎"],"a":["野田洋次郎"]},"ボーイフレンド(aiko)":{"c":["AIKO"],"a":["島田昌典"]},"西藤公園(back number)":{"c":["清水依与吏"],"a":["back number"]},"結(Saucy Dog)":{"c":["石原慎也"],"a":["Saucy Dog"]},"記念撮影(BUMP OF CHICKEN)":{"c":["藤原基央"],"a":["BUMP OF CHICKEN"]},"トレモロ(RADWIMPS)":{"c":["野田洋次郎"],"a":["RADWIMPS"]},"花降らし(n-buna)":{"c":["n-buna"],"a":["n-buna"]},"花降らし":{"c":["n-buna"],"a":["n-buna"]},"ブルーアンバー(back number)":{"c":["清水依与吏"],"a":["back number","蔦谷好位置"]},"me me she(RADWIMPS)":{"c":["野田洋次郎"],"a":["RADWIMPS"]},"詩書きとコーヒー (ヨルシカ)":{"c":["n-buna"],"a":["n-buna"]},"魔法が解けたら (Saucy Dog)":{"c":["石原慎也"],"a":["Saucy Dog"]},"嘘月 (ヨルシカ)":{"c":["n-buna"],"a":["n-buna"]},"よるのあと (adieu)":{"c":["塩入冬湖"],"a":["Yaffle"]},"悪者 (くじら)":{"c":["くじら"],"a":["くじら"]},"crash (菅原圭)":{"c":["菅原圭"],"a":["해일","菅原圭"]},"ia (菅原圭)":{"c":["菅原圭"],"a":["菅原圭"]},"ハルラ":{"c":["sky_delta"],"a":["sky_delta"]},"海月":{"c":["sky_delta"],"a":["sky_delta"]},"Horizon Dream":{"c":["sky_delta"],"a":["sky_delta"]},"宝石を宿す":{"c":["sky_delta"],"a":["sky_delta"]},"コトノハ":{"c":["sky_delta"],"a":["sky_delta"]},"Spica":{"c":["sky_delta"],"a":["sky_delta"]},"桜色プリズム":{"c":["sky_delta"],"a":["sky_delta"]},"Alt.Strato":{"c":["sky_delta"],"a":["sky_delta"]},"泡沫の灯":{"c":["sky_delta"],"a":["sky_delta"]},"リフレクション":{"c":["sky_delta"],"a":["sky_delta"]},"Cornus Florida":{"c":["sky_delta"],"a":["sky_delta"]},"薄明が告げる明日に":{"c":["sky_delta"],"a":["sky_delta"]},"LØST-IDEA":{"c":["sky_delta"],"a":["sky_delta"]},"ユリシス":{"c":["sky_delta"],"a":["sky_delta"]},"Kaleidoscope":{"c":["sky_delta"],"a":["sky_delta"]},"カラフルモーメント":{"c":["sky_delta"],"a":["sky_delta"]},"Horizon Claire":{"c":["sky_delta"],"a":["sky_delta"]},"Fatalism":{"c":["sky_delta"],"a":["sky_delta"]},"floating outsider":{"c":["sky_delta"],"a":["sky_delta"]},"ミントブルー・ガール":{"c":["sky_delta"],"a":["sky_delta"]},"残光":{"c":["sky_delta"],"a":["sky_delta"]},"モノローグ・オフ":{"c":["sky_delta"],"a":["sky_delta"]},"Alice's Suitcase":{"c":["sky_delta"],"a":["sky_delta"]},"惑星トリップ":{"c":["sky_delta"],"a":["sky_delta"]},"Round & Round":{"c":["sky_delta"],"a":["sky_delta"]},"アンダーマリン":{"c":["sky_delta"],"a":["sky_delta"]},"アンチグレーズ":{"c":["sky_delta"],"a":["sky_delta"]},"route signal":{"c":["sky_delta"],"a":["sky_delta"]},"Transistor":{"c":["sky_delta"],"a":["sky_delta"]},"サニーサイド・クローバー":{"c":["sky_delta"],"a":["sky_delta"]},"a fairy with you":{"c":["sky_delta"],"a":["sky_delta"]},"シュガーレス・レイン":{"c":["sky_delta"],"a":["sky_delta"]},"無言の鳥籠":{"c":["sky_delta"],"a":["sky_delta"]},"秒針とソーダフロート":{"c":["sky_delta"],"a":["sky_delta"]},"ペトリコール":{"c":["sky_delta"],"a":["sky_delta"]},"雷花":{"c":["sky_delta"],"a":["sky_delta"]},"Untitled Sky":{"c":["sky_delta"],"a":["sky_delta"]},"ストレンジレッド":{"c":["sky_delta"],"a":["sky_delta"]},"ハートレス・トリコロール":{"c":["sky_delta"],"a":["sky_delta"]},"ペンと林檎とわたし":{"c":["sky_delta"],"a":["sky_delta"]},"COLOURS":{"c":["sky_delta"],"a":["sky_delta"]},"スローアライズ":{"c":["sky_delta"],"a":["sky_delta"]},"フラフィ":{"c":["sky_delta"],"a":["sky_delta"]},"citron":{"c":["sky_delta"],"a":["sky_delta"]},"水彩のカナリア":{"c":["sky_delta"],"a":["sky_delta"]},"Horizon Note":{"c":["sky_delta"],"a":["sky_delta"]},"蛍火の雪":{"c":["sky_delta"],"a":["sky_delta"]},"空白少女":{"c":["sky_delta"],"a":["sky_delta"]},"Focus on":{"c":["sky_delta"],"a":["sky_delta"]},"ゴースト・マキアート":{"c":["sky_delta"],"a":["sky_delta"]},"Draw World!":{"c":["sky_delta"],"a":["sky_delta"]},"タイニーソング":{"c":["sky_delta"],"a":["sky_delta"]},"ドリームブルー":{"c":["sky_delta"],"a":["sky_delta"]},"花残り、蕾ひとつ":{"c":["sky_delta"],"a":["sky_delta"]},"Sincuvate":{"c":["sky_delta"],"a":["sky_delta"]},"絵空":{"c":["sky_delta"],"a":["sky_delta"]},"Apricot":{"c":["sky_delta"],"a":["sky_delta"]},"彗星のパラソル":{"c":["sky_delta"],"a":["sky_delta"]},"Cirro.Strato":{"c":["sky_delta"],"a":["sky_delta"]},"サマーエンディング":{"c":["sky_delta"],"a":["sky_delta"]},"八月と青とラムネ":{"c":["sky_delta"],"a":["sky_delta"]},"アニマリズムと25人の子どもたち":{"c":["Neuron"],"a":["Neuron"]},"Lake of Millennia":{"c":["Neuron"],"a":["Neuron"]},"Cipher":{"c":["Neuron"],"a":["Neuron"]},"アーバンクルーズ":{"c":["Neuron"],"a":["Neuron"]},"Villain":{"c":["Neuron"],"a":["Neuron"]},"Enigma":{"c":["Neuron"],"a":["Neuron"]},"ノスタグラム":{"c":["Neuron"],"a":["Neuron"]},"トワイライト・セレナーデ":{"c":["Neuron"],"a":["Neuron"]},"Inside Story":{"c":["Neuron"],"a":["Neuron"]},"Moonian":{"c":["Neuron"],"a":["Neuron"]},"ゴースト警告を唄う":{"c":["Neuron"],"a":["Neuron"]},"Death Designer":{"c":["Neuron"],"a":["Neuron"]},"Astronomy":{"c":["Neuron"],"a":["Neuron"]},"Buffer":{"c":["Neuron"],"a":["Neuron"]},"Offline Saga":{"c":["Neuron"],"a":["Neuron"]},"Daisy Crown":{"c":["Neuron"],"a":["Neuron"]},"Rhapsody":{"c":["Neuron"],"a":["Neuron"]},"Chronicle A":{"c":["Neuron"],"a":["Neuron"]},"カミツレと愛のブーケ":{"c":["Neuron"],"a":["Neuron"]},"Area G":{"c":["Neuron"],"a":["Neuron"]},"クロマの幻聴":{"c":["Neuron"],"a":["Neuron"]},"青揺れるフィリア":{"c":["Neuron"],"a":["Neuron"]},"Frozen Frozen!":{"c":["Neuron"],"a":["Neuron"]},"Pulse in Flora":{"c":["Neuron"],"a":["Neuron"]},"LOSTSCAPES":{"c":["Neuron"],"a":["Neuron"]},"Looma":{"c":["Neuron"],"a":["Neuron"]},"Shooting Star (Redecorate ver.)":{"c":["折戸伸治"],"a":["齋藤真也"]},"Shooting Star":{"c":["折戸伸治"],"a":["高瀬一矢"]},"Sign of Suspicion":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"幻想の宝石":{"c":["C.G mix"],"a":["C.G mix"]},"resolution of soul":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"硝子の靡風":{"c":["KOTOKO"],"a":["高瀬一矢"]},"stay.":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"ささくれ":{"c":["KOTOKO"],"a":["C.G mix"]},"agony":{"c":["中沢伴行"],"a":["中沢伴行"]},"Mighty Heart ～ある日のケンカ、いつもの恋心":{"c":["KOTOKO"],"a":["羽越実有"]},"ねぇ、...しようよ！":{"c":["中沢伴行"],"a":["中沢伴行"]},"アララト":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Face of Fact":{"c":["C.G mix"],"a":["C.G mix","FISH TONE"]},"Trust in me":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Floating up":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Fragment ～The heat haze of summer～":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"風に負けないハートのかたち":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"原罪のレクイエム":{"c":["C.G mix"],"a":["C.G mix"]},"Leaf ticket":{"c":["C.G mix"],"a":["C.G mix"]},"Re-sublimity":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Imaginary Affair":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"千恋＊万花 主題歌「恋ひ恋ふ縁」":{"c":["Famishin"],"a":["井内舞子"]},"jihad":{"c":["C.G mix"],"a":["C.G mix","尾崎武士"]},"→unfinished→":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"同じ空の下で":{"c":["高瀬一矢"],"a":["高瀬一矢","中沢伴行"]},"went away":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"flow ～水の生まれた場所～ / KOTOKO - flow ~ mizu no umareta basho ~":{"c":["中沢伴行"],"a":["中沢伴行"]},"One-Chance!!":{"c":["藤間仁(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"涙の誓い":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"being":{"c":["KOTOKO"],"a":["高瀬一矢"]},"bumpy-Jumpy!":{"c":["中沢伴行","尾崎武士"],"a":["中沢伴行","尾崎武士"]},"パズル":{"c":["KOTOKO"],"a":["C.G mix"]},"ashitahenonamida timeless tear mix":{"c":["中沢伴行"],"a":["中沢伴行"]},"faith~Shinjiru chikara~":{"c":["菊田大介(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"NEGAIGOTO":{"c":["中沢伴行"],"a":["中沢伴行"]},"Eclat":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"SWEETXSWEET":{"c":["C.G mix"],"a":["C.G mix"]},"Fatally (2026 Live Edition)":{"c":["C.G mix"],"a":["C.G mix"]},"Wing My Way":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"effacer":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"雪華の神話":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"ため息クローバー":{"c":["KOTOKO"],"a":["高瀬一矢"]},"Hayate no gotoku!":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"春":{"c":["KOTOKO"],"a":["高瀬一矢"]},"縁どりの世界":{"c":["KOTOKO"],"a":["高瀬一矢"]},"BLAZE":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"β-粘土の惑星":{"c":["KOTOKO"],"a":["高瀬一矢"]},"リアル鬼ごっこ":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"RETRIEVE":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"WING OF ZERO -the ring-":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"P◇liG△n":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"TR∀NSFoRM":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"月夜の舞踏会":{"c":["高瀬一矢"],"a":["中沢伴行"]},"Lament":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Asura":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"【I've Sound】あの日の君へ":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Hatsuyuki distance":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"TRUE BLUE":{"c":["C.G mix"],"a":["C.G mix"]},"Largo":{"c":["C.G mix"],"a":["C.G mix"]},"雷鳴が鳴く頃":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"碧羅の天へ誘えど":{"c":["C.G mix"],"a":["C.G mix"]},"daily-daily Dream":{"c":["C.G mix"],"a":["C.G mix"]},"Sociometry":{"c":["C.G mix"],"a":["C.G mix"]},"rush":{"c":["KOTOKO"],"a":["C.G mix"]},"サイダー":{"c":["KOTOKO"],"a":["C.G mix"]},"Chercher":{"c":["C.G mix"],"a":["C.G mix"]},"秋爽":{"c":["C.G mix"],"a":["C.G mix"]},"Short Circuit PV":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Princess Bride!":{"c":["KOTOKO"],"a":["Sorma"]},"UZU-MAKI":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"allegretto～そらときみ～":{"c":["C.G mix"],"a":["C.G mix"]},"Second Flight":{"c":["高瀬一矢"],"a":["高瀬一矢","中沢伴行"]},"COLORFUL DAYS!!":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Labyrinthus":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"神々の詩":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Centifolia":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"everlasting flowers":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"MeltyMoment":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"PARQUET":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"mellow melody":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"今、歩き出す君へ。":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Asphodelus":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Truth Of My Destiny":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"奏愛カレンデュラ":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"stigmata":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"銀色、遥か":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"光の溢れるときには":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Finest Sky":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"栖鴉の綿":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"夢の記憶":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Stardust Melodia (Full)":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"星織ユメミライ":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"angelus":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"羽化":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Towa no kotoba":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"espacio":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Eternal Flow":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Qualia":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Worlds Pain":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"心の翼":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Seisen Spectacle":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"ティタニアの森":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"天使と悪魔のシンフォニア":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"dreamscape":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"花になった少年の神話":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"パラノイア":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"】Pandora":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"光と闇と時の果て":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Frozen Tear":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Prelude～運命の欠片～":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"My Sweet Stories":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"まどろみの楽園":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"Watashi ga Tenshi Janaku Naru Hi":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"風のなかのプリムローズ":{"c":["小高光太郎","Ceui"],"a":["小高光太郎"]},"magicaride":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"piece of azure":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"misery":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"libration crisis":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"never no astray":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"last fortune":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"Hesitation Snow":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"1983-schwarzesmarken-(IS3 version)":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"fortissimo-from insanity affection-":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"endless memory ~refrain as Da Capo~":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"split tears":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"red reduction division":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"Fractale Sequence":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"【MAD】マジカライド -":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"Flower of Bravery - 恋姫†無双 OP":{"c":["志倉千代丸"],"a":["八木沼悟志"]},"only my railgun -15th Anniversary version-":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"Blaze of Reunion":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"absolute wish":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"snow blind -after-":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"Brand New Me!":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"precious time":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"sky":{"c":["八木沼悟志"],"a":["八木沼悟志"]},"IMMORAL":{"c":["中沢伴行"],"a":["中沢伴行"]},"eclipse":{"c":["中沢伴行"],"a":["中沢伴行"]},"緋色の空":{"c":["中沢伴行"],"a":["中沢伴行","尾崎武士"]},"Wings of Courage -空を超えて-":{"c":["中沢伴行"],"a":["中沢伴行","尾崎武士"]},"21-Two One-":{"c":["中沢伴行"],"a":["中沢伴行"]},"INITIATIVE":{"c":["中沢伴行"],"a":["中沢伴行"]},"【Nightcore】Initiative - 川田まみ":{"c":["中沢伴行"],"a":["中沢伴行"]},"happiness.":{"c":["中沢伴行"],"a":["中沢伴行","尾崎武士"]},"Angel // resident of the nightmare":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Gardens":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"triangle":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"HOWL":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"parablepsia":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Replica_nt":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"I... civilization":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"SQUARE THE CIRCLE":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Midnight trip // memories of childhood":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"intron tone":{"c":["C.G mix"],"a":["C.G mix"]},"TRILL":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Get my way!":{"c":["高瀬一矢"],"a":["高瀬一矢","尾崎武士"]},"tiny days":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"】空の森で":{"c":["折戸伸治"],"a":["高瀬一矢"]},"remaining snow":{"c":["C.G mix"],"a":["C.G mix"]},"悲しみの森":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"鳥の詩":{"c":["折戸伸治"],"a":["高瀬一矢"]},"Farewell song":{"c":["戸越まごめ"],"a":["戸越まごめ"]},"心に届く詩":{"c":["菊田大介(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"Light colors":{"c":["折戸伸治"],"a":["高瀬一矢"]},"doll":{"c":["麻枝准"],"a":["ANANT-GARDE EYES"]},"Heartily Song (Game Size)":{"c":["麻枝准"],"a":["MintJam"]},"My Soul,Your Beats!":{"c":["麻枝准"],"a":["ANANT-GARDE EYES"]},"一番の宝物":{"c":["麻枝准"],"a":["ANANT-GARDE EYES"]},"小さなてのひら":{"c":["麻枝准"],"a":["戸越まごめ"]},"星の舟":{"c":["麻枝准"],"a":["ANANT-GARDE EYES"]},"Saya's Song":{"c":["麻枝准"],"a":["ANANT-GARDE EYES"]},"雨宿りの憧憬":{"c":["Manack"],"a":["Manack"]},"Bravely You":{"c":["麻枝准"],"a":["ANANT-GARDE EYES"]},"絆-kizunairo-色":{"c":["流歌"],"a":["流歌"]},"JUSTITIA":{"c":["流歌"],"a":["流歌"]},"サガリバナ":{"c":["大橋柊平"],"a":["ANANT-GARDE EYES"]},"Little Busters! (TV Animation Ver.)":{"c":["麻枝准"],"a":["MintJam"]},"遥か彼方":{"c":["麻枝准"],"a":["Manack"]},"Alicemagic (TV Animation Ver.)":{"c":["折戸伸治"],"a":["MintJam"]},"Alicemagic":{"c":["折戸伸治"],"a":["MintJam"]},"Grand Blue":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"グルッポ":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"宝物":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"夢を見る夢 Full Ver.":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"Moon Story":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"7th WORLD'S OUT":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"フォーチュンクッキー":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"Primary":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"Tonitrus":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"Princess Blood":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"希いの花":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"Like a Green":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"キミ∽ツナグ":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"beloved ～桜の彼方へ～":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"こころのゆくさき":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"it's just farewell":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"キミの瞳にヒットミー":{"c":["流歌"],"a":["流歌"]},"TrymenT":{"c":["甘束まお"],"a":["甘束まお"]},"命の約束":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"DORCHADAS":{"c":["松本慎一郎"],"a":["松本慎一郎"]},"イノチの灯し方":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"Blue Love Chime":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"ままらぶ":{"c":["内山利彦(Blueberry & Yogurt)"],"a":["内山利彦(Blueberry & Yogurt)"]},"春紛い":{"c":["ニト。"],"a":["ニト。"]},"なんもない (feat. 星街すいせい, sakuma.)":{"c":["sakuma."],"a":["sakuma."]},"ラリー、ラリー":{"c":["meiyo"],"a":["meiyo"]},"アイウエ":{"c":["SAKURAmoti"],"a":["SAKURAmoti"]},"いたいの、いたいの、とんでいけ (feat. 『ユイカ』, KAFUNÉ)":{"c":["KAFUNÉ"],"a":["KAFUNÉ"]},"ならない日々":{"c":["MIMI"],"a":["MIMI"]},"超弩級フロンティア":{"c":["サツキ"],"a":["サツキ"]},"噓偽りのラプソディ":{"c":["AKASAKI"],"a":["AKASAKI"]},"モドキステップ！":{"c":["マサラダ"],"a":["マサラダ"]},"YOU":{"c":["Twinfield"],"a":["Twinfield"]},"カラフルパレット":{"c":["ふるーり"],"a":["ふるーり"]},"バケバケ":{"c":["ナユタン星人"],"a":["ナユタン星人"]},"アイズ":{"c":["ハイノミ"],"a":["ハイノミ"]},"なっていく。":{"c":["meiyo"],"a":["knoak"]},"恋のいうとおり":{"c":["田淵智也"],"a":["堀江晶太"]},"君にふさわしい奇跡":{"c":["くじら"],"a":["くじら"]},"ふり":{"c":["大漠波新"],"a":["大漠波新"]},"薔薇ノ香":{"c":["SAKURAmoti"],"a":["SAKURAmoti"]},"あまのじゃくヒーロー":{"c":["堀江晶太"],"a":["堀江晶太"]},"醒めないで、青春":{"c":["石倉誉之"],"a":["石倉誉之"]},"ビタースイート":{"c":["すこっぷ"],"a":["すこっぷ"]},"マイワンダー":{"c":["いよわ"],"a":["いよわ"]},"幸福なわがまま":{"c":["堀江晶太"],"a":["堀江晶太"]},"ゴールデンレイ":{"c":["はるまきごはん"],"a":["はるまきごはん"]},"花冷列車":{"c":["の子"],"a":["石倉誉之"]},"僕らの幸福論":{"c":["MIMI"],"a":["MIMI"]},"はじまりの速度":{"c":["ARCHITECT"],"a":["ARCHITECT"]},"恋はキライだ":{"c":["堀江晶太","hirao"],"a":["堀江晶太"]},"Seishunnante Iranaiwa":{"c":["n-buna"],"a":["n-buna"]},"サマーグラビティ":{"c":["40mP"],"a":["40mP"]},"ラフスケッチ":{"c":["40mP"],"a":["40mP"]},"星の涙":{"c":["40mP"],"a":["40mP"]},"シークレットハート":{"c":["40mP"],"a":["40mP"]},"あのときの歌":{"c":["40mP"],"a":["40mP"]},"ブラックボードイレイザー":{"c":["40mP"],"a":["40mP"]},"逆さまのLady":{"c":["堀江晶太"],"a":["堀江晶太"]},"三月がずっと続けばいい":{"c":["堀江晶太"],"a":["堀江晶太"]},"たべてあげる":{"c":["堀江晶太"],"a":["江口亮"]},"パステルレイン":{"c":["堀江晶太"],"a":["堀江晶太"]},"まぼろし":{"c":["堀江晶太"],"a":["星銀乃丈","堀江晶太"]},"March":{"c":["堀江晶太"],"a":["堀江晶太"]},"夜光":{"c":["ホリエアツシ"],"a":["堀江晶太"]},"SWITCH":{"c":["水槽","Such"],"a":["水槽"]},"心音賛歌":{"c":["水槽","r-906"],"a":["r-906"]},"Bluenote":{"c":["水槽"],"a":["水槽"]},"点滴":{"c":["水槽"],"a":["水槽"]},"報酬系":{"c":["水槽","lilbesh ramko"],"a":["水槽"]},"36°C":{"c":["水槽"],"a":["水槽"]},"Afterwards":{"c":["水槽"],"a":["水槽"]},"カルチュラル・オートマティカ・フィーディング":{"c":["水槽","たなか"],"a":["水槽"]},"Vivid at 5am":{"c":["水槽","Such"],"a":["水槽"]},"ランタノイド":{"c":["水槽"],"a":["水槽"]},"ロリポップ・バレット":{"c":["水槽"],"a":["水槽"]},"カンフルショット":{"c":["水槽"],"a":["水槽"]},"Suicide":{"c":["水槽"],"a":["水槽"]},"MONOCHROME":{"c":["水槽"],"a":["水槽"]},"Introduction":{"c":["水槽"],"a":["水槽"]},"README":{"c":["水槽","TAKU INOUE"],"a":["TAKU INOUE"]},"Vacant":{"c":["水槽"],"a":["水槽"]},"文学講義":{"c":["水槽"],"a":["水槽"]},"CERAMIC SKIN":{"c":["水槽"],"a":["水槽"]},"はやく夜へ MV [YouTube ver.]":{"c":["水槽"],"a":["水槽"]},"ハルシネイション":{"c":["水槽"],"a":["水槽"]},"ブラックアウト":{"c":["ユリイ・カノン"],"a":["廣澤優也(HANO)","日直伸次(HANO)"]},"Bare Mask":{"c":["SERRA"],"a":["hidë"]},"灯火":{"c":["SERRA"],"a":["hidë"]},"EYERIS (Re:Mix)":{"c":["SERRA"],"a":["篠崎あやと"]},"テノヒラ":{"c":["SERRA"],"a":["GAKU"]},"Always and Forever":{"c":["SERRA"],"a":["河合泰志(Arte Refact)"]},"MYTH LOGY":{"c":["丸山漠(a crowd of rebellion)"],"a":["丸山漠(a crowd of rebellion)"]},"偽済世":{"c":["SERRA"],"a":["MöC"]},"AURORA DAYS":{"c":["SERRA"],"a":["hidë"]},"ダリラ":{"c":["SERRA"],"a":["hidë"]},"Again":{"c":["SERRA"],"a":["hidë"]},"ViVALE":{"c":["SERRA"],"a":["hidë"]},"我儘バクテリア』Live Music Video / \"Egoistic Bacteria":{"c":["SERRA"],"a":["hidë"]},"エルマキナの鼓動":{"c":["SERRA","MöC"],"a":["脇眞富(Arte Refact)"]},"Wavin'on the sky":{"c":["SERRA"],"a":["hidë"]},"喝采シンドローム":{"c":["SERRA"],"a":["hidë"]},"INSOMNIA -Awake-":{"c":["SERRA"],"a":["hidë"]},"MASQUERADE":{"c":["SERRA"],"a":["hidë"]},"世界の歩き方":{"c":["ユリイ・カノン"],"a":["月詠み"]},"朔日 feat. 吉乃":{"c":["ユリイ・カノン"],"a":["月詠み"]},"死よりうるわし":{"c":["ユリイ・カノン"],"a":["月詠み"]},"夜明けのラズリ":{"c":["ユリイ・カノン"],"a":["月詠み"]},"心燃ゆ":{"c":["ユリイ・カノン"],"a":["月詠み"]},"ナラティブ":{"c":["ユリイ・カノン"],"a":["月詠み"]},"秋うらら":{"c":["ユリイ・カノン"],"a":["月詠み"]},"導火":{"c":["ユリイ・カノン"],"a":["月詠み"]},"ハクメイ":{"c":["ユリイ・カノン"],"a":["月詠み"]},"それを僕らは神様と呼ぶ":{"c":["ユリイ・カノン"],"a":["月詠み"]},"愛がゆえに":{"c":["ユリイ・カノン"],"a":["月詠み"]},"カンターレ":{"c":["ユリイ・カノン"],"a":["月詠み"]},"夜に藍":{"c":["ユリイ・カノン"],"a":["月詠み"]},"春めくことば":{"c":["ユリイ・カノン"],"a":["月詠み"]},"八月の万華鏡":{"c":["ユリイ・カノン"],"a":["月詠み"]},"Snow Devil":{"c":["lia"],"a":["Naoki Itai","Yusuke Koshiro"]},"Hanadayori":{"c":["lia"],"a":["Naoki Itai","Yusuke Koshiro"]},"G2G":{"c":["lia"],"a":["Naoki Itai","Yusuke Koshiro"]},"Geminis":{"c":["lia"],"a":["Naoki Itai","Yusuke Koshiro"]},"I - Love - J - K - Kiss - Date":{"c":["lia"],"a":["Naoki Itai"]},"Zombie":{"c":["lia"],"a":["Naoki Itai"]},"sentimental☆lucky girl":{"c":["lia"],"a":["Naoki Itai"]},"Twilight":{"c":["lia"],"a":["Naoki Itai"]},"Vanity Kiss":{"c":["lia"],"a":["Naoki Itai"]},"the short night star":{"c":["lia"],"a":["Naoki Itai"]},"Infinity Hologram":{"c":["lia"],"a":["Naoki Itai"]},"Hydrangea blue":{"c":["lia"],"a":["Naoki Itai"]},"Upside down Magic":{"c":["lia"],"a":["Naoki Itai","Yusuke Koshiro"]},"Boundary Battle":{"c":["lia"],"a":["Naoki Itai","Yusuke Koshiro"]},"if 1/2":{"c":["lia"],"a":["Naoki Itai"]},"stardust":{"c":["lia"],"a":["Naoki Itai"]},"Distortion in the brain":{"c":["lia"],"a":["Naoki Itai","Yusuke Koshiro"]},"Riot":{"c":["lia"],"a":["Naoki Itai","Yusuke Koshiro"]},"Flash Bird":{"c":["lia"],"a":["Naoki Itai","Yusuke Koshiro"]},"Futaribun":{"c":["lia"],"a":["Naoki Itai"]},"エミリーと15の約束":{"c":["カンザキイオリ"],"a":["大西省吾"]},"Hibiwareta Sekai":{"c":["小倉しんこう"],"a":["横山裕章"]},"クライクライ":{"c":["majiko"],"a":["majiko","木下哲"]},"Kuruoshiihodo Bokuniwa Utsukushii":{"c":["Michael Kaneko"],"a":["Michael Kaneko"]},"Koe":{"c":["majiko"],"a":["majiko","木下哲"]},"春、恋桜。":{"c":["majiko"],"a":["横山裕章"]},"リボン":{"c":["majiko"],"a":["majiko","木下哲"]},"アマデウス":{"c":["ホリエアツシ"],"a":["ホリエアツシ"]},"GHOST":{"c":["majiko"],"a":["majiko"]},"Paranoia":{"c":["majiko"],"a":["majiko","木下哲"]},"彗星のパレード":{"c":["ホリエアツシ"],"a":["ホリエアツシ"]},"morrow":{"c":["majiko"],"a":["majiko"]},"Kids":{"c":["majiko"],"a":["majiko"]},"Welcome to Hell":{"c":["majiko"],"a":["majiko"]},"なんで？":{"c":["majiko"],"a":["majiko"]},"TEDDY":{"c":["majiko"],"a":["majiko"]},"DARK HERO":{"c":["majiko"],"a":["majiko"]},"ノクチルカの夜":{"c":["majiko"],"a":["majiko"]},"shinigami":{"c":["majiko"],"a":["majiko"]},"Lucifer":{"c":["majiko"],"a":["majiko"]},"エイプリル (mol-74)":{"c":["武市和希"],"a":["mol-74"]},"従属ふりったー":{"c":["koyori"],"a":["koyori"]},"Adios":{"c":["Chinozo"],"a":["Chinozo"]},"才能":{"c":["Chinozo"],"a":["Chinozo"]},"LoveXposer":{"c":["REQ"],"a":["REQ"]},"やまない":{"c":["REQ"],"a":["REQ"]},"ビターロス":{"c":["REQ"],"a":["REQ"]},"Bitter Loss":{"c":["REQ"],"a":["REQ"]},"ガーデン":{"c":["藤井風"],"a":["Yaffle"]},"シンパシー":{"c":["REQ"],"a":["REQ"]},"bamu":{"c":["REQ"],"a":["REQ"]},"Fade Into Starlight":{"c":["HoYo-MiX"],"a":["HoYo-MiX"]},"The Starborn":{"c":["REQ"],"a":["REQ"]},"ウワサのあの子 (紫 今)":{"c":["紫今"],"a":["紫今"]},"Parallel World":{"c":["REQ"],"a":["REQ"]},"Ibitsuna Kotoba (Wanna be honest) (Unplugged Version)":{"c":["REQ"],"a":["REQ"]},"ブレインロット (東京真中)":{"c":["東京真中"],"a":["東京真中"]},"おやすみルーシー":{"c":["REQ"],"a":["REQ"]},"烏 (米津玄師)":{"c":["米津玄師"],"a":["米津玄師"]},"あぶく(ヨルシカ)":{"c":["n-buna"],"a":["n-buna"]},"give it back (Cö shu Nie)":{"c":["中村未来"],"a":["Cö shu Nie"]},"千鳥 (ヨルシカ)":{"c":["n-buna"],"a":["n-buna"]},"염라(Karma) (달의하루)":{"c":["Ampstyle"],"a":["Ampstyle"]},"恋文":{"c":["折戸伸治"],"a":["MANYO"]},"Ashita no Hanashi":{"c":["やなぎなぎ"],"a":["出羽良彰"]},"偽らない君へ":{"c":["折戸伸治"],"a":["森藤晶司"]},"春擬き":{"c":["北川勝利"],"a":["北川勝利"]},"ラテラリティ":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"終わりの世界から":{"c":["麻枝准"],"a":["竹下智博"]},"Blank":{"c":["やなぎなぎ"],"a":["やなぎなぎ"]},"landscape":{"c":["やなぎなぎ"],"a":["やなぎなぎ"]},"アウトサイダー":{"c":["やなぎなぎ"],"a":["出羽良彰"]},"Sweet Track":{"c":["楠野功太郎"],"a":["大西省吾"]},"ファラウェイ・ハイウェイ":{"c":["やなぎなぎ"],"a":["やなぎなぎ"]},"here and there":{"c":["中沢伴行"],"a":["中沢伴行","尾崎武士"]},"color capsule":{"c":["やなぎなぎ"],"a":["やなぎなぎ"]},"心月の詩・秘めた想い":{"c":["HoYo-MiX"],"a":["HoYo-MiX"]},"心月の詩":{"c":["HoYo-MiX"],"a":["HoYo-MiX"]},"BLAZE UP":{"c":["大島こうすけ"],"a":["大島こうすけ"]},"ココニイルカラ":{"c":["オワタP"],"a":["オワタP"]},"A.R.":{"c":["志倉千代丸"],"a":["磯江俊道"]},"ガラスのくつ":{"c":["村上正芳"],"a":["村上正芳"]},"I Bless Thy Life":{"c":["磯江俊道"],"a":["磯江俊道"]},"ヒカリ":{"c":["磯江俊道"],"a":["磯江俊道"]},"非線形ジェニアック":{"c":["志倉千代丸"],"a":["オオバコウスケ"]},"F.D.D.":{"c":["志倉千代丸"],"a":["磯江俊道"]},"リバイバル・コード":{"c":["磯江俊道"],"a":["磯江俊道"]},"Revival Code":{"c":["磯江俊道"],"a":["磯江俊道"]},"Hacking to the Gate":{"c":["志倉千代丸"],"a":["磯江俊道"]},"スカイクラッドの観測者":{"c":["志倉千代丸"],"a":["磯江俊道"]},"魂の慟哭":{"c":["志倉千代丸"],"a":["川越好博"]},"冬の音、雪の街〜Song for…〜":{"c":["磯江俊道"],"a":["磯江俊道"]},"happy blue sky trip":{"c":["磯江俊道"],"a":["磯江俊道"]},"アスタロア":{"c":["折戸伸治"],"a":["塚越雄一朗(NanosizeMir)"]},"フィニステラー":{"c":["折戸伸治"],"a":["吉田穣"]},"Theater of Life":{"c":["ANCHOR"],"a":["ANCHOR"]},"全部君がいたから知ったんだ":{"c":["鶴﨑輝一"],"a":["鶴﨑輝一"]},"歌えばそこに君がいるから":{"c":["白戸佑輔"],"a":["白戸佑輔"]},"Resurrection":{"c":["小山寿"],"a":["小山寿"]},"DAYS of DASH":{"c":["白戸佑輔"],"a":["白戸佑輔"]},"Realize":{"c":["篠崎あやと","橘亮祐"],"a":["篠崎あやと","橘亮祐"]},"アルカテイル":{"c":["折戸伸治"],"a":["中山真斗"]},"Lasting Moment":{"c":["折戸伸治"],"a":["宮崎京一"]},"Love? Reason why!!":{"c":["Q-MHz"],"a":["Q-MHz","岸田勇気"]},"Defiant Dolls":{"c":["草野華余子"],"a":["草野華余子"]},"Delighting":{"c":["草野華余子"],"a":["草野華余子"]},"オラシオン":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"頑張れと叫ぶたび":{"c":["鈴木このみ"],"a":["渡辺亮希"]},"Ao no Kanata":{"c":["藤間仁(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"蒼の彼方":{"c":["藤間仁(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"ULTRA FLASH":{"c":["草野華余子"],"a":["草野華余子"]},"東のシンドバッド":{"c":["ANCHOR"],"a":["ANCHOR"]},"「わたし」をくれたみんなへ":{"c":["鈴木このみ"],"a":["白戸佑輔"]},"Crossroads":{"c":["辻純更"],"a":["白戸佑輔"]},"夢の続き":{"c":["白戸佑輔"],"a":["白戸佑輔"]},"THERE IS A REASON":{"c":["ヒゲドライバー"],"a":["宮崎誠"]},"Blow out":{"c":["ヒゲドライバー"],"a":["ゆよゆっぺ"]},"Luster piece":{"c":["草野華余子"],"a":["草野華余子"]},"Étoile":{"c":["霜月はるか"],"a":["MANYO"]},"白夜幻想譚":{"c":["霜月はるか"],"a":["霜月はるか"]},"導きのハーモニー":{"c":["霜月はるか"],"a":["MANYO"]},"護森人":{"c":["霜月はるか"],"a":["細井聡司"]},"トラワレビト":{"c":["霜月はるか"],"a":["MANYO"]},"未来自画像":{"c":["霜月はるか"],"a":["MANYO"]},"ラベンダーの純然":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"Snow x Connect":{"c":["水月陵"],"a":["水月陵"]},"蒼黒のスピカ":{"c":["藤間仁(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"あの雲の向こうへ":{"c":["霜月はるか"],"a":["MANYO"]},"Magenta Tear":{"c":["霜月はるか"],"a":["MANYO"]},"エルダリア～祈り咲く森～":{"c":["霜月はるか"],"a":["MANYO"]},"Re：call":{"c":["霜月はるか"],"a":["MANYO"]},"希いの標":{"c":["霜月はるか"],"a":["MANYO"]},"夢渡し":{"c":["霜月はるか"],"a":["MANYO"]},"運命の向こうへ":{"c":["霜月はるか"],"a":["MANYO"]},"屍に咲く魔花":{"c":["霜月はるか"],"a":["MANYO"]},"キボウのソラ":{"c":["折戸伸治"],"a":["MANYO"]},"カザハネ":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"泡沫":{"c":["霜月はるか"],"a":["MANYO"]},"life":{"c":["霜月はるか"],"a":["MANYO"]},"Secret Liqueur (Full)":{"c":["霜月はるか"],"a":["MANYO"]},"羽ノ亡キ蝶":{"c":["霜月はるか"],"a":["myu"]},"ダンガイマインド":{"c":["Q-MHz"],"a":["Q-MHz","eba"]},"Ice breaker":{"c":["배","政후(一二三)"],"a":["政후(一二三)"]},"純情サクリファイス":{"c":["一二三"],"a":["一二三"]},"アンダーテイカー":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"狐雨":{"c":["一二三"],"a":["一二三"]},"THE REVO":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"逆行自我":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"Keep it real":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"光になれたら":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"ネオネオン":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"Stray Beats":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"虚構性プロローグ":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"ストラゴヴィゴス":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"天気雨の旅":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"百歌繚乱":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"愛のテロメア":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"Limitless":{"c":["eba"],"a":["eba"]},"純然な声":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"あなたのせいね。":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"共犯":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"POP SICK":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"ヤラララ(YARARARA)":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"live in live":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"ミッドナイト・スクワッド":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"エモーション・キャプチャー":{"c":["sky_delta"],"a":["sky_delta"]},"Azura Luno":{"c":["sky_delta"],"a":["sky_delta"]},"Lilith":{"c":["sky_delta"],"a":["sky_delta"]},"追想のラグナロク":{"c":["sky_delta"],"a":["sky_delta"]},"愛の残滓":{"c":["sky_delta"],"a":["sky_delta"]},"Indigrotto":{"c":["sky_delta"],"a":["sky_delta"]},"友愛進化論":{"c":["sky_delta"],"a":["sky_delta"]},"これくらいで":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"ご注文はえいえんに":{"c":["sky_delta"],"a":["sky_delta"]},"約束のリンカネーション":{"c":["sky_delta"],"a":["sky_delta"]},"待ってて、彼岸で":{"c":["sky_delta"],"a":["sky_delta"]},"Not a Hero":{"c":["sky_delta"],"a":["sky_delta"]},"あなたしか見えないの":{"c":["sky_delta"],"a":["sky_delta"]},"美人局":{"c":["sky_delta"],"a":["sky_delta"]},"コトノハ (Kotonoha)":{"c":["sky_delta"],"a":["sky_delta"]},"クライヤ":{"c":["すこっぷ"],"a":["すこっぷ"]},"Dear":{"c":["19's Sound Factory"],"a":["19's Sound Factory"]},"プリマステラ":{"c":["samfree"],"a":["samfree","ゆうゆ"]},"Pale moonlight":{"c":["田中秀和(MONACA)"],"a":["田中秀和(MONACA)"]},"Hiraeth":{"c":["田中秀和(MONACA)"],"a":["田中秀和(MONACA)"]},"優しさの記憶":{"c":["すこっぷ"],"a":["すこっぷ"]},"愛と哀":{"c":["すこっぷ"],"a":["すこっぷ"]},"午前0時の無力な神様":{"c":["田中秀和(MONACA)"],"a":["田中秀和(MONACA)"]},"Daybreak":{"c":["samfree"],"a":["ゆうゆ"]},"コンパスソング":{"c":["田中秀和(MONACA)"],"a":["田中秀和(MONACA)"]},"evergreen":{"c":["すこっぷ"],"a":["すこっぷ"]},"今をかける少女":{"c":["すこっぷ"],"a":["すこっぷ"]},"なんで":{"c":["すこっぷ"],"a":["すこっぷ"]},"Melodic Aster*":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"パズルガール":{"c":["とあ"],"a":["とあ"]},"1step 2step":{"c":["鎖那"],"a":["鎖那"]},"KISSIN' CLAW":{"c":["鎖那"],"a":["鎖那"]},"くらくらった":{"c":["鎖那"],"a":["鎖那"]},"ベイビーヘイロー":{"c":["鎖那"],"a":["鎖那"]},"mimicry":{"c":["鎖那"],"a":["鎖那"]},"カプセル":{"c":["鎖那"],"a":["鎖那"]},"sparkle":{"c":["鎖那"],"a":["鎖那"]},"tutu":{"c":["鎖那"],"a":["鎖那"]},"oh my girl":{"c":["鎖那"],"a":["鎖那"]},"すきなうた":{"c":["鎖那","TOKOTOKO(西沢さんP)"],"a":["TOKOTOKO(西沢さんP)"]},"備忘録":{"c":["鎖那"],"a":["鎖那"]},"オオカミと少女":{"c":["鎖那"],"a":["鎖那"]},"シュテルン":{"c":["めざめP"],"a":["めざめP"]},"テルテルユー":{"c":["鎖那"],"a":["鎖那"]},"Personall":{"c":["やなぎなぎ"],"a":["やなぎなぎ"]},"Sapphire":{"c":["みきとP"],"a":["みきとP"]},"Polar Vision":{"c":["R Sound Design"],"a":["R Sound Design"]},"禍禍しい":{"c":["てにをは"],"a":["てにをは"]},"鳴り止まない":{"c":["ポリスピカデリー"],"a":["ポリスピカデリー"]},"Rabbit Boku No Naka No Kimi":{"c":["ナノウ"],"a":["ナノウ"]},"Bird cage":{"c":["蝶々P"],"a":["蝶々P"]},"grasp":{"c":["やなぎなぎ"],"a":["やなぎなぎ"]},"Beautiful World":{"c":["宇多田ヒカル"],"a":["宇多田ヒカル","小森雅仁"]},"ソライロ":{"c":["40mP"],"a":["40mP"]},"裏の底":{"c":["煮ル果実"],"a":["煮ル果実"]},"弱者":{"c":["syudou"],"a":["syudou"]},"アルマ":{"c":["かいりきベア"],"a":["かいりきベア"]},"Kill：Fate":{"c":["梅とら"],"a":["梅とら"]},"FATAL Finale":{"c":["奏音69"],"a":["奏音69"]},"Bullets":{"c":["koyori"],"a":["koyori"]},"LUNDI":{"c":["はるまきごはん"],"a":["はるまきごはん"]},"バイバイ、すばらしき世界":{"c":["n-buna"],"a":["n-buna"]},"Android":{"c":["DECO*27"],"a":["Rockwell"]},"ひだまりの彩度":{"c":["有機酸"],"a":["有機酸"]},"フルスロットルHeart":{"c":["安瀬聖"],"a":["安瀬聖"]},"恋をしようよ Let it snow":{"c":["安瀬聖"],"a":["安瀬聖"]},"タイムカプセル":{"c":["安瀬聖"],"a":["安瀬聖"]},"Clearly":{"c":["安瀬聖"],"a":["安瀬聖"]},"ひとひら":{"c":["安瀬聖"],"a":["安瀬聖"]},"EVERLASTING BLUE":{"c":["安瀬聖"],"a":["安瀬聖"]},"星のようになりたい":{"c":["安瀬聖"],"a":["安瀬聖"]},"桜色":{"c":["安瀬聖"],"a":["安瀬聖"]},"コドモノアソビ OP「Passion":{"c":["安瀬聖"],"a":["安瀬聖"]},"Revolution":{"c":["安瀬聖"],"a":["安瀬聖"]},"Purely ～その狭い青空を見上げて～ OP「Aozora":{"c":["太田雅友"],"a":["太田雅友"]},"アオナツライン":{"c":["Nekusam"],"a":["Nekusam"]},"RING ON BOUQUET":{"c":["安瀬聖"],"a":["安瀬聖"]},"メモリー":{"c":["安瀬聖"],"a":["安瀬聖"]},"ゲームOP":{"c":["安瀬聖"],"a":["安瀬聖"]},"ensemble作品ED(Duca歌唱）":{"c":["安瀬聖"],"a":["安瀬聖"]},"ずっとそばで…":{"c":["安瀬聖"],"a":["安瀬聖"]},"青春フラジャイル":{"c":["安瀬聖"],"a":["安瀬聖"]},"pieces/揺り籠のカナリア":{"c":["安瀬聖"],"a":["安瀬聖"]},"アンラベル・トリガー":{"c":["安瀬聖"],"a":["安瀬聖"]},"小金井荘と金色の揚羽蝶":{"c":["安瀬聖"],"a":["安瀬聖"]},"遥か碧の花嫁に":{"c":["安瀬聖"],"a":["安瀬聖"]},"フタリ":{"c":["安瀬聖"],"a":["安瀬聖"]},"幸せのオトシモノ":{"c":["安瀬聖"],"a":["安瀬聖"]},"二人色":{"c":["安瀬聖"],"a":["安瀬聖"]},"your diary":{"c":["安瀬聖"],"a":["安瀬聖"]},"Happiness":{"c":["安瀬聖"],"a":["安瀬聖"]},"アイオライト":{"c":["安瀬聖"],"a":["安瀬聖"]},"Answer":{"c":["安瀬聖"],"a":["安瀬聖"]},"Only you":{"c":["安瀬聖"],"a":["安瀬聖"]},"Marry Me ? (Golden Marriage)":{"c":["宮崎京一"],"a":["宮崎京一"]},"Sign":{"c":["安瀬聖"],"a":["安瀬聖"]},"アマオト [English Subtitled]":{"c":["安瀬聖"],"a":["安瀬聖"]},"アイの庭 [English Subtitled]":{"c":["安瀬聖"],"a":["安瀬聖"]},"華暦":{"c":["安瀬聖"],"a":["安瀬聖"]},"観覧車～あの日と、昨日と今日と明日と～ [English Subtitled]":{"c":["安瀬聖"],"a":["安瀬聖"]},"ISI":{"c":["安瀬聖"],"a":["安瀬聖"]},"ラムネ":{"c":["安瀬聖"],"a":["安瀬聖"]},"散って、咲いて":{"c":["安瀬聖"],"a":["安瀬聖"]},"beloved story":{"c":["安瀬聖"],"a":["安瀬聖"]},"Night Sky 夜空":{"c":["安瀬聖"],"a":["安瀬聖"]},"Innocent Desire":{"c":["安瀬聖"],"a":["安瀬聖"]},"月の彼方で逢いましょう":{"c":["安瀬聖"],"a":["安瀬聖"]},"コイイロセカイ":{"c":["安瀬聖"],"a":["安瀬聖"]},"Trust in me ～E×E Opening Theme～":{"c":["不知火つばさ"],"a":["不知火つばさ"]},"Eternal Destiny":{"c":["DJ SHIMAMURA"],"a":["DJ SHIMAMURA"]},"呪文はプリ☆まじ":{"c":["上松範康(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"恋恋三昧":{"c":["榊原ゆい"],"a":["原田勝通"]},"煌めき一閃":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"Change & Chance!":{"c":["Famishin"],"a":["不知火つばさ"]},"Hold on me ～恋の魔法～":{"c":["榊原ゆい"],"a":["家原正樹"]},"Gregorio":{"c":["上松範康(Elements Garden)"],"a":["上松範康(Elements Garden)"]},"恋愛0キロメートル 「恋愛0キロメートル OP」":{"c":["水月陵"],"a":["水月陵"]},"Explorer World":{"c":["不知火つばさ"],"a":["不知火つばさ"]},"まじからっと☆れいでぃあんと":{"c":["上松範康(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"やがて消える幻でも":{"c":["榊原ゆい"],"a":["椎名俊介(Angel Note)"]},"ラブ･パラダイス":{"c":["榊原ゆい"],"a":["DJ SHIMAMURA"]},"OWN JUSTICE":{"c":["不知火つばさ"],"a":["不知火つばさ"]},"Heavenly Kiss":{"c":["wight"],"a":["wight"]},"Till I can see you again":{"c":["林達志"],"a":["林達志"]},"Judge of a Life":{"c":["上松範康(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"Einsatz":{"c":["ペーじゅん"],"a":["ペーじゅん"]},"ラピスラズリの恋":{"c":["榊原ゆい"],"a":["井ノ原智(Angel Note)"]},"Blue mind":{"c":["榊原ゆい"],"a":["原田勝通"]},"77 〜And, two stars meet again〜 OP STAR LEGEND":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"尋ねビト":{"c":["細井聡司"],"a":["細井聡司"]},"夢の罪 -End in childhood-":{"c":["細井聡司"],"a":["細井聡司"]},"evolution 「トキメキファンタジー ラテール」":{"c":["榊原ゆい"],"a":["原田勝通"]},"聖剣なんていらない 「星刻の竜騎士 OP」":{"c":["上松範康(Elements Garden)"],"a":["喜多智弘(Elements Garden)"]},"そして僕は...":{"c":["志倉千代丸"],"a":["磯江俊道"]},"Baby Fantastic!":{"c":["榊原ゆい"],"a":["椎名俊介(Angel Note)"]},"“光あれ”と願う心を 「レミニセンス -Recollect- OP」":{"c":["不知火つばさ"],"a":["不知火つばさ"]},"Come Home! Princess":{"c":["榊原ゆい"],"a":["原田勝通"]},"片翼のイカロス":{"c":["上松範康(Elements Garden)"],"a":["上松範康(Elements Garden)"]},"秘密仕掛けのApple 「キミとボクとエデンの林檎 OP」":{"c":["不知火つばさ"],"a":["不知火つばさ"]},"幻想の城「暁の護衛〜罪深き終末論〜 OP」":{"c":["wight"],"a":["wight"]},"Scarlet":{"c":["上松範康(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"奇跡なんか、いらない。":{"c":["太田雅友"],"a":["太田雅友"]},"恋さくミライ":{"c":["小高光太郎","UiNA"],"a":["小高光太郎"]},"恋花":{"c":["母里治樹(Elements Garden)"],"a":["母里治樹(Elements Garden)"]},"ヒトツボシ":{"c":["堀江晶太"],"a":["堀江晶太"]},"ワールドエンド":{"c":["天門"],"a":["天門"]},"Zzz":{"c":["前山田健一"],"a":["前山田健一"]},"fly away t.p.s":{"c":["tororo"],"a":["高田暁"]},"君を仰ぎ乙女は姫に":{"c":["小高光太郎","UiNA"],"a":["小高光太郎"]},"少年少女よ、大志を抱け":{"c":["小高光太郎"],"a":["小高光太郎"]},"glowing world ～輝きの、セカイへ～":{"c":["小高光太郎"],"a":["小高光太郎"]},"さくら、Reincarnation":{"c":["小高光太郎","UiNA"],"a":["小高光太郎"]},"LOVE EXE":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Heaven's gate":{"c":["俊龍"],"a":["藤田淳平(Elements Garden)"]},"Love♡Vacation":{"c":["小高光太郎"],"a":["小高光太郎"]},"マリンブルーに沿って":{"c":["エンドウ."],"a":["エンドウ."]},"キスのひとつで":{"c":["増谷賢"],"a":["増谷賢"]},"夢と色でできている":{"c":["堀江晶太"],"a":["堀江晶太"]},"夢と色でできている Grand End":{"c":["堀江晶太"],"a":["堀江晶太"]},"Grand symphony":{"c":["本多友紀(Arte Refact)"],"a":["本多友紀(Arte Refact)"]},"Golden Mission":{"c":["堀江晶太"],"a":["堀江晶太"]},"Distance":{"c":["Arte Refact"],"a":["Arte Refact"]},"Break your world":{"c":["五条下位(SYNC.ART'S)"],"a":["五条下位(SYNC.ART'S)"]},"Atlantico Blue":{"c":["俊龍"],"a":["原田篤(Arte Refact)"]},"Never the Fever!!":{"c":["太田雅友"],"a":["太田雅友"]},"Reason why XXX":{"c":["ZAQ"],"a":["nyanyannya"]},"IN MY DREAM":{"c":["前澤寛之"],"a":["前澤寛之"]},"FEEL×ALIVE":{"c":["堀江晶太"],"a":["堀江晶太"]},"The Biggest Dreamer":{"c":["太田美知彦"],"a":["太田美知彦"]},"Go future":{"c":["母里治樹(Elements Garden)"],"a":["母里治樹(Elements Garden)"]},"ダイアログ":{"c":["小高光太郎"],"a":["小高光太郎"]},"AMAZING BREAK":{"c":["草野華余子"],"a":["堀江晶太"]},"星彩のRipieno":{"c":["小高光太郎"],"a":["小高光太郎"]},"∞未来":{"c":["羽鳥風画"],"a":["羽鳥風画"]},"セ・キララ":{"c":["俊龍"],"a":["鈴木マサキ"]},"未来回帰線":{"c":["黒須克彦"],"a":["黒須克彦"]},"跪くまで5秒だけ！":{"c":["渡辺拓也"],"a":["鈴木マサキ"]},"Be Ambitious, Guys!":{"c":["大久保薫"],"a":["大久保薫"]},"Glossy:MMM":{"c":["虹音"],"a":["虹音"]},"Star☆drops":{"c":["橋本みゆき"],"a":["安瀬聖"]},"せつなさのグラデイション":{"c":["冨田暁子"],"a":["増田武史"]},"Ageless Love":{"c":["黒須克彦"],"a":["黒須克彦"]},"Shooting the future":{"c":["鈴木マサキ"],"a":["鈴木マサキ"]},"Miss Brand-new day":{"c":["鈴木マサキ"],"a":["鈴木マサキ"]},"幻想楼閣":{"c":["黒須克彦"],"a":["黒須克彦"]},"シンフォニック・ラブ":{"c":["大久保薫"],"a":["大久保薫"]},"Link-age":{"c":["大久保薫"],"a":["大久保薫"]},"青空の約束":{"c":["安瀬聖"],"a":["安瀬聖"]},"5分前の恋心":{"c":["大久保薫"],"a":["大久保薫"]},"Eternal recurrence":{"c":["黒須克彦"],"a":["黒須克彦"]},"L":{"c":["橋本みゆき"],"a":["鈴木マサキ"]},"本当の勇気に変わるまで":{"c":["橋本みゆき"],"a":["鈴木マサキ"]},"AM 1:00":{"c":["アッチョリケ"],"a":["鈴木マサキ"]},"青空の見える丘で":{"c":["黒須克彦"],"a":["黒須克彦"]},"さかみち":{"c":["安瀬聖"],"a":["安瀬聖"]},"夢見るままに恋をして":{"c":["大久保薫"],"a":["大久保薫"]},"The Day Takeoff":{"c":["アッチョリケ"],"a":["鈴木マサキ"]},"夢の無限回廊":{"c":["黒須克彦"],"a":["黒須克彦"]},"秋色":{"c":["安瀬聖"],"a":["安瀬聖"]},"TIME":{"c":["アッチョリケ"],"a":["ms-jacky"]},"恋桜":{"c":["安瀬聖"],"a":["安瀬聖"]},"ペパーミント":{"c":["橋本みゆき"],"a":["鈴木マサキ"]},"ぱすてるチャイム":{"c":["新井健史"],"a":["新井健史"]},"シンクロしようよ":{"c":["志倉千代丸"],"a":["新井健史"]},"quantum faith":{"c":["新井健史"],"a":["新井健史"]},"blade heart":{"c":["新井健史"],"a":["新井健史"]},"Lunatic delusion":{"c":["新井健史"],"a":["新井健史"]},"扉ひらいて、ふたり未来へ":{"c":["藤田淳平(Elements Garden)"],"a":["藤田淳平(Elements Garden)"]},"Rave:tech (^_^) New;world":{"c":["新井健史"],"a":["新井健史"]},"きりひらけ！グレイシー☆スター":{"c":["志倉千代丸"],"a":["上野浩司"]},"流星のビヴロスト":{"c":["志倉千代丸"],"a":["新井健史"]},"Dimension tripper!!!":{"c":["新井健史"],"a":["MACARONI☆"]},"恋する少女と想いのキセキ (OP Full) 永遠なる絆と想いのキセキ":{"c":["水月陵"],"a":["水月陵"]},"N.O.S":{"c":["新井健史"],"a":["新井健史"]},"ウーズアウト (feat. 倚水)":{"c":["ハム"],"a":["ハム"]},"あの夏は死なない (feat. ねんね)":{"c":["ハム"],"a":["ハム"]},"朝が来るみたいに":{"c":["新井健史"],"a":["新井健史"]},"深紅の徒花":{"c":["折戸伸治"],"a":["MintJam"]},"ひとひらを紡いで":{"c":["SperioNz"],"a":["SperioNz"]},"Smiles Left Behind":{"c":["SperioNz"],"a":["SperioNz"]},"遠くなる君":{"c":["SperioNz"],"a":["SperioNz"]},"雪凪":{"c":["SperioNz"],"a":["SperioNz"]},"Midnight Ping":{"c":["SperioNz"],"a":["SperioNz"]},"Imaginary Arcadia":{"c":["RD-Sounds"],"a":["RD-Sounds"]},"追慕":{"c":["SperioNz"],"a":["SperioNz"]},"蒼のキャンバス":{"c":["SperioNz"],"a":["SperioNz"]},"Vacancy":{"c":["SperioNz"],"a":["SperioNz"]},"ハルハコブネ":{"c":["SperioNz"],"a":["SperioNz"]},"Echoes Calling":{"c":["SperioNz"],"a":["SperioNz"]},"星掬い":{"c":["SperioNz"],"a":["SperioNz"]},"Aorist":{"c":["SperioNz"],"a":["SperioNz"]},"恋、夏めく。":{"c":["SperioNz"],"a":["SperioNz"]},"君を覚えていたい":{"c":["SperioNz"],"a":["SperioNz"]},"瑠璃も玻璃も照らせば光る":{"c":["SperioNz"],"a":["SperioNz"]},"ne / ne [ヒトらしくあるために]":{"c":["bermei.inazawa"],"a":["bermei.inazawa"]},"Prima Littera":{"c":["Fty"],"a":["Fty"]},"徒、花吹雪":{"c":["Fty"],"a":["Fty"]},"days":{"c":["じん"],"a":["じん"]},"カレンダーには花言葉":{"c":["Fty"],"a":["Fty"]},"トワ・モナムール":{"c":["Fty"],"a":["Fty"]},"メディカルルセンターへようこそ":{"c":["Fty"],"a":["Fty"]},"華麗なるスペクタクル":{"c":["Fty"],"a":["Fty"]},"春巡スローステップ":{"c":["Fty"],"a":["Fty"]},"ステイノーブル":{"c":["Fty"],"a":["Fty"]},"カリステファスに乗せて":{"c":["Fty"],"a":["Fty"]},"ほんまやで☆なんでやねん☆しらんけど":{"c":["Fty"],"a":["Fty"]},"忘れものセンターにまたね！":{"c":["Fty"],"a":["Fty"]},"宴の皿":{"c":["Fty"],"a":["Fty"]},"シュガーロス":{"c":["Fty"],"a":["Fty"]},"硝子ドール":{"c":["Fty"],"a":["Fty"]},"オーバーレイ・ワールド":{"c":["Fty"],"a":["Fty"]},"I♡":{"c":["Fty"],"a":["Fty"]},"名探偵連続殺人事件":{"c":["てにをは"],"a":["てにをは"]},"ラブレター":{"c":["Ayase"],"a":["Ayase"]},"逆光のフリューゲル":{"c":["上松範康(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"合言葉はトキメキシロップ":{"c":["Fty"],"a":["Fty"]},"Work Out Night":{"c":["Fty"],"a":["Fty"]},"なぜ？謎？！ANSWER":{"c":["Fty"],"a":["Fty"]},"むげんのチケット":{"c":["まらしぃ","kors k"],"a":["まらしぃ","kors k"]},"アクシデントコーディネイター":{"c":["グシミヤギヒデユキ"],"a":["グシミヤギヒデユキ"]},"Clover Day's":{"c":["Manack"],"a":["Manack"]},"Clover Heart's":{"c":["Manack"],"a":["Manack"]},"Clover Heart's -New days recording-":{"c":["Manack"],"a":["Manack"]},"heavenly blue":{"c":["梶浦由記"],"a":["梶浦由記"]},"Magia":{"c":["梶浦由記"],"a":["梶浦由記"]},"Prayer X":{"c":["常田大希"],"a":["King Gnu"]},"inner universe":{"c":["菅野よう子"],"a":["菅野よう子"]},"わが臈たし悪の華":{"c":["片倉三起也"],"a":["片倉三起也"]},"聖少女領域":{"c":["片倉三起也"],"a":["片倉三起也"]},"亡國覚醒カタルシス":{"c":["片倉三起也"],"a":["片倉三起也"]},"aLIEz":{"c":["澤野弘之"],"a":["澤野弘之"]},"LilaS/SawanoHiroyuki[nZk]:Honoka Takahashi":{"c":["澤野弘之"],"a":["澤野弘之"]},"Avid":{"c":["澤野弘之"],"a":["澤野弘之"]},"Silly-Go-Round":{"c":["梶浦由記"],"a":["梶浦由記"]},"mind as Judgement":{"c":["上松範康(Elements Garden)"],"a":["上松範康(Elements Garden)"]},"chAngE":{"c":["miwa"],"a":["Naoki-T"]},"ダイアモンドクレバス":{"c":["菅野よう子"],"a":["菅野よう子"]},"ライオン":{"c":["菅野よう子"],"a":["菅野よう子"]},"愛・おぼえていますか":{"c":["加藤和彦"],"a":["清水信之"]},"サヨナラノツバサ～the end of triangle":{"c":["菅野よう子","保刈久明"],"a":["菅野よう子"]},"華鳥風月":{"c":["芳賀敬太"],"a":["Iceon"]},"虹の彼方に":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"虹の彼方に - From THE FIRST TAKE":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"たった1つの想い":{"c":["KOKIA"],"a":["KOKIA"]},"たった１つの想い":{"c":["KOKIA"],"a":["KOKIA"]},"Arrietty's Song":{"c":["Simon Caby","Cécile Corbel"],"a":["Simon Caby","Cécile Corbel"]},"Be Crazy For Me":{"c":["园田健太郎"],"a":["园田健太郎"]},"チキチキバンバン":{"c":["Jolly","Gabi"],"a":["MO.NO"]},"The Bravery":{"c":["ryo(supercell)"],"a":["ryo(supercell)"]},"星が瞬くこんな夜に 〜ゲームVer.〜":{"c":["ryo(supercell)"],"a":["ryo(supercell)"]},"Hoshi Ga Matataku Konnayoruni":{"c":["ryo(supercell)"],"a":["ryo(supercell)"]},"君の知らない物語":{"c":["ryo(supercell)"],"a":["ryo(supercell)"]},"銀色飛行船":{"c":["ryo(supercell)"],"a":["ryo(supercell)"]},"海色":{"c":["WEST GROUND"],"a":["WEST GROUND"]},"ambiguous":{"c":["toku"],"a":["GARNiDELiA"]},"桃源恋歌":{"c":["toku"],"a":["GARNiDELiA"]},"極楽浄土":{"c":["toku"],"a":["GARNiDELiA"]},"LADY":{"c":["米津玄師"],"a":["米津玄師","坂東祐大"]},"LADY (米津玄師)":{"c":["米津玄師"],"a":["米津玄師","坂東祐大"]},"KICK BACK (米津玄師)":{"c":["米津玄師"],"a":["米津玄師","常田大希"]},"BOW AND ARROW (요네즈 켄시)":{"c":["米津玄師"],"a":["米津玄師"]},"すずめ Suzume (RADWIMPS feat.十明)":{"c":["野田洋次郎"],"a":["野田洋次郎","陣内一真"]},"海の幽霊 - サンライトLIVE":{"c":["米津玄師"],"a":["米津玄師","坂東祐大"]},"烏":{"c":["米津玄師"],"a":["米津玄師"]},"あぶく":{"c":["n-buna"],"a":["n-buna"]},"花占い":{"c":["Vaundy"],"a":["Vaundy"]},"Prema":{"c":["藤井風"],"a":["Yaffle"]},"クスシキ":{"c":["大森元貴"],"a":["久保田真悟(Jazzin'park)","大森元貴"]},"ケセラセラ":{"c":["大森元貴"],"a":["大森元貴","花井諒"]},"ライラック":{"c":["大森元貴"],"a":["久保田真悟(Jazzin'park)","大森元貴"]},"晴る":{"c":["n-buna"],"a":["n-buna"]},"怪獣":{"c":["山口一郎"],"a":["サカナクション"]},"歌ってみた | 怪獣":{"c":["山口一郎"],"a":["サカナクション"]},"パンドラコール":{"c":["MIMI"],"a":["MIMI"]},"ウィアートル":{"c":["r-906"],"a":["r-906"]},"アルルの花":{"c":["傘村トータ"],"a":["傘村トータ"]},"ネクロの花嫁":{"c":["奏音69"],"a":["奏音69"]},"垂直落下":{"c":["傘村トータ"],"a":["傘村トータ"]},"シリウスの心臓":{"c":["ユリイ・カノン"],"a":["ユリイ・カノン"]},"物語りのワルツ":{"c":["MIMI"],"a":["MIMI"]},"だれかの心臓になれたなら":{"c":["ユリイ・カノン"],"a":["ユリイ・カノン"]},"ノンブレス・オブリージュ":{"c":["ピノキオピー"],"a":["ピノキオピー"]},"キャットラビング":{"c":["香椎モイミ"],"a":["香椎モイミ"]},"シャンティ":{"c":["wotaku"],"a":["wotaku"]},"MIRA":{"c":["Kanaria"],"a":["Kanaria"]},"ジッタードール":{"c":["niki"],"a":["niki"]},"透明エレジー":{"c":["n-buna"],"a":["n-buna"]},"透明エレジー 歌ってみた。":{"c":["n-buna"],"a":["n-buna"]},"ミルククラウン・オン・ソーネチカ 歌ってみた。":{"c":["ユジー"],"a":["ユジー"]},"マシュマリー":{"c":["MIMI"],"a":["MIMI"]},"炉心融解":{"c":["iroha(sasaki)"],"a":["iroha(sasaki)"]},"地球最後の告白を":{"c":["kemu"],"a":["kemu"]},"アスノヨゾラ哨戒班":{"c":["Orangestar"],"a":["Orangestar"]},"ヒビカセ":{"c":["Giga"],"a":["Giga"]},"からくりピエロ":{"c":["40mP"],"a":["40mP"]},"熱異常":{"c":["いよわ"],"a":["いよわ"]},"ももいろの鍵":{"c":["いよわ"],"a":["いよわ"]},"ライアーダンサー":{"c":["マサラダ"],"a":["マサラダ"]},"テトリス":{"c":["柊マグネタイト"],"a":["柊マグネタイト"]},"プロポーズ ‐ 内緒のピアス":{"c":["内緒のピアス"],"a":["内緒のピアス"]},"デスペレート":{"c":["TeddyLoid","Giga"],"a":["TeddyLoid","Giga"]},"デスぺレート":{"c":["TeddyLoid","Giga"],"a":["TeddyLoid","Giga"]},"グラーヴェ":{"c":["niki"],"a":["niki"]},"紗痲":{"c":["煮ル果実"],"a":["煮ル果実"]},"紗痲/煮ル果実":{"c":["煮ル果実"],"a":["煮ル果実"]},"食虫植物":{"c":["笹川真生"],"a":["笹川真生"]},"食虫植物 踊ってみた":{"c":["笹川真生"],"a":["笹川真生"]},"ユーエンミー":{"c":["笹川真生"],"a":["笹川真生"]},"ピルグリム":{"c":["rui(fade)"],"a":["毛蟹(LIVE LAB.)"]},"不可思議のカルテ 豊浜のどか Ver. (豊浜のどか)":{"c":["カワイヒデヒロ"],"a":["カワイヒデヒロ"]},"不可思議のカルテ 花楓＆かえで Ver. (梓川花楓)":{"c":["カワイヒデヒロ"],"a":["カワイヒデヒロ"]},"不可思議のカルテ 牧之原翔子 Ver. (牧之原翔子)":{"c":["カワイヒデヒロ"],"a":["カワイヒデヒロ"]},"ここから、ここから (小淵沢報瀬)":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"ここから、ここから (玉木マリ)":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"ここから、ここから (白石結月)":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"ここから、ここから (三宅日向)":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"水平線は僕の古傷 SP Short Ver. (広川卯月)":{"c":["カワイヒデヒロ"],"a":["カワイヒデヒロ"]},"水平線は僕の古傷 広川卯月 Short Ver. (広川卯月)":{"c":["カワイヒデヒロ"],"a":["カワイヒデヒロ"]},"水平線は僕の古傷 (赤城郁実)":{"c":["カワイヒデヒロ"],"a":["カワイヒデヒロ"]},"水平線は僕の古傷 赤城郁実 Short Ver. (赤城郁実)":{"c":["カワイヒデヒロ"],"a":["カワイヒデヒロ"]},"水平線は僕の古傷 霧島透子 Short Ver.":{"c":["カワイヒデヒロ"],"a":["カワイヒデヒロ"]},"Social World 広川卯月 Short Ver. (広川卯月)":{"c":["カワイヒデヒロ"],"a":["カワイヒデヒロ"]},"Social World":{"c":["カワイヒデヒロ"],"a":["カワイヒデヒロ"]},"青春のアーカイブ (セリカ)":{"c":["40mP"],"a":["40mP"]},"青春のアーカイブ (シロコ)":{"c":["40mP"],"a":["40mP"]},"君に恋を結んで (甘神夜重)":{"c":["鶴﨑輝一"],"a":["鶴﨑輝一"]},"君に恋を結んで (甘神夕奈)":{"c":["鶴﨑輝一"],"a":["鶴﨑輝一"]},"桜のかくしごと (甘神夜重)":{"c":["鶴﨑輝一"],"a":["鶴﨑輝一"]},"桜のかくしごと (甘神夕奈)":{"c":["鶴﨑輝一"],"a":["鶴﨑輝一"]},"†吸tie Ladies† (夏木ひなた)":{"c":["小野貴光"],"a":["玉木千尋"]},"†吸tie Ladies† (ソフィー・トワイライト)":{"c":["小野貴光"],"a":["玉木千尋"]},"がらくた・とれじゃあ (エーコ)":{"c":["トミタカズキ(SUPA LOVE)"],"a":["トミタカズキ(SUPA LOVE)"]},"スクラップ・マーチング！ (エーコ)":{"c":["トミタカズキ(SUPA LOVE)"],"a":["トミタカズキ(SUPA LOVE)"]},"がらくた・とれじゃあ (主人公)":{"c":["トミタカズキ(SUPA LOVE)"],"a":["トミタカズキ(SUPA LOVE)"]},"スクラップ・マーチング！ (主人公)":{"c":["トミタカズキ(SUPA LOVE)"],"a":["トミタカズキ(SUPA LOVE)"]},"はるかぜの化学 (ユー子)":{"c":["山口朗彦"],"a":["山口朗彦"]},"はるかぜの化学 (トオル)":{"c":["山口朗彦"],"a":["山口朗彦"]},"夢路らびりんす (小梅)":{"c":["大久保薫"],"a":["大久保薫"]},"夢路らびりんす (紺)":{"c":["大久保薫"],"a":["大久保薫"]},"Rumbling hearts":{"c":["清水永之"],"a":["飯塚昌明"]},"マブラヴ":{"c":["SAGE KOIZUMI"],"a":["飯塚昌明"]},"STRAIGHT JET":{"c":["菊田大介(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"ZERO!!":{"c":["中土智博"],"a":["中土智博"]},"奇跡メロディ":{"c":["yozuca*"],"a":["lotta"]},"Kiseki Melody / 奇跡メロディ [D.S. i.F. -Dal Segno- in Future OP]":{"c":["yozuca*"],"a":["lotta"]},"サクライロノキセツ":{"c":["tororo"],"a":["Angel Note"]},"ダ・カーポII 〜あさきゆめみし君と〜":{"c":["tororo"],"a":["Angel Note"]},"ダ・カーポIII 〜キミにささげる あいのマホウ〜":{"c":["tororo"],"a":["黒須克彦"]},"櫻ノ詩":{"c":["松本文紀"],"a":["松本文紀"]},"Sakura no Uta 「 Full Vers. 」":{"c":["松本文紀"],"a":["松本文紀"]},"空気力学少女と少年の詩":{"c":["松本文紀"],"a":["松本文紀"]},"ナグルファルの船上にて":{"c":["松本文紀"],"a":["松本文紀"]},"登れない坂道 「素晴らしき日々」ＥＤ":{"c":["松本文紀"],"a":["松本文紀"]},"Philosophyz":{"c":["折戸伸治"],"a":["MintJam"]},"闇の彼方へ":{"c":["塚越雄一朗"],"a":["塚越雄一朗"]},"ささやかなはじまり":{"c":["塚越雄一朗"],"a":["塚越雄一朗"]},"メグメル":{"c":["菊地創"],"a":["菊地創"]},"リフレクティア":{"c":["菊地創"],"a":["菊地創"]},"比翼の羽根":{"c":["菊地創"],"a":["菊地創"]},"Apocrypha":{"c":["菊地創"],"a":["菊地創"]},"コンフェティ":{"c":["菊地創"],"a":["菊地創"]},"ヒカリ輝くセカイ":{"c":["菊地創"],"a":["菊地創"]},"Closing Tears":{"c":["菊地創"],"a":["菊地創"]},"ナルキッソス":{"c":["菊地創"],"a":["菊地創"]},"花あかりの時":{"c":["菊地創"],"a":["菊地創"]},"奈落の花":{"c":["中沢伴行"],"a":["中沢伴行","尾崎武士"]},"Super scription of data":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"WHEEL OF FORTUNE (運命の輪)":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Red fraction":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"Shining stars bless☆":{"c":["井内舞子"],"a":["井内舞子"]},"Chasse":{"c":["高瀬一矢"],"a":["高瀬一矢","中沢伴行"]},"Rolling Star☆彡":{"c":["井内舞子"],"a":["井内舞子"]},"Send-off ～涙色のスタートライン～":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"木の芽風":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"音のない夜空に":{"c":["高瀬一矢"],"a":["高瀬一矢","尾崎武士"]},"Rimless～フチナシノセカイ～":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"誓い言～スコシだけもう一度～":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"true my heart":{"c":["a.k.a.dRESS"],"a":["a.k.a.dRESS"]},"kiss my lips":{"c":["a.k.a.dRESS"],"a":["a.k.a.dRESS"]},"My Sweet Lady":{"c":["a.k.a.dRESS"],"a":["a.k.a.dRESS"]},"届かない恋":{"c":["石川真也"],"a":["松岡純也"]},"closing":{"c":["下川直哉"],"a":["衣笠道雄"]},"After All":{"c":["石川真也"],"a":["衣笠道雄"]},"星座":{"c":["松岡純也"],"a":["松岡純也"]},"トモシビ":{"c":["巽明子"],"a":["衣笠道雄"]},"天命の傀儡":{"c":["衣笠道雄"],"a":["衣笠道雄"]},"恋夢":{"c":["衣笠道雄"],"a":["衣笠道雄"]},"Alchemy (Yui Ver.)":{"c":["麻枝准"],"a":["光収容"]},"Alchemy":{"c":["麻枝准"],"a":["光収容"]},"Crow Song":{"c":["麻枝准"],"a":["光収容"]},"Little Braver":{"c":["麻枝准"],"a":["光収容"]},"Shine Days":{"c":["麻枝准"],"a":["光収容"]},"Awakening Song":{"c":["麻枝准"],"a":["光収容"]},"Brave Song":{"c":["麻枝准"],"a":["ANANT-GARDE EYES"]},"Boys be Smile":{"c":["麻枝准"],"a":["MANYO"]},"ギターと孤独と蒼い惑星":{"c":["音羽-otoha-"],"a":["三井律郎"]},"夢を束ねて":{"c":["佐藤千亜妃"],"a":["三井律郎"]},"milky way":{"c":["石原慎也"],"a":["三井律郎"]},"惑う星":{"c":["大木伸夫"],"a":["三井律郎"]},"UNITE":{"c":["音羽-otoha-"],"a":["三井律郎"]},"花になって - Be a flower":{"c":["長屋晴子"],"a":["穴見真吾","川口圭太"]},"恥ずかしいか青春は":{"c":["長屋晴子"],"a":["穴見真吾","LASTorder"]},"馬鹿の一つ覚え":{"c":["長屋晴子"],"a":["穴見真吾"]},"キャラクター/ 緑黄色社会":{"c":["穴見真吾","peppe"],"a":["緑黄色社会","横山裕章"]},"Sabotage (緑黄色社会)":{"c":["長屋晴子"],"a":["緑黄色社会","Naoki Itai"]},"光るとき":{"c":["塩塚モエカ"],"a":["羊文学"]},"マフラー":{"c":["塩塚モエカ"],"a":["羊文学"]},"クロノスタシス":{"c":["佐藤千亜妃"],"a":["きのこ帝国"]},"海と花束":{"c":["佐藤千亜妃"],"a":["きのこ帝国"]},"パラノイドパレード":{"c":["佐藤千亜妃"],"a":["きのこ帝国"]},"脳裏上のクラッカー":{"c":["ACAね"],"a":["100回嘔吐"]},"Kan Saete Kuyashiiwa":{"c":["ACAね","ラムシーニ"],"a":["ラムシーニ"]},"Saturn":{"c":["ACAね"],"a":["久保田真悟(Jazzin'park)"]},"サターン":{"c":["ACAね"],"a":["久保田真悟(Jazzin'park)"]},"Time Left":{"c":["ACAね"],"a":["100回嘔吐","ZTMY"]},"Kawakiwoameku":{"c":["美波"],"a":["美波","真船勝博","大塚巧"]},"Hollowness":{"c":["美波"],"a":["美波","真船勝博","大塚巧"]},"GOOD LUCKER":{"c":["美波"],"a":["美波","真船勝博","大塚巧"]},"Good Morning":{"c":["美波"],"a":["美波","真船勝博","大塚巧"]},"貴方の恋人になりたい":{"c":["麗"],"a":["チョーキューメイ"]},"テレキャスター・ストライプ":{"c":["雫"],"a":["ポルカドットスティングレイ"]},"初恋キラー":{"c":["乃紫"],"a":["乃紫"]},"接吻の手引き":{"c":["乃紫"],"a":["乃紫"]},"全方向美少女":{"c":["乃紫"],"a":["乃紫"]},"Sakura Biyori and Time Machine with Hatsune Miku":{"c":["まふまふ"],"a":["まふまふ"]},"Kura Kura":{"c":["meiyo"],"a":["菅野よう子"]},"向日葵":{"c":["みゆはん"],"a":["40mP"]},"I I I":{"c":["Giga","TeddyLoid"],"a":["Giga","TeddyLoid"]},"III":{"c":["Giga","TeddyLoid"],"a":["Giga","TeddyLoid"]},"幽霊船戦":{"c":["Toby Fox"],"a":["かめりあ"]},"海想列車":{"c":["40mP"],"a":["40mP"]},"未だ、青い":{"c":["じん"],"a":["じん"]},"キズナトキセキ with hololive JP":{"c":["田淵智也"],"a":["堀江晶太"]},"Palette":{"c":["ゆよゆっぺ"],"a":["ゆよゆっぺ"]},"Howling":{"c":["ZAQ"],"a":["ZAQ"]},"Stellar Stellar":{"c":["TAKU INOUE"],"a":["TAKU INOUE"]},"灼熱にて純情 (wii-wii-woo)":{"c":["田淵智也"],"a":["堀江晶太"]},"Orbital Period":{"c":["古川本舗"],"a":["古川本舗","和音正人"]},"もうどうなってもいいや - Movie edition -":{"c":["Yuki Tsujimura","Naoki Itai"],"a":["Naoki Itai"]},"レクイエム (星街すいせい ver.)":{"c":["Kanaria"],"a":["Kanaria"]},"レクイエム /Kanaria×星街すいせい":{"c":["Kanaria"],"a":["Kanaria"]},"ジュビリー (M@STER Version)":{"c":["TAKU INOUE"],"a":["TAKU INOUE"]},"往け":{"c":["Ayase"],"a":["江口亮"]},"ブラックボックス":{"c":["秋田ひろむ(amazarashi)"],"a":["出羽良彰"]},"ハルシネイト":{"c":["ツミキ"],"a":["ツミキ"]},"赤い罠(who loves it?)":{"c":["田淵智也"],"a":["堀江晶太"]},"unlasting":{"c":["草野華余子"],"a":["堀江晶太"]},"Shouted Serenade":{"c":["田淵智也"],"a":["堀江晶太"]},"Brave Freak Out":{"c":["高橋浩一郎"],"a":["高橋浩一郎"]},"Thrill, Risk, Heartless":{"c":["田淵智也"],"a":["堀江晶太"]},"dawn":{"c":["草野華余子","堀江晶太"],"a":["堀江晶太"]},"SWEET MAGIC":{"c":["田淵智也"],"a":["江口亮"]},"23:50":{"c":["堀江晶太"],"a":["堀江晶太"]},"YES":{"c":["伊澤一葉"],"a":["江口亮"]},"Rain Song":{"c":["小南泰葉"],"a":["江口亮"]},"dis/connect":{"c":["堀江晶太"],"a":["堀江晶太"]},"Patch Walk":{"c":["小南泰葉"],"a":["江口亮"]},"WiLL〜無色透明〜":{"c":["小南泰葉"],"a":["江口亮"]},"エレクトリリカル":{"c":["渡辺翔"],"a":["堀江晶太"]},"ONLY≠LONELY":{"c":["BIGMAMA"],"a":["BIGMAMA"]},"キモチファクトリー":{"c":["渡辺翔"],"a":["堀江晶太"]},"虚無":{"c":["カヨコ"],"a":["堀江晶太"]},"Psychedelic Drive":{"c":["横山直弘(感覚ピエロ)"],"a":["感覚ピエロ"]},"ハローグッデイ":{"c":["LiSA","PABLO"],"a":["PABLO"]},"Believe in ourselves":{"c":["LiSA","田淵智也"],"a":["堀江晶太"]},"蜜":{"c":["女王蜂"],"a":["女王蜂","塚田耕平"]},"rapid lady ハレーション":{"c":["田淵智也"],"a":["堀江晶太"]},"ラブリーデイ":{"c":["野間康介"],"a":["野間康介"]},"黄金の輝き":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"Mosquito":{"c":["ハヤシケイ(LIVE LAB.)"],"a":["ハヤシケイ(LIVE LAB.)"]},"JAMMER":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"Simoom":{"c":["Pan(LIVE LAB.)"],"a":["Pan(LIVE LAB.)"]},"じゃあな":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"By myself":{"c":["rui(fade)"],"a":["ReoNa"]},"R.I.P.":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"未完成":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"Untitled world":{"c":["毛蟹(LIVE LAB.)"],"a":["堀江晶太"]},"Amore":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"Lv.1 職業：人間":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"命という病":{"c":["堀江晶太"],"a":["堀江晶太"]},"ネリヤカナヤ ～美ら奄美～":{"c":["堀江晶太"],"a":["宮野幸子(SHANGRI-LA INC.)"]},"BIRTHDAY":{"c":["堀江晶太"],"a":["堀江晶太"]},"End of Days":{"c":["rui(fade)"],"a":["堀江晶太","宮野幸子(SHANGRI-LA INC.)"]},"Someday":{"c":["傘村トータ(LIVE LAB.)"],"a":["堀江晶太"]},"テディ":{"c":["傘村トータ(LIVE LAB.)"],"a":["堀江晶太"]},"Debris":{"c":["毛蟹(LIVE LAB.)"],"a":["堀江晶太"]},"Weaker":{"c":["ハヤシケイ(LIVE LAB.)"],"a":["堀江晶太"]},"Wake Me Up":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"革命":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"Girls Don't Cry":{"c":["ハヤシケイ(LIVE LAB.)"],"a":["宮田'レフティ'リョウ"]},"Independence":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"葬送の儀":{"c":["872wur"],"a":["堀江晶太"]},"Dancer in the Discord":{"c":["毛蟹(LIVE LAB.)"],"a":["堀江晶太"]},"Oh UnHappy Day":{"c":["rui(fade)"],"a":["小松一也"]},"Toxic":{"c":["毛蟹(LIVE LAB.)"],"a":["毛蟹(LIVE LAB.)"]},"Game of Love":{"c":["rui(fade)"],"a":["ハヤシケイ(LIVE LAB.)"]},"海を泳ぐ月":{"c":["40mP"],"a":["40mP"]},"JOURNEE":{"c":["40mP"],"a":["40mP"]},"億万☆Choooo者！":{"c":["40mP"],"a":["40mP"]},"笑顔のおかわり":{"c":["40mP"],"a":["40mP"]},"ってゆーか":{"c":["40mP"],"a":["40mP"]},"月の温度":{"c":["40mP"],"a":["40mP"]},"最強ガール":{"c":["40mP"],"a":["40mP"]},"深海遊泳":{"c":["40mP"],"a":["40mP"]},"1日は25時間。":{"c":["40mP"],"a":["40mP"]},"渋谷アクアリウム":{"c":["40mP"],"a":["40mP"]},"青一色":{"c":["40mP"],"a":["40mP"]},"重力級拘束ラブ":{"c":["小野貴光"],"a":["小野貴光"]},"ブルーライトコネクト":{"c":["青ゐネコ"],"a":["伊藤立"]},"シルベキコト":{"c":["青谷"],"a":["ナノウ"]},"天灯":{"c":["キタニタツヤ"],"a":["キタニタツヤ"]},"切り傷":{"c":["キタニタツヤ"],"a":["キタニタツヤ"]},"淡く微か":{"c":["渡辺翔"],"a":["伊根"]},"メーテルリンク":{"c":["渡辺翔"],"a":["キタニタツヤ"]},"あめにながす":{"c":["渡辺翔"],"a":["キタニタツヤ"]},"影裏":{"c":["渡辺翔"],"a":["sajou no hana"]},"エテルネル":{"c":["藤原彩豊"],"a":["湯浅篤"]},"それでも曇天を越えてゆく-Lyric Video-（TVアニメ『ここは俺に任せて先に行けと言ってから10年がたったら伝説になっていた。』オープニングテーマ）":{"c":["鈴木エレカ","oni"],"a":["ナノウ"]},"青嵐のあとで":{"c":["キタニタツヤ"],"a":["キタニタツヤ","渡辺翔"]},"THE IOLITE":{"c":["ナノウ"],"a":["ナノウ"]},"ココロアダプタ":{"c":["粕谷幸史朗"],"a":["粕谷幸史朗"]},"How many":{"c":["煮ル果実"],"a":["煮ル果実"]},"Hitotsugaimagnetic":{"c":["本多友紀(Arte Refact)"],"a":["本多友紀(Arte Refact)"]},"強がりレジスタンス":{"c":["田仲圭太"],"a":["TOPICS.LAB"]},"Rhythm is Energy":{"c":["田仲圭太"],"a":["TOPICS.LAB"]},"Aoharuinclusion":{"c":["中山翔吾","田辺望","ホリイモマ"],"a":["中山翔吾"]},"BABURU":{"c":["細井涼介","Kaz Kuwamura","姜藝利","柿沼雅美"],"a":["細井涼介"]},"共感されなくてもいいじゃない":{"c":["永井葉子"],"a":["TOPICS.LAB"]},"U撃つ":{"c":["戸嶋友祐"],"a":["戸嶋友祐"]},"カメレオンシンドローム":{"c":["佐藤厚仁"],"a":["佐藤厚仁"]},"不健康社会":{"c":["永井葉子"],"a":["TOPICS.LAB"]},"Hanseikai":{"c":["田仲圭太"],"a":["TOPICS.LAB"]},"Saitsuyowatashiizumu":{"c":["田辺望","理沙","日高カホリ"],"a":["田辺望"]},"Zeronohitosaji":{"c":["卯花ロク"],"a":["卯花ロク"]},"ハジマリノヒ":{"c":["田仲圭太","宮崎梧郎"],"a":["宮崎梧郎"]},"JUMP IN -めぐみん ver.- (めぐみん)":{"c":["佐藤良太"],"a":["佐藤良太"]},"Door (エミリア)":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"I Trust You (エミリア)":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"点と線":{"c":["坂部剛"],"a":["坂部剛"]},"Overture 〜Songs Begin to Turn〜":{"c":["睦月周平"],"a":["睦月周平"]},"rotate":{"c":["睦月周平"],"a":["睦月周平"]},"Now On Air":{"c":["夢見クジラ"],"a":["大沢圭一","夢見クジラ"]},"プラリネ":{"c":["栗山健太"],"a":["YouSee"]},"夜明けまでに":{"c":["Hina Tsukiyama"],"a":["水口浩次"]},"空色ミサンガ":{"c":["今井亮太郎"],"a":["今井亮太郎"]},"織姫な恋心":{"c":["やぎぬまかな"],"a":["辻林美穂"]},"A Quiet Flame":{"c":["園田健太郎"],"a":["園田健太郎"]},"らびちゅ":{"c":["佐野仁美"],"a":["田中竜夫"]},"Cinema":{"c":["睦月周平"],"a":["睦月周平"]},"青100色":{"c":["川本真琴"],"a":["水口浩次"]},"Shocking Blue":{"c":["園田健太郎"],"a":["園田健太郎"]},"No.6":{"c":["園田健太郎"],"a":["園田健太郎"]},"恋はMovie":{"c":["高田暁"],"a":["高田暁"]},"ワタシイロ":{"c":["多保孝一","UTA"],"a":["UTA"]},"マイフレンド":{"c":["織田哲郎"],"a":["葉山たけし"]},"謎":{"c":["小松未歩"],"a":["古井弘人"]},"ゆずれない願い":{"c":["田村直美","石川寛門"],"a":["鷹羽仁","井上龍仁"]},"素敵だね":{"c":["植松伸夫"],"a":["浜渦正志"]},"輪舞-revolution":{"c":["奥井雅美"],"a":["矢吹俊郎"]},"微笑みの爆弾":{"c":["馬渡松子"],"a":["馬渡松子"]},"輝きは君の中に":{"c":["林哲司"],"a":["林哲司"]},"最後の雨":{"c":["都志見隆"],"a":["富田素弘"]},"十六夜涙":{"c":["浅見昂生"],"a":["浅見昂生"]},"モノクロのキス":{"c":["Shinji"],"a":["シド","西平彰"]},"インビジブル":{"c":["kemu"],"a":["kemu"]},"ワールドイズマイン":{"c":["ryo(supercell)"],"a":["ryo(supercell)"]},"ギブス":{"c":["椎名林檎"],"a":["椎名林檎","亀田誠治"]},"長く短い祭":{"c":["椎名林檎"],"a":["椎名林檎"]},"二時間だけのバカンス":{"c":["宇多田ヒカル"],"a":["宇多田ヒカル"]},"悪魔の子":{"c":["ヒグチアイ"],"a":["兼松衆"]},"asphyxia":{"c":["中村未来"],"a":["Cö shu Nie"]},"華奢なリップ":{"c":["川谷絵音"],"a":["ジェニーハイ"]},"Ｗ●ＲＫ":{"c":["常田大希"],"a":["millennium parade","椎名林檎"]},"W●RK":{"c":["常田大希"],"a":["millennium parade","椎名林檎"]},"カメレオン":{"c":["常田大希"],"a":["King Gnu"]},"ここで息をして":{"c":["eill","Ryo'LEFTY'Miyata"],"a":["Ryo'LEFTY'Miyata"]},"Anything Goes!":{"c":["tatsuo"],"a":["tatsuo","中川幸太郎"]},"美しい鰭":{"c":["草野マサムネ"],"a":["スピッツ","亀田誠治"]},"勘ぐれい":{"c":["ACAね"],"a":["100回嘔吐","ZTMY"]},"地球儀":{"c":["米津玄師"],"a":["米津玄師","坂東祐大"]},"ハッピーエンド":{"c":["清水依与吏"],"a":["back number","島田昌典"]},"瞬き":{"c":["清水依与吏"],"a":["back number","島田昌典"]},"Stand By You":{"c":["藤原聡"],"a":["Official髭男dism"]},"都落ち":{"c":["n-buna"],"a":["n-buna"]},"フィナーレ。":{"c":["eill"],"a":["ソラノアルト"]},"17さいのうた。":{"c":["『ユイカ』"],"a":["小名川高弘"]},"夜明けと蛍":{"c":["n-buna"],"a":["n-buna"]},"春を待つ":{"c":["Islet"],"a":["Islet"]},"星になる":{"c":["Islet"],"a":["Islet"]},"きみに回帰線":{"c":["稲葉曇"],"a":["稲葉曇"]},"生きる":{"c":["水野あつ"],"a":["水野あつ"]},"ばらの花":{"c":["岸田繁"],"a":["くるり"]},"ツバサ":{"c":["太田朝子"],"a":["アンダーグラフ","島田昌典"]},"Sunny Day Sunday":{"c":["鈴木秋則"],"a":["センチメンタル・バス"]},"ボーイフレンド":{"c":["aiko"],"a":["島田昌典"]},"HOWEVER":{"c":["TAKURO"],"a":["GLAY","佐久間正英"]},"誰ガ為ノ世界":{"c":["志方あきこ"],"a":["志方あきこ"]},"白虎野の娘":{"c":["平沢進"],"a":["平沢進"]},"君よ 気高くあれ":{"c":["ryo(supercell)"],"a":["ryo(supercell)"]},"祝福のメシアとアイの塔":{"c":["ひとしずく×やま△"],"a":["ひとしずく×やま△"]},"FIND THE WAY":{"c":["Lori Fine"],"a":["Ken Kimura"]},"英雄 運命の詩":{"c":["ryo(supercell)"],"a":["ryo(supercell)"]},"ヘミソフィア":{"c":["菅野よう子"],"a":["菅野よう子"]},"プライド～嘆きの旅":{"c":["新居昭乃"],"a":["保刈久明"]},"鏡面の波":{"c":["照井順政"],"a":["照井順政"]},"Wind Climbing ～風にあそばれて～":{"c":["奥井亜紀"],"a":["小野寺明敏"]},"こきゅうとす":{"c":["ティカ・α"],"a":["やくしまるえつこ","山口元輝"]},"月と花束":{"c":["さユり"],"a":["江口亮"]},"独白":{"c":["内澤崇仁"],"a":["内澤崇仁"]},"DEAREST DROP":{"c":["Q-MHz"],"a":["増田武史"]},"カヌレ":{"c":["HoneyWorks"],"a":["HoneyWorks"]},"カオスが極まる":{"c":["田淵智也"],"a":["UNISON SQUARE GARDEN"]},"不安定な神様":{"c":["衣笠道雄"],"a":["松岡純也"]},"Planetes":{"c":["ryo(supercell)"],"a":["ryo(supercell)"]},"旅の途中":{"c":["吉良知彦"],"a":["吉良知彦"]},"不死鳥のフランメ":{"c":["上松範康(Elements Garden)"],"a":["菊田大介(Elements Garden)"]},"タブレット":{"c":["TOOBOE"],"a":["TOOBOE"]},"ENDLESS STORY":{"c":["Dawn Ann Thomas"],"a":["澤野弘之"]},"勿忘":{"c":["Awesome City Club","永野亮"],"a":["永野亮"]},"Touch off":{"c":["UVERworld"],"a":["UVERworld","平出悟"]},"found & lost":{"c":["Survive Said The Prophet"],"a":["Survive Said The Prophet"]},"メタり！！":{"c":["RYU-METAL"],"a":["RYU-METAL"]},"VOiCE":{"c":["ラブリーP"],"a":["ラブリーP"]},"VOY@GER":{"c":["井上拓"],"a":["井上拓"]},"MELODIES":{"c":["けんたあろは"],"a":["けんたあろは"]},"それを人は“青春”と呼んだ":{"c":["HoneyWorks"],"a":["HoneyWorks"]},"凪":{"c":["樋口秀樹"],"a":["樋口秀樹"]},"凪 WHITE-LIPS":{"c":["樋口秀樹"],"a":["樋口秀樹"]},"誓いの言葉":{"c":["樋口秀樹"],"a":["樋口秀樹"]},"紅葉":{"c":["樋口秀樹"],"a":["樋口秀樹"]},"もしも明日が晴れならば":{"c":["樋口秀樹"],"a":["樋口秀樹"]},"它是うららか？":{"c":["ぼっちぼろまる"],"a":["ぼっちぼろまる"]},"それはうららか？":{"c":["ぼっちぼろまる"],"a":["ぼっちぼろまる"]},"感情革命ロックンロール":{"c":["田淵智也"],"a":["堀江晶太"]},"ダイヤノカガヤキ":{"c":["やしきん"],"a":["やしきん"]},"ヒスイ色のミライ":{"c":["宮崎まゆ"],"a":["高橋修平"]},"Sun! Sun! Sunflower":{"c":["やしきん"],"a":["やしきん"]},"#あくあ色ぱれっと":{"c":["Junky"],"a":["Junky"]},"Nonfiction Nook":{"c":["藤井健太郎"],"a":["藤井健太郎"]},"夢の糸":{"c":["久保正貴"],"a":["久保正貴"]},"Dream thread":{"c":["久保正貴"],"a":["久保正貴"]},"Magie×Magie":{"c":["脇眞富(Arte Refact)"],"a":["脇眞富(Arte Refact)"]},"Magie Magie":{"c":["脇眞富(Arte Refact)"],"a":["脇眞富(Arte Refact)"]},"any if":{"c":["白戸佑輔"],"a":["白戸佑輔"]},"Fleeting Time":{"c":["田辺望"],"a":["田辺望"]},"With a Wish":{"c":["Saku"],"a":["Saku"]},"Afterglow":{"c":["本多友紀(Arte Refact)"],"a":["水野谷怜(Arte Refact)"]},"アフターグロウ":{"c":["本多友紀(Arte Refact)"],"a":["水野谷怜(Arte Refact)"]},"From Fate":{"c":["凛々咲","T4K"],"a":["T4K"]},"Fringed Iris":{"c":["佐藤厚仁"],"a":["佐藤厚仁"]},"Dear Doze Days":{"c":["矢鴇つかさ(Arte Refact)"],"a":["矢鴇つかさ(Arte Refact)"]},"Eternally":{"c":["半田翼"],"a":["半田翼"]},"mo∞ent":{"c":["Saku"],"a":["Saku"]},"Magic∞world":{"c":["井内舞子"],"a":["井内舞子"]},"X-encounter":{"c":["高瀬一矢"],"a":["高瀬一矢"]},"刹那の果実":{"c":["藤間仁(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"ハーモナイズ･クローバー":{"c":["黒須克彦"],"a":["黒須克彦","長田直之"]},"ハーモナイズ・クローバー":{"c":["黒須克彦"],"a":["黒須克彦","長田直之"]},"楽園の翼":{"c":["藤間仁(Elements Garden)"],"a":["藤間仁(Elements Garden)"]},"カワルミライ":{"c":["中山真斗"],"a":["中山真斗"]},"Authentic symphony":{"c":["虹音"],"a":["虹音"]},"優しさの理由":{"c":["宮崎誠"],"a":["宮崎誠"]},"starlog":{"c":["川本新"],"a":["川本新"]},"BLESS YoUr NAME":{"c":["倉内達矢"],"a":["倉内達矢"]},"明日の君さえいればいい。":{"c":["yuxuki waga(fhána)"],"a":["yuxuki waga(fhána)"]},"灰色のサーガ":{"c":["ChouCho"],"a":["村山☆潤"]},"モノクローム":{"c":["ChouCho"],"a":["村山☆潤"]},"コンプレックス・イマージュ":{"c":["志倉千代丸"],"a":["上野浩司"]},"Lunatic Tears...":{"c":["Tatsh"],"a":["Tatsh"]},"いつもこの場所で":{"c":["志倉千代丸"],"a":["奥山アキラ"]},"ORANGE":{"c":["志倉千代丸"],"a":["磯江俊道"]},"十字架に捧ぐ七重奏":{"c":["黒須克彦"],"a":["경(kyo)"]},"真実への鎮魂歌":{"c":["志倉千代丸"],"a":["磯江俊道"]},"君の描片～キミノカケラ～":{"c":["Tatsh"],"a":["Tatsh"]},"Close Your Eyes":{"c":["志倉千代丸"],"a":["磯江俊道"]},"コワレヤスキ":{"c":["佐伯高志"],"a":["佐伯高志"]},"Shadow gate to love":{"c":["渡辺和紀"],"a":["渡辺和紀"]},"Guilty Eyes Fever":{"c":["本多友紀(Arte Refact)"],"a":["酒井拓也(Arte Refact)"]},"Phantom Rocket Adventure":{"c":["本多友紀(Arte Refact)"],"a":["本多友紀(Arte Refact)"]},"Shooting Star Warrior":{"c":["MEG","Kanata Okajima"],"a":["MEG"]},"Deep Sea Cocoon":{"c":["MEG","Kanata Okajima"],"a":["MEG"]},"Nameless Love Song":{"c":["MEG","Kanata Okajima"],"a":["MEG"]},"Guilty!? Farewell party":{"c":["YASUSHI WATANABE"],"a":["YASUSHI WATANABE"]},"Dazzling White Town":{"c":["渡辺和紀"],"a":["渡辺和紀"]},"Lonely Snow Planet":{"c":["馬渕直純"],"a":["馬渕直純"]},"After The Rain":{"c":["R・O・N"],"a":["R・O・N"]},"CRASH MIND":{"c":["宮崎誠"],"a":["宮崎誠"]},"DROPOUT!?":{"c":["馬渕直純"],"a":["馬渕直純"]},"The Last Frontier":{"c":["AZKi"],"a":["RD-Sounds"]},"afterglow":{"c":["AZKi","中川大二郎"],"a":["中川大二郎"]},"未来カンパネラ":{"c":["山田竜平"],"a":["山田竜平"]},"オキドキ":{"c":["渡辺翔"],"a":["奈須野新平"]},"エンドロールは終わらない":{"c":["瀬名航"],"a":["瀬名航"]},"セカイの色彩":{"c":["やしきん"],"a":["やしきん"]},"こいのうた":{"c":["中島優美"],"a":["GO!GO!7188"]},"スイちゃんのメンテナンスソング":{"c":["ササキトモコ"],"a":["ササキトモコ"]},"彗星":{"c":["Taku Inoue"],"a":["Taku Inoue"]},"夜に咲く":{"c":["sakuma."],"a":["sakuma."]},"Wicked":{"c":["Giga"],"a":["Giga"]},"Planetarium":{"c":["夏代孝明"],"a":["渡辺拓也"]},"My Abyss":{"c":["YAMAAD"],"a":["YAMAAD"]},"バズビバザヴ":{"c":["てにをは"],"a":["てにをは"]},"ChewyChewy":{"c":["川谷絵音"],"a":["川谷絵音"]},"処方箋":{"c":["すりぃ"],"a":["すりぃ"]},"心の在処はすぐ傍に":{"c":["堀江晶太"],"a":["堀江晶太"]},"不可視":{"c":["R Sound Design"],"a":["R Sound Design"]},"サキミダレアッパレード♪":{"c":["キノシタ"],"a":["キノシタ"]},"Sakuraful March":{"c":["FAKE TYPE."],"a":["DYES IWASAKI(FAKE TYPE.)"]},"PON-DERFUL!!!":{"c":["TAKU INOUE","永山ひろなお"],"a":["TAKU INOUE","永山ひろなお"]},"ハートオンライン":{"c":["みきとP"],"a":["みきとP"]},"花月ノ夢":{"c":["まふまふ"],"a":["まふまふ"]},"咲き誇れアイドル":{"c":["HoneyWorks"],"a":["HoneyWorks"]},"Love is a potion":{"c":["佐高陵平(Hifumi,inc.)"],"a":["佐高陵平(Hifumi,inc.)"]},"Dorothy":{"c":["Tomggg"],"a":["Tomggg"]},"ブルー・フェアリー":{"c":["Tomggg"],"a":["Tomggg"]},"愛と呼ぶなら":{"c":["オーイシマサヨシ"],"a":["オーイシマサヨシ"]},"Little steps":{"c":["睦月周平"],"a":["睦月周平"]},"Harvest":{"c":["睦月周平"],"a":["睦月周平"]},"Freesia":{"c":["宮崎誠"],"a":["宮崎誠"]},"Resolution":{"c":["R・O・N"],"a":["R・O・N"]},"人間どもよ":{"c":["R・O・N"],"a":["R・O・N"]},"あなたの心のGravity":{"c":["白戸佑輔(Dream Monster)"],"a":["白戸佑輔(Dream Monster)"]},"Exactly":{"c":["園田健太郎"],"a":["園田健太郎"]},"Catch me Cats me":{"c":["清竹真奈美"],"a":["川島弘光"]},"Sweet alert":{"c":["전다운"],"a":["전다운"]},"QT Two-Face":{"c":["大島こうすけ"],"a":["大島こうすけ"]},"Walkure Attack!":{"c":["姐御 head","藤澤慶昌"],"a":["藤澤慶昌"]},"ワルキューレのバースデイソング":{"c":["Happy Field"],"a":["窪田ミナ"]},"ようこそ! ワルキューレ・ワールドへ":{"c":["堂島孝平"],"a":["北川勝利"]},"Glow in the dark":{"c":["渡辺未来"],"a":["渡辺未来"]},"Diva in Abyss":{"c":["Rasmus Faber"],"a":["Rasmus Faber"]},"ダイアモンド クレバス～Mikumo Ver.～":{"c":["菅野よう子"],"a":["菅野よう子"]},"兎座ストーリー":{"c":["picco"],"a":["picco"]},"ぺこらんだむぶれいん!":{"c":["俊龍"],"a":["よる。"]},"全人類 兎化計画!":{"c":["前山田健一"],"a":["藤原燈太"]},"いいわけバニー":{"c":["岩見陸"],"a":["ナナホシ管弦楽団"]},"カミサマ・ネコサマ":{"c":["やしきん"],"a":["橘亮祐"]},"ネコカブリーナ":{"c":["ピノキオピー"],"a":["ピノキオピー"]},"デタバレネコ":{"c":["kemu"],"a":["kemu"]},"I’m Your Treasure Box *あなたは マリンせんちょうを たからばこからみつけた。":{"c":["U.Z. INU"],"a":["かめりあ"]},"Ahoy!! 我ら宝鐘海賊団☆":{"c":["ARM(IOSYS)"],"a":["ARM(IOSYS)"]},"うい麦畑でつかまえて":{"c":["ナナホシ管弦楽団"],"a":["ナナホシ管弦楽団"]},"さなのおうた。":{"c":["もっふーP"],"a":["もっふーP"]},"エッビーナースデイ":{"c":["やしきん"],"a":["やしきん"]},"あのバンド":{"c":["草野華余子"],"a":["三井律郎"]},"ダイアローグ+インビテーション!":{"c":["田淵智也"],"a":["睦月周平"]},"なないろびより":{"c":["きみコ"],"a":["nano.RIPE"]},"モア!ジャンプ!モア!":{"c":["ナユタン星人"],"a":["ナユタン星人"]},"needLe":{"c":["DECO*27"],"a":["Rockwell"]},"アイカツ☆ステップ!":{"c":["connie"],"a":["connie"]},"スタージェット!":{"c":["長橋健一"],"a":["南田健吾(onetrap)"]},"STARDOM!":{"c":["蔦谷好位置"],"a":["田中隼人(agehasprings)"]},"ideal white":{"c":["Carlos K.","Toshi-Fj"],"a":["Carlos K."]},"vanilla sky":{"c":["じん"],"a":["じん","田口囁一"]},"回レ!雪月花":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"SUPERORBITAL":{"c":["藤澤健至"],"a":["藤澤健至"]},"M@STERPIECE":{"c":["神前暁"],"a":["神前暁","高田龍一"]},"シャイノグラフィ":{"c":["古屋真","ヒゲドライバー"],"a":["ヒゲドライバー"]},"シャイノグラフィ (2023 Ver.)":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"いつか Shiny Days (2023 Ver.)":{"c":["山田智和"],"a":["住谷翔平"]},"夢咲きAfter school":{"c":["俊龍"],"a":["Sizuk"]},"Guilty Night, Guilty Kiss!":{"c":["R・O・N"],"a":["R・O・N"]},"花女":{"c":["カンザキイオリ"],"a":["カンザキイオリ"]},"花十カクメイ前日譚":{"c":["カンザキイオリ"],"a":["カンザキイオリ"]},"かいか":{"c":["廻花"],"a":["Sosuke Oikawa"]},"サクラカゼ":{"c":["ハム"],"a":["ハム"]},"さくら色ハイテンション！":{"c":["ハム"],"a":["ハム"]},"月が満ちる":{"c":["ユリイ・カノン"],"a":["ユリイ・カノン"]},"Knew day":{"c":["R・O・N"],"a":["R・O・N"]},"ウラノミト":{"c":["広川恵一(MONACA)"],"a":["広川恵一(MONACA)"]},"月の兎はヴァーチュアルの夢をみる":{"c":["ASA Wu"],"a":["ASA Wu"]},"失礼しますが、RIP♡":{"c":["해랑(Koko)"],"a":["Koko"]},"HINOTORI":{"c":["R・O・N"],"a":["R・O・N"]},"Lioness' Pride":{"c":["かめりあ"],"a":["かめりあ"]},"わための子守唄":{"c":["ハム"],"a":["ハム"]},"宵の余、良い！":{"c":["烏屋茶房"],"a":["烏屋茶房"]},"ぷ・れ・あ・で・す！":{"c":["やしきん"],"a":["やしきん"]},"ねねちのギラギラファンミーティング":{"c":["烏屋茶房"],"a":["篠崎あやと"]},"モモノネ":{"c":["ヒゲドライバー"],"a":["ヒゲドライバー"]},"ももいろの砂時計":{"c":["やしきん"],"a":["やしきん"]},"空の箱 (DIAMOND DUST)":{"c":["玉井健二","남혜승"],"a":["百田留衣"]},"ずっと ChamJam":{"c":["渡辺翔"],"a":["倉内達矢"]},"FairyTaleじゃいられない":{"c":["田淵智也"],"a":["堀江晶太"]},"PUNCH☆MIND☆HAPPINESS":{"c":["田中秀和(MONACA)"],"a":["田中秀和(MONACA)"]},"未確認ふゅーちゃー":{"c":["Junky"],"a":["Junky"]},"クレイジークレイジー":{"c":["Taku Inoue"],"a":["Taku Inoue"]},"ケラケラじゃんけん":{"c":["ふるっぺ"],"a":["宮永治郎"]},"アイドルライフスターターパック":{"c":["Medansy"],"a":["Medansy"]},"アイドルライフブースターパック":{"c":["Medansy"],"a":["Medansy"]}};
+  const NORM_CANONICAL_SONG_CREDITS = new Map();
+  Object.keys(CANONICAL_SONG_CREDITS).forEach(k => {
+    const nk = normSearch(k);
+    if (nk && !NORM_CANONICAL_SONG_CREDITS.has(nk)) {
+      NORM_CANONICAL_SONG_CREDITS.set(nk, CANONICAL_SONG_CREDITS[k]);
+    }
+  });
+
+  function normComposerCompareKey(name) {
+    return String(name || "")
+      .normalize("NFKC")
+      .replace(/\s*[\(（][^\)）]*[\)）]\s*$/g, "")
+      .replace(/[\s\u3000・]+/g, "")
+      .trim()
+      .toLowerCase();
+  }
+
+  function getSongCredits(artist, songTitle) {
+    if (!songTitle) return null;
+    const raw = String(songTitle || "").trim();
+    if (!raw) return null;
+    if (artist && artist.sc && artist.sc[raw] && Array.isArray(artist.sc[raw].c) && artist.sc[raw].c.length > 0) {
+      return artist.sc[raw];
+    }
+    if (CANONICAL_SONG_CREDITS[raw]) {
+      return CANONICAL_SONG_CREDITS[raw];
+    }
+    const nk = normSearch(raw);
+    if (nk && NORM_CANONICAL_SONG_CREDITS.has(nk)) {
+      return NORM_CANONICAL_SONG_CREDITS.get(nk);
+    }
+    const stripped = raw
+      .replace(/\s*[\(（][^\)）]*(?:cover|カバー|ver\.?|version|歌ってみた|live|first take|mv|short|acoustic|piano|arrange)[^\)）]*[\)）]/gi, "")
+      .trim();
+    if (stripped && stripped !== raw) {
+      if (artist && artist.sc && artist.sc[stripped]) return artist.sc[stripped];
+      if (CANONICAL_SONG_CREDITS[stripped]) return CANONICAL_SONG_CREDITS[stripped];
+      const snk = normSearch(stripped);
+      if (snk && NORM_CANONICAL_SONG_CREDITS.has(snk)) return NORM_CANONICAL_SONG_CREDITS.get(snk);
+    }
+    return null;
+  }
+
+  function formatKaruSongCreditsHTML(artist, songTitle) {
+    if (!state.karuSpecialMode) return "";
+    const cr = getSongCredits(artist, songTitle);
+    if (!cr || !Array.isArray(cr.c) || cr.c.length === 0) return "";
+    const compList = cr.c.map(x => String(x || "").trim()).filter(Boolean);
+    if (compList.length === 0) return "";
+    const compText = compList.join("・");
+    let html = `<span class="karu-song-credit"><span class="row-artist-prefix">作曲:</span>${esc(compText)}</span>`;
+
+    // Arranger rule: ONLY display when arranger is 1 person AND different from composer(s)
+    const arrList = Array.isArray(cr.a) ? cr.a.map(x => String(x || "").trim()).filter(Boolean) : [];
+    if (arrList.length === 1) {
+      const singleArr = arrList[0];
+      const arrNorm = normComposerCompareKey(singleArr);
+      const isSameAsComposer = compList.some(cName => normComposerCompareKey(cName) === arrNorm);
+      if (arrNorm && !isSameAsComposer) {
+        html += `<span class="karu-song-credit"><span class="row-artist-prefix">編曲:</span>${esc(singleArr)}</span>`;
+      }
+    }
+    return html;
+  }
+
+  let currentComposerItems = [];
+  let COMPOSER_MAP = new Map();
+
+  function buildFilteredComposerItems(filteredArtists, q, qNoSpace) {
+    const map = new Map();
+    const hasHeartFilter = Array.isArray(state.heartFilter) && state.heartFilter.length > 0;
+
+    filteredArtists.forEach(a => {
+      const songs = Array.isArray(a.songs) ? a.songs : [];
+      songs.forEach((sTitle, sIdx) => {
+        if (hasHeartFilter) {
+          const sTier = getSongHeartTier(a.aid, sTitle);
+          const aTier = getArtistHeartTier(a.aid);
+          if (!matchesHeartTierFilter(sTier) && !matchesHeartTierFilter(aTier)) return;
+        }
+        const cr = getSongCredits(a, sTitle);
+        if (!cr) return;
+        const compList = Array.isArray(cr.c) ? cr.c.map(x => String(x || "").trim()).filter(Boolean) : [];
+        const arrList = Array.isArray(cr.a) ? cr.a.map(x => String(x || "").trim()).filter(Boolean) : [];
+        const compNormSet = new Set(compList.map(normComposerCompareKey));
+
+        const addEntry = (personName, isArrOnly) => {
+          if (!personName) return;
+          let obj = map.get(personName);
+          if (!obj) {
+            const nName = normSearch(personName);
+            const nNoSpace = stripSpaces(nName);
+            const cleanSort = stripLeadingSongSymbols(personName);
+            obj = {
+              name: personName,
+              _normName: nName,
+              _normNoSpace: nNoSpace,
+              _sortKey: normSearch(cleanSort || personName),
+              songs: [],
+              _seenKeys: new Set(),
+              composeCount: 0,
+              arrangeOnlyCount: 0,
+              tier: 99,
+              ratio: 0,
+              matchedSongPreview: ""
+            };
+            map.set(personName, obj);
+          }
+          const songKey = `${a.aid}\t${sTitle}`;
+          if (obj._seenKeys.has(songKey)) return;
+          obj._seenKeys.add(songKey);
+          obj.songs.push({
+            artist: a,
+            songTitle: sTitle,
+            regIdx: sIdx + 1,
+            isArrOnly
+          });
+          if (isArrOnly) obj.arrangeOnlyCount++;
+          else obj.composeCount++;
+        };
+
+        compList.forEach(cName => addEntry(cName, false));
+        arrList.forEach(aName => {
+          if (!compNormSet.has(normComposerCompareKey(aName))) {
+            addEntry(aName, true);
+          }
+        });
+      });
+    });
+
+    const results = [];
+    map.forEach(obj => {
+      if (obj.songs.length === 0) return;
+      // Display label: if only arrangement credits exist, append "(編)"; if both exist, show name (songs arranged-only are marked "(編)")
+      obj.displayName = (obj.composeCount === 0 && obj.arrangeOnlyCount > 0)
+        ? `${obj.name} (編)`
+        : obj.name;
+
+      if (q) {
+        const qLen = q.length || 1;
+        let matched = false;
+        if (obj._normName === q || (qNoSpace && obj._normNoSpace === qNoSpace)) {
+          obj.tier = 1;
+          obj.ratio = 3.1;
+          matched = true;
+        } else if (obj._normName.startsWith(q) || (qNoSpace && obj._normNoSpace.startsWith(qNoSpace))) {
+          obj.tier = 2;
+          obj.ratio = 2.0 + (qLen / Math.max(qLen, obj._normName.length));
+          matched = true;
+        } else if (obj._normName.includes(q) || (qNoSpace && obj._normNoSpace.includes(qNoSpace))) {
+          obj.tier = 3;
+          obj.ratio = 1.0 + (qLen / Math.max(qLen, obj._normName.length));
+          matched = true;
+        } else {
+          // Also allow matching by song title composed/arranged by this person
+          for (let i = 0; i < obj.songs.length; i++) {
+            const sTitle = obj.songs[i].songTitle;
+            const ns = normSearch(sTitle);
+            const nsNoSpace = stripSpaces(ns);
+            if (ns.includes(q) || (qNoSpace && nsNoSpace.includes(qNoSpace))) {
+              obj.tier = 4;
+              obj.ratio = 0.8;
+              obj.matchedSongPreview = sTitle + (obj.songs[i].isArrOnly ? " (編)" : "");
+              matched = true;
+              break;
+            }
+          }
+        }
+        if (!matched) return;
+      }
+      results.push(obj);
+    });
+
+    const compSort = state.searchComposerSort || "kanaAsc";
+    results.sort((a, b) => {
+      if (q && !state.searchSortOverride) {
+        if (a.tier !== b.tier) return a.tier - b.tier;
+        if (Math.abs(b.ratio - a.ratio) > 1e-6) return b.ratio - a.ratio;
+      }
+      if (compSort === "countDesc") {
+        if (b.songs.length !== a.songs.length) return b.songs.length - a.songs.length;
+      }
+      const ga = getSongKanaGroupPriority(a._sortKey);
+      const gb = getSongKanaGroupPriority(b._sortKey);
+      if (ga !== gb) return ga - gb;
+      const cmp = jaCollator.compare(a._sortKey || a.name, b._sortKey || b.name);
+      if (cmp !== 0) return cmp;
+      return b.songs.length - a.songs.length;
+    });
+
+    results.forEach((item, idx) => {
+      item.rank = idx + 1;
+    });
+
+    COMPOSER_MAP = map;
+    return results;
+  }
+
+  function buildComposerRowHTML(comp, rowIndex = 999) {
+    const isSelected = state.selectedComposerName === comp.name;
+    const rankNum = comp.rank || (rowIndex + 1);
+    const matchSubHTML = comp.matchedSongPreview
+      ? `<div class="row-match-sub row-match-song-both">♪ 一致担当曲: ${esc(comp.matchedSongPreview)}</div>`
+      : (comp.composeCount > 0 && comp.arrangeOnlyCount > 0
+          ? `<div class="row-match-sub" style="color:var(--text-secondary);">作曲 ${fmtNum(comp.composeCount)}曲 / 編曲(編) ${fmtNum(comp.arrangeOnlyCount)}曲</div>`
+          : "");
+    return `
+      <div class="artist-row composer-row ${isSelected ? "selected" : ""}" data-composer-name="${esc(comp.name)}" role="button" tabindex="0">
+        <div class="row-rank">${rankNum}</div>
+        <div class="row-name-wrap">
+          <div class="row-name">${esc(comp.displayName)}</div>
+          ${matchSubHTML}
+        </div>
+        <div class="row-count">${fmtNum(comp.songs.length)}<span>曲</span></div>
+      </div>
+    `;
+  }
+
+  function selectComposer(compName) {
+    if (!state.karuSpecialMode || !compName) return;
+    if (!COMPOSER_MAP.has(compName)) {
+      buildFilteredComposerItems(DATA, "", "");
+    }
+    if (!COMPOSER_MAP.has(compName)) return;
+    if (state.selectedComposerName !== compName || state.selectedArtistName !== null) {
+      pushHistorySnapshot(false);
+    }
+    state.selectedComposerName = compName;
+    state.selectedArtistName = null;
+    if (window.innerWidth <= 900) {
+      try {
+        history.pushState({ sheet: "detail", composer: compName }, "");
+      } catch (e) {}
+    }
+    updateSelectedRowHighlight();
+    renderDetailPanel(true);
+  }
+
   let currentFiltered = [];
 
   function updateSearchScopeCounts() {
@@ -2453,6 +2702,7 @@
     if (titleEl) {
       if (target === "artist") titleEl.textContent = "アーティストを検索";
       else if (target === "song") titleEl.textContent = "楽曲を検索";
+      else if (target === "composer") titleEl.textContent = "作曲者を検索";
       else if (target === "group") titleEl.textContent = "グループを検索";
       else titleEl.textContent = "すべて検索";
     }
@@ -2461,10 +2711,14 @@
         inputEl.placeholder = "アーティスト名・ひらがな・カタカナ・ローマ字を入力...";
       } else if (target === "song") {
         inputEl.placeholder = "楽曲名（登録曲・代表曲）を入力...";
+      } else if (target === "composer") {
+        inputEl.placeholder = "作曲者・編曲者・ボカロP名を入力...";
       } else if (target === "group") {
         inputEl.placeholder = "所属（事務所・作品）やユニット名を入力...";
       } else {
-        inputEl.placeholder = "アーティスト・楽曲・所属（事務所・作品）・ユニット名を入力...";
+        inputEl.placeholder = state.karuSpecialMode
+          ? "アーティスト・楽曲・作曲者・所属（事務所・作品）・ユニット名を入力..."
+          : "アーティスト・楽曲・所属（事務所・作品）・ユニット名を入力...";
       }
     }
     updateSearchScopeCounts();
@@ -2958,6 +3212,10 @@
     const isSearch = state.view === "search";
     const meikyokuActive = hasMeikyokuFilter();
     const isMeikyokuSearch = isSearch && meikyokuActive;
+    if (!state.karuSpecialMode && state.searchTarget === "composer") {
+      state.searchTarget = "all";
+    }
+    const isComposerSearchTab = Boolean(state.karuSpecialMode && isSearch && state.searchTarget === "composer" && !isMeikyokuSearch);
     const isSongSearchTab = isSearch && state.searchTarget === "song" && !isMeikyokuSearch;
     const q = isSearch ? normSearch(state.searchQuery) : "";
     const qNoSpace = q ? stripSpaces(q) : "";
@@ -3049,7 +3307,7 @@
         }
       }
 
-      if (isSearch && !isSongSearchTab && !isMeikyokuSearch && q) {
+      if (isSearch && !isSongSearchTab && !isComposerSearchTab && !isMeikyokuSearch && q) {
         if (!evaluateSearchMatch(a, q, qNoSpace)) return false;
         if (hasHeartFilter) {
           const artMatchesHeart = matchesHeartTierFilter(getArtistHeartTier(a.aid));
@@ -3073,6 +3331,12 @@
     currentSongSearchItems = [];
     currentCanonicalSongGroups = [];
     currentMeikyokuItems = [];
+    currentComposerItems = [];
+
+    if (isComposerSearchTab) {
+      currentComposerItems = buildFilteredComposerItems(currentFiltered, q, qNoSpace);
+      return;
+    }
 
     if (isMeikyokuSearch) {
       currentFiltered.forEach(a => {
@@ -3315,6 +3579,30 @@
       }).join("") + moreNoteHTML;
       return;
     }
+    if (state.karuSpecialMode && state.searchTarget === "composer") {
+      const compHits = currentComposerItems.slice(0, 6);
+      if (compHits.length === 0) {
+        bar.style.display = "none";
+        bar.innerHTML = "";
+        return;
+      }
+      const moreCount = Math.max(0, currentComposerItems.length - compHits.length);
+      const moreNoteHTML = moreCount > 0
+        ? `<span class="search-cand-more-note">＋ほか${fmtNum(moreCount)}件（下の一覧に表示）</span>`
+        : "";
+      bar.style.display = "flex";
+      bar.innerHTML = `<span class="search-cand-label">上位候補:</span>` + compHits.map(comp => {
+        const isExact = comp.tier === 1;
+        return `
+          <button type="button" class="search-cand-chip ${isExact ? "exact-hit" : ""}" data-cand-composer="${esc(comp.name)}" title="${esc(comp.displayName)} の担当曲一覧を表示">
+            <span class="search-cand-name">${esc(comp.displayName)}</span>
+            <span class="search-cand-count">${fmtNum(comp.songs.length)}曲</span>
+          </button>
+        `;
+      }).join("") + moreNoteHTML;
+      return;
+    }
+
     if (state.searchTarget === "song") {
           const songSortMode = state.searchSongSort || "kanaAsc";
           if (q && !state.searchSortOverride) {
@@ -3811,7 +4099,7 @@
         : "";
       nameWrapInner = `
         <div class="row-song-primary">♪ ${tokensHTML}${moreSuffixHTML}</div>
-        <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}</div>
+        <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${formatKaruSongCreditsHTML(a, primarySongTitle)}</div>
       `;
     } else {
       let matchSub = "";
@@ -3947,7 +4235,7 @@
         <div class="row-avatar-wrap" title="">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
           <div class="row-song-primary">♪ ${esc(songTitle)}${songHeartHTML}</div>
-          <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}</div>
+          <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${formatKaruSongCreditsHTML(a, songTitle)}</div>
         </div>
         <div class="row-role col-pc-only">
           ${rowRoleBadgesHTML}
@@ -4019,7 +4307,7 @@
         <div class="row-avatar-wrap" title="">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
           <div class="row-song-primary">♪ <span class="row-matched-song-token ${isSngFav ? "is-song-fav" : ""}" data-matched-song-title="${esc(songTitle)}">${esc(songTitle)}${sngHeartHTML}</span></div>
-          <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}</div>
+          <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${formatKaruSongCreditsHTML(a, songTitle)}</div>
         </div>
         <div class="row-role col-pc-only">
           ${rowRoleBadgesHTML}
@@ -4098,7 +4386,7 @@
         <div class="row-avatar-wrap" title="">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
           <div class="row-song-primary">${starBadgeHTML}♪ <span class="row-matched-song-token ${isSngFav ? "is-song-fav" : ""}" data-matched-song-title="${esc(songTitle)}">${esc(songTitle)}${sngHeartHTML}</span>${unheardBadgeHTML}${addBtnHTML}</div>
-          <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}</div>
+          <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${formatKaruSongCreditsHTML(a, songTitle)}</div>
         </div>
         <div class="row-role col-pc-only">
           ${rowRoleBadgesHTML}
@@ -4181,6 +4469,7 @@
 
     const isMeikyokuMode = isMeikyokuListView();
     const isGroupSearchOnly = state.view === "search" && state.searchTarget === "group" && !isMeikyokuMode;
+    const isComposerSearchOnly = Boolean(state.karuSpecialMode && state.view === "search" && state.searchTarget === "composer" && !isMeikyokuMode);
     const isSongSearchOnly = state.view === "search" && state.searchTarget === "song" && !isMeikyokuMode;
     if (isMeikyokuMode) {
       const unheardCnt = currentMeikyokuItems.filter(x => !isSongInArtistListeningList(x.artist, x.songTitle)).length;
@@ -4188,6 +4477,8 @@
       totalEl.innerHTML = `表示中: <strong>${fmtNum(currentMeikyokuItems.length)}</strong> 銘曲${unheardNote}`;
     } else if (isGroupSearchOnly) {
       totalEl.innerHTML = `表示中: <strong>${fmtNum(currentMatchedGroups.length)}</strong> グループ`;
+    } else if (isComposerSearchOnly) {
+      totalEl.innerHTML = `表示中: <strong>${fmtNum(currentComposerItems.length)}</strong> 作曲者`;
     } else if (isSongSearchOnly) {
       if (isSameSongGroupListView()) {
         totalEl.innerHTML = `表示中: <strong>${fmtNum(currentCanonicalSongGroups.length)}</strong> 曲種（全 <strong>${fmtNum(currentSongSearchItems.length)}</strong> 曲）`;
@@ -4598,6 +4889,21 @@
       return;
     }
 
+    if (isComposerSearchOnly) {
+      if (currentComposerItems.length === 0) {
+        listEl.innerHTML = `
+          <div class="empty-list-state">
+            <h3>条件に一致する作曲者・編曲者が見つかりません</h3>
+            <p>検索キーワードや絞り込み条件を変更してお試しください。</p>
+          </div>
+        `;
+        return;
+      }
+      const sliceComp = currentComposerItems.slice(0, state.renderLimit);
+      listEl.innerHTML = sliceComp.map((comp, idx) => buildComposerRowHTML(comp, idx)).join("");
+      return;
+    }
+
     if (isSongSearchOnly) {
       if (isSameSongGroupListView()) {
         if (currentCanonicalSongGroups.length === 0) {
@@ -4653,6 +4959,19 @@
   function getActiveRenderListLength() {
     if (isMeikyokuListView()) {
       return currentMeikyokuItems.length;
+    }
+    if (state.karuSpecialMode && state.view === "search" && state.searchTarget === "composer") {
+      return currentComposerItems.length;
+    }
+    if (state.karuSpecialMode && state.view === "search" && state.searchTarget === "composer") {
+      const sliceC = currentComposerItems.slice(prevLimit, newLimit);
+      if (sliceC.length === 0) return;
+      const temp = document.createElement("div");
+      temp.innerHTML = sliceC.map((comp, idx) => buildComposerRowHTML(comp, prevLimit + idx)).join("");
+      const frag = document.createDocumentFragment();
+      while (temp.firstElementChild) frag.appendChild(temp.firstElementChild);
+      listEl.appendChild(frag);
+      return;
     }
     if (state.view === "search" && state.searchTarget === "song") {
       if (isSameSongGroupListView()) return currentCanonicalSongGroups.length;
@@ -4715,11 +5034,22 @@
     if (!listEl) return;
     const prevSelected = listEl.querySelectorAll(".artist-row.selected");
     prevSelected.forEach(row => {
-      if (row.getAttribute("data-artist-name") !== state.selectedArtistName) {
+      const rArt = row.getAttribute("data-artist-name");
+      const rComp = row.getAttribute("data-composer-name");
+      const keep = (rArt && rArt === state.selectedArtistName) || (rComp && rComp === state.selectedComposerName);
+      if (!keep) {
         row.classList.remove("selected");
       }
     });
-    if (state.selectedArtistName) {
+    if (state.selectedComposerName) {
+      const rows = listEl.querySelectorAll(".artist-row.composer-row");
+      for (let i = 0; i < rows.length; i++) {
+        if (rows[i].getAttribute("data-composer-name") === state.selectedComposerName) {
+          rows[i].classList.add("selected");
+          break;
+        }
+      }
+    } else if (state.selectedArtistName) {
       const rows = listEl.querySelectorAll(".artist-row");
       for (let i = 0; i < rows.length; i++) {
         if (rows[i].getAttribute("data-artist-name") === state.selectedArtistName) {
@@ -4749,6 +5079,75 @@
     const contentEl = document.getElementById("detailScrollContent");
     const prevDetailScrollTop = contentEl ? contentEl.scrollTop : 0;
     const topTitleEl = document.getElementById("detailTopBarTitle");
+
+    if (state.karuSpecialMode && state.selectedComposerName) {
+      if (!COMPOSER_MAP.has(state.selectedComposerName)) {
+        buildFilteredComposerItems(DATA, "", "");
+      }
+      const comp = COMPOSER_MAP.get(state.selectedComposerName);
+      if (!comp) {
+        state.selectedComposerName = null;
+      } else {
+        shell.classList.remove("detail-closed");
+        if (window.innerWidth <= 900) {
+          rightPanel.classList.add("mobile-open");
+          backdrop.classList.add("visible");
+        }
+        syncMobileScrollLock();
+        topTitleEl.textContent = comp.displayName;
+
+        let compSongs = comp.songs.map((item, idx) => ({
+          artist: item.artist,
+          title: item.songTitle,
+          isArrOnly: item.isArrOnly,
+          regIdx: idx + 1,
+          heartTier: getSongHeartTier(item.artist.aid, item.songTitle)
+        }));
+
+        compSongs.sort((x, y) => {
+          if (x.heartTier !== y.heartTier) return y.heartTier - x.heartTier;
+          if (state.songSort === "titleAsc") {
+            const cmp = jaCollator.compare(x.title, y.title);
+            if (cmp !== 0) return cmp;
+            return jaCollator.compare(x.artist.reading || x.artist.name, y.artist.reading || y.artist.name);
+          }
+          return x.regIdx - y.regIdx;
+        });
+
+        contentEl.innerHTML = `
+          <div class="detail-hero composer-detail-hero">
+            <h2 class="detail-artist-name">${esc(comp.displayName)}</h2>
+          </div>
+          <div class="detail-actions-row">
+            <div class="detail-section-heading">かるが聴いてる曲（${fmtNum(compSongs.length)}曲）</div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div class="song-sort-toggle" role="group" aria-label="楽曲の並び替え">
+                <button type="button" class="song-sort-btn ${state.songSort === "titleAsc" ? "active" : ""}" data-song-sort="titleAsc">曲名順</button>
+                <button type="button" class="song-sort-btn ${state.songSort === "regAsc" ? "active" : ""}" data-song-sort="regAsc">登録順</button>
+              </div>
+            </div>
+          </div>
+          <div class="detail-song-list">
+            ${compSongs.map((s, i) => {
+              const songTier = s.heartTier;
+              const isSongFav = songTier > 0;
+              const arrTagHTML = s.isArrOnly ? `<span class="composer-arr-tag">(編)</span>` : "";
+              return `
+                <div class="detail-song-item ${isSongFav ? "song-is-fav" : ""}" data-song-title="${esc(s.title)}" data-artist-aid="${esc(s.artist.aid)}" ${isSongFav ? `data-heart-tier="${songTier}"` : ""}>
+                  <span class="song-idx">${i + 1}</span>
+                  <span class="song-name">${esc(s.title)}${arrTagHTML}${isSongFav ? buildHeartBadgeSpanHTML(songTier, "song-fav-heart", "かるのオススメ楽曲") : ""}<span class="composer-song-artist">（${esc(s.artist.name)}）</span></span>
+                  <span class="detail-song-right-actions">
+                    <span class="song-edit-heart-indicator ${isSongFav ? `is-fav heart-tier-${songTier}` : ""}" aria-hidden="true">${HEART_SVG_SINGLE}</span>
+                  </span>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        `;
+        if (resetDetailScroll) contentEl.scrollTop = 0;
+        return;
+      }
+    }
 
     const artist = state.selectedArtistName ? ARTIST_MAP.get(state.selectedArtistName) : null;
     if (!artist) {
@@ -5043,6 +5442,15 @@
     }
 
     if (state.karuSpecialMode) {
+      if (state.view === "search" && state.searchTarget === "composer") {
+        return {
+          options: [
+            { value: "kanaAsc", label: "五十音順" },
+            { value: "countDesc", label: "担当曲数が多い順" }
+          ],
+          currentVal: state.searchComposerSort || "kanaAsc"
+        };
+      }
       return {
         options: [
           { value: "kanaAsc", label: "五十音順" }
@@ -5116,6 +5524,10 @@
     if (state.view === "search") {
       const target = state.searchTarget || "all";
       state.searchSortOverride = true;
+      if (target === "composer") {
+        state.searchComposerSort = newVal;
+        return true;
+      }
       if (target === "group") {
         state.searchGroupSort = newVal;
         return true;
@@ -5249,14 +5661,17 @@
       (state.view === "search" && state.searchTarget === "song" && !isSameSongGroupMode);
     const isRecommendArtistMode = state.view === "recommend" && state.recommendTab === "artist";
     const isGroupSearchMode = state.view === "search" && state.searchTarget === "group";
+    const isComposerListMode = Boolean(state.karuSpecialMode && state.view === "search" && state.searchTarget === "composer" && !isMeikyokuMode);
     document.body.setAttribute("data-current-rec-tab", state.recommendTab || "artist");
     document.body.classList.toggle("song-list-mode", isSongListMode);
     document.body.classList.toggle("same-song-group-mode", isSameSongGroupMode);
+    document.body.classList.toggle("composer-list-mode", isComposerListMode);
     document.body.classList.toggle("recommend-artist-mode", isRecommendArtistMode);
     const listColHeaderEl = document.getElementById("listColHeader") || document.querySelector(".list-col-header");
     if (listColHeaderEl) {
       listColHeaderEl.classList.toggle("song-list-mode", isSongListMode);
       listColHeaderEl.classList.toggle("same-song-group-mode", isSameSongGroupMode);
+      listColHeaderEl.classList.toggle("composer-list-mode", isComposerListMode);
       listColHeaderEl.classList.toggle("recommend-artist-mode", isRecommendArtistMode);
       listColHeaderEl.classList.toggle("group-search-header-hidden", isGroupSearchMode);
       // On Smartphone, hide column header only on "かるのオススメ" -> "楽曲" tab; on "アーティスト" tab show "アーティスト" + "高評価曲数"
@@ -5264,7 +5679,7 @@
     }
     const listColCountEl = document.getElementById("listColCountLabel");
     if (listColCountEl) {
-      listColCountEl.textContent = isSameSongGroupMode ? "同一曲数" : "登録楽曲数";
+      listColCountEl.textContent = isSameSongGroupMode ? "同一曲数" : (isComposerListMode ? "担当楽曲数" : "登録楽曲数");
     }
     const listColRankEl = document.getElementById("listColRankLabel") || document.querySelector(".list-col-header > span:first-child");
     if (listColRankEl) {
@@ -5272,7 +5687,7 @@
     }
     const listColMainEl = document.getElementById("listColMainLabel") || document.querySelector(".list-col-header > span:nth-child(3)");
     if (listColMainEl) {
-      listColMainEl.textContent = (isSongListMode || isSameSongGroupMode) ? "曲名" : "アーティスト";
+      listColMainEl.textContent = isComposerListMode ? "作曲者" : ((isSongListMode || isSameSongGroupMode) ? "曲名" : "アーティスト");
     }
     const listColFavCountEl = document.getElementById("listColFavCountLabel");
     if (listColFavCountEl) {
@@ -5369,6 +5784,7 @@
       pushHistorySnapshot(fromProfileJump);
     }
     state.selectedArtistName = name;
+    state.selectedComposerName = null;
     state.detailMode = defaultMode;
     if (window.innerWidth <= 900) {
       try {
@@ -5380,10 +5796,11 @@
   }
 
   function closeDetailPanel() {
-    if (state.selectedArtistName !== null) {
+    if (state.selectedArtistName !== null || state.selectedComposerName !== null) {
       pushHistorySnapshot(false);
     }
     state.selectedArtistName = null;
+    state.selectedComposerName = null;
     updateSelectedRowHighlight();
     renderDetailPanel(false);
   }
@@ -5474,6 +5891,8 @@
     state.searchGroupSort = "groupCountDesc";
     state.searchSortOverride = false;
     state.selectedArtistName = null;
+    state.selectedComposerName = null;
+    state.searchComposerSort = "kanaAsc";
     state.detailMode = "archive";
     state.pcFilterOpen = false;
     state.mobFilterOpen = false;
@@ -5735,9 +6154,14 @@
         state.exactCanonicalSongTitle = "";
       } else {
         state.meikyokuFilter = [];
+        if (state.searchTarget === "composer") {
+          state.searchTarget = "all";
+        }
+        state.selectedComposerName = null;
         state.sortBy = "countDesc";
         state.savedSortBy = "countDesc";
       }
+      syncSearchTargetUI();
       updateUI(true);
       const toastEl = document.getElementById("favSyncToast");
       if (toastEl) {
@@ -6174,6 +6598,11 @@
           );
           return;
         }
+        const compChip = e.target.closest("[data-cand-composer]");
+        if (compChip) {
+          selectComposer(compChip.getAttribute("data-cand-composer"));
+          return;
+        }
         const chip = e.target.closest("[data-cand-artist]");
         if (!chip) return;
         const name = chip.getAttribute("data-cand-artist");
@@ -6213,6 +6642,21 @@
     const handleRowHoverPreload = e => {
       const row = e.target.closest(".artist-row");
       if (!row) return;
+      if (row.classList.contains("composer-row")) {
+        const compName = row.getAttribute("data-composer-name");
+        if (compName) {
+          if (window.innerWidth <= 900) {
+            row.classList.add("mob-tap-active");
+            setTimeout(() => {
+              row.classList.remove("mob-tap-active");
+              selectComposer(compName);
+            }, 55);
+          } else {
+            selectComposer(compName);
+          }
+        }
+        return;
+      }
       const name = row.getAttribute("data-artist-name");
       const a = name ? ARTIST_MAP.get(name) : null;
       if (a && a.img) {
@@ -6835,7 +7279,11 @@
         const row = e.target.closest(".artist-row");
         if (!row) return;
         e.preventDefault();
-        selectArtist(row.getAttribute("data-artist-name"));
+        if (row.classList.contains("composer-row")) {
+          selectComposer(row.getAttribute("data-composer-name"));
+        } else {
+          selectArtist(row.getAttribute("data-artist-name"));
+        }
       }
     });
 
