@@ -1410,6 +1410,7 @@
     searchScope: "all",    // "all" | "cat1" | "cat2"
     searchTarget: "all",   // "all" | "artist" | "song" | "composer" | "group"
     searchComposerSort: "kanaAsc",    // Default "五十音順" for search ("composer") | "countDesc"
+    composerExcludeMaxSongs: 0,       // 0 | 2 | 3 | 5 | 10 | 20 (exclude composers with <= N listening songs in "かる専用モード")
     exactArtistSongsAid: "",
     searchArtistSort: "kanaAsc",      // Default "五十音順" for search ("all" & "artist")
     searchSongSort: "kanaAsc",        // Default "五十音順" (by song title) for search ("song") | "alphaAsc" | "sameSongCountDesc"
@@ -1479,6 +1480,7 @@
       selectedArtistName: state.selectedArtistName,
       selectedComposerName: state.selectedComposerName,
       searchComposerSort: state.searchComposerSort || "kanaAsc",
+      composerExcludeMaxSongs: Number(state.composerExcludeMaxSongs || 0),
       exactArtistSongsAid: state.exactArtistSongsAid || "",
       detailMode: state.detailMode,
       songSort: state.songSort,
@@ -1538,6 +1540,7 @@
     state.selectedArtistName = snap.selectedArtistName || null;
     state.selectedComposerName = snap.selectedComposerName || null;
     state.searchComposerSort = snap.searchComposerSort || "kanaAsc";
+    state.composerExcludeMaxSongs = Number(snap.composerExcludeMaxSongs || 0);
     state.exactArtistSongsAid = snap.exactArtistSongsAid || "";
     state.detailMode = snap.detailMode || "archive";
     state.songSort = snap.songSort || "titleAsc";
@@ -2695,6 +2698,9 @@
       });
     });
 
+    const excludeMax = (state.karuSpecialMode && state.view === "search" && state.searchTarget === "composer")
+      ? Number(state.composerExcludeMaxSongs || 0)
+      : 0;
     const results = [];
     map.forEach(obj => {
       if (obj.songs.length === 0) return;
@@ -2710,6 +2716,7 @@
       obj.displayName = (obj.composeCount === 0 && obj.arrangeOnlyCount > 0)
         ? `${obj.name} (編)`
         : obj.name;
+      if (excludeMax > 0 && obj.songs.length <= excludeMax) return;
 
       if (q) {
         const qLen = q.length || 1;
@@ -4183,8 +4190,27 @@
         </div>
     ` : "";
 
+    const isComposerSearchOnly = Boolean(state.karuSpecialMode && state.view === "search" && state.searchTarget === "composer");
+    const composerExcludeOpts = [2, 3, 5, 10, 20];
+    const curCompExclude = Number(state.composerExcludeMaxSongs || 0);
+    const composerExcludeGroupHTML = isComposerSearchOnly ? `
+        <div class="composer-exclude-filter-section">
+          <div class="filter-group-title">
+            <span>担当曲を除外</span>
+            ${curCompExclude > 0 ? `<button type="button" class="clear-all-chips-btn" data-clear-composer-exclude="1">解除</button>` : ""}
+          </div>
+          <div class="preset-pills">
+            ${composerExcludeOpts.map(n => {
+              const isAct = curCompExclude === n;
+              return `<button type="button" class="pill-btn ${isAct ? "active" : ""}" data-filter-composer-exclude="${n}" aria-pressed="${isAct}">${n}曲以下</button>`;
+            }).join("")}
+          </div>
+        </div>
+    ` : "";
+
     return `
       <div class="filter-grid">
+        ${composerExcludeGroupHTML}
         ${meikyokuGroupHTML}
         <div>
           <div class="filter-group-title">
@@ -4293,6 +4319,9 @@
 
   function renderActiveFilterChips() {
     const chips = [];
+    if (state.karuSpecialMode && state.view === "search" && state.searchTarget === "composer" && Number(state.composerExcludeMaxSongs || 0) > 0) {
+      chips.push({ key: "composerExclude", label: `担当曲: ${Number(state.composerExcludeMaxSongs)}曲以下を除外` });
+    }
     if (hasMeikyokuFilter()) {
       if (state.meikyokuFilter.includes("all")) {
         chips.push({ key: "meikyoku:all", label: "銘曲: ☆すべて" });
@@ -6266,6 +6295,7 @@
     if (state.searchSongSort === "sameSongCountDesc") {
       state.searchSongSort = "kanaAsc";
     }
+    state.composerExcludeMaxSongs = 0;
     state.meikyokuFilter = [];
     state.heartFilter = [];
     state.sameSongCountMode = false;
@@ -6299,6 +6329,7 @@
     state.kanaChar = "";
     state.alphaChars = [];
     state.lastIndexType = "";
+    state.composerExcludeMaxSongs = 0;
     state.meikyokuFilter = [];
     state.heartFilter = [];
     state.sameSongCountMode = false;
@@ -6341,6 +6372,22 @@
     if (e.target.closest("button")) {
       pushHistorySnapshot(false);
     }
+    const compExBtn = e.target.closest("[data-filter-composer-exclude]");
+    if (compExBtn && state.karuSpecialMode) {
+      const nVal = parseInt(compExBtn.getAttribute("data-filter-composer-exclude") || "0", 10);
+      if ([2, 3, 5, 10, 20].includes(nVal)) {
+        state.composerExcludeMaxSongs = (Number(state.composerExcludeMaxSongs) === nVal) ? 0 : nVal;
+      }
+      updateUI(true);
+      return;
+    }
+
+    if (e.target.closest("[data-clear-composer-exclude]")) {
+      state.composerExcludeMaxSongs = 0;
+      updateUI(true);
+      return;
+    }
+
     const meikyokuBtn = e.target.closest("[data-filter-meikyoku]");
     if (meikyokuBtn && state.karuSpecialMode) {
       const mVal = meikyokuBtn.getAttribute("data-filter-meikyoku") || "";
@@ -6576,6 +6623,7 @@
         state.exactCanonicalSongKey = "";
         state.exactCanonicalSongTitle = "";
       } else {
+        state.composerExcludeMaxSongs = 0;
         state.meikyokuFilter = [];
         if (state.searchTarget === "composer") {
           state.searchTarget = "all";
@@ -6864,6 +6912,8 @@
       pushHistorySnapshot(false);
       if (key === "all") {
         clearAllFilters();
+      } else if (key === "composerExclude") {
+        state.composerExcludeMaxSongs = 0;
       } else if (key === "exactCanonicalSong") {
         state.exactCanonicalSongKey = "";
         state.exactCanonicalSongTitle = "";
