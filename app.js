@@ -863,6 +863,44 @@
     return getRecommendedSongsForArtist(a).length;
   }
 
+  function getArtistListeningFavSongCount(artistOrNameOrAid) {
+    if (!artistOrNameOrAid) return 0;
+    const a = (typeof artistOrNameOrAid === "object" && artistOrNameOrAid.aid)
+      ? artistOrNameOrAid
+      : AID_TO_ARTIST.get(resolveToAid(artistOrNameOrAid));
+    if (!a || !Array.isArray(a.songs)) return 0;
+    let cnt = 0;
+    const seen = new Set();
+    for (let i = 0; i < a.songs.length; i++) {
+      const s = a.songs[i];
+      if (s && !seen.has(s)) {
+        seen.add(s);
+        if (recommendedSongMap.has(`${a.aid}\t${s}`)) cnt++;
+      }
+    }
+    return cnt;
+  }
+
+  function getArtistListeningFavSongRatio(artistOrNameOrAid) {
+    if (!artistOrNameOrAid) return 0;
+    const a = (typeof artistOrNameOrAid === "object" && artistOrNameOrAid.aid)
+      ? artistOrNameOrAid
+      : AID_TO_ARTIST.get(resolveToAid(artistOrNameOrAid));
+    if (!a || !Array.isArray(a.songs) || a.songs.length === 0) return 0;
+    const favCnt = getArtistListeningFavSongCount(a);
+    return favCnt / a.songs.length;
+  }
+
+  function formatFavRatioPercent(ratio) {
+    const r = Number(ratio) || 0;
+    if (r <= 0) return "0";
+    const pct = r * 100;
+    if (Math.abs(pct - Math.round(pct)) < 0.05) {
+      return String(Math.round(pct));
+    }
+    return pct.toFixed(1).replace(/\.0$/, "");
+  }
+
   function getArtistTotalSongHearts(artistOrNameOrAid) {
     if (!artistOrNameOrAid) return 0;
     const a = (typeof artistOrNameOrAid === "object" && artistOrNameOrAid.aid)
@@ -1032,7 +1070,17 @@
       // Update song count column & 高評価曲数 column in-place
       const countEl = row.querySelector(".row-count");
       if (countEl) {
-        countEl.innerHTML = `${fmtNum(aObj.count)}<span>曲</span>`;
+        const isKaruArtistSearch = Boolean(state.karuSpecialMode && state.view === "search" && state.searchTarget === "artist");
+        if (isKaruArtistSearch && state.searchArtistSort === "favCountDesc") {
+          const fCnt = getArtistListeningFavSongCount(aObj);
+          countEl.innerHTML = `${fmtNum(fCnt)}<span>曲</span><span class="karu-sort-sub-metric">/${fmtNum(aObj.count)}曲</span>`;
+        } else if (isKaruArtistSearch && state.searchArtistSort === "favRatioDesc") {
+          const fCnt = getArtistListeningFavSongCount(aObj);
+          const fRat = getArtistListeningFavSongRatio(aObj);
+          countEl.innerHTML = `${formatFavRatioPercent(fRat)}<span>%</span><span class="karu-sort-sub-metric">(${fmtNum(fCnt)}/${fmtNum(aObj.count)})</span>`;
+        } else {
+          countEl.innerHTML = `${fmtNum(aObj.count)}<span>曲</span>`;
+        }
       }
       const favCountEl = row.querySelector(".row-fav-song-count");
       if (favCountEl) {
@@ -1953,17 +2001,20 @@
     DATA.forEach(a => {
       if (!a) return;
       const seenNorm = new Set();
+      const seenCanonical = new Set();
       const searchable = [];
       const pushSongObj = (rawSong, isTopSong) => {
         if (!rawSong) return;
         const nCmp = normSongTitleForCompare(rawSong);
         if (!nCmp || seenNorm.has(nCmp)) return;
+        const canInfo = getCanonicalSongTitleAndKey(rawSong);
+        if (isTopSong && canInfo.canonicalKey && seenCanonical.has(canInfo.canonicalKey)) return;
         seenNorm.add(nCmp);
+        if (canInfo.canonicalKey) seenCanonical.add(canInfo.canonicalKey);
         const ns = normSearch(rawSong);
         const nsNoSpace = stripSpaces(ns);
         const alArr = (SONG_SEARCH_ALIASES_BY_NEW_TITLE[rawSong] || []).map(al => normSearch(al));
         const alNoSpaceArr = alArr.map(al => stripSpaces(al));
-        const canInfo = getCanonicalSongTitleAndKey(rawSong);
         const normCan = normSearch(canInfo.displayTitle);
         const normCanNoSpace = stripSpaces(normCan);
         searchable.push({
@@ -2047,7 +2098,26 @@
     if (artist.songs.includes(targetTitle)) return true;
     const normCand = normSongTitleForCompare(targetTitle);
     if (!normCand) return false;
-    return artist.songs.some(s => normSongTitleForCompare(s) === normCand);
+    if (artist.songs.some(s => normSongTitleForCompare(s) === normCand)) return true;
+    const canKey = getCanonicalSongTitleAndKey(targetTitle).canonicalKey;
+    if (canKey && artist.songs.some(s => getCanonicalSongTitleAndKey(s).canonicalKey === canKey)) return true;
+    return false;
+  }
+
+  function buildKaruTopOnlyBadgeHTML(artist, songTitle, isTopSongFlag = false, extraClass = "") {
+    if (!state.karuSpecialMode) return "";
+    if (isSongInArtistListeningList(artist, songTitle)) return "";
+    if (!isTopSongFlag && artist && Array.isArray(artist.topSongs)) {
+      const normCand = normSongTitleForCompare(songTitle);
+      const canKey = getCanonicalSongTitleAndKey(songTitle).canonicalKey;
+      const inTop = artist.topSongs.some(ts =>
+        ts === songTitle ||
+        (normCand && normSongTitleForCompare(ts) === normCand) ||
+        (canKey && getCanonicalSongTitleAndKey(ts).canonicalKey === canKey)
+      );
+      if (!inTop) return "";
+    }
+    return `<span class="karu-top-only-tag ${extraClass}" title="代表曲（かるが聴いてる曲には未登録）">代表曲</span>`;
   }
 
   function getMeikyokuStarTierForSong(aidOrName, songTitle) {
@@ -2488,6 +2558,66 @@
     return html;
   }
 
+  function evaluateSongComposerMatch(artist, songTitle, q, qNoSpace) {
+    if (!state.karuSpecialMode || !q) return null;
+    const cr = getSongCredits(artist, songTitle);
+    if (!cr) return null;
+    const compList = Array.isArray(cr.c) ? cr.c : [];
+    const arrList = Array.isArray(cr.a) ? cr.a : [];
+    const allCredits = [...compList, ...arrList];
+    if (allCredits.length === 0) return null;
+
+    let bestTier = 99;
+    let bestRatio = 0;
+    const qLen = q.length || 1;
+    const qWsOnly = q.replace(/\s+/g, "");
+
+    for (let i = 0; i < allCredits.length; i++) {
+      const rawName = String(allCredits[i] || "").trim();
+      if (!rawName) continue;
+      const baseName = rawName.replace(/\s*[\(（][^\)）]*[\)）]\s*$/g, "").trim();
+      const candidates = (baseName && baseName !== rawName) ? [rawName, baseName] : [rawName];
+
+      for (let j = 0; j < candidates.length; j++) {
+        const cStr = candidates[j];
+        const nc = normSearch(cStr);
+        if (!nc) continue;
+        const ncNoSpace = stripSpaces(nc);
+        const ncWsOnly = nc.replace(/\s+/g, "");
+        const canMatchNoSpace = Boolean(qNoSpace) && (!/^[a-z0-9]+$/.test(qNoSpace) || ncWsOnly.includes(qWsOnly));
+        const baseRatio = qLen / Math.max(qLen, nc.length);
+
+        if (nc === q || (canMatchNoSpace && ncNoSpace === qNoSpace)) {
+          const t = 4;
+          const r = (j === 0 && nc === q) ? 3.08 : 3.04;
+          if (t < bestTier || (t === bestTier && r > bestRatio)) {
+            bestTier = t;
+            bestRatio = r;
+          }
+        } else if (nc.startsWith(q) || (canMatchNoSpace && ncNoSpace.startsWith(qNoSpace))) {
+          const t = 5;
+          const r = 2.0 + baseRatio;
+          if (t < bestTier || (t === bestTier && r > bestRatio)) {
+            bestTier = t;
+            bestRatio = r;
+          }
+        } else if (nc.includes(q) || (canMatchNoSpace && ncNoSpace.includes(qNoSpace))) {
+          const t = 5;
+          const r = 1.0 + baseRatio;
+          if (t < bestTier || (t === bestTier && r > bestRatio)) {
+            bestTier = t;
+            bestRatio = r;
+          }
+        }
+      }
+    }
+
+    if (bestTier < 99) {
+      return { tier: bestTier, ratio: bestRatio };
+    }
+    return null;
+  }
+
   let currentComposerItems = [];
   let currentKaruAllSearchEntries = [];
   let COMPOSER_MAP = new Map();
@@ -2568,6 +2698,15 @@
     const results = [];
     map.forEach(obj => {
       if (obj.songs.length === 0) return;
+      let favCnt = 0;
+      for (let i = 0; i < obj.songs.length; i++) {
+        const sItem = obj.songs[i];
+        if (getSongHeartTier(sItem.artist.aid, sItem.songTitle) > 0) {
+          favCnt++;
+        }
+      }
+      obj.favSongCount = favCnt;
+      obj.favSongRatio = obj.songs.length > 0 ? (favCnt / obj.songs.length) : 0;
       obj.displayName = (obj.composeCount === 0 && obj.arrangeOnlyCount > 0)
         ? `${obj.name} (編)`
         : obj.name;
@@ -2608,11 +2747,19 @@
 
     const compSort = state.searchComposerSort || "kanaAsc";
     results.sort((a, b) => {
-      if (q && !state.searchSortOverride) {
+      if (q && !state.searchSortOverride && compSort === "kanaAsc") {
         if (a.tier !== b.tier) return a.tier - b.tier;
         if (Math.abs(b.ratio - a.ratio) > 1e-6) return b.ratio - a.ratio;
       }
       if (compSort === "countDesc") {
+        if (b.songs.length !== a.songs.length) return b.songs.length - a.songs.length;
+      } else if (compSort === "favCountDesc") {
+        if (b.favSongCount !== a.favSongCount) return b.favSongCount - a.favSongCount;
+        if (Math.abs(b.favSongRatio - a.favSongRatio) > 1e-9) return b.favSongRatio - a.favSongRatio;
+        if (b.songs.length !== a.songs.length) return b.songs.length - a.songs.length;
+      } else if (compSort === "favRatioDesc") {
+        if (Math.abs(b.favSongRatio - a.favSongRatio) > 1e-9) return b.favSongRatio - a.favSongRatio;
+        if (b.favSongCount !== a.favSongCount) return b.favSongCount - a.favSongCount;
         if (b.songs.length !== a.songs.length) return b.songs.length - a.songs.length;
       }
       const ga = getSongKanaGroupPriority(a._sortKey);
@@ -2637,8 +2784,15 @@
     const matchSubHTML = comp.matchedSongPreview
       ? `<div class="row-match-sub row-match-song-both">♪ 一致担当曲: ${esc(comp.matchedSongPreview)}</div>`
       : (comp.composeCount > 0 && comp.arrangeOnlyCount > 0
-          ? `<div class="row-match-sub" style="color:var(--text-secondary);">作曲 ${fmtNum(comp.composeCount)}曲 / 編曲(編) ${fmtNum(comp.arrangeOnlyCount)}曲</div>`
+          ? `<div class="row-match-sub" style="color:var(--text-secondary);">作曲 ${fmtNum(comp.composeCount)}曲 / 編曲 ${fmtNum(comp.arrangeOnlyCount)}曲</div>`
           : "");
+    const compSort = state.searchComposerSort || "kanaAsc";
+    let rightCountHTML = `${fmtNum(comp.songs.length)}<span>曲</span>`;
+    if (compSort === "favCountDesc") {
+      rightCountHTML = `${fmtNum(comp.favSongCount || 0)}<span>曲</span><span class="karu-sort-sub-metric">/${fmtNum(comp.songs.length)}曲</span>`;
+    } else if (compSort === "favRatioDesc") {
+      rightCountHTML = `${formatFavRatioPercent(comp.favSongRatio || 0)}<span>%</span><span class="karu-sort-sub-metric">(${fmtNum(comp.favSongCount || 0)}/${fmtNum(comp.songs.length)})</span>`;
+    }
     return `
       <div class="artist-row composer-row ${isSelected ? "selected" : ""}" data-composer-name="${esc(comp.name)}" role="button" tabindex="0">
         <div class="row-rank">${rankNum}</div>
@@ -2646,7 +2800,7 @@
           <div class="row-name">${esc(comp.displayName)}</div>
           ${matchSubHTML}
         </div>
-        <div class="row-count">${fmtNum(comp.songs.length)}<span>曲</span></div>
+        <div class="row-count">${rightCountHTML}</div>
       </div>
     `;
   }
@@ -2904,9 +3058,12 @@
       const nsNoSpace = a._normSongsNoSpace[i];
       const alArr = (a._normSongAliases && a._normSongAliases[i]) || [];
       const alNoSpaceArr = (a._normSongAliasesNoSpace && a._normSongAliasesNoSpace[i]) || [];
-      const sc = scoreSingleSongMatch(q, qNoSpace, ns, nsNoSpace, alArr, alNoSpaceArr);
-      if (sc) {
-        scoredHits.push({ title: rawSong, tier: sc.tier, ratio: sc.ratio });
+      const titleSc = scoreSingleSongMatch(q, qNoSpace, ns, nsNoSpace, alArr, alNoSpaceArr);
+      const compSc = state.karuSpecialMode ? evaluateSongComposerMatch(a, rawSong, q, qNoSpace) : null;
+      if (titleSc || compSc) {
+        const bestTier = (titleSc && compSc) ? Math.min(titleSc.tier, compSc.tier) : (titleSc ? titleSc.tier : compSc.tier);
+        const bestRatio = (titleSc && compSc) ? Math.max(titleSc.ratio, compSc.ratio) : (titleSc ? titleSc.ratio : compSc.ratio);
+        scoredHits.push({ title: rawSong, tier: bestTier, ratio: bestRatio });
         seen.add(rawSong);
       }
     }
@@ -2918,9 +3075,12 @@
         const ntNoSpace = stripSpaces(nt);
         const alArr = (a._normTopSongAliases && a._normTopSongAliases[i]) || [];
         const alNoSpaceArr = (a._normTopSongAliasesNoSpace && a._normTopSongAliasesNoSpace[i]) || [];
-        const sc = scoreSingleSongMatch(q, qNoSpace, nt, ntNoSpace, alArr, alNoSpaceArr);
-        if (sc) {
-          scoredHits.push({ title: rawTop, tier: sc.tier, ratio: sc.ratio });
+        const titleSc = scoreSingleSongMatch(q, qNoSpace, nt, ntNoSpace, alArr, alNoSpaceArr);
+        const compSc = state.karuSpecialMode ? evaluateSongComposerMatch(a, rawTop, q, qNoSpace) : null;
+        if (titleSc || compSc) {
+          const bestTier = (titleSc && compSc) ? Math.min(titleSc.tier, compSc.tier) : (titleSc ? titleSc.tier : compSc.tier);
+          const bestRatio = (titleSc && compSc) ? Math.max(titleSc.ratio, compSc.ratio) : (titleSc ? titleSc.ratio : compSc.ratio);
+          scoredHits.push({ title: rawTop, tier: bestTier, ratio: bestRatio });
           seen.add(rawTop);
         }
       }
@@ -3060,12 +3220,27 @@
       return jaCollator.compare(a.reading || a.name, b.reading || b.name);
     }
     if (sortKey === "favCountDesc") {
-      const fa = getArtistFavSongCount(a);
-      const fb = getArtistFavSongCount(b);
+      const fa = state.karuSpecialMode ? getArtistListeningFavSongCount(a) : getArtistFavSongCount(a);
+      const fb = state.karuSpecialMode ? getArtistListeningFavSongCount(b) : getArtistFavSongCount(b);
       if (fb !== fa) return fb - fa;
+      if (state.karuSpecialMode) {
+        const ra = getArtistListeningFavSongRatio(a);
+        const rb = getArtistListeningFavSongRatio(b);
+        if (Math.abs(rb - ra) > 1e-9) return rb - ra;
+      }
       const ta = getArtistHeartTier(a.aid);
       const tb = getArtistHeartTier(b.aid);
       if (tb !== ta) return tb - ta;
+      if (b.count !== a.count) return b.count - a.count;
+      return jaCollator.compare(a.reading || a.name, b.reading || b.name);
+    }
+    if (sortKey === "favRatioDesc") {
+      const ra = getArtistListeningFavSongRatio(a);
+      const rb = getArtistListeningFavSongRatio(b);
+      if (Math.abs(rb - ra) > 1e-9) return rb - ra;
+      const fa = getArtistListeningFavSongCount(a);
+      const fb = getArtistListeningFavSongCount(b);
+      if (fb !== fa) return fb - fa;
       if (b.count !== a.count) return b.count - a.count;
       return jaCollator.compare(a.reading || a.name, b.reading || b.name);
     }
@@ -3218,7 +3393,14 @@
   function applyFilterAndSort() {
     if (state.karuSpecialMode) {
       state.sortBy = "kanaAsc";
-      state.searchArtistSort = "kanaAsc";
+      if (
+        state.searchTarget !== "artist" ||
+        (state.searchArtistSort !== "kanaAsc" &&
+         state.searchArtistSort !== "favCountDesc" &&
+         state.searchArtistSort !== "favRatioDesc")
+      ) {
+        state.searchArtistSort = "kanaAsc";
+      }
       state.searchSongSort = "kanaAsc";
       state.sameSongCountMode = false;
     }
@@ -3450,6 +3632,7 @@
             currentSongSearchItems.push({
               artist: a,
               songTitle: sObj.title,
+              isTopSong: false,
               canonicalTitle: sObj.canonicalTitle,
               canonicalKey: sObj.canonicalKey,
               tier: 1,
@@ -3462,6 +3645,7 @@
             currentSongSearchItems.push({
               artist: a,
               songTitle: sObj.title,
+              isTopSong: Boolean(sObj.isTopSong),
               canonicalTitle: sObj.canonicalTitle,
               canonicalKey: sObj.canonicalKey,
               tier: 4,
@@ -3478,38 +3662,43 @@
               sObj.normCanonical,
               sObj.normCanonicalNoSpace
             );
-            // In "かる専用モード", if the artist name matches q (=候補にその名義が残っているとき), include all listening songs (!sObj.isTopSong) of that artist!
-            if (state.karuSpecialMode && artMatch.matched && !sObj.isTopSong) {
+            const compSc = state.karuSpecialMode
+              ? evaluateSongComposerMatch(a, sObj.title, q, qNoSpace)
+              : null;
+            const hasArtMatch = Boolean(state.karuSpecialMode && artMatch.matched && !sObj.isTopSong);
+            if (hasArtMatch || sc || compSc) {
               const dedupKey = `${a.aid}\t${sObj.title}`;
               if (seenArtistSongKey.has(dedupKey)) continue;
               seenArtistSongKey.add(dedupKey);
-              const bestTier = sc ? Math.min(artMatch.tier, sc.tier) : artMatch.tier;
-              const bestRatio = sc ? Math.max(artMatch.ratio, sc.ratio) : artMatch.ratio;
+              let bestTier = 99;
+              let bestRatio = 0;
+              if (hasArtMatch) {
+                bestTier = Math.min(bestTier, artMatch.tier);
+                bestRatio = Math.max(bestRatio, artMatch.ratio);
+              }
+              if (sc) {
+                bestTier = Math.min(bestTier, sc.tier);
+                bestRatio = Math.max(bestRatio, sc.ratio);
+              }
+              if (compSc) {
+                bestTier = Math.min(bestTier, compSc.tier);
+                bestRatio = Math.max(bestRatio, compSc.ratio);
+              }
               currentSongSearchItems.push({
                 artist: a,
                 songTitle: sObj.title,
+                isTopSong: Boolean(sObj.isTopSong),
                 canonicalTitle: sObj.canonicalTitle,
                 canonicalKey: sObj.canonicalKey,
                 tier: bestTier,
                 ratio: bestRatio
-              });
-            } else if (sc) {
-              const dedupKey = `${a.aid}\t${sObj.title}`;
-              if (seenArtistSongKey.has(dedupKey)) continue;
-              seenArtistSongKey.add(dedupKey);
-              currentSongSearchItems.push({
-                artist: a,
-                songTitle: sObj.title,
-                canonicalTitle: sObj.canonicalTitle,
-                canonicalKey: sObj.canonicalKey,
-                tier: sc.tier,
-                ratio: sc.ratio
               });
             }
           } else {
             currentSongSearchItems.push({
               artist: a,
               songTitle: sObj.title,
+              isTopSong: Boolean(sObj.isTopSong),
               canonicalTitle: sObj.canonicalTitle,
               canonicalKey: sObj.canonicalKey,
               tier: 99,
@@ -3651,7 +3840,12 @@
         }
 
         const artSortMode = state.searchArtistSort || "kanaAsc";
-        if (q && !state.searchSortOverride) {
+        const isKaruFavArtistSort = Boolean(
+          state.karuSpecialMode &&
+          state.searchTarget === "artist" &&
+          (artSortMode === "favCountDesc" || artSortMode === "favRatioDesc")
+        );
+        if (q && !state.searchSortOverride && !isKaruFavArtistSort) {
           if (a._searchTier !== b._searchTier) return a._searchTier - b._searchTier;
           if (Math.abs((b._searchMatchRatio || 0) - (a._searchMatchRatio || 0)) > 1e-6) {
             return (b._searchMatchRatio || 0) - (a._searchMatchRatio || 0);
@@ -3731,29 +3925,34 @@
             sObj.normCanonical,
             sObj.normCanonicalNoSpace
           );
-          if (isMatchedArtist && !sObj.isTopSong) {
+          const compSc = evaluateSongComposerMatch(a, sObj.title, q, qNoSpace);
+          const hasArtMatch = Boolean(isMatchedArtist && !sObj.isTopSong);
+          if (hasArtMatch || sc || compSc) {
             const dk = `${a.aid}\t${sObj.title}`;
             if (seenSongKeys.has(dk)) continue;
             seenSongKeys.add(dk);
+            let bestTier = 99;
+            let bestRatio = 0;
+            if (hasArtMatch) {
+              bestTier = Math.min(bestTier, a._searchTier);
+              bestRatio = Math.max(bestRatio, a._searchMatchRatio || 0);
+            }
+            if (sc) {
+              bestTier = Math.min(bestTier, sc.tier);
+              bestRatio = Math.max(bestRatio, sc.ratio);
+            }
+            if (compSc) {
+              bestTier = Math.min(bestTier, compSc.tier);
+              bestRatio = Math.max(bestRatio, compSc.ratio);
+            }
             expandedSongs.push({
               artist: a,
               songTitle: sObj.title,
+              isTopSong: Boolean(sObj.isTopSong),
               canonicalTitle: sObj.canonicalTitle,
               canonicalKey: sObj.canonicalKey,
-              tier: sc ? Math.min(a._searchTier, sc.tier) : a._searchTier,
-              ratio: sc ? Math.max(a._searchMatchRatio || 0, sc.ratio) : (a._searchMatchRatio || 0)
-            });
-          } else if (sc) {
-            const dk = `${a.aid}\t${sObj.title}`;
-            if (seenSongKeys.has(dk)) continue;
-            seenSongKeys.add(dk);
-            expandedSongs.push({
-              artist: a,
-              songTitle: sObj.title,
-              canonicalTitle: sObj.canonicalTitle,
-              canonicalKey: sObj.canonicalKey,
-              tier: sc.tier,
-              ratio: sc.ratio
+              tier: bestTier,
+              ratio: bestRatio
             });
           }
         }
@@ -3840,9 +4039,10 @@
         const isExact = item.tier === 4;
         const sngTier = getSongHeartTier(a.aid, item.songTitle);
         const sngHeart = sngTier > 0 ? buildHeartBadgeSpanHTML(sngTier, "artist-fav-heart song-search-fav-heart", "かるのオススメ楽曲") : "";
+        const topBadge = buildKaruTopOnlyBadgeHTML(a, item.songTitle, item.isTopSong, "cand-top-only-tag");
         return `
           <button type="button" class="search-cand-chip ${isExact ? "exact-hit" : ""}" data-cand-artist="${esc(a.name)}" title="${esc(a.name)} の詳細を表示">
-            <span class="search-cand-name">♪ ${esc(item.songTitle)}${sngHeart}</span>
+            <span class="search-cand-name">♪ ${esc(item.songTitle)}${sngHeart}${topBadge}</span>
             <span class="search-cand-count">${esc(a.name)}</span>
           </button>
         `;
@@ -4226,7 +4426,8 @@
         const sngHeartHTML = isSngFav
           ? buildHeartBadgeSpanHTML(sTier, "artist-fav-heart song-search-fav-heart", "かるのオススメ楽曲")
           : "";
-        return `<span class="row-matched-song-token ${isSngFav ? "is-song-fav" : ""}" data-matched-song-title="${esc(sTitle)}">${esc(sTitle)}${sngHeartHTML}</span>`;
+        const topOnlyBadgeHTML = buildKaruTopOnlyBadgeHTML(a, sTitle, false);
+        return `<span class="row-matched-song-token ${isSngFav ? "is-song-fav" : ""}" data-matched-song-title="${esc(sTitle)}">${esc(sTitle)}${sngHeartHTML}</span>${topOnlyBadgeHTML}`;
       }).join(`<span class="row-matched-song-sep"> / </span>`);
       const moreSuffixHTML = matchedMoreCount > 0
         ? `<span class="row-matched-song-more"> ほか${fmtNum(matchedMoreCount)}曲</span>`
@@ -4310,7 +4511,19 @@
           ${agencyCellHTML}
         </div>
         <div class="row-subs col-pc-only ${hasSub ? "" : "unacquired"}" title="${esc(subTitle)}">${esc(subLabel)}</div>
-        <div class="row-count">${fmtNum(a.count)}<span>曲</span></div>
+        <div class="row-count">${(function() {
+          const isKaruArtistSearch = Boolean(state.karuSpecialMode && state.view === "search" && state.searchTarget === "artist");
+          if (isKaruArtistSearch && state.searchArtistSort === "favCountDesc") {
+            const fCnt = getArtistListeningFavSongCount(a);
+            return `${fmtNum(fCnt)}<span>曲</span><span class="karu-sort-sub-metric">/${fmtNum(a.count)}曲</span>`;
+          }
+          if (isKaruArtistSearch && state.searchArtistSort === "favRatioDesc") {
+            const fCnt = getArtistListeningFavSongCount(a);
+            const fRat = getArtistListeningFavSongRatio(a);
+            return `${formatFavRatioPercent(fRat)}<span>%</span><span class="karu-sort-sub-metric">(${fmtNum(fCnt)}/${fmtNum(a.count)})</span>`;
+          }
+          return `${fmtNum(a.count)}<span>曲</span>`;
+        })()}</div>
         ${favSongCountHTML}
         ${hasCustomRoleRank ? `<div class="row-drag-handle" data-drag-handle="1" title="ドラッグして同じハートグレード内で並び替え" aria-label="ドラッグして並び替え"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="16" x2="20" y2="16"></line></svg></div>` : ""}
       </div>
@@ -4440,7 +4653,7 @@
         <div class="row-rank">${item.rank || (rowIndex + 1)}</div>
         <div class="row-avatar-wrap" title="">${renderAvatarHTML(a, false, rowIndex)}</div>
         <div class="row-name-wrap">
-          <div class="row-song-primary">♪ <span class="row-matched-song-token ${isSngFav ? "is-song-fav" : ""}" data-matched-song-title="${esc(songTitle)}">${esc(songTitle)}${sngHeartHTML}</span></div>
+          <div class="row-song-primary">♪ <span class="row-matched-song-token ${isSngFav ? "is-song-fav" : ""}" data-matched-song-title="${esc(songTitle)}">${esc(songTitle)}${sngHeartHTML}</span>${buildKaruTopOnlyBadgeHTML(a, songTitle, item.isTopSong)}</div>
           <div class="row-name row-name-with-song"><span class="row-artist-prefix">アーティスト:</span>${formatArtistNameHTML(a.name, true)}${formatKaruSongCreditsHTML(a, songTitle)}</div>
         </div>
         <div class="row-role col-pc-only">
@@ -5631,9 +5844,21 @@
         return {
           options: [
             { value: "kanaAsc", label: "五十音順" },
-            { value: "countDesc", label: "担当曲数が多い順" }
+            { value: "countDesc", label: "担当曲数が多い順" },
+            { value: "favCountDesc", label: "高評価曲数が多い順" },
+            { value: "favRatioDesc", label: "高評価割合が高い順" }
           ],
           currentVal: state.searchComposerSort || "kanaAsc"
+        };
+      }
+      if (state.view === "search" && state.searchTarget === "artist") {
+        return {
+          options: [
+            { value: "kanaAsc", label: "五十音順" },
+            { value: "favCountDesc", label: "高評価曲数が多い順" },
+            { value: "favRatioDesc", label: "高評価割合が高い順" }
+          ],
+          currentVal: state.searchArtistSort || "kanaAsc"
         };
       }
       return {
@@ -5864,7 +6089,19 @@
     }
     const listColCountEl = document.getElementById("listColCountLabel");
     if (listColCountEl) {
-      listColCountEl.textContent = isSameSongGroupMode ? "同一曲数" : (isComposerListMode ? "担当楽曲数" : "登録楽曲数");
+      if (isSameSongGroupMode) {
+        listColCountEl.textContent = "同一曲数";
+      } else if (isComposerListMode) {
+        if (state.searchComposerSort === "favCountDesc") listColCountEl.textContent = "高評価曲数";
+        else if (state.searchComposerSort === "favRatioDesc") listColCountEl.textContent = "高評価割合";
+        else listColCountEl.textContent = "担当楽曲数";
+      } else if (state.karuSpecialMode && state.view === "search" && state.searchTarget === "artist") {
+        if (state.searchArtistSort === "favCountDesc") listColCountEl.textContent = "高評価曲数";
+        else if (state.searchArtistSort === "favRatioDesc") listColCountEl.textContent = "高評価割合";
+        else listColCountEl.textContent = "登録楽曲数";
+      } else {
+        listColCountEl.textContent = "登録楽曲数";
+      }
     }
     const listColRankEl = document.getElementById("listColRankLabel") || document.querySelector(".list-col-header > span:first-child");
     if (listColRankEl) {
