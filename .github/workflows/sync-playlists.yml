@@ -21,6 +21,12 @@ on:
         default: 'gemini-3.5-flash-lite'
         type: string
 
+# Do not let a manual run overlap with the daily scheduled run.
+# A later run must read the history committed by the previous run.
+concurrency:
+  group: youtube-playlist-sync-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -67,7 +73,10 @@ jobs:
         run: |
           python3 scripts/sync_youtube_playlists.py
 
+      # Preserve completed batches even if Gemini fails on a later batch.
+      # Without this condition, GitHub skips the commit after a failed sync step.
       - name: Commit and push if data changed
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
