@@ -56,6 +56,7 @@ FALLBACK_GEMINI_MODELS = [
 ]
 AUTO_APPROVE_CONFIDENCE = 0.85
 MIN_EXPECTED_ARTISTS = 1000
+MAX_NEW_VIDEOS_HARD_CAP = 100
 
 
 def redact_secrets(text: str, extra_secrets: list[str] | None = None) -> str:
@@ -96,6 +97,21 @@ def get_candidate_models(preferred_model: str | None = None) -> list[str]:
         if nm and nm not in candidates:
             candidates.append(nm)
     return candidates
+
+
+def select_new_videos_batch(new_vids: list[str], configured_limit: int) -> tuple[list[str], int]:
+    """Select at most 100 previously unprocessed videos; defer the rest.
+
+    YouTube playlistItems normally returns the most recently inserted entries first.
+    Process the reverse order so older unprocessed entries are not starved when
+    new videos are inserted before the next scheduled run. The complete playlist
+    is rescanned on every run; deferred IDs are never marked processed here.
+    """
+    if configured_limit < 1:
+        raise ValueError("MAX_NEW_VIDEOS_PER_RUN must be a positive integer")
+    limit = min(configured_limit, MAX_NEW_VIDEOS_HARD_CAP)
+    selected = list(reversed(new_vids))[:limit]
+    return selected, len(new_vids) - len(selected)
 
 
 def parse_playlist_ids(raw: str) -> list[str]:
@@ -3318,28 +3334,40 @@ def run_sync(
         )
         return 0
 
-    max_per_run = int(os.environ.get("MAX_NEW_VIDEOS_PER_RUN", "100"))
-    if len(new_vids) > max_per_run:
-        safe_print(
-            f"[ERROR] Safety circuit breaker triggered: Found {len(new_vids)} unrecorded videos, "
-            f"which exceeds MAX_NEW_VIDEOS_PER_RUN ({max_per_run}). "
-            "Aborting automatic Gemini analysis to protect quota and prevent unintended bulk registration."
-        )
+    try:
+        configured_limit = int(os.environ.get("MAX_NEW_VIDEOS_PER_RUN", "100"))
+        videos_to_analyze, deferred_count = select_new_videos_batch(new_vids, configured_limit)
+    except ValueError as e:
+        safe_print(f"[ERROR] Invalid MAX_NEW_VIDEOS_PER_RUN: {e}")
         return 1
+
+    if configured_limit > MAX_NEW_VIDEOS_HARD_CAP:
+        safe_print(f"[WARN] MAX_NEW_VIDEOS_PER_RUN={configured_limit} exceeds the hard cap of "
+                   f"{MAX_NEW_VIDEOS_HARD_CAP}; using the hard cap instead.")
+    safe_print(
+        f"[SYNC] Found {len(new_vids)} unprocessed video(s) in 無限2. "
+        f"This run: {len(videos_to_analyze)} (limit={min(configured_limit, MAX_NEW_VIDEOS_HARD_CAP)}). "
+        f"Deferred for a future sync: {deferred_count}."
+    )
 
     if not gm_key:
-        safe_print(f"[ERROR] Found {len(new_vids)} new video(s), but GEMINI_API_KEY is not set. Leaving videos unprocessed for next retry.")
+        safe_print(f"[ERROR] GEMINI_API_KEY is not set. Leaving all {len(new_vids)} video(s) unprocessed for next retry.")
         return 1
 
-    safe_print(f"[SYNC] Found {len(new_vids)} new video(s) to analyze.")
     try:
-        vid_meta_list = fetch_videos_metadata(new_vids, yt_key)
+        vid_meta_list = fetch_videos_metadata(videos_to_analyze, yt_key)
     except Exception as e:
         safe_print(f"[ERROR] Failed to fetch video metadata from YouTube API: {e}", [yt_key])
         return 1
 
     meta_by_vid = {m["videoId"]: m for m in vid_meta_list if m.get("videoId")}
-    ordered_meta_list = [meta_by_vid[v] for v in new_vids if v in meta_by_vid]
+    ordered_meta_list = [meta_by_vid[v] for v in videos_to_analyze if v in meta_by_vid]
+    missing_metadata = [v for v in videos_to_analyze if v not in meta_by_vid]
+    if missing_metadata:
+        safe_print(
+            f"[WARN] YouTube returned no metadata for {len(missing_metadata)} selected video(s). "
+            "They will NOT be marked processed and will be retried on a later run."
+        )
 
     matcher = MasterArtistMatcher(artists)
     existing_names = [a["name"] for a in artists]
@@ -3348,7 +3376,7 @@ def run_sync(
     working_model_cache = {}
     auto_registered_count = 0
     pending_added_count = 0
-    had_batch_failure = False
+    had_batch_failure = bool(missing_metadata)
 
     for i in range(0, len(ordered_meta_list), 15):
         batch = ordered_meta_list[i : i + 15]
@@ -3560,8 +3588,13 @@ def run_sync(
                 existing_logs = []
         atomic_write_json(SYNC_LOG_JSON_PATH, added_logs + existing_logs[:499])
 
+    remaining_in_playlist = sum(1 for v in new_vids if v not in processed_ids)
+    processed_this_run = len(videos_to_analyze) - sum(1 for v in videos_to_analyze if v not in processed_ids)
     safe_print(
-        f"[SYNC] Complete. Auto-registered: {auto_registered_count} | "
+        f"[SYNC] Complete. Successfully processed this run: {processed_this_run} | "
+        f"Remaining unprocessed from detected playlist: {remaining_in_playlist} "
+        f"(initially deferred: {deferred_count}) | "
+        f"Auto-registered: {auto_registered_count} | "
         f"Added to pending review: {pending_added_count} | "
         f"Total pending items: {len(pending_list)} | "
         f"Active Gemini model: {working_model_cache.get('model', 'none')}"
