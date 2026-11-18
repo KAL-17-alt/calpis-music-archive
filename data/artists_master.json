@@ -7743,7 +7743,7 @@
   {
     "name": "幸祜",
     "cat": 1,
-    "count": 45,
+    "count": 46,
     "reading": "ここ",
     "kana": "こ",
     "row": "か",
@@ -7794,7 +7794,8 @@
       "ninelie",
       "Golden",
       "コールドケース",
-      "名も無き囚人"
+      "名も無き囚人",
+      "夜は眠れるかい？"
     ],
     "topSongs": [
       "the last bullet",
@@ -8207,6 +8208,15 @@
         ],
         "a": [
           "香椎モイミ"
+        ]
+      },
+      "夜は眠れるかい？": {
+        "c": [
+          "阪井一生"
+        ],
+        "a": [
+          "Yuichiro Takahashi",
+          "Sosuke Oikawa"
         ]
       }
     }
@@ -49609,6 +49619,119 @@
     }
   },
   {
+    "name": "流水",
+    "cat": 1,
+    "count": 7,
+    "reading": "るすい",
+    "kana": "る",
+    "row": "ら",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/dteRsdORHN-0aOx1Se04IITs4pKDsfuvSY3CzyD5FCS036kPiTeLNn9f815t51xM-wfKEOsD=s240-c-k-c0x00ffffff-no-rj",
+    "imgType": "youtube_official",
+    "songs": [
+      "雨音ノイズ",
+      "Value",
+      "アンチシャッター",
+      "Summering",
+      "あなたのことをおしえて",
+      "花一匁",
+      "クラネリカ"
+    ],
+    "topSongs": [
+      "雨音ノイズ",
+      "Value",
+      "アンチシャッター",
+      "Summering",
+      "あなたのことをおしえて"
+    ],
+    "topTypes": [
+      "カバー",
+      "cover",
+      "orig",
+      "cover",
+      "cover"
+    ],
+    "topLinks": [
+      "",
+      "UCiJd3C2-yc",
+      "90TcqgTn1ks",
+      "Us9eZT79S0c",
+      "dAP-jRdBZ0M"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "歌い手",
+    "sub": null,
+    "subBucket": "unknown",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [
+      "Rusui",
+      "流水Rusui"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "",
+    "ytChannelLabel": "",
+    "ytChannelType": "",
+    "youtubeChannelUrl": "",
+    "aid": "a_37cfa877",
+    "sc": {
+      "雨音ノイズ": {
+        "c": [
+          "40mP"
+        ],
+        "a": [
+          "40mP"
+        ]
+      },
+      "Value": {
+        "c": [
+          "ポリスピカデリー"
+        ],
+        "a": []
+      },
+      "アンチシャッター": {
+        "c": [
+          "まよ。"
+        ],
+        "a": []
+      },
+      "Summering": {
+        "c": [
+          "じん(自然の敵P)"
+        ],
+        "a": []
+      },
+      "あなたのことをおしえて": {
+        "c": [
+          "キタニタツヤ"
+        ],
+        "a": []
+      },
+      "花一匁": {
+        "c": [
+          "ニト。"
+        ],
+        "a": []
+      },
+      "クラネリカ": {
+        "c": [
+          "雨季野P輔"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "angela",
     "cat": 1,
     "count": 6,
@@ -53120,6 +53243,121 @@
         ],
         "a": [
           "Ayase"
+        ]
+      }
+    }
+  },
+  {
+    "name": "緋月ゆい",
+    "cat": 1,
+    "count": 6,
+    "reading": "ひづきゆい",
+    "kana": "ひ",
+    "row": "は",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/h8to9FxbzUAPtOWSc7iQirO5k-jRv3w0r5msOyMq6919G2PN4Jw_kXrn_26jb9H1nSRyfrFoCQ=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Sunny Steps",
+      "閃響",
+      "潜涙",
+      "BANG!!!",
+      "大正浪漫",
+      "透明に咲く"
+    ],
+    "topSongs": [
+      "Sunny Steps",
+      "閃響",
+      "潜涙",
+      "BANG!!!",
+      "大正浪漫"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "hizukiyui",
+      "ネオポルテ"
+    ],
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 411000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "kkdu3tyUFK0",
+      "KyE8GoHZJyo",
+      "Oe3hMUPLSQg",
+      "WVQ-KPiqM9U",
+      "JMC3mquZU-g"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "ネオポルテ",
+    "agencyGroup": "ネオポルテ",
+    "vocalParts": [],
+    "agencyGroupCount": 2,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCuk7vapXKckSw6yCGGDspDg",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCuk7vapXKckSw6yCGGDspDg",
+    "aid": "a_cf4d25f1",
+    "sc": {
+      "Sunny Steps": {
+        "c": [
+          "鶴﨑輝一"
+        ],
+        "a": [
+          "鶴﨑輝一"
+        ]
+      },
+      "閃響": {
+        "c": [
+          "堀江晶太"
+        ],
+        "a": [
+          "堀江晶太"
+        ]
+      },
+      "潜涙": {
+        "c": [
+          "전田雅友"
+        ],
+        "a": [
+          "EFFY"
+        ]
+      },
+      "BANG!!!": {
+        "c": [
+          "Giga"
+        ],
+        "a": [
+          "Giga"
+        ]
+      },
+      "大正浪漫": {
+        "c": [
+          "Ayase"
+        ],
+        "a": [
+          "Ayase"
+        ]
+      },
+      "透明に咲く": {
+        "c": [
+          "まふまふ"
+        ],
+        "a": [
+          "まふまふ"
         ]
       }
     }
@@ -56776,6 +57014,121 @@
     }
   },
   {
+    "name": "缶缶",
+    "cat": 1,
+    "count": 5,
+    "reading": "かんかん",
+    "kana": "か",
+    "row": "か",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/tzCn8uOq7BuzIRBcYp9a59c9fHC3-dom7h1y0H0E1Mw57NrE0iWLapJUskrLTbZNd_Rwx3KW-A=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Revive",
+      "ヴァイパー",
+      "青染 (feat. ナツノセ)",
+      "Honky Tonky Night",
+      "veil"
+    ],
+    "topSongs": [
+      "ドロシー (feat. 超学生)",
+      "Revive",
+      "ヴァイパー",
+      "青染 (feat. ナツノセ)",
+      "アリゲータドロップ"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "kankan"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 331000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "1UtCVVbiM4E",
+      "VV7dP6BIqes",
+      "SQYXDbKwV9I",
+      "o7Aefg_9aHM",
+      "-DVddeSvecw"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/@KANKAN_sava",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@KANKAN_sava",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_03523b4f",
+    "sc": {
+      "Revive": {
+        "c": [
+          "Aqu3ra"
+        ],
+        "a": []
+      },
+      "ヴァイパー": {
+        "c": [
+          "柊マグネタイト"
+        ],
+        "a": []
+      },
+      "青染 (feat. ナツノセ)": {
+        "c": [
+          "ナツノセ"
+        ],
+        "a": [
+          "ナツノセ"
+        ]
+      },
+      "Honky Tonky Night": {
+        "c": [
+          "FAKE TYPE."
+        ],
+        "a": [
+          "DYES IWASAKI"
+        ]
+      },
+      "ドロシー (feat. 超学生)": {
+        "c": [
+          "すりぃ"
+        ],
+        "a": [
+          "すりぃ"
+        ]
+      },
+      "アリゲータドロップ": {
+        "c": [
+          "すりぃ"
+        ],
+        "a": [
+          "すりぃ"
+        ]
+      },
+      "veil": {
+        "c": [
+          "須田景凪"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "結束バンド",
     "cat": 1,
     "count": 5,
@@ -57832,112 +58185,6 @@
           "閻魔P"
         ],
         "a": []
-      }
-    }
-  },
-  {
-    "name": "緋月ゆい",
-    "cat": 1,
-    "count": 5,
-    "reading": "ひづきゆい",
-    "kana": "ひ",
-    "row": "は",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/h8to9FxbzUAPtOWSc7iQirO5k-jRv3w0r5msOyMq6919G2PN4Jw_kXrn_26jb9H1nSRyfrFoCQ=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Sunny Steps",
-      "閃響",
-      "潜涙",
-      "BANG!!!",
-      "大正浪漫"
-    ],
-    "topSongs": [
-      "Sunny Steps",
-      "閃響",
-      "潜涙",
-      "BANG!!!",
-      "大正浪漫"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "hizukiyui",
-      "ネオポルテ"
-    ],
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 411000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "kkdu3tyUFK0",
-      "KyE8GoHZJyo",
-      "Oe3hMUPLSQg",
-      "WVQ-KPiqM9U",
-      "JMC3mquZU-g"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "ネオポルテ",
-    "agencyGroup": "ネオポルテ",
-    "vocalParts": [],
-    "agencyGroupCount": 2,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCuk7vapXKckSw6yCGGDspDg",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCuk7vapXKckSw6yCGGDspDg",
-    "aid": "a_cf4d25f1",
-    "sc": {
-      "Sunny Steps": {
-        "c": [
-          "鶴﨑輝一"
-        ],
-        "a": [
-          "鶴﨑輝一"
-        ]
-      },
-      "閃響": {
-        "c": [
-          "堀江晶太"
-        ],
-        "a": [
-          "堀江晶太"
-        ]
-      },
-      "潜涙": {
-        "c": [
-          "전田雅友"
-        ],
-        "a": [
-          "EFFY"
-        ]
-      },
-      "BANG!!!": {
-        "c": [
-          "Giga"
-        ],
-        "a": [
-          "Giga"
-        ]
-      },
-      "大正浪漫": {
-        "c": [
-          "Ayase"
-        ],
-        "a": [
-          "Ayase"
-        ]
       }
     }
   },
@@ -60800,114 +61047,6 @@
         ],
         "a": [
           "黒須克彦"
-        ]
-      }
-    }
-  },
-  {
-    "name": "缶缶",
-    "cat": 1,
-    "count": 4,
-    "reading": "かんかん",
-    "kana": "か",
-    "row": "か",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/tzCn8uOq7BuzIRBcYp9a59c9fHC3-dom7h1y0H0E1Mw57NrE0iWLapJUskrLTbZNd_Rwx3KW-A=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Revive",
-      "ヴァイパー",
-      "青染 (feat. ナツノセ)",
-      "Honky Tonky Night"
-    ],
-    "topSongs": [
-      "ドロシー (feat. 超学生)",
-      "Revive",
-      "ヴァイパー",
-      "青染 (feat. ナツノセ)",
-      "アリゲータドロップ"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "kankan"
-    ],
-    "role": "歌い手",
-    "imgType": "youtube_official",
-    "sub": 331000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "1UtCVVbiM4E",
-      "VV7dP6BIqes",
-      "SQYXDbKwV9I",
-      "o7Aefg_9aHM",
-      "-DVddeSvecw"
-    ],
-    "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/@KANKAN_sava",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@KANKAN_sava",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_03523b4f",
-    "sc": {
-      "Revive": {
-        "c": [
-          "Aqu3ra"
-        ],
-        "a": []
-      },
-      "ヴァイパー": {
-        "c": [
-          "柊マグネタイト"
-        ],
-        "a": []
-      },
-      "青染 (feat. ナツノセ)": {
-        "c": [
-          "ナツノセ"
-        ],
-        "a": [
-          "ナツノセ"
-        ]
-      },
-      "Honky Tonky Night": {
-        "c": [
-          "FAKE TYPE."
-        ],
-        "a": [
-          "DYES IWASAKI"
-        ]
-      },
-      "ドロシー (feat. 超学生)": {
-        "c": [
-          "すりぃ"
-        ],
-        "a": [
-          "すりぃ"
-        ]
-      },
-      "アリゲータドロップ": {
-        "c": [
-          "すりぃ"
-        ],
-        "a": [
-          "すりぃ"
         ]
       }
     }
@@ -69762,6 +69901,122 @@
     }
   },
   {
+    "name": "堀江由衣",
+    "cat": 1,
+    "count": 3,
+    "reading": "ほりえゆい",
+    "kana": "ほ",
+    "row": "は",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/yfdqogF1KNjbezVk4u5hh3fuZ6A3UJz9xYcNc4uZLkfVNkLBErZyhcYgAuH2uD-4bc3-0Hvg=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "YAHHO!!",
+      "きっと恋をしている",
+      "VEIL"
+    ],
+    "topSongs": [
+      "バニラソルト",
+      "Love Destiny",
+      "スクランブル",
+      "YAHHO!!",
+      "インモラリスト"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Horie Yui",
+      "Yui Horie",
+      "horieyui",
+      "ホリエユイ"
+    ],
+    "role": "声優",
+    "imgType": "youtube_official",
+    "sub": 66000,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "aOypkw2F8IU",
+      "z4GFtEYh9S4",
+      "fKE4uRsBA2Y",
+      "TLK--mIMQ94",
+      "5tZZlKYczV0"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCBto1ARevamaPZLIy6Y0aeQ",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "Aice5"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "声優"
+    ],
+    "profileBio": "堀江由衣は、東京都出身の声優・アーティスト。ヴィムス所属。『ラブひな』成瀬川なる役、『フルーツバスケット』本田透役、『とらドラ！』櫛枝実乃梨役、『物語』シリーズ羽川翼役など長年第一線で活躍し、声優ユニット「Aice5」も主宰。『Love Destiny』『スクランブル』『バニラソルト』など声優アーティスト史を彩る名曲を多数持つ。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCBto1ARevamaPZLIy6Y0aeQ",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_127aa453",
+    "sc": {
+      "YAHHO!!": {
+        "c": [
+          "堀江由衣"
+        ],
+        "a": [
+          "大川茂伸"
+        ]
+      },
+      "きっと恋をしている": {
+        "c": [
+          "清竜人"
+        ],
+        "a": [
+          "清竜人"
+        ]
+      },
+      "バニラソルト": {
+        "c": [
+          "Funta7"
+        ],
+        "a": [
+          "Funta7"
+        ]
+      },
+      "Love Destiny": {
+        "c": [
+          "伊藤千夏"
+        ],
+        "a": [
+          "伊藤千夏"
+        ]
+      },
+      "スクランブル": {
+        "c": [
+          "スズーキタカユキ"
+        ],
+        "a": [
+          "UNSCANDAL"
+        ]
+      },
+      "インモラリスト": {
+        "c": [
+          "清竜人"
+        ],
+        "a": [
+          "清竜人"
+        ]
+      }
+    }
+  },
+  {
     "name": "湊あくあ",
     "cat": 1,
     "count": 3,
@@ -77695,121 +77950,6 @@
         ],
         "a": [
           "HoneyWorks"
-        ]
-      }
-    }
-  },
-  {
-    "name": "堀江由衣",
-    "cat": 1,
-    "count": 2,
-    "reading": "ほりえゆい",
-    "kana": "ほ",
-    "row": "は",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/yfdqogF1KNjbezVk4u5hh3fuZ6A3UJz9xYcNc4uZLkfVNkLBErZyhcYgAuH2uD-4bc3-0Hvg=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "YAHHO!!",
-      "きっと恋をしている"
-    ],
-    "topSongs": [
-      "バニラソルト",
-      "Love Destiny",
-      "スクランブル",
-      "YAHHO!!",
-      "インモラリスト"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Horie Yui",
-      "Yui Horie",
-      "horieyui",
-      "ホリエユイ"
-    ],
-    "role": "声優",
-    "imgType": "youtube_official",
-    "sub": 66000,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "aOypkw2F8IU",
-      "z4GFtEYh9S4",
-      "fKE4uRsBA2Y",
-      "TLK--mIMQ94",
-      "5tZZlKYczV0"
-    ],
-    "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCBto1ARevamaPZLIy6Y0aeQ",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [
-      "Aice5"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "声優"
-    ],
-    "profileBio": "堀江由衣は、東京都出身の声優・アーティスト。ヴィムス所属。『ラブひな』成瀬川なる役、『フルーツバスケット』本田透役、『とらドラ！』櫛枝実乃梨役、『物語』シリーズ羽川翼役など長年第一線で活躍し、声優ユニット「Aice5」も主宰。『Love Destiny』『スクランブル』『バニラソルト』など声優アーティスト史を彩る名曲を多数持つ。",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCBto1ARevamaPZLIy6Y0aeQ",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_127aa453",
-    "sc": {
-      "YAHHO!!": {
-        "c": [
-          "堀江由衣"
-        ],
-        "a": [
-          "大川茂伸"
-        ]
-      },
-      "きっと恋をしている": {
-        "c": [
-          "清竜人"
-        ],
-        "a": [
-          "清竜人"
-        ]
-      },
-      "バニラソルト": {
-        "c": [
-          "Funta7"
-        ],
-        "a": [
-          "Funta7"
-        ]
-      },
-      "Love Destiny": {
-        "c": [
-          "伊藤千夏"
-        ],
-        "a": [
-          "伊藤千夏"
-        ]
-      },
-      "スクランブル": {
-        "c": [
-          "スズーキタカユキ"
-        ],
-        "a": [
-          "UNSCANDAL"
-        ]
-      },
-      "インモラリスト": {
-        "c": [
-          "清竜人"
-        ],
-        "a": [
-          "清竜人"
         ]
       }
     }
@@ -108276,65 +108416,6 @@
     }
   },
   {
-    "name": "流水",
-    "cat": 1,
-    "count": 1,
-    "reading": "るすい",
-    "kana": "る",
-    "row": "ら",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/dteRsdORHN-0aOx1Se04IITs4pKDsfuvSY3CzyD5FCS036kPiTeLNn9f815t51xM-wfKEOsD=s240-c-k-c0x00ffffff-no-rj",
-    "imgType": "youtube_official",
-    "songs": [
-      "雨音ノイズ"
-    ],
-    "topSongs": [
-      "雨音ノイズ"
-    ],
-    "topTypes": [
-      "カバー"
-    ],
-    "topLinks": [
-      ""
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "歌い手",
-    "sub": null,
-    "subBucket": "unknown",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [
-      "Rusui",
-      "流水Rusui"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "",
-    "ytChannelLabel": "",
-    "ytChannelType": "",
-    "youtubeChannelUrl": "",
-    "aid": "a_37cfa877",
-    "sc": {
-      "雨音ノイズ": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      }
-    }
-  },
-  {
     "aid": "a_407a13ad",
     "name": "rei sirose",
     "cat": 1,
@@ -112826,7 +112907,7 @@
   {
     "name": "初星学園",
     "cat": 2,
-    "count": 27,
+    "count": 29,
     "reading": "はつぼしがくえん",
     "kana": "は",
     "row": "は",
@@ -112859,7 +112940,9 @@
       "ナイワ",
       "みちなるひろがる",
       "Agitato",
-      "ORDER FAKE"
+      "ORDER FAKE",
+      "メタモルフォーゼ",
+      "VEIL"
     ],
     "topSongs": [
       "初",
@@ -113150,6 +113233,14 @@
         ],
         "a": [
           "長谷川白紙"
+        ]
+      },
+      "メタモルフォーゼ": {
+        "c": [
+          "Anna Takeuchi"
+        ],
+        "a": [
+          "Takeshi Namura"
         ]
       }
     }
@@ -116114,6 +116205,305 @@
     }
   },
   {
+    "name": "月詠み",
+    "cat": 2,
+    "count": 16,
+    "reading": "つくよみ",
+    "kana": "つ",
+    "row": "た",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/cbflMPUzGTtoaeRmVHA1Mhxcu3i6oOeVoH2_9VjLlIQn8uL1hgkf29OR_4jK0if5xUoXTKj08Q=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "世界の歩き方",
+      "朔日 feat. 吉乃",
+      "死よりうるわし",
+      "夜明けのラズリ",
+      "心燃ゆ",
+      "ナラティブ",
+      "秋うらら",
+      "導火",
+      "ハクメイ",
+      "それを僕らは神様と呼ぶ",
+      "愛がゆえに",
+      "カンターレ",
+      "夜に藍",
+      "春めくことば",
+      "八月の万華鏡",
+      "猫とユリ"
+    ],
+    "topSongs": [
+      "生きるよすが",
+      "こんな命がなければ",
+      "ヨダカ",
+      "新世界から",
+      "逆転劇"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Tsukuyomi",
+      "tsukuyomi",
+      "tukuyomi",
+      "ツクヨミ",
+      "Yue / Juna・mido"
+    ],
+    "role": "音楽グループ(その他)",
+    "imgType": "youtube_official",
+    "sub": 610000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "86IxCGKUOzY",
+      "SJUmbfJSRiI",
+      "ilAUa3_6ME4",
+      "QX8nztqs480",
+      "I4hKvP2jS1g"
+    ],
+    "subDate": "2026-10-27",
+    "vocal": "Yue / Juna・mido",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [
+      {
+        "text": "Yue",
+        "target": null
+      },
+      {
+        "text": " / ",
+        "target": null
+      },
+      {
+        "text": "Juna",
+        "target": null
+      },
+      {
+        "text": "・",
+        "target": null
+      },
+      {
+        "text": "mido",
+        "target": null
+      }
+    ],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(その他)",
+    "roles": [
+      "音楽グループ(その他)"
+    ],
+    "profileBio": "月詠みは、ボカロPのユリイ・カノンが主宰し、物語と音楽を連動させて展開する小説×音楽プロジェクト。2020年に『こんな命がなければ』で始動し、章ごとに異なるボーカリストや編成を迎えながら、疾走感あふれるロックサウンドと文学的な物語世界を描き出している。",
+    "ytChannelUrl": "https://www.youtube.com/@YurryCanon",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@YurryCanon",
+    "aid": "a_028cf065",
+    "sc": {
+      "世界の歩き方": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "月詠み"
+        ]
+      },
+      "朔日 feat. 吉乃": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "死よりうるわし": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "夜明けのラズリ": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "心燃ゆ": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "月詠み"
+        ]
+      },
+      "ナラティブ": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン",
+          "廣澤優也"
+        ]
+      },
+      "秋うらら": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "導火": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "ハクメイ": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "それを僕らは神様と呼ぶ": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "愛がゆえに": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "月詠み"
+        ]
+      },
+      "カンターレ": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "月詠み"
+        ]
+      },
+      "夜に藍": {
+        "c": [
+          "Epoch"
+        ],
+        "a": [
+          "Epoch"
+        ]
+      },
+      "春めくことば": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "月詠み"
+        ]
+      },
+      "八月の万華鏡": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "月詠み"
+        ]
+      },
+      "生きるよすが": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "こんな命がなければ": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "ヨダカ": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "新世界から": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "逆転劇": {
+        "c": [
+          "ユリイ・カノン"
+        ],
+        "a": [
+          "ユリイ・カノン"
+        ]
+      },
+      "猫とユリ": {
+        "c": [
+          "ユリイ",
+          "カノン"
+        ],
+        "a": []
+      }
+    },
+    "songOrigCats": {
+      "秋うらら": [
+        "other"
+      ],
+      "導火": [
+        "anime"
+      ],
+      "朔日 feat. 吉乃": [
+        "other"
+      ],
+      "死よりうるわし": [
+        "other"
+      ],
+      "それを僕らは神様と呼ぶ": [
+        "other"
+      ],
+      "ナラティブ": [
+        "anime"
+      ],
+      "ハクメイ": [
+        "other"
+      ],
+      "夜に藍": [
+        "other"
+      ],
+      "夜明けのラズリ": [
+        "other"
+      ]
+    }
+  },
+  {
     "name": "nao",
     "cat": 2,
     "count": 16,
@@ -116527,297 +116917,6 @@
           "ANANT-GARDE EYES"
         ]
       }
-    }
-  },
-  {
-    "name": "月詠み",
-    "cat": 2,
-    "count": 15,
-    "reading": "つくよみ",
-    "kana": "つ",
-    "row": "た",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/cbflMPUzGTtoaeRmVHA1Mhxcu3i6oOeVoH2_9VjLlIQn8uL1hgkf29OR_4jK0if5xUoXTKj08Q=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "世界の歩き方",
-      "朔日 feat. 吉乃",
-      "死よりうるわし",
-      "夜明けのラズリ",
-      "心燃ゆ",
-      "ナラティブ",
-      "秋うらら",
-      "導火",
-      "ハクメイ",
-      "それを僕らは神様と呼ぶ",
-      "愛がゆえに",
-      "カンターレ",
-      "夜に藍",
-      "春めくことば",
-      "八月の万華鏡"
-    ],
-    "topSongs": [
-      "生きるよすが",
-      "こんな命がなければ",
-      "ヨダカ",
-      "新世界から",
-      "逆転劇"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Tsukuyomi",
-      "tsukuyomi",
-      "tukuyomi",
-      "ツクヨミ",
-      "Yue / Juna・mido"
-    ],
-    "role": "音楽グループ(その他)",
-    "imgType": "youtube_official",
-    "sub": 610000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "86IxCGKUOzY",
-      "SJUmbfJSRiI",
-      "ilAUa3_6ME4",
-      "QX8nztqs480",
-      "I4hKvP2jS1g"
-    ],
-    "subDate": "2026-10-27",
-    "vocal": "Yue / Juna・mido",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [
-      {
-        "text": "Yue",
-        "target": null
-      },
-      {
-        "text": " / ",
-        "target": null
-      },
-      {
-        "text": "Juna",
-        "target": null
-      },
-      {
-        "text": "・",
-        "target": null
-      },
-      {
-        "text": "mido",
-        "target": null
-      }
-    ],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(その他)",
-    "roles": [
-      "音楽グループ(その他)"
-    ],
-    "profileBio": "月詠みは、ボカロPのユリイ・カノンが主宰し、物語と音楽を連動させて展開する小説×音楽プロジェクト。2020年に『こんな命がなければ』で始動し、章ごとに異なるボーカリストや編成を迎えながら、疾走感あふれるロックサウンドと文学的な物語世界を描き出している。",
-    "ytChannelUrl": "https://www.youtube.com/@YurryCanon",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@YurryCanon",
-    "aid": "a_028cf065",
-    "sc": {
-      "世界の歩き方": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "月詠み"
-        ]
-      },
-      "朔日 feat. 吉乃": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "死よりうるわし": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "夜明けのラズリ": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "心燃ゆ": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "月詠み"
-        ]
-      },
-      "ナラティブ": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン",
-          "廣澤優也"
-        ]
-      },
-      "秋うらら": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "導火": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "ハクメイ": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "それを僕らは神様と呼ぶ": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "愛がゆえに": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "月詠み"
-        ]
-      },
-      "カンターレ": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "月詠み"
-        ]
-      },
-      "夜に藍": {
-        "c": [
-          "Epoch"
-        ],
-        "a": [
-          "Epoch"
-        ]
-      },
-      "春めくことば": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "月詠み"
-        ]
-      },
-      "八月の万華鏡": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "月詠み"
-        ]
-      },
-      "生きるよすが": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "こんな命がなければ": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "ヨダカ": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "新世界から": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      },
-      "逆転劇": {
-        "c": [
-          "ユリイ・カノン"
-        ],
-        "a": [
-          "ユリイ・カノン"
-        ]
-      }
-    },
-    "songOrigCats": {
-      "秋うらら": [
-        "other"
-      ],
-      "導火": [
-        "anime"
-      ],
-      "朔日 feat. 吉乃": [
-        "other"
-      ],
-      "死よりうるわし": [
-        "other"
-      ],
-      "それを僕らは神様と呼ぶ": [
-        "other"
-      ],
-      "ナラティブ": [
-        "anime"
-      ],
-      "ハクメイ": [
-        "other"
-      ],
-      "夜に藍": [
-        "other"
-      ],
-      "夜明けのラズリ": [
-        "other"
-      ]
     }
   },
   {
