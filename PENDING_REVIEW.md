@@ -8,7 +8,7 @@
 3. サイトに登録してよければ `"approved": false` を **`"approved": true`** に書き換えて Commit します（登録せず除外したい場合は **`"skip": true`** にします）。
 4. 次回の自動実行（または Actions タブからの「Run workflow」手動実行）で自動的に本番サイトへ反映され、このリストから消えます（新しく追加された曲が0件の日でも承認分は反映されます）。
 
-現在 **194件** の確認待ち項目があります：
+現在 **244件** の確認待ち項目があります：
 
 | 追加日 | 区分 | 確信度 | 仮アーティスト名 | 仮曲名 | 種別 | 仮活動形態 | 仮所属 | 動画リンク | 理由・AIメモ |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -206,3 +206,53 @@
 | 2026-11-18 | 新規名義 | `0.95` | **あまねもも** | サリシノハラ | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=SmaMwq7RQCE) | サイト未登録の新規名義候補（あまねもも）のため要確認 (チャンネルタイトルおよび動画タイトルより、あまねももによるカバー曲と特定。) |
 | 2026-11-18 | 新規名義 | `0.95` | **あまねもも** | その絵の名前は | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=WaEyep1-q3o) | サイト未登録の新規名義候補（あまねもも）のため要確認 (チャンネルタイトルおよび動画タイトルより、あまねももによるカバー曲と特定。) |
 | 2026-11-18 | 新規名義 | `0.95` | **hudōr phōs -水光-** | 春のほとりで | `orig` | 音楽グループ(その他) | - | [動画](https://www.youtube.com/watch?v=2e842XIgKEs) | コラボ参加者の一部（iiマ）が既存名義と照合できないため要確認（一致済み：流水） (概要欄のユニット名「hudōr phōs -水光-」およびボーカル参加者（iiマ、流水）の記載より特定。) |
+| 2026-11-19 | 新規名義 | `0.95` | **quze** | 君の余白になれない | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=lQXsPe_hGeo) | サイト未登録の新規名義候補（quze）のため要確認 (チャンネル主かつ概要欄に記載されている「quze」による「君の余白になれない」のカバー動画。) |
+| 2026-11-19 | 要確認(既存候補) | `0.95` | **水樹奈々** | 迷宮バタフライ | `cover` | 声優 | - | [動画](https://www.youtube.com/watch?v=0oFG-l1X6lY) | カバー曲において原曲アーティスト（水樹奈々）と歌唱者の区別が曖昧なため要確認 (アニメ『しゅごキャラ!』の劇中歌であり、声優・水樹奈々が歌唱している楽曲。) |
+| 2026-11-19 | 新規名義 | `1.00` | **赤羽葉子×鈴原るる×月ノ美兎×椎名唯華** | 赤い世界が消える頃 | `cover` | Vtuber | にじさんじ | [動画](https://www.youtube.com/watch?v=_3M4tpypgM8) | コラボ参加者の一部（赤羽葉子）が既存名義と照合できないため要確認（一致済み：鈴原るる、月ノ美兎、椎名唯華） (にじさんじライバー4名による『アイドルマスター ミリオンライブ！』楽曲のカバー歌唱動画。) |
+| 2026-11-19 | 新規名義 | `0.95` | **KMNZ LITA** | 甘えちゃってSorry | `cover` | Vsinger | KMNZ | [動画](https://www.youtube.com/watch?v=3mHuva-jBvQ) | サイト未登録の新規名義候補（KMNZ LITA）のため要確認 (チャンネル名および概要欄より、KMNZのメンバーであるLITAによるカバー曲と判定しました。) |
+| 2026-11-19 | 新規名義 | `0.95` | **ファム・ファタル** | フライディ・チャイナタウン | `cover` | Vtuber | - | [動画](https://www.youtube.com/watch?v=dfMqlMu4-PE) | サイト未登録の新規名義候補（ファム・ファタル）のため要確認 (チャンネルおよび概要欄の表記から、VTuberグループ「ファム・ファタル」によるカバー曲と判定しました。) |
+| 2026-11-19 | 新規名義 | `0.95` | **dtto.** | Departure | `cover` | Vtuber | - | [動画](https://www.youtube.com/watch?v=FhmHBJkXxto) | コラボ参加者の一部（dtto.、アルランディス、小柳ロウ、鬼ヶ谷テン）が既存名義と照合できないため要確認（一致済み：アキ・ローゼンタール、常闇トワ、夜乃くろむ） (概要欄のボーカル参加者リストに基づき、dtto.を含む複数人によるコラボ歌唱カバー曲と判定しました。) |
+| 2026-11-19 | 新規名義 | `0.98` | **dtto.** | Glare | `orig` | Vtuber | - | [動画](https://www.youtube.com/watch?v=HQ1zA2bbIRU) | サイト未登録の新規名義候補（dtto.）のため要確認 (チャンネル名およびオリジナル曲表記から、dtto.のオリジナル楽曲と判定しました。) |
+| 2026-11-19 | 新規名義 | `0.98` | **dtto.** | bouquet | `orig` | Vtuber | - | [動画](https://www.youtube.com/watch?v=XuO8oNSzSgA) | サイト未登録の新規名義候補（dtto.）のため要確認 (チャンネル情報およびタイトルより、dtto.によるオリジナルファンソングと判定しました。) |
+| 2026-11-19 | 新規名義 | `0.95` | **dtto.** | I Really Want to Stay At Your House | `cover` | Vtuber | - | [動画](https://www.youtube.com/watch?v=RQ4HAZDtSEE) | サイト未登録の新規名義候補（Juno Umezono、dtto.）のため要確認 (タイトルおよび概要欄より、Juno Umezonoとdtto.によるコラボカバー曲と判定しました。) |
+| 2026-11-19 | 新規名義 | `0.95` | **dtto.** | boi | `cover` | Vtuber | - | [動画](https://www.youtube.com/watch?v=APle9t1fJPs) | コラボ参加者の一部（dtto.）が既存名義と照合できないため要確認（一致済み：よーい） (タイトルおよび概要欄より、よーいとdtto.によるコラボカバー曲と判定しました。) |
+| 2026-11-19 | 新規名義 | `0.95` | **dtto.** | GENTLE | `cover` | Vtuber | - | [動画](https://www.youtube.com/watch?v=dgDAc7aE9lk) | コラボ参加者の一部（dtto.）が既存名義と照合できないため要確認（一致済み：ホタル） (タイトルおよび概要欄より、dtto.とホタルによるコラボカバー曲と判定しました。) |
+| 2026-11-19 | 新規名義 | `0.95` | **NEUN** | きみのためのうた | `cover` | Vsinger | RK Music | [動画](https://www.youtube.com/watch?v=YI9j6AN8mhU) | コラボ参加者の一部（内緒のピアス）が既存名義と照合できないため要確認（一致済み：nyamura） (チャンネル情報（NEUN）および動画情報より、NEUN公式チャンネルによるカバー曲と判定しました。) |
+| 2026-11-19 | 新規名義 | `0.95` | **NEUN × TINA** | 夜の自販機 | `cover` | Vsinger | RK Music | [動画](https://www.youtube.com/watch?v=6Ar7eQbG_6U) | コラボ参加者の一部（TINA）が既存名義と照合できないため要確認（一致済み：NEUN） (NEUNとKMNZ TINAによるコラボカバー曲「夜の自販機」と判定。) |
+| 2026-11-19 | 新規名義 | `0.95` | **鳴花ヒメ** | 袖引く鬼は | `orig` | 歌手 | VOCALOID | [動画](https://www.youtube.com/watch?v=k4wOVu7M-5c) | サイト未登録の新規名義候補（鳴花ヒメ）のため要確認 (ボーカロイド・鳴花ヒメ歌唱のオリジナル楽曲と判定。) |
+| 2026-11-19 | 新規名義 | `0.95` | **水縹そまる** | comet. | `orig` | Vsinger | - | [動画](https://www.youtube.com/watch?v=F-WlslziOS4) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (公式チャンネル及びクレジット表記より、水縹そまるによるオリジナル楽曲「comet.」と判定。) |
+| 2026-11-19 | 新規名義 | `0.95` | **水縹そまる** | 君にとっての水色に、 | `orig` | Vsinger | - | [動画](https://www.youtube.com/watch?v=8yk7QipyCVM) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (公式チャンネル及びクレジット表記より、水縹そまるによるオリジナル楽曲「君にとっての水色に、」と判定。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる** | 藍染め | `orig` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=Yt8dV5ecClg) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (チャンネル主でありボーカルを務める「水縹そまる」のオリジナル曲。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる** | Between us | `orig` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=XkXPYWcedOw) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (概要欄クレジットより水縹そまるがボーカルを担当しているオリジナル曲。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる＆浠Mizuki** | 夏響 | `orig` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=SOetv6kK_1A) | サイト未登録の新規名義候補（水縹そまる、浠Mizuki）のため要確認 (クレジットより水縹そると浠Mizukiによるコラボオリジナル曲。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる** | 春色を集めたら。 | `orig` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=Z5RNPQoLe4E) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (概要欄クレジットより水縹そまるがボーカルを務めるオリジナル楽曲。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる** | マリンスノーの花束を | `cover` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=gJ1ubOqthGE) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (水縹そまるによるAfter the Rainの楽曲の歌ってみたカバー。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる** | キミトボク | `cover` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=NwfHm8r0uus) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (水縹そまるによる天月-あまつき-の楽曲の歌ってみたカバー。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる** | キューピット | `cover` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=hOdZXskze1o) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (水縹そまるによるKaiの楽曲の歌ってみたカバー。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる** | ユーリカ | `cover` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=k7s3xB7Lq6s) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (水縹そまるによるそらるの楽曲「ユーリカ」の歌ってみたカバー。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる** | 百年 | `cover` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=jLPdXoYJWC8) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (水縹そまるによる理芽の楽曲「百年」の歌ってみたカバー。) |
+| 2026-11-19 | 新規名義 | `0.98` | **浠Mizuki＆水縹そまる** | 雲を裂け | `cover` | Vtuber | 個人勢 | [動画](https://www.youtube.com/watch?v=BkhXan8Y8Ww) | サイト未登録の新規名義候補（浠Mizuki、水縹そまる）のため要確認 (浠Mizukiと水縹そまるによるGero、めいちゃん楽曲のコラボ歌ってみたカバー。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる** | バースデイ / 内緒のピアス | `cover` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=zKjMmTknCvM) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (水縹そまるによる内緒のピアスの楽曲の歌ってみたカバー。) |
+| 2026-11-19 | 新規名義 | `0.98` | **水縹そまる** | 消えない温度 | `cover` | Vsinger | 個人勢 | [動画](https://www.youtube.com/watch?v=Gbgi4o1AApM) | サイト未登録の新規名義候補（水縹そまる）のため要確認 (水縹そまるによる歌ってみたカバー楽曲。) |
+| 2026-11-19 | 新規名義 | `0.95` | **FLUID FLOWER** | あぁ、そっか | `orig` | 音楽グループ(その他) | - | [動画](https://www.youtube.com/watch?v=e-mOPsukK5E) | サイト未登録の新規名義候補（ANJI）のため要確認 (音楽プロジェクト「FLUID FLOWER」の公式チャンネルによるオリジナル楽曲。) |
+| 2026-11-19 | 新規名義 | `0.95` | **VITTE** | ダブルラリアット | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=85QHBRPUiYA) | サイト未登録の新規名義候補（VITTE）のため要確認 (チャンネル名と動画タイトルよりVITTEによるカバー曲と特定) |
+| 2026-11-19 | 新規名義 | `0.95` | **VITTE** | 残響ヴァンデラー | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=Gb8tBUPHzGw) | サイト未登録の新規名義候補（VITTE）のため要確認 (チャンネル名と動画タイトルよりVITTEによるカバー曲と特定) |
+| 2026-11-19 | 新規名義 | `0.95` | **Luov** | ロールプレイングライフ | `orig` | 音楽グループ(その他) | - | [動画](https://www.youtube.com/watch?v=ze8zMuysnJA) | サイト未登録の新規名義候補（Luov）のため要確認 (公式チャンネルのMV投稿および概要欄よりLuovのオリジナル曲と特定) |
+| 2026-11-19 | 新規名義 | `0.95` | **nappa & Rio** | タイムカプセル | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=CNemhpD-kuE) | サイト未登録の新規名義候補（nappa、Rio）のため要確認 (タイトルと概要欄よりnappaとRioによるコラボカバー曲と特定) |
+| 2026-11-19 | 新規名義 | `0.95` | **Hina & 梨桜** | 怪獣の腕のなか | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=GYzdqlvG33U) | コラボ参加者の一部（梨桜）が既存名義と照合できないため要確認（一致済み：Hina） (タイトルと概要欄よりHinaと梨桜によるきのこ帝国の楽曲のコラボカバーと特定) |
+| 2026-11-19 | 新規名義 | `1.00` | **梨桜** | もうじき夏が終わるから | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=N9e4Ni8Y3dQ) | サイト未登録の新規名義候補（梨桜）のため要確認 (チャンネル名と動画タイトルより梨桜によるカバー曲と特定) |
+| 2026-11-19 | 新規名義 | `1.00` | **梨桜** | 着火、カウントダウン | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=ekMcdFBn0Ik) | サイト未登録の新規名義候補（梨桜）のため要確認 (チャンネル名と動画タイトルより梨桜によるカバー曲と特定) |
+| 2026-11-19 | 新規名義 | `1.00` | **梨桜** | 花と水飴、最終電車 | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=rBpRbk4vVZc) | サイト未登録の新規名義候補（梨桜）のため要確認 (チャンネル名と動画タイトルより梨桜によるカバー曲と特定) |
+| 2026-11-19 | 新規名義 | `0.99` | **星井美希 (長谷川明子), 四条貴音 (原由実) & 我那覇響 (沼倉愛美)** | KisS | `orig` | 声優 | アイドルマスター | [動画](https://www.youtube.com/watch?v=zQ_KnL3fOSM) | コラボ参加者の一部（星井美希 (長谷川明子)、四条貴音 (原由実)）が既存名義と照合できないため要確認（一致済み：如月千早 (765PRO ALLSTARS)） (YouTubeの自動生成トピックチャンネルの配信楽曲情報から、歌唱者名と曲名を特定しました。) |
+| 2026-11-19 | 新規名義 | `0.99` | **香鳴ハノン** | 夢結いレター | `orig` | Vsinger | Palette Project | [動画](https://www.youtube.com/watch?v=nNyroittCT0) | サイト未登録の新規名義候補（香鳴ハノン）のため要確認 (公式チャンネルの動画タイトルおよび概要欄のクレジット（Vocal: 香鳴ハノン）から特定しました。) |
+| 2026-11-19 | 新規名義 | `0.99` | **Sputrip** | Starry☆Melody | `orig` | 音楽グループ(その他) | Palette Project | [動画](https://www.youtube.com/watch?v=NZk1e68uie8) | サイト未登録の新規名義候補（Sputrip）のため要確認 (Palette Project内のシティポップユニット「Sputrip」の公式MVの表記から特定しました。) |
+| 2026-11-19 | 新規名義 | `0.99` | **Sputrip** | with your JOURNEY | `orig` | 音楽グループ(その他) | Palette Project | [動画](https://www.youtube.com/watch?v=S2oZFzXHzX8) | サイト未登録の新規名義候補（Sputrip）のため要確認 (Palette Project内のシティポップユニット「Sputrip」の公式MVの表記から特定しました。) |
+| 2026-11-19 | 新規名義 | `0.99` | **Sputrip** | アイドライフライト | `orig` | 音楽グループ(その他) | Palette Project | [動画](https://www.youtube.com/watch?v=pHxVKq8QoTY) | サイト未登録の新規名義候補（Sputrip）のため要確認 (Palette Project内のシティポップユニット「Sputrip」の公式MVの表記から特定しました。) |
+| 2026-11-19 | 新規名義 | `0.99` | **Sputrip** | Citylight Fantasy | `orig` | 音楽グループ(その他) | Palette Project | [動画](https://www.youtube.com/watch?v=_cjzueb-tZk) | サイト未登録の新規名義候補（Sputrip）のため要確認 (Palette Project内のシティポップユニット「Sputrip」の公式MVの表記から特定しました。) |
+| 2026-11-19 | 新規名義 | `0.99` | **Sputrip** | Breeze in the Sun | `orig` | 音楽グループ(その他) | Palette Project | [動画](https://www.youtube.com/watch?v=PUWeJMDqQR8) | サイト未登録の新規名義候補（Sputrip）のため要確認 (Palette Project内のシティポップユニット「Sputrip」の公式MVの表記から特定しました。) |
+| 2026-11-19 | 新規名義 | `0.99` | **Sputrip** | 光の惑星 | `orig` | 音楽グループ(その他) | Palette Project | [動画](https://www.youtube.com/watch?v=KdP6xlOHesM) | サイト未登録の新規名義候補（Sputrip）のため要確認 (Palette Project内のシティポップユニット「Sputrip」の公式MVの表記から特定しました。) |
+| 2026-11-19 | 新規名義 | `0.99` | **香鳴ハノン** | Little Twinkle | `cover` | Vsinger | Palette Project | [動画](https://www.youtube.com/watch?v=rnosinXqufA) | サイト未登録の新規名義候補（香鳴ハノン）のため要確認 (公式チャンネルの歌ってみた動画（原曲：東雲つむぎ、歌唱：香鳴ハノン）より特定しました。) |
+| 2026-11-19 | 新規名義 | `0.99` | **燎火ジア** | KAGARIBI | `orig` | Vsinger | Rhythm-Garden Project | [動画](https://www.youtube.com/watch?v=KQzy2nN2PRs) | サイト未登録の新規名義候補（燎火ジア）のため要確認 (公式チャンネルのMVおよび概要欄の記載から特定しました。) |
+| 2026-11-19 | 新規名義 | `0.95` | **Shymie** | Meant to Be | `orig` | 歌手 | Tower of Fantasy | [動画](https://www.youtube.com/watch?v=KVbO5CVi_0k) | サイト未登録の新規名義候補（Shymie）のため要確認 (「幻塔 (Tower of Fantasy)」の公式サウンドトラック楽曲情報から特定しました。) |
+| 2026-11-19 | 新規名義 | `0.99` | **PassCode** | GENESIS | `orig` | 音楽グループ(その他) | - | [動画](https://www.youtube.com/watch?v=_OhbQBgKzmM) | サイト未登録の新規名義候補（PassCode）のため要確認 (PassCode Officialチャンネルによるオリジナル楽曲「GENESIS」のMV投稿であるため。) |
+| 2026-11-19 | 新規名義 | `0.99` | **saewool** | 完全色 | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=assz2Up9BwU) | サイト未登録の新規名義候補（saewool）のため要確認 (saewoolの公式チャンネルによるオリジナル楽曲「完全色 (Perfect Color)」のMVのため。) |
