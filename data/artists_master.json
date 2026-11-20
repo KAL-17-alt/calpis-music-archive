@@ -4354,7 +4354,7 @@
   {
     "name": "琶舞",
     "cat": 1,
-    "count": 61,
+    "count": 62,
     "reading": "べま",
     "kana": "へ",
     "row": "は",
@@ -4421,7 +4421,8 @@
       "Tiger",
       "III",
       "月夜にマリアージュ",
-      "捕食者"
+      "捕食者",
+      "絶体絶命"
     ],
     "topSongs": [
       "戯れ",
@@ -9729,7 +9730,7 @@
   {
     "name": "MyGO!!!!!",
     "cat": 1,
-    "count": 39,
+    "count": 41,
     "reading": "mygo!!!!!",
     "kana": "",
     "row": "",
@@ -9774,7 +9775,9 @@
       "掌心正銘",
       "素寄曲",
       "騒混出",
-      "往欄印"
+      "往欄印",
+      "世点彩",
+      "迷況指漱"
     ],
     "topSongs": [
       "迷星叫",
@@ -10135,6 +10138,18 @@
         "a": [
           "長谷川大介(SUPA LOVE)"
         ]
+      },
+      "世点彩": {
+        "c": [
+          "トミタカズキ"
+        ],
+        "a": []
+      },
+      "迷況指漱": {
+        "c": [
+          "トミタカズキ"
+        ],
+        "a": []
       }
     }
   },
@@ -19556,6 +19571,288 @@
     }
   },
   {
+    "name": "水槽",
+    "cat": 1,
+    "count": 22,
+    "reading": "すいそう",
+    "kana": "す",
+    "row": "さ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/fwBoQ6QK6bIBCguNyBYt8aND68lyOY0F7Hw70dRCxFihfuT-NddClHy78dYdy1r12FOgeAllnk8=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "SWITCH",
+      "心音賛歌",
+      "Bluenote",
+      "点滴",
+      "報酬系",
+      "36°C",
+      "Afterwards",
+      "カルチュラル・オートマティカ・フィーディング",
+      "Vivid at 5am",
+      "ランタノイド",
+      "ロリポップ・バレット",
+      "カンフルショット",
+      "Suicide",
+      "MONOCHROME",
+      "Introduction",
+      "README",
+      "Vacant",
+      "文学講義",
+      "CERAMIC SKIN",
+      "はやく夜へ MV [YouTube ver.]",
+      "ハルシネイション",
+      "正しさのゆくえ"
+    ],
+    "topSongs": [
+      "MONOCHROME",
+      "文学講義 (feat.相沢)",
+      "スードニム",
+      "SWITCH",
+      "点滴"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "suisoh",
+      "suisou",
+      "スイソウ"
+    ],
+    "role": "歌手",
+    "imgType": "youtube_official",
+    "sub": 212000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "PvEz-mDsQeI",
+      "xC4s0HesFx0",
+      "tb9KzEx0ZGk",
+      "5VJrxle47lk",
+      "kZgphpPdvX8"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌手"
+    ],
+    "profileBio": "水槽は、シンガー・トラックメイカーとして活動するマルチクリエイター。2020年頃よりネットミュージックシーンで本格的な活動を開始し、エレクトロニカやヒップホップ、オルタナティブR&Bを横断する緻密なトラックメイクと、クールかつ湿度を帯びたボーカルワークを融合させた独自の音楽性で高い支持を得ている。",
+    "ytChannelUrl": "https://www.youtube.com/@suisoh",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@suisoh",
+    "aid": "a_1e37ee7e",
+    "sc": {
+      "SWITCH": {
+        "c": [
+          "水槽",
+          "Such"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "心音賛歌": {
+        "c": [
+          "水槽",
+          "r-906"
+        ],
+        "a": [
+          "r-906"
+        ]
+      },
+      "Bluenote": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "点滴": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "報酬系": {
+        "c": [
+          "水槽",
+          "lilbesh ramko"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "36°C": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "Afterwards": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "カルチュラル・オートマティカ・フィーディング": {
+        "c": [
+          "水槽",
+          "たなか"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "Vivid at 5am": {
+        "c": [
+          "水槽",
+          "Such"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "ランタノイド": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "ロリポップ・バレット": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "カンフルショット": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "Suicide": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "MONOCHROME": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "Introduction": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "README": {
+        "c": [
+          "水槽",
+          "TAKU INOUE"
+        ],
+        "a": [
+          "TAKU INOUE"
+        ]
+      },
+      "Vacant": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "文学講義": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "CERAMIC SKIN": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "はやく夜へ MV [YouTube ver.]": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "ハルシネイション": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "文学講義 (feat.相沢)": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "スードニム": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "正しさのゆくえ": {
+        "c": [
+          "nyamura",
+          "takaryu",
+          "水槽"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "蓮ノ空女学院スクールアイドルクラブ",
     "cat": 1,
     "count": 22,
@@ -20071,6 +20368,256 @@
           "椎名林檎",
           "斎藤ネコ"
         ]
+      }
+    }
+  },
+  {
+    "name": "nyamura",
+    "cat": 1,
+    "count": 21,
+    "reading": "nyamura",
+    "kana": "",
+    "row": "",
+    "alpha": "N",
+    "img": "https://yt3.googleusercontent.com/S2FqERo1hL4W6T1IGZb5csJ2nJ8EuC0qSgguiK64RGCjjgScC6PdYssKSdScq1dlDdeplCQJ8w=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "you are my curse",
+      "罰して光",
+      "あくむのひかり",
+      "八月のレイニー",
+      "MONOCHROME",
+      "ラプラスショコラ",
+      "初恋日記",
+      "my crush",
+      "ツナギアイ",
+      "melt down",
+      "ディナーベル",
+      "はーどもーどかのじょ",
+      "冬がすぎたら",
+      "lilbeshnyamcore",
+      "いつまでたっても",
+      "正反対ーず♡",
+      "リナリアが咲いて",
+      "運命のふりをして",
+      "超デジタル超デトックス",
+      "きみのためのうた",
+      "正しさのゆくえ"
+    ],
+    "topSongs": [
+      "you are my curse",
+      "隷獣",
+      "S.O.S.G.A.L (feat. rinahamu)",
+      "your princess",
+      "5月17日"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "歌手",
+    "imgType": "youtube_official",
+    "sub": 133000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "Ug5PEHr-SxQ",
+      "8xmk8lyc7qA",
+      "csA2YOQ7tP8",
+      "RtambRLMNks",
+      "jm7TGImUMPw"
+    ],
+    "subDate": "2026-10-28",
+    "youtubeChannelUrl": "https://www.youtube.com/@nyamura_",
+    "al": [],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌手"
+    ],
+    "profileBio": "nyamuraは、繊細な感情表現と伸びやかなボーカルワークを持ち味とする女性シンガー。『you are my curse』『隷獣』『S.O.S.G.A.L』などの楽曲で印象的な歌声を響かせ、ポップスからバラード、カバー歌唱まで幅広い音楽シーンで親しまれている。",
+    "ytChannelUrl": "https://www.youtube.com/@nyamura_",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_2794748b",
+    "sc": {
+      "you are my curse": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "nyamura"
+        ]
+      },
+      "隷獣": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "nyamura"
+        ]
+      },
+      "S.O.S.G.A.L (feat. rinahamu)": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "nyamura"
+        ]
+      },
+      "your princess": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "nyamura"
+        ]
+      },
+      "5月17日": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "nyamura"
+        ]
+      },
+      "罰して光": {
+        "c": [
+          "なきそ"
+        ],
+        "a": []
+      },
+      "あくむのひかり": {
+        "c": [
+          "香椎モイミ"
+        ],
+        "a": []
+      },
+      "八月のレイニー": {
+        "c": [
+          "はるまきごはん"
+        ],
+        "a": []
+      },
+      "MONOCHROME": {
+        "c": [
+          "水槽"
+        ],
+        "a": []
+      },
+      "ラプラスショコラ": {
+        "c": [
+          "Kai"
+        ],
+        "a": []
+      },
+      "初恋日記": {
+        "c": [
+          "香椎モイミ"
+        ],
+        "a": []
+      },
+      "my crush": {
+        "c": [
+          "香椎モイミ"
+        ],
+        "a": []
+      },
+      "ツナギアイ": {
+        "c": [
+          "Neo"
+        ],
+        "a": []
+      },
+      "melt down": {
+        "c": [
+          "air6174"
+        ],
+        "a": []
+      },
+      "ディナーベル": {
+        "c": [
+          "はるまきごはん"
+        ],
+        "a": []
+      },
+      "はーどもーどかのじょ": {
+        "c": [
+          "nyamura"
+        ],
+        "a": []
+      },
+      "冬がすぎたら": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "lazydoll"
+        ]
+      },
+      "いつまでたっても": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "びっぐどっぐ"
+        ]
+      },
+      "正反対ーず♡": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "ちばけんいち"
+        ]
+      },
+      "リナリアが咲いて": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "Haruhi"
+        ]
+      },
+      "運命のふりをして": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "びっぐどっぐ"
+        ]
+      },
+      "超デジタル超デトックス": {
+        "c": [
+          "nyamura"
+        ],
+        "a": [
+          "原口沙輔"
+        ]
+      },
+      "きみのためのうた": {
+        "c": [
+          "nyamura",
+          "内緒のピアス"
+        ],
+        "a": [
+          "内緒のピアス"
+        ]
+      },
+      "正しさのゆくえ": {
+        "c": [
+          "nyamura",
+          "takaryu",
+          "水槽"
+        ],
+        "a": []
       }
     }
   },
@@ -20893,279 +21440,6 @@
         "a": [
           "Hallie Coggins",
           "Rosa Walton"
-        ]
-      }
-    }
-  },
-  {
-    "name": "水槽",
-    "cat": 1,
-    "count": 21,
-    "reading": "すいそう",
-    "kana": "す",
-    "row": "さ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/fwBoQ6QK6bIBCguNyBYt8aND68lyOY0F7Hw70dRCxFihfuT-NddClHy78dYdy1r12FOgeAllnk8=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "SWITCH",
-      "心音賛歌",
-      "Bluenote",
-      "点滴",
-      "報酬系",
-      "36°C",
-      "Afterwards",
-      "カルチュラル・オートマティカ・フィーディング",
-      "Vivid at 5am",
-      "ランタノイド",
-      "ロリポップ・バレット",
-      "カンフルショット",
-      "Suicide",
-      "MONOCHROME",
-      "Introduction",
-      "README",
-      "Vacant",
-      "文学講義",
-      "CERAMIC SKIN",
-      "はやく夜へ MV [YouTube ver.]",
-      "ハルシネイション"
-    ],
-    "topSongs": [
-      "MONOCHROME",
-      "文学講義 (feat.相沢)",
-      "スードニム",
-      "SWITCH",
-      "点滴"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "suisoh",
-      "suisou",
-      "スイソウ"
-    ],
-    "role": "歌手",
-    "imgType": "youtube_official",
-    "sub": 212000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "PvEz-mDsQeI",
-      "xC4s0HesFx0",
-      "tb9KzEx0ZGk",
-      "5VJrxle47lk",
-      "kZgphpPdvX8"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌手"
-    ],
-    "profileBio": "水槽は、シンガー・トラックメイカーとして活動するマルチクリエイター。2020年頃よりネットミュージックシーンで本格的な活動を開始し、エレクトロニカやヒップホップ、オルタナティブR&Bを横断する緻密なトラックメイクと、クールかつ湿度を帯びたボーカルワークを融合させた独自の音楽性で高い支持を得ている。",
-    "ytChannelUrl": "https://www.youtube.com/@suisoh",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@suisoh",
-    "aid": "a_1e37ee7e",
-    "sc": {
-      "SWITCH": {
-        "c": [
-          "水槽",
-          "Such"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "心音賛歌": {
-        "c": [
-          "水槽",
-          "r-906"
-        ],
-        "a": [
-          "r-906"
-        ]
-      },
-      "Bluenote": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "点滴": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "報酬系": {
-        "c": [
-          "水槽",
-          "lilbesh ramko"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "36°C": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "Afterwards": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "カルチュラル・オートマティカ・フィーディング": {
-        "c": [
-          "水槽",
-          "たなか"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "Vivid at 5am": {
-        "c": [
-          "水槽",
-          "Such"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "ランタノイド": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "ロリポップ・バレット": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "カンフルショット": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "Suicide": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "MONOCHROME": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "Introduction": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "README": {
-        "c": [
-          "水槽",
-          "TAKU INOUE"
-        ],
-        "a": [
-          "TAKU INOUE"
-        ]
-      },
-      "Vacant": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "文学講義": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "CERAMIC SKIN": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "はやく夜へ MV [YouTube ver.]": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "ハルシネイション": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "文学講義 (feat.相沢)": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "スードニム": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
         ]
       }
     }
@@ -26251,6 +26525,255 @@
     }
   },
   {
+    "name": "宵-Yoi",
+    "cat": 1,
+    "count": 17,
+    "reading": "よい",
+    "kana": "よ",
+    "row": "や",
+    "alpha": "",
+    "img": "https://i.ytimg.com/vi/T9jX8hpaUVI/hqdefault.jpg",
+    "songs": [
+      "明けない夜のリリィ(傘村トータ)",
+      "今更だって僕は言うかな(Saucy Dog)",
+      "One Love (嵐)",
+      "櫂(ヨルシカ)",
+      "一縷(上白石萌音)",
+      "ボーイフレンド(aiko)",
+      "西藤公園(back number)",
+      "結(Saucy Dog)",
+      "記念撮影(BUMP OF CHICKEN)",
+      "トレモロ(RADWIMPS)",
+      "花降らし(n-buna)",
+      "ブルーアンバー(back number)",
+      "me me she(RADWIMPS)",
+      "宵月",
+      "金木犀の夜",
+      "アポリア",
+      "ベルベットの詩"
+    ],
+    "topSongs": [
+      "明けない夜のリリィ",
+      "今更だって僕は言うかな",
+      "One Love",
+      "櫂",
+      "一縷"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "yoi",
+      "宵"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 18800,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "T9jX8hpaUVI",
+      "BC2FJI7Etj0",
+      "4ZCdNkPML2c",
+      "Iz2r-fEBNWs",
+      "PK33no-iIak"
+    ],
+    "subDate": "2026-10-28",
+    "youtubeChannelUrl": "https://www.youtube.com/@yoiwhisper",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@yoiwhisper",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_ed64487b",
+    "sc": {
+      "明けない夜のリリィ(傘村トータ)": {
+        "c": [
+          "傘村トータ"
+        ],
+        "a": [
+          "傘村トータ"
+        ]
+      },
+      "今更だって僕は言うかな(Saucy Dog)": {
+        "c": [
+          "石原慎也"
+        ],
+        "a": [
+          "Saucy Dog"
+        ]
+      },
+      "One Love (嵐)": {
+        "c": [
+          "加藤裕介"
+        ],
+        "a": [
+          "石塚知生"
+        ]
+      },
+      "櫂(ヨルシカ)": {
+        "c": [
+          "n-buna"
+        ],
+        "a": [
+          "n-buna"
+        ]
+      },
+      "一縷(上白石萌音)": {
+        "c": [
+          "野田洋次郎"
+        ],
+        "a": [
+          "野田洋次郎"
+        ]
+      },
+      "ボーイフレンド(aiko)": {
+        "c": [
+          "AIKO"
+        ],
+        "a": [
+          "島田昌典"
+        ]
+      },
+      "西藤公園(back number)": {
+        "c": [
+          "清水依与吏"
+        ],
+        "a": [
+          "back number"
+        ]
+      },
+      "結(Saucy Dog)": {
+        "c": [
+          "石原慎也"
+        ],
+        "a": [
+          "Saucy Dog"
+        ]
+      },
+      "記念撮影(BUMP OF CHICKEN)": {
+        "c": [
+          "藤原基央"
+        ],
+        "a": [
+          "BUMP OF CHICKEN"
+        ]
+      },
+      "トレモロ(RADWIMPS)": {
+        "c": [
+          "野田洋次郎"
+        ],
+        "a": [
+          "RADWIMPS"
+        ]
+      },
+      "花降らし(n-buna)": {
+        "c": [
+          "n-buna"
+        ],
+        "a": [
+          "n-buna"
+        ]
+      },
+      "ブルーアンバー(back number)": {
+        "c": [
+          "清水依与吏"
+        ],
+        "a": [
+          "back number",
+          "蔦谷好位置"
+        ]
+      },
+      "me me she(RADWIMPS)": {
+        "c": [
+          "野田洋次郎"
+        ],
+        "a": [
+          "RADWIMPS"
+        ]
+      },
+      "宵月": {
+        "c": [
+          "1991"
+        ],
+        "a": []
+      },
+      "金木犀の夜": {
+        "c": [
+          "佐藤千亜妃"
+        ],
+        "a": []
+      },
+      "アポリア": {
+        "c": [
+          "n-buna"
+        ],
+        "a": [
+          "n-buna"
+        ]
+      },
+      "明けない夜のリリィ": {
+        "c": [
+          "傘村トータ"
+        ],
+        "a": [
+          "傘村トータ"
+        ]
+      },
+      "今更だって僕は言うかな": {
+        "c": [
+          "石原慎也"
+        ],
+        "a": [
+          "Saucy Dog"
+        ]
+      },
+      "One Love": {
+        "c": [
+          "加藤裕介"
+        ],
+        "a": [
+          "石塚知生"
+        ]
+      },
+      "櫂": {
+        "c": [
+          "n-buna"
+        ],
+        "a": [
+          "n-buna"
+        ]
+      },
+      "一縷": {
+        "c": [
+          "野田洋次郎"
+        ],
+        "a": [
+          "野田洋次郎"
+        ]
+      },
+      "ベルベットの詩": {
+        "c": [
+          "清水依与吏"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "Mori Calliope",
     "cat": 1,
     "count": 16,
@@ -27948,248 +28471,6 @@
       "Star_Gazer": [
         "other"
       ]
-    }
-  },
-  {
-    "name": "宵-Yoi",
-    "cat": 1,
-    "count": 16,
-    "reading": "よい",
-    "kana": "よ",
-    "row": "や",
-    "alpha": "",
-    "img": "https://i.ytimg.com/vi/T9jX8hpaUVI/hqdefault.jpg",
-    "songs": [
-      "明けない夜のリリィ(傘村トータ)",
-      "今更だって僕は言うかな(Saucy Dog)",
-      "One Love (嵐)",
-      "櫂(ヨルシカ)",
-      "一縷(上白石萌音)",
-      "ボーイフレンド(aiko)",
-      "西藤公園(back number)",
-      "結(Saucy Dog)",
-      "記念撮影(BUMP OF CHICKEN)",
-      "トレモロ(RADWIMPS)",
-      "花降らし(n-buna)",
-      "ブルーアンバー(back number)",
-      "me me she(RADWIMPS)",
-      "宵月",
-      "金木犀の夜",
-      "アポリア"
-    ],
-    "topSongs": [
-      "明けない夜のリリィ",
-      "今更だって僕は言うかな",
-      "One Love",
-      "櫂",
-      "一縷"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "yoi",
-      "宵"
-    ],
-    "role": "歌い手",
-    "imgType": "youtube_official",
-    "sub": 18800,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "T9jX8hpaUVI",
-      "BC2FJI7Etj0",
-      "4ZCdNkPML2c",
-      "Iz2r-fEBNWs",
-      "PK33no-iIak"
-    ],
-    "subDate": "2026-10-28",
-    "youtubeChannelUrl": "https://www.youtube.com/@yoiwhisper",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@yoiwhisper",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_ed64487b",
-    "sc": {
-      "明けない夜のリリィ(傘村トータ)": {
-        "c": [
-          "傘村トータ"
-        ],
-        "a": [
-          "傘村トータ"
-        ]
-      },
-      "今更だって僕は言うかな(Saucy Dog)": {
-        "c": [
-          "石原慎也"
-        ],
-        "a": [
-          "Saucy Dog"
-        ]
-      },
-      "One Love (嵐)": {
-        "c": [
-          "加藤裕介"
-        ],
-        "a": [
-          "石塚知生"
-        ]
-      },
-      "櫂(ヨルシカ)": {
-        "c": [
-          "n-buna"
-        ],
-        "a": [
-          "n-buna"
-        ]
-      },
-      "一縷(上白石萌音)": {
-        "c": [
-          "野田洋次郎"
-        ],
-        "a": [
-          "野田洋次郎"
-        ]
-      },
-      "ボーイフレンド(aiko)": {
-        "c": [
-          "AIKO"
-        ],
-        "a": [
-          "島田昌典"
-        ]
-      },
-      "西藤公園(back number)": {
-        "c": [
-          "清水依与吏"
-        ],
-        "a": [
-          "back number"
-        ]
-      },
-      "結(Saucy Dog)": {
-        "c": [
-          "石原慎也"
-        ],
-        "a": [
-          "Saucy Dog"
-        ]
-      },
-      "記念撮影(BUMP OF CHICKEN)": {
-        "c": [
-          "藤原基央"
-        ],
-        "a": [
-          "BUMP OF CHICKEN"
-        ]
-      },
-      "トレモロ(RADWIMPS)": {
-        "c": [
-          "野田洋次郎"
-        ],
-        "a": [
-          "RADWIMPS"
-        ]
-      },
-      "花降らし(n-buna)": {
-        "c": [
-          "n-buna"
-        ],
-        "a": [
-          "n-buna"
-        ]
-      },
-      "ブルーアンバー(back number)": {
-        "c": [
-          "清水依与吏"
-        ],
-        "a": [
-          "back number",
-          "蔦谷好位置"
-        ]
-      },
-      "me me she(RADWIMPS)": {
-        "c": [
-          "野田洋次郎"
-        ],
-        "a": [
-          "RADWIMPS"
-        ]
-      },
-      "宵月": {
-        "c": [
-          "1991"
-        ],
-        "a": []
-      },
-      "金木犀の夜": {
-        "c": [
-          "佐藤千亜妃"
-        ],
-        "a": []
-      },
-      "アポリア": {
-        "c": [
-          "n-buna"
-        ],
-        "a": [
-          "n-buna"
-        ]
-      },
-      "明けない夜のリリィ": {
-        "c": [
-          "傘村トータ"
-        ],
-        "a": [
-          "傘村トータ"
-        ]
-      },
-      "今更だって僕は言うかな": {
-        "c": [
-          "石原慎也"
-        ],
-        "a": [
-          "Saucy Dog"
-        ]
-      },
-      "One Love": {
-        "c": [
-          "加藤裕介"
-        ],
-        "a": [
-          "石塚知生"
-        ]
-      },
-      "櫂": {
-        "c": [
-          "n-buna"
-        ],
-        "a": [
-          "n-buna"
-        ]
-      },
-      "一縷": {
-        "c": [
-          "野田洋次郎"
-        ],
-        "a": [
-          "野田洋次郎"
-        ]
-      }
     }
   },
   {
@@ -36459,6 +36740,168 @@
     }
   },
   {
+    "name": "しほ",
+    "cat": 1,
+    "count": 11,
+    "reading": "しほ",
+    "kana": "し",
+    "row": "さ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/IWk24KAZE1-UCo6xbxd9Q5zX-YL5PCjGVSbJsRJ75gLEUqQjL2tpS3T6cpjWhzq_ijywrQ2Gcw=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "花時計 piano arrange",
+      "解けない夏",
+      "No Logic",
+      "ジャガーノート",
+      "HALO",
+      "ジェリーフィッシュ",
+      "Fire◎Flower",
+      "夏はぐれ 〖Official Music Video〗",
+      "1/6 -out of the gravity-",
+      "Cry for the Moon",
+      "MARBLE"
+    ],
+    "topSongs": [
+      "花時計 piano arrange",
+      "解けない夏",
+      "No Logic",
+      "ジャガーノート",
+      "HALO"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "shiho",
+      "siho"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 163000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "zqjOKjBRq-g",
+      "lKnDDGaW3_o",
+      "taeC5IBnF7Y",
+      "jhE8XYbmroA",
+      "2Dg63T9sJws"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UC3i4x9_cRUfIBhtDDAlBS3w",
+    "youtubeChannelId": "UC3i4x9_cRUfIBhtDDAlBS3w",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UC3i4x9_cRUfIBhtDDAlBS3w",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_466d5a2a",
+    "sc": {
+      "花時計 piano arrange": {
+        "c": [
+          "ねこぼーろ"
+        ],
+        "a": [
+          "ねこぼーろ"
+        ]
+      },
+      "解けない夏": {
+        "c": [
+          "Aqu3ra"
+        ],
+        "a": [
+          "Aqu3ra"
+        ]
+      },
+      "No Logic": {
+        "c": [
+          "ジミーサムP"
+        ],
+        "a": [
+          "ジミーサムP"
+        ]
+      },
+      "ジャガーノート": {
+        "c": [
+          "夏代孝明"
+        ],
+        "a": [
+          "夏代孝明"
+        ]
+      },
+      "HALO": {
+        "c": [
+          "れるりり"
+        ],
+        "a": [
+          "れるりり"
+        ]
+      },
+      "ジェリーフィッシュ": {
+        "c": [
+          "キタニタツヤ"
+        ],
+        "a": [
+          "キタニタツヤ"
+        ]
+      },
+      "Fire◎Flower": {
+        "c": [
+          "halyosy"
+        ],
+        "a": [
+          "halyosy",
+          "is"
+        ]
+      },
+      "夏はぐれ 〖Official Music Video〗": {
+        "c": [
+          "しほ"
+        ],
+        "a": [
+          "しほ"
+        ]
+      },
+      "1/6 -out of the gravity-": {
+        "c": [
+          "ぼーかりおどP"
+        ],
+        "a": [
+          "ぼーかりおどP"
+        ]
+      },
+      "Cry for the Moon": {
+        "c": [
+          "tette"
+        ],
+        "a": [
+          "tette"
+        ]
+      },
+      "MARBLE": {
+        "c": [
+          "TOKOTOKO（西沢さんP）"
+        ],
+        "a": [
+          "TOKOTOKO（西沢さんP）"
+        ]
+      }
+    }
+  },
+  {
     "name": "田所あずさ",
     "cat": 1,
     "count": 11,
@@ -38235,159 +38678,6 @@
     }
   },
   {
-    "name": "しほ",
-    "cat": 1,
-    "count": 10,
-    "reading": "しほ",
-    "kana": "し",
-    "row": "さ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/IWk24KAZE1-UCo6xbxd9Q5zX-YL5PCjGVSbJsRJ75gLEUqQjL2tpS3T6cpjWhzq_ijywrQ2Gcw=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "花時計 piano arrange",
-      "解けない夏",
-      "No Logic",
-      "ジャガーノート",
-      "HALO",
-      "ジェリーフィッシュ",
-      "Fire◎Flower",
-      "夏はぐれ 〖Official Music Video〗",
-      "1/6 -out of the gravity-",
-      "Cry for the Moon"
-    ],
-    "topSongs": [
-      "花時計 piano arrange",
-      "解けない夏",
-      "No Logic",
-      "ジャガーノート",
-      "HALO"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "shiho",
-      "siho"
-    ],
-    "role": "歌い手",
-    "imgType": "youtube_official",
-    "sub": 163000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "zqjOKjBRq-g",
-      "lKnDDGaW3_o",
-      "taeC5IBnF7Y",
-      "jhE8XYbmroA",
-      "2Dg63T9sJws"
-    ],
-    "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UC3i4x9_cRUfIBhtDDAlBS3w",
-    "youtubeChannelId": "UC3i4x9_cRUfIBhtDDAlBS3w",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UC3i4x9_cRUfIBhtDDAlBS3w",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_466d5a2a",
-    "sc": {
-      "花時計 piano arrange": {
-        "c": [
-          "ねこぼーろ"
-        ],
-        "a": [
-          "ねこぼーろ"
-        ]
-      },
-      "解けない夏": {
-        "c": [
-          "Aqu3ra"
-        ],
-        "a": [
-          "Aqu3ra"
-        ]
-      },
-      "No Logic": {
-        "c": [
-          "ジミーサムP"
-        ],
-        "a": [
-          "ジミーサムP"
-        ]
-      },
-      "ジャガーノート": {
-        "c": [
-          "夏代孝明"
-        ],
-        "a": [
-          "夏代孝明"
-        ]
-      },
-      "HALO": {
-        "c": [
-          "れるりり"
-        ],
-        "a": [
-          "れるりり"
-        ]
-      },
-      "ジェリーフィッシュ": {
-        "c": [
-          "キタニタツヤ"
-        ],
-        "a": [
-          "キタニタツヤ"
-        ]
-      },
-      "Fire◎Flower": {
-        "c": [
-          "halyosy"
-        ],
-        "a": [
-          "halyosy",
-          "is"
-        ]
-      },
-      "夏はぐれ 〖Official Music Video〗": {
-        "c": [
-          "しほ"
-        ],
-        "a": [
-          "しほ"
-        ]
-      },
-      "1/6 -out of the gravity-": {
-        "c": [
-          "ぼーかりおどP"
-        ],
-        "a": [
-          "ぼーかりおどP"
-        ]
-      },
-      "Cry for the Moon": {
-        "c": [
-          "tette"
-        ],
-        "a": [
-          "tette"
-        ]
-      }
-    }
-  },
-  {
     "name": "ナナヲアカリ",
     "cat": 1,
     "count": 10,
@@ -40043,6 +40333,146 @@
         "a": [
           "AKAP"
         ]
+      }
+    }
+  },
+  {
+    "name": "流水",
+    "cat": 1,
+    "count": 10,
+    "reading": "るすい",
+    "kana": "る",
+    "row": "ら",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/dteRsdORHN-0aOx1Se04IITs4pKDsfuvSY3CzyD5FCS036kPiTeLNn9f815t51xM-wfKEOsD=s240-c-k-c0x00ffffff-no-rj",
+    "imgType": "youtube_official",
+    "songs": [
+      "雨音ノイズ",
+      "少女と舎利",
+      "夏が終わる件について",
+      "BAD SAD BAD",
+      "死にたくなったら電話して",
+      "POOL",
+      "ハイパーベンチレイション",
+      "魔法少女脱走事件",
+      "月面少女現象",
+      "ナイトドライバー"
+    ],
+    "topSongs": [
+      "雨音ノイズ",
+      "少女と舎利",
+      "夏が終わる件について",
+      "BAD SAD BAD",
+      "死にたくなったら電話して"
+    ],
+    "topTypes": [
+      "カバー",
+      "orig",
+      "orig",
+      "orig",
+      "orig"
+    ],
+    "topLinks": [
+      "",
+      "8PqoOGtidZU",
+      "T9Ajqm_KBj8",
+      "MGMomDiuk2U",
+      "lUszCmdViYY"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "歌い手",
+    "sub": null,
+    "subBucket": "unknown",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [
+      "Rusui",
+      "流水Rusui"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "",
+    "ytChannelLabel": "",
+    "ytChannelType": "",
+    "youtubeChannelUrl": "",
+    "aid": "a_37cfa877",
+    "sc": {
+      "雨音ノイズ": {
+        "c": [
+          "40mP"
+        ],
+        "a": [
+          "40mP"
+        ]
+      },
+      "少女と舎利": {
+        "c": [
+          "Lonepi"
+        ],
+        "a": []
+      },
+      "夏が終わる件について": {
+        "c": [
+          "犬飼"
+        ],
+        "a": [
+          "犬飼"
+        ]
+      },
+      "BAD SAD BAD": {
+        "c": [
+          "平田義久"
+        ],
+        "a": []
+      },
+      "死にたくなったら電話して": {
+        "c": [
+          "カササギ"
+        ],
+        "a": [
+          "カササギ"
+        ]
+      },
+      "POOL": {
+        "c": [
+          "Natrium"
+        ],
+        "a": [
+          "Natrium"
+        ]
+      },
+      "ハイパーベンチレイション": {
+        "c": [
+          "野田洋次郎"
+        ],
+        "a": []
+      },
+      "魔法少女脱走事件": {
+        "c": [
+          "b8xB"
+        ],
+        "a": []
+      },
+      "月面少女現象": {
+        "c": [
+          "b8xB"
+        ],
+        "a": []
+      },
+      "ナイトドライバー": {
+        "c": [
+          "平田義久"
+        ],
+        "a": []
       }
     }
   },
@@ -43624,6 +44054,147 @@
         ],
         "a": [
           "Yaffle"
+        ]
+      }
+    }
+  },
+  {
+    "name": "倚水",
+    "cat": 1,
+    "count": 8,
+    "reading": "いすい",
+    "kana": "い",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/ytc/AIdro_kMfXl1_6MzwhQ3XK2w427n6Tw2St4PW3M_pB6FXNB1V7o=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "おやすみモノクローム [ Full ] - Islet",
+      "憧憬人魚姫",
+      "夏の半券",
+      "8.32",
+      "心象カスケード",
+      "さよならはきえない",
+      "イレヴンス",
+      "薔薇の下で"
+    ],
+    "topSongs": [
+      "おやすみモノクローム",
+      "憧憬人魚姫",
+      "夏の半券",
+      "8.32",
+      "夏日章"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "isui"
+    ],
+    "role": "歌手",
+    "imgType": "youtube_official",
+    "sub": 48700,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "Jl2fUl2E-dc",
+      "wWd1UT1rMWQ",
+      "2DqdIZOzbQM",
+      "l59GHITnuKE",
+      "HiEldlchR3k"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/@isui",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "Islet",
+      "tayori"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "歌手"
+    ],
+    "profileBio": "倚水は、透明感と儚さを併せ持つ歌声で知られる女性シンガー。個人での歌唱活動に加え、コンポーザー・星銀乃丈らとのユニット「Islet」や、raku・たかやんとのユニット「tayori」のボーカリストとしても活動し、繊細な息遣いと叙情的な表現力で聴き手の心に深く寄り添う楽曲を届けている。",
+    "ytChannelUrl": "https://www.youtube.com/@isui",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_8cd25990",
+    "sc": {
+      "おやすみモノクローム [ Full ] - Islet": {
+        "c": [
+          "Islet"
+        ],
+        "a": [
+          "Islet"
+        ]
+      },
+      "憧憬人魚姫": {
+        "c": [
+          "YASUHIRO（康寛）"
+        ],
+        "a": []
+      },
+      "夏の半券": {
+        "c": [
+          "みきとP"
+        ],
+        "a": []
+      },
+      "8.32": {
+        "c": [
+          "*Luna"
+        ],
+        "a": []
+      },
+      "心象カスケード": {
+        "c": [
+          "koyori(電ポルP)"
+        ],
+        "a": []
+      },
+      "さよならはきえない": {
+        "c": [
+          "みきとP"
+        ],
+        "a": []
+      },
+      "イレヴンス": {
+        "c": [
+          "ポリスピカデリー"
+        ],
+        "a": [
+          "ポリスピカデリー"
+        ]
+      },
+      "おやすみモノクローム": {
+        "c": [
+          "Islet"
+        ],
+        "a": [
+          "Islet"
+        ]
+      },
+      "夏日章": {
+        "c": [
+          "夏央"
+        ],
+        "a": [
+          "樂"
+        ]
+      },
+      "薔薇の下で": {
+        "c": [
+          "tazuneru"
+        ],
+        "a": [
+          "raku"
         ]
       }
     }
@@ -47496,138 +48067,6 @@
       "Whiteout": [
         "anime"
       ]
-    }
-  },
-  {
-    "name": "倚水",
-    "cat": 1,
-    "count": 7,
-    "reading": "いすい",
-    "kana": "い",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/ytc/AIdro_kMfXl1_6MzwhQ3XK2w427n6Tw2St4PW3M_pB6FXNB1V7o=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "おやすみモノクローム [ Full ] - Islet",
-      "憧憬人魚姫",
-      "夏の半券",
-      "8.32",
-      "心象カスケード",
-      "さよならはきえない",
-      "イレヴンス"
-    ],
-    "topSongs": [
-      "おやすみモノクローム",
-      "憧憬人魚姫",
-      "夏の半券",
-      "8.32",
-      "夏日章"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "isui"
-    ],
-    "role": "歌手",
-    "imgType": "youtube_official",
-    "sub": 48700,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "Jl2fUl2E-dc",
-      "wWd1UT1rMWQ",
-      "2DqdIZOzbQM",
-      "l59GHITnuKE",
-      "HiEldlchR3k"
-    ],
-    "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/@isui",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [
-      "Islet",
-      "tayori"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "歌手"
-    ],
-    "profileBio": "倚水は、透明感と儚さを併せ持つ歌声で知られる女性シンガー。個人での歌唱活動に加え、コンポーザー・星銀乃丈らとのユニット「Islet」や、raku・たかやんとのユニット「tayori」のボーカリストとしても活動し、繊細な息遣いと叙情的な表現力で聴き手の心に深く寄り添う楽曲を届けている。",
-    "ytChannelUrl": "https://www.youtube.com/@isui",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_8cd25990",
-    "sc": {
-      "おやすみモノクローム [ Full ] - Islet": {
-        "c": [
-          "Islet"
-        ],
-        "a": [
-          "Islet"
-        ]
-      },
-      "憧憬人魚姫": {
-        "c": [
-          "YASUHIRO（康寛）"
-        ],
-        "a": []
-      },
-      "夏の半券": {
-        "c": [
-          "みきとP"
-        ],
-        "a": []
-      },
-      "8.32": {
-        "c": [
-          "*Luna"
-        ],
-        "a": []
-      },
-      "心象カスケード": {
-        "c": [
-          "koyori(電ポルP)"
-        ],
-        "a": []
-      },
-      "さよならはきえない": {
-        "c": [
-          "みきとP"
-        ],
-        "a": []
-      },
-      "イレヴンス": {
-        "c": [
-          "ポリスピカデリー"
-        ],
-        "a": [
-          "ポリスピカデリー"
-        ]
-      },
-      "おやすみモノクローム": {
-        "c": [
-          "Islet"
-        ],
-        "a": [
-          "Islet"
-        ]
-      },
-      "夏日章": {
-        "c": [
-          "夏央"
-        ],
-        "a": [
-          "樂"
-        ]
-      }
     }
   },
   {
@@ -85218,105 +85657,6 @@
     }
   },
   {
-    "name": "nyamura",
-    "cat": 1,
-    "count": 1,
-    "reading": "nyamura",
-    "kana": "",
-    "row": "",
-    "alpha": "N",
-    "img": "https://yt3.googleusercontent.com/S2FqERo1hL4W6T1IGZb5csJ2nJ8EuC0qSgguiK64RGCjjgScC6PdYssKSdScq1dlDdeplCQJ8w=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "you are my curse"
-    ],
-    "topSongs": [
-      "you are my curse",
-      "隷獣",
-      "S.O.S.G.A.L (feat. rinahamu)",
-      "your princess",
-      "5月17日"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "歌手",
-    "imgType": "youtube_official",
-    "sub": 133000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "Ug5PEHr-SxQ",
-      "8xmk8lyc7qA",
-      "csA2YOQ7tP8",
-      "RtambRLMNks",
-      "jm7TGImUMPw"
-    ],
-    "subDate": "2026-10-28",
-    "youtubeChannelUrl": "https://www.youtube.com/@nyamura_",
-    "al": [],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌手"
-    ],
-    "profileBio": "nyamuraは、繊細な感情表現と伸びやかなボーカルワークを持ち味とする女性シンガー。『you are my curse』『隷獣』『S.O.S.G.A.L』などの楽曲で印象的な歌声を響かせ、ポップスからバラード、カバー歌唱まで幅広い音楽シーンで親しまれている。",
-    "ytChannelUrl": "https://www.youtube.com/@nyamura_",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_2794748b",
-    "sc": {
-      "you are my curse": {
-        "c": [
-          "nyamura"
-        ],
-        "a": [
-          "nyamura"
-        ]
-      },
-      "隷獣": {
-        "c": [
-          "nyamura"
-        ],
-        "a": [
-          "nyamura"
-        ]
-      },
-      "S.O.S.G.A.L (feat. rinahamu)": {
-        "c": [
-          "nyamura"
-        ],
-        "a": [
-          "nyamura"
-        ]
-      },
-      "your princess": {
-        "c": [
-          "nyamura"
-        ],
-        "a": [
-          "nyamura"
-        ]
-      },
-      "5月17日": {
-        "c": [
-          "nyamura"
-        ],
-        "a": [
-          "nyamura"
-        ]
-      }
-    }
-  },
-  {
     "name": "ORESAMA",
     "cat": 1,
     "count": 1,
@@ -109190,65 +109530,6 @@
     }
   },
   {
-    "name": "流水",
-    "cat": 1,
-    "count": 1,
-    "reading": "るすい",
-    "kana": "る",
-    "row": "ら",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/dteRsdORHN-0aOx1Se04IITs4pKDsfuvSY3CzyD5FCS036kPiTeLNn9f815t51xM-wfKEOsD=s240-c-k-c0x00ffffff-no-rj",
-    "imgType": "youtube_official",
-    "songs": [
-      "雨音ノイズ"
-    ],
-    "topSongs": [
-      "雨音ノイズ"
-    ],
-    "topTypes": [
-      "カバー"
-    ],
-    "topLinks": [
-      ""
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "歌い手",
-    "sub": null,
-    "subBucket": "unknown",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [
-      "Rusui",
-      "流水Rusui"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "",
-    "ytChannelLabel": "",
-    "ytChannelType": "",
-    "youtubeChannelUrl": "",
-    "aid": "a_37cfa877",
-    "sc": {
-      "雨音ノイズ": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      }
-    }
-  },
-  {
     "aid": "a_407a13ad",
     "name": "rei sirose",
     "cat": 1,
@@ -113466,6 +113747,363 @@
     }
   },
   {
+    "name": "初星学園",
+    "cat": 2,
+    "count": 30,
+    "reading": "はつぼしがくえん",
+    "kana": "は",
+    "row": "は",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/HCnuNnUDi2lo3UZ-nqhmjVCp3Az4KsnvCTB7OQkwmMdQR0Da-x1oHdVLRizN6_McI4RiGivPNQ=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Atmosphere",
+      "極光",
+      "Fragile Heart",
+      "Wake up!!",
+      "白線",
+      "冠菊",
+      "標",
+      "The Cute!!!",
+      "雨上がりのアイリス",
+      "Cosmetic",
+      "アイヴイ",
+      "Luna say maybe",
+      "コントラスト",
+      "The Rolling Riceball",
+      "カクシタワタシ",
+      "Roar",
+      "Campus mode!!",
+      "一体いつから",
+      "Be proud",
+      "Wildest Flower",
+      "Fighting My Way",
+      "クライアイ",
+      "キミとセミブルー",
+      "ナイワ",
+      "みちなるひろがる",
+      "Agitato",
+      "ORDER FAKE",
+      "FANTASTIC GATHERING!",
+      "慟哭のコンチェルト",
+      "濡羽色の薄明"
+    ],
+    "topSongs": [
+      "初",
+      "Campus mode!!",
+      "Fighting My Way",
+      "Luna say maybe",
+      "光景"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Hatsuboshi Gakuen",
+      "hatsuboshigakuen",
+      "hatubosigakuen",
+      "ハツボシガクエン",
+      "学マス",
+      "学園アイドルマスター"
+    ],
+    "role": "音楽グループ(アニゲー関連)",
+    "imgType": "youtube_official",
+    "sub": 458000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "w-3PTQLwj4w",
+      "l1T_2zCHTk0",
+      "T1GK55fsIhw",
+      "Sq5Dj0U06vQ",
+      "VJk2etK8I1w"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "学園アイドルマスター",
+    "agencyGroup": "アイドルマスターシリーズ",
+    "vocalParts": [],
+    "agencyGroupCount": 88,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(アニゲー関連)",
+    "roles": [
+      "音楽グループ(アニゲー関連)"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@hatsuboshi_gakuen",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@hatsuboshi_gakuen",
+    "aid": "a_c06e0ae1",
+    "sc": {
+      "Atmosphere": {
+        "c": [
+          "Heart's Cry"
+        ],
+        "a": [
+          "Heart's Cry"
+        ]
+      },
+      "極光": {
+        "c": [
+          "重永亮介"
+        ],
+        "a": [
+          "重永亮介"
+        ]
+      },
+      "Fragile Heart": {
+        "c": [
+          "アッシュ井上(Dream Monster)"
+        ],
+        "a": [
+          "アッシュ井上(Dream Monster)"
+        ]
+      },
+      "Wake up!!": {
+        "c": [
+          "田中透真(Dream Monster)"
+        ],
+        "a": [
+          "アッシュ井上(Dream Monster)",
+          "田中透真(Dream Monster)"
+        ]
+      },
+      "白線": {
+        "c": [
+          "ナユタン星人"
+        ],
+        "a": [
+          "ナユタン星人"
+        ]
+      },
+      "冠菊": {
+        "c": [
+          "早川博隆(Rebrast)",
+          "河原レオ(Rebrast)"
+        ],
+        "a": [
+          "河原レオ(Rebrast)"
+        ]
+      },
+      "標": {
+        "c": [
+          "佐藤貴文"
+        ],
+        "a": [
+          "兼松衆"
+        ]
+      },
+      "The Cute!!!": {
+        "c": [
+          "金山秀士(Dream Monster)"
+        ],
+        "a": [
+          "金山秀士(Dream Monster)"
+        ]
+      },
+      "雨上がりのアイリス": {
+        "c": [
+          "神前暁(MONACA)"
+        ],
+        "a": [
+          "神前暁(MONACA)"
+        ]
+      },
+      "Cosmetic": {
+        "c": [
+          "MOMONADY",
+          "YUKI FUNAKOSHI"
+        ],
+        "a": [
+          "YUKI FUNAKOSHI"
+        ]
+      },
+      "アイヴイ": {
+        "c": [
+          "ツミキ"
+        ],
+        "a": [
+          "ツミキ"
+        ]
+      },
+      "Luna say maybe": {
+        "c": [
+          "美波"
+        ],
+        "a": [
+          "美波",
+          "真船勝博"
+        ]
+      },
+      "コントラスト": {
+        "c": [
+          "佐々木恵梨",
+          "鵜飼大幹",
+          "中村ヒロ"
+        ],
+        "a": [
+          "中村ヒロ"
+        ]
+      },
+      "The Rolling Riceball": {
+        "c": [
+          "佐藤貴文"
+        ],
+        "a": [
+          "半田彬倫"
+        ]
+      },
+      "カクシタワタシ": {
+        "c": [
+          "東優太"
+        ],
+        "a": [
+          "東優太"
+        ]
+      },
+      "Roar": {
+        "c": [
+          "BOYHOOD"
+        ],
+        "a": [
+          "BOYHOOD"
+        ]
+      },
+      "Campus mode!!": {
+        "c": [
+          "田淵智也"
+        ],
+        "a": [
+          "滝澤俊輔(TRYTONELABO)"
+        ]
+      },
+      "一体いつから": {
+        "c": [
+          "大橋ちっぽけ"
+        ],
+        "a": [
+          "岩崎隆一"
+        ]
+      },
+      "Be proud": {
+        "c": [
+          "kenchang"
+        ],
+        "a": [
+          "斎藤優輝"
+        ]
+      },
+      "Wildest Flower": {
+        "c": [
+          "Giga"
+        ],
+        "a": [
+          "Giga"
+        ]
+      },
+      "Fighting My Way": {
+        "c": [
+          "Giga"
+        ],
+        "a": [
+          "Giga"
+        ]
+      },
+      "クライアイ": {
+        "c": [
+          "GLIM SPANKY"
+        ],
+        "a": [
+          "亀本寛貴"
+        ]
+      },
+      "キミとセミブルー": {
+        "c": [
+          "光増ハジメ(FirstCall)"
+        ],
+        "a": [
+          "光増ハジメ(FirstCall)"
+        ]
+      },
+      "ナイワ": {
+        "c": [
+          "佐伯youthK"
+        ],
+        "a": [
+          "佐伯youthK"
+        ]
+      },
+      "みちなるひろがる": {
+        "c": [
+          "いよわ"
+        ],
+        "a": [
+          "いよわ"
+        ]
+      },
+      "Agitato": {
+        "c": [
+          "Ryo'LEFTY'Miyata"
+        ],
+        "a": [
+          "Ryo'LEFTY'Miyata"
+        ]
+      },
+      "ORDER FAKE": {
+        "c": [
+          "にほしか"
+        ],
+        "a": [
+          "にほしか"
+        ]
+      },
+      "初": {
+        "c": [
+          "原口沙輔"
+        ],
+        "a": [
+          "宮川弾",
+          "原口沙輔"
+        ]
+      },
+      "光景": {
+        "c": [
+          "長谷川白紙"
+        ],
+        "a": [
+          "長谷川白紙"
+        ]
+      },
+      "FANTASTIC GATHERING!": {
+        "c": [
+          "Funk Uchino",
+          "SILLY TEMBA",
+          "BLOCKYYY"
+        ],
+        "a": []
+      },
+      "慟哭のコンチェルト": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "濡羽色の薄明": {
+        "c": [
+          "Kato Saehito",
+          "Kota Morita"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "橋本みゆき",
     "cat": 2,
     "count": 29,
@@ -113816,337 +114454,6 @@
       "恋桜": [
         "game"
       ]
-    }
-  },
-  {
-    "name": "初星学園",
-    "cat": 2,
-    "count": 27,
-    "reading": "はつぼしがくえん",
-    "kana": "は",
-    "row": "は",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/HCnuNnUDi2lo3UZ-nqhmjVCp3Az4KsnvCTB7OQkwmMdQR0Da-x1oHdVLRizN6_McI4RiGivPNQ=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Atmosphere",
-      "極光",
-      "Fragile Heart",
-      "Wake up!!",
-      "白線",
-      "冠菊",
-      "標",
-      "The Cute!!!",
-      "雨上がりのアイリス",
-      "Cosmetic",
-      "アイヴイ",
-      "Luna say maybe",
-      "コントラスト",
-      "The Rolling Riceball",
-      "カクシタワタシ",
-      "Roar",
-      "Campus mode!!",
-      "一体いつから",
-      "Be proud",
-      "Wildest Flower",
-      "Fighting My Way",
-      "クライアイ",
-      "キミとセミブルー",
-      "ナイワ",
-      "みちなるひろがる",
-      "Agitato",
-      "ORDER FAKE"
-    ],
-    "topSongs": [
-      "初",
-      "Campus mode!!",
-      "Fighting My Way",
-      "Luna say maybe",
-      "光景"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Hatsuboshi Gakuen",
-      "hatsuboshigakuen",
-      "hatubosigakuen",
-      "ハツボシガクエン",
-      "学マス",
-      "学園アイドルマスター"
-    ],
-    "role": "音楽グループ(アニゲー関連)",
-    "imgType": "youtube_official",
-    "sub": 458000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "w-3PTQLwj4w",
-      "l1T_2zCHTk0",
-      "T1GK55fsIhw",
-      "Sq5Dj0U06vQ",
-      "VJk2etK8I1w"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "学園アイドルマスター",
-    "agencyGroup": "アイドルマスターシリーズ",
-    "vocalParts": [],
-    "agencyGroupCount": 88,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(アニゲー関連)",
-    "roles": [
-      "音楽グループ(アニゲー関連)"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@hatsuboshi_gakuen",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@hatsuboshi_gakuen",
-    "aid": "a_c06e0ae1",
-    "sc": {
-      "Atmosphere": {
-        "c": [
-          "Heart's Cry"
-        ],
-        "a": [
-          "Heart's Cry"
-        ]
-      },
-      "極光": {
-        "c": [
-          "重永亮介"
-        ],
-        "a": [
-          "重永亮介"
-        ]
-      },
-      "Fragile Heart": {
-        "c": [
-          "アッシュ井上(Dream Monster)"
-        ],
-        "a": [
-          "アッシュ井上(Dream Monster)"
-        ]
-      },
-      "Wake up!!": {
-        "c": [
-          "田中透真(Dream Monster)"
-        ],
-        "a": [
-          "アッシュ井上(Dream Monster)",
-          "田中透真(Dream Monster)"
-        ]
-      },
-      "白線": {
-        "c": [
-          "ナユタン星人"
-        ],
-        "a": [
-          "ナユタン星人"
-        ]
-      },
-      "冠菊": {
-        "c": [
-          "早川博隆(Rebrast)",
-          "河原レオ(Rebrast)"
-        ],
-        "a": [
-          "河原レオ(Rebrast)"
-        ]
-      },
-      "標": {
-        "c": [
-          "佐藤貴文"
-        ],
-        "a": [
-          "兼松衆"
-        ]
-      },
-      "The Cute!!!": {
-        "c": [
-          "金山秀士(Dream Monster)"
-        ],
-        "a": [
-          "金山秀士(Dream Monster)"
-        ]
-      },
-      "雨上がりのアイリス": {
-        "c": [
-          "神前暁(MONACA)"
-        ],
-        "a": [
-          "神前暁(MONACA)"
-        ]
-      },
-      "Cosmetic": {
-        "c": [
-          "MOMONADY",
-          "YUKI FUNAKOSHI"
-        ],
-        "a": [
-          "YUKI FUNAKOSHI"
-        ]
-      },
-      "アイヴイ": {
-        "c": [
-          "ツミキ"
-        ],
-        "a": [
-          "ツミキ"
-        ]
-      },
-      "Luna say maybe": {
-        "c": [
-          "美波"
-        ],
-        "a": [
-          "美波",
-          "真船勝博"
-        ]
-      },
-      "コントラスト": {
-        "c": [
-          "佐々木恵梨",
-          "鵜飼大幹",
-          "中村ヒロ"
-        ],
-        "a": [
-          "中村ヒロ"
-        ]
-      },
-      "The Rolling Riceball": {
-        "c": [
-          "佐藤貴文"
-        ],
-        "a": [
-          "半田彬倫"
-        ]
-      },
-      "カクシタワタシ": {
-        "c": [
-          "東優太"
-        ],
-        "a": [
-          "東優太"
-        ]
-      },
-      "Roar": {
-        "c": [
-          "BOYHOOD"
-        ],
-        "a": [
-          "BOYHOOD"
-        ]
-      },
-      "Campus mode!!": {
-        "c": [
-          "田淵智也"
-        ],
-        "a": [
-          "滝澤俊輔(TRYTONELABO)"
-        ]
-      },
-      "一体いつから": {
-        "c": [
-          "大橋ちっぽけ"
-        ],
-        "a": [
-          "岩崎隆一"
-        ]
-      },
-      "Be proud": {
-        "c": [
-          "kenchang"
-        ],
-        "a": [
-          "斎藤優輝"
-        ]
-      },
-      "Wildest Flower": {
-        "c": [
-          "Giga"
-        ],
-        "a": [
-          "Giga"
-        ]
-      },
-      "Fighting My Way": {
-        "c": [
-          "Giga"
-        ],
-        "a": [
-          "Giga"
-        ]
-      },
-      "クライアイ": {
-        "c": [
-          "GLIM SPANKY"
-        ],
-        "a": [
-          "亀本寛貴"
-        ]
-      },
-      "キミとセミブルー": {
-        "c": [
-          "光増ハジメ(FirstCall)"
-        ],
-        "a": [
-          "光増ハジメ(FirstCall)"
-        ]
-      },
-      "ナイワ": {
-        "c": [
-          "佐伯youthK"
-        ],
-        "a": [
-          "佐伯youthK"
-        ]
-      },
-      "みちなるひろがる": {
-        "c": [
-          "いよわ"
-        ],
-        "a": [
-          "いよわ"
-        ]
-      },
-      "Agitato": {
-        "c": [
-          "Ryo'LEFTY'Miyata"
-        ],
-        "a": [
-          "Ryo'LEFTY'Miyata"
-        ]
-      },
-      "ORDER FAKE": {
-        "c": [
-          "にほしか"
-        ],
-        "a": [
-          "にほしか"
-        ]
-      },
-      "初": {
-        "c": [
-          "原口沙輔"
-        ],
-        "a": [
-          "宮川弾",
-          "原口沙輔"
-        ]
-      },
-      "光景": {
-        "c": [
-          "長谷川白紙"
-        ],
-        "a": [
-          "長谷川白紙"
-        ]
-      }
     }
   },
   {
@@ -135377,6 +135684,112 @@
     }
   },
   {
+    "name": "Le☆S☆Ca",
+    "cat": 2,
+    "count": 2,
+    "reading": "lesca",
+    "kana": "",
+    "row": "",
+    "alpha": "L",
+    "img": "https://i.ytimg.com/vi/UtXvBt11rB0/hqdefault.jpg",
+    "songs": [
+      "YELLOW",
+      "トワイライト"
+    ],
+    "topSongs": [
+      "YELLOW",
+      "Behind Moon",
+      "ひまわりのストーリー",
+      "タンポポ",
+      "ミツバチ"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "音楽グループ(アニゲー関連)",
+    "imgType": "youtube_official",
+    "sub": null,
+    "subBucket": "unknown",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "UtXvBt11rB0",
+      "gAwJhW7YoN8",
+      "75eQX6xHjVA",
+      "_xeIgsl8Vvc",
+      "YDUyV324REE"
+    ],
+    "subDate": "2026-10-28",
+    "al": [
+      "LeSCa",
+      "lesca",
+      "Le☆S☆Ca",
+      "レスカ",
+      "れすか"
+    ],
+    "agency": "Tokyo 7th シスターズ",
+    "agencyGroup": "Tokyo 7th シスターズ",
+    "vocalParts": [],
+    "agencyGroupCount": 4,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(アニゲー関連)",
+    "roles": [
+      "音楽グループ(アニゲー関連)"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/results?search_query=LeSCa%20-%20Topic&sp=EgIQAg%3D%3D",
+    "ytChannelLabel": "YouTubeチャンネル（トピック） →",
+    "ytChannelType": "topic",
+    "youtubeChannelUrl": "https://www.youtube.com/results?search_query=LeSCa%20-%20Topic&sp=EgIQAg%3D%3D",
+    "aid": "a_71dcb3a9",
+    "sc": {
+      "YELLOW": {
+        "c": [
+          "ヒゲドライバー"
+        ],
+        "a": [
+          "ヒゲドライバー"
+        ]
+      },
+      "Behind Moon": {
+        "c": [
+          "KUMAROBO"
+        ],
+        "a": [
+          "KUMAROBO"
+        ]
+      },
+      "ひまわりのストーリー": {
+        "c": [
+          "KUMAROBO"
+        ],
+        "a": [
+          "KUMAROBO"
+        ]
+      },
+      "タンポポ": {
+        "c": [
+          "SigN"
+        ],
+        "a": [
+          "ichi"
+        ]
+      },
+      "ミツバチ": {
+        "c": [
+          "ヒゲドライバー"
+        ],
+        "a": [
+          "ヒゲドライバー"
+        ]
+      }
+    }
+  },
+  {
     "name": "Liella!",
     "cat": 2,
     "count": 2,
@@ -148355,111 +148768,6 @@
         ],
         "a": [
           "la la larks"
-        ]
-      }
-    }
-  },
-  {
-    "name": "Le☆S☆Ca",
-    "cat": 2,
-    "count": 1,
-    "reading": "lesca",
-    "kana": "",
-    "row": "",
-    "alpha": "L",
-    "img": "https://i.ytimg.com/vi/UtXvBt11rB0/hqdefault.jpg",
-    "songs": [
-      "YELLOW"
-    ],
-    "topSongs": [
-      "YELLOW",
-      "Behind Moon",
-      "ひまわりのストーリー",
-      "タンポポ",
-      "ミツバチ"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "音楽グループ(アニゲー関連)",
-    "imgType": "youtube_official",
-    "sub": null,
-    "subBucket": "unknown",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "UtXvBt11rB0",
-      "gAwJhW7YoN8",
-      "75eQX6xHjVA",
-      "_xeIgsl8Vvc",
-      "YDUyV324REE"
-    ],
-    "subDate": "2026-10-28",
-    "al": [
-      "LeSCa",
-      "lesca",
-      "Le☆S☆Ca",
-      "レスカ",
-      "れすか"
-    ],
-    "agency": "Tokyo 7th シスターズ",
-    "agencyGroup": "Tokyo 7th シスターズ",
-    "vocalParts": [],
-    "agencyGroupCount": 4,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(アニゲー関連)",
-    "roles": [
-      "音楽グループ(アニゲー関連)"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/results?search_query=LeSCa%20-%20Topic&sp=EgIQAg%3D%3D",
-    "ytChannelLabel": "YouTubeチャンネル（トピック） →",
-    "ytChannelType": "topic",
-    "youtubeChannelUrl": "https://www.youtube.com/results?search_query=LeSCa%20-%20Topic&sp=EgIQAg%3D%3D",
-    "aid": "a_71dcb3a9",
-    "sc": {
-      "YELLOW": {
-        "c": [
-          "ヒゲドライバー"
-        ],
-        "a": [
-          "ヒゲドライバー"
-        ]
-      },
-      "Behind Moon": {
-        "c": [
-          "KUMAROBO"
-        ],
-        "a": [
-          "KUMAROBO"
-        ]
-      },
-      "ひまわりのストーリー": {
-        "c": [
-          "KUMAROBO"
-        ],
-        "a": [
-          "KUMAROBO"
-        ]
-      },
-      "タンポポ": {
-        "c": [
-          "SigN"
-        ],
-        "a": [
-          "ichi"
-        ]
-      },
-      "ミツバチ": {
-        "c": [
-          "ヒゲドライバー"
-        ],
-        "a": [
-          "ヒゲドライバー"
         ]
       }
     }

@@ -8,7 +8,7 @@
 3. サイトに登録してよければ `"approved": false` を **`"approved": true`** に書き換えて Commit します（登録せず除外したい場合は **`"skip": true`** にします）。
 4. 次回の自動実行（または Actions タブからの「Run workflow」手動実行）で自動的に本番サイトへ反映され、このリストから消えます（新しく追加された曲が0件の日でも承認分は反映されます）。
 
-現在 **244件** の確認待ち項目があります：
+現在 **303件** の確認待ち項目があります：
 
 | 追加日 | 区分 | 確信度 | 仮アーティスト名 | 仮曲名 | 種別 | 仮活動形態 | 仮所属 | 動画リンク | 理由・AIメモ |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -256,3 +256,62 @@
 | 2026-11-19 | 新規名義 | `0.95` | **Shymie** | Meant to Be | `orig` | 歌手 | Tower of Fantasy | [動画](https://www.youtube.com/watch?v=KVbO5CVi_0k) | サイト未登録の新規名義候補（Shymie）のため要確認 (「幻塔 (Tower of Fantasy)」の公式サウンドトラック楽曲情報から特定しました。) |
 | 2026-11-19 | 新規名義 | `0.99` | **PassCode** | GENESIS | `orig` | 音楽グループ(その他) | - | [動画](https://www.youtube.com/watch?v=_OhbQBgKzmM) | サイト未登録の新規名義候補（PassCode）のため要確認 (PassCode Officialチャンネルによるオリジナル楽曲「GENESIS」のMV投稿であるため。) |
 | 2026-11-19 | 新規名義 | `0.99` | **saewool** | 完全色 | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=assz2Up9BwU) | サイト未登録の新規名義候補（saewool）のため要確認 (saewoolの公式チャンネルによるオリジナル楽曲「完全色 (Perfect Color)」のMVのため。) |
+| 2026-11-20 | 新規名義 | `0.95` | **saewool** | 十三夜 | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=Dq2_fhvdiHc) | サイト未登録の新規名義候補（saewool）のため要確認 (YouTube自動生成トピックチャンネルのクレジット及び楽曲情報から女性ボーカリストsaewoolのオリジナル楽曲であると特定。) |
+| 2026-11-20 | 新規名義 | `0.98` | **saewool** | 青、約束 | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=hPIzSAe_7yY) | サイト未登録の新規名義候補（saewool）のため要確認 (公式チャンネルのタイトルおよび概要欄のクレジット（vocal: saewool）から特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **saewool** | あなたの海 | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=xKREZbuOnWA) | サイト未登録の新規名義候補（saewool）のため要確認 (YouTube自動生成トピックチャンネルのクレジットよりsaewoolの楽曲と特定。) |
+| 2026-11-20 | 新規名義 | `0.98` | **saewool** | ボトルメール | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=_phxFISB41M) | サイト未登録の新規名義候補（saewool）のため要確認 (公式チャンネルのタイトルおよび概要欄のクレジットよりsaewoolのオリジナル曲と特定。) |
+| 2026-11-20 | 新規名義 | `0.98` | **saewool** | ラベンダー | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=HhEJsD-ZOJU) | サイト未登録の新規名義候補（saewool）のため要確認 (MIMIのチャンネル投稿動画で、概要欄のVocal: saewoolより特定。) |
+| 2026-11-20 | 新規名義 | `0.98` | **saewool** | 痛いの痛いの飛んでいけっ | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=wW1UjAtAZ1A) | サイト未登録の新規名義候補（saewool）のため要確認 (MIMIのチャンネル投稿動画で、概要欄のVocal: saewoolより特定。) |
+| 2026-11-20 | 新規名義 | `0.98` | **saewool** | FLOAT | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=8FxQ606Fqcc) | サイト未登録の新規名義候補（saewool）のため要確認 (MIMIのチャンネル投稿動画で、概要欄の声: saewoolより特定。) |
+| 2026-11-20 | 新規名義 | `0.98` | **saewool** | アサガオ | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=vw5ek-lffYY) | サイト未登録の新規名義候補（saewool）のため要確認 (MIMIのチャンネル投稿動画で、概要欄のVocal: saewoolより特定。) |
+| 2026-11-20 | 新規名義 | `0.98` | **saewool & 重音テトSV** | QED | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=SOBz91Kqz0g) | サイト未登録の新規名義候補（saewool、重音テトSV）のため要確認 (MIMIのチャンネル投稿動画で、概要欄のVocal: saewool, 重音テトSVのコラボ曲として特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **EIKO (CV: Yu Serizawa)** | Ambivalent | `orig` | 声優 | エイベックス・ピクチャーズ | [動画](https://www.youtube.com/watch?v=MkhfnBNBo4o) | サイト未登録の新規名義候補（芹澤優）のため要確認 (YouTubeトピックチャンネルより、アニメ「パリピ孔明」等の関連楽曲（EIKO starring 芹澤優）として特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **BiBi** | 冬がくれた予感 | `orig` | 音楽グループ(アニゲー関連) | Lantis | [動画](https://www.youtube.com/watch?v=xUUXpTwIyEo) | コラボ参加者の一部（楠田亜衣奈、Pile）が既存名義と照合できないため要確認（一致済み：新田恵海） (ラブライブ! School idol projectのユニット「BiBi」の楽曲として特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **Maebashi Witches** | Shiny☆Shineなスカイブルー | `orig` | 音楽グループ(アニゲー関連) | Lantis | [動画](https://www.youtube.com/watch?v=Y_G_0PdIUEk) | サイト未登録の新規名義候補（前橋ウィッチーズ）のため要確認 (YouTubeトピックチャンネルのクレジットよりMaebashi Witchesの楽曲と特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **KMNZ TINA** | BRAIN | `cover` | Vtuber | KMNZ | [動画](https://www.youtube.com/watch?v=N9AMS-_Dk_Y) | サイト未登録の新規名義候補（KMNZ TINA）のため要確認 (概要欄にMC: KMNZ TINAの記載があり、Kanariaの楽曲のカバーであることを確認。) |
+| 2026-11-20 | 新規名義 | `1.00` | **25時、ナイトコードで。 × 巡音ルカ** | 星を探して♭♭ | `orig` | 音楽グループ(アニゲー関連) | プロジェクトセカイ | [動画](https://www.youtube.com/watch?v=931lT5zGBy8) | コラボ参加者の一部（巡音ルカ）が既存名義と照合できないため要確認（一致済み：25時、ナイトコードで。） (『プロジェクトセカイ カラフルステージ! feat. 初音ミク』公式チャンネルの動画より、25時、ナイトコードで。と巡音ルカの歌唱と判別。) |
+| 2026-11-20 | 新規名義 | `0.95` | **からくりんね** | night whisper | `orig` | Vsinger | Fillnecode | [動画](https://www.youtube.com/watch?v=Uw0PWoC8mEU) | サイト未登録の新規名義候補（からくりんね）のため要確認 (チャンネルおよび動画タイトルから「からくりんね」のオリジナル楽曲と判別。) |
+| 2026-11-20 | 新規名義 | `0.95` | **秋月祁** | 不老夢 | `cover` | Vtuber | - | [動画](https://www.youtube.com/watch?v=U5EmKmSkgvc) | サイト未登録の新規名義候補（秋月祁）のため要確認 (チャンネル主である秋月祁による銀臨の楽曲のカバー動画。) |
+| 2026-11-20 | 新規名義 | `0.95` | **秋月祁** | 桃花諾 | `cover` | Vtuber | - | [動画](https://www.youtube.com/watch?v=IYw0_LhA5gI) | サイト未登録の新規名義候補（秋月祁）のため要確認 (秋月祁による鄧紫棋の楽曲のカバー歌唱動画。) |
+| 2026-11-20 | 新規名義 | `0.95` | **秋月祁** | 愛の小さな歌 | `cover` | Vtuber | - | [動画](https://www.youtube.com/watch?v=tZgWf9hl2hc) | サイト未登録の新規名義候補（秋月祁）のため要確認 (秋月祁によるMoona Hoshinovaの楽曲のカバー歌唱動画。) |
+| 2026-11-20 | 新規名義 | `0.95` | **秋月祁** | 錦鯉抄 | `cover` | Vtuber | - | [動画](https://www.youtube.com/watch?v=9ybuqOhAmpA) | サイト未登録の新規名義候補（秋月祁）のため要確認 (秋月祁による銀臨・雲之泣の楽曲のカバー歌唱動画。) |
+| 2026-11-20 | 新規名義 | `0.95` | **秋月祁** | ルーザーガール | `cover` | Vtuber | - | [動画](https://www.youtube.com/watch?v=RiLLeR05i-k) | サイト未登録の新規名義候補（秋月祁）のため要確認 (秋月祁によるツユの楽曲のカバー歌唱動画。) |
+| 2026-11-20 | 新規名義 | `1.00` | **nyamura × Neo** | 結ばれなくても | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=tvFD7_5-JOs) | コラボ参加者の一部（Neo）が既存名義と照合できないため要確認（一致済み：nyamura） (nyamura公式チャンネルの投稿より、nyamuraとNeoのコラボによるオリジナル楽曲と判別。) |
+| 2026-11-20 | 新規名義 | `1.00` | **Morfonica** | LaVI-Bavellabion | `cover` | 音楽グループ(アニゲー関連) | バンドリ！ | [動画](https://www.youtube.com/watch?v=dOamc5ehG2c) | サイト未登録の新規名義候補（Morfonica）のため要確認 (「バンドリちゃんねる☆」の公式動画および概要欄より、Morfonicaによるカバー楽曲と判別。) |
+| 2026-11-20 | 新規名義 | `0.95` | **TUMENECO** | 現夢 -genmu- | `orig` | 音楽グループ(その他) | TUMENECO | [動画](https://www.youtube.com/watch?v=h7smrTWu2Sc) | コラボ参加者の一部（みぃ）が既存名義と照合できないため要確認（一致済み：ShoyuSound） (東方ProjectのサークルTUMENECOの公式チャンネルによるオリジナルアレンジ楽曲。ボーカルにyukinaとみぃが参加しているためコラボ曲として個別抽出。) |
+| 2026-11-20 | 新規名義 | `0.95` | **佳鏡院** | しらないプラネット | `cover` | Vsinger | 神椿スタジオ / 少女革命計画 | [動画](https://www.youtube.com/watch?v=8UuRurvAkgw) | コラボ参加者の一部（佳鏡院）が既存名義と照合できないため要確認（一致済み：花譜） (佳鏡院と花譜によるコラボカバー歌唱動画であり、概要欄およびタイトルから明示されている。) |
+| 2026-11-20 | 新規名義 | `0.95` | **幽音しの** | New Moon | `orig` | Vtuber | ななしいんく | [動画](https://www.youtube.com/watch?v=j1kUmZVNle4) | サイト未登録の新規名義候補（幽音しの）のため要確認 (ななしいんく所属の幽音しのによる公式オリジナル楽曲MV。) |
+| 2026-11-20 | 新規名義 | `0.90` | **SiSH** | さよならレイニーレイディ | `orig` | 音楽グループ(アニゲー関連) | JVCKENWOOD Victor Entertainment | [動画](https://www.youtube.com/watch?v=uEFaIVEqiHY) | サイト未登録の新規名義候補（SiSH）のため要確認 (ゲーム『Tokyo 7th シスターズ』のユニットSiSHによる楽曲。) |
+| 2026-11-20 | 新規名義 | `0.90` | **SEVENTH SISTERS** | SEVENTH HAVEN | `orig` | 音楽グループ(アニゲー関連) | JVCKENWOOD Victor Entertainment | [動画](https://www.youtube.com/watch?v=4YD3MsXiGjE) | サイト未登録の新規名義候補（SEVENTH SISTERS）のため要確認 (ゲーム『Tokyo 7th シスターズ』の伝説的ユニットSEVENTH SISTERSによる楽曲。) |
+| 2026-11-20 | 新規名義 | `0.95` | **あられ ＆ 流水** | おとなの掟 | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=4yh-E1AKvig) | コラボ参加者の一部（あられ）が既存名義と照合できないため要確認（一致済み：流水） (動画タイトルおよび概要欄の「●Vocal： あられ / 流水」より2人のコラボによるカバー曲と判定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **砂惿 Saltøy** | とっておきの一撃を！ | `cover` | Vtuber | FlaskTroupe | [動画](https://www.youtube.com/watch?v=66xHLM10mko) | サイト未登録の新規名義候補（砂惿 Saltøy）のため要確認 (チャンネル名および概要欄の「Vocal ⠶ 砂惿 Saltøy」より判定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **nyamura × KAIRUI** | あたしの病気を治してくれる？ | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=1ManjckrmcI) | コラボ参加者の一部（KAIRUI）が既存名義と照合できないため要確認（一致済み：nyamura） (動画タイトルおよび概要欄より nyamura と KAIRUI のコラボによるオリジナル曲と判定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **nyamura × ういはら** | うらやみしい | `cover` | 歌手 | - | [動画](https://www.youtube.com/watch?v=R8HVna9Yj58) | コラボ参加者の一部（ういはら）が既存名義と照合できないため要確認（一致済み：nyamura） (動画タイトルおよび概要欄の記載より nyamura と ういはらのコラボカバー曲と判定。) |
+| 2026-11-20 | 新規名義 | `0.98` | **nyamura** | よくばり♡お～るまいん | `orig` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=v1rt7Ow4Ohg) | サイト未登録の新規名義候補（DELUTAYA、ミトゥン、Meica、猫理論、ういはら）のため要確認 (nyamuraチャンネルによるコラボレーションオリジナル楽曲) |
+| 2026-11-20 | 新規名義 | `0.98` | **nyamura** | connecting antithese | `orig` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=1bJni1l36hI) | サイト未登録の新規名義候補（Meica、owr）のため要確認 (ボカデュオ2023参加楽曲、nyamura, Meica, owrの連名ボーカル) |
+| 2026-11-20 | 新規名義 | `0.98` | **nyamura** | 絶対王政 | `orig` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=1aZbP7MUiqc) | コラボ参加者の一部（雨良、4sh）が既存名義と照合できないため要確認（一致済み：nyamura） (雨良×nyamuraによるVocaDuo2025参加オリジナル楽曲) |
+| 2026-11-20 | 新規名義 | `0.98` | **nyamura** | Internet~OP | `orig` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=l97zCqC-LIg) | コラボ参加者の一部（utumiyqcom）が既存名義と照合できないため要確認（一致済み：nyamura） (utumiyqcomとnyamuraによるコラボレーションオリジナル楽曲) |
+| 2026-11-20 | 新規名義 | `0.98` | **rinahamu** | ハッピーエンドなら | `orig` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=byIRwrEnj_I) | コラボ参加者の一部（rinahamu）が既存名義と照合できないため要確認（一致済み：nyamura） (rinahamuとnyamuraによるコラボレーションオリジナル楽曲) |
+| 2026-11-20 | 新規名義 | `0.95` | **nyamura × Haruhi** | cat reincarnation | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=DblzqQmGGCI) | コラボ参加者の一部（Haruhi）が既存名義と照合できないため要確認（一致済み：nyamura） (チャンネル主のnyamuraとHaruhiによるコラボレーション楽曲であり、動画タイトルおよび概要欄より特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **nyamura × なきそ** | 隷獣 | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=z22iM-AZAew) | コラボ参加者の一部（なきそ）が既存名義と照合できないため要確認（一致済み：nyamura） (チャンネル主のnyamuraとなきそによるコラボ楽曲であり、動画タイトルおよび概要欄より特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **nyamura × Haruhi** | 星の便り | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=5SgwgQPNLyY) | コラボ参加者の一部（Haruhi）が既存名義と照合できないため要確認（一致済み：nyamura） (チャンネル主のnyamuraとHaruhiによる楽曲であり、タイトルおよび概要欄より特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **nyamura × Haruhi** | your seraphim | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=53PKXyLMBPU) | コラボ参加者の一部（青木葉）が既存名義と照合できないため要確認（一致済み：nyamura） (nyamuraとHaruhiの作品にボーカルとして青木葉が参加している楽曲で、タイトル及び概要欄から特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **nyamura × KOTONOHOUSE** | S.O.S.G.A.L | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=suEpl1eeh0w) | コラボ参加者の一部（rinahamu）が既存名義と照合できないため要確認（一致済み：nyamura） (nyamuraとKOTONOHOUSEによる楽曲で、rinahamuがボーカル参加していることを概要欄より特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **nyamura** | hold on purple | `orig` | 歌手 | - | [動画](https://www.youtube.com/watch?v=EscmxlQ3bSs) | コラボ参加者の一部（AssToro）が既存名義と照合できないため要確認（一致済み：nyamura） (nyamuraのチャンネルによるオリジナル楽曲で、タイトル及び概要欄より特定。) |
+| 2026-11-20 | 新規名義 | `0.95` | **桃寝ちのい** | ラプラスショコラ | `cover` | Vsinger | - | [動画](https://www.youtube.com/watch?v=UWwOJREbnGg) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (桃寝ちのいによる初音ミク楽曲の歌ってみたカバー動画。) |
+| 2026-11-20 | 新規名義 | `0.95` | **桃寝ちのい** | 水死体にもどらないで | `cover` | Vsinger | - | [動画](https://www.youtube.com/watch?v=KW810Iv21RY) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (桃寝ちのいによるいよわ原曲の歌ってみたカバー動画。) |
+| 2026-11-20 | 新規名義 | `0.95` | **桃寝ちのい** | ロータスイーター | `cover` | Vsinger | - | [動画](https://www.youtube.com/watch?v=yfLxY6Ghl6I) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (桃寝ちのいによる歌ってみたカバー動画。) |
+| 2026-11-20 | 新規名義 | `0.95` | **桃寝ちのい** | 行き場をなくしたこどもたち | `cover` | Vsinger | - | [動画](https://www.youtube.com/watch?v=z7e60cIW9-E) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (桃寝ちのいによる歌ってみたカバー動画。) |
+| 2026-11-20 | 新規名義 | `0.95` | **桃寝ちのい** | エヌ | `cover` | Vsinger | - | [動画](https://www.youtube.com/watch?v=M9YvQSuREZ8) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (桃寝ちのいによる歌ってみたカバー動画。) |
+| 2026-11-20 | 新規名義 | `0.95` | **桃寝ちのい** | キッカイケッタイ | `cover` | Vsinger | - | [動画](https://www.youtube.com/watch?v=1M_t7vtx2NA) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (桃寝ちのいによる歌ってみたカバー動画。) |
+| 2026-11-20 | 新規名義 | `0.95` | **桃寝ちのい** | ご教示ください？ | `cover` | Vsinger | - | [動画](https://www.youtube.com/watch?v=sAoCyuPt6w4) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (桃寝ちのいによる歌ってみたカバー動画。) |
+| 2026-11-20 | 新規名義 | `0.98` | **桃寝ちのい** | カーニバルハッピー | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=qUbANRhRg_E) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (チャンネル名と概要欄の「Vocal＆Movie : 桃寝ちのい」より、歌唱者は桃寝ちのいと特定。かいりきベアの楽曲のカバー。) |
+| 2026-11-20 | 新規名義 | `0.98` | **桃寝ちのい** | 枯椿 | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=pZ2JkNtCL1U) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (概要欄の「Vocal＆Movie : 桃寝ちのい」より歌唱者を特定。なみぐるによる楽曲のカバー。) |
+| 2026-11-20 | 新規名義 | `0.98` | **桃寝ちのい** | 人マニア | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=VNW5hF3mV1g) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (概要欄の「vocal,movie - 桃寝ちのい」より歌唱者を特定。原口沙輔の楽曲のカバー。) |
+| 2026-11-20 | 新規名義 | `0.98` | **桃寝ちのい × いなみこ** | LAB=01 | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=ZsAmRZhRCtU) | サイト未登録の新規名義候補（桃寝ちのい、いなみこ）のため要確認 (概要欄の「vocal - 桃寝ちのい × いなみこ」より、2名のコラボ歌唱と特定。P-MODELの楽曲のカバー。) |
+| 2026-11-20 | 新規名義 | `0.98` | **桃寝ちのい** | バツ猫 | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=3efu7hI_QFo) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (概要欄の「vocal , movie - 桃寝ちのい」より歌唱者を特定。きくおの楽曲のカバー。) |
+| 2026-11-20 | 新規名義 | `0.98` | **N × 日あさ寝 × 桃寝ちのい** | ︎︎         　Cover＿N×日あさ寝×桃寝ちのい | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=mWhqxWon81U) | 曲名が抽出できないため要確認 (概要欄の「Vocal N ×日あさ寝×桃寝ちのい」より、3名のコラボ歌唱と特定。) |
+| 2026-11-20 | 新規名義 | `0.98` | **桃寝ちのい** | 粛清マーチ | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=DDsjHrnbu1s) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (概要欄の「vocal,movie - 桃寝ちのい」より歌唱者を特定。DECO*27（MILGRAM関連楽曲）のカバー。) |
+| 2026-11-20 | 新規名義 | `0.98` | **桃寝ちのい** | アフターペイン | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=CLXRyXE82GQ) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (概要欄の「vocal,movie - 桃寝ちのい」より歌唱者を特定。DECO*27（MILGRAM関連楽曲）のカバー。) |
+| 2026-11-20 | 新規名義 | `0.95` | **桃寝ちのい** | 殻空 | `orig` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=1ZMq8ic5ZiM) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (自動生成トピックチャンネルおよびタイトル・メタデータから、Awa Dobuno作詞作曲、桃寝ちのい歌唱のオリジナル楽曲と特定。) |
+| 2026-11-20 | 新規名義 | `0.98` | **桃寝ちのい** | 暮しガスメータ | `cover` | 歌い手 | - | [動画](https://www.youtube.com/watch?v=c69kLEi3nsI) | サイト未登録の新規名義候補（桃寝ちのい）のため要確認 (概要欄の「vocal,illust,movie - 桃寝ちのい」より歌唱者を特定。でんきくじらの楽曲のカバー。) |
