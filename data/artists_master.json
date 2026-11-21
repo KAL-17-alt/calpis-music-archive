@@ -10154,404 +10154,6 @@
     }
   },
   {
-    "name": "角巻わため",
-    "cat": 1,
-    "count": 35,
-    "reading": "つのまきわため",
-    "kana": "つ",
-    "row": "た",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/XJYar8ZAQ59ce0nFlf-Dl6V16Dwznu5xfh3XnMW_JE-nCVLHLiRTS-x1gB_eR4_CJY3KDfKxsVo=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "My song",
-      "mayday,mayday",
-      "鯨",
-      "リスポーン!!",
-      "灰色の証明",
-      "What an amazing swing",
-      "ビリ",
-      "ぼくらのなぞなぞ",
-      "ラムダック",
-      "Now on step",
-      "ししわたクッキング",
-      "RAINBOW",
-      "曇天羊",
-      "Our step",
-      "Everlasting Soul",
-      "Reaper vs. Sheep -Ouen ver.-",
-      "Fins",
-      "キミだけのメロディ",
-      "WataMeister",
-      "御伽の詩と永久なるミライ",
-      "君色ハナミズキ",
-      "sweet night, sweet time…",
-      "わための子守唄",
-      "ゼロの足跡",
-      "Go my way",
-      "きっと",
-      "イノコリ先生",
-      "Beautiful Circle",
-      "Shout now, sheep!!",
-      "恋のつぼみ",
-      "愛昧ショコラーテ -PandaBoYremix-",
-      "Revival",
-      "Holidays!",
-      "Happy day to you!",
-      "夢見る羊"
-    ],
-    "topSongs": [
-      "My song",
-      "愛昧ショコラーテ",
-      "What an amazing swing",
-      "Fins",
-      "雲の上"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Tsunomaki Watame",
-      "Watame Tsunomaki",
-      "tsunomakiwatame",
-      "tunomakiwatame",
-      "ツノマキワタメ",
-      "ホロライブ"
-    ],
-    "role": "Vtuber",
-    "imgType": "youtube_official",
-    "sub": 1730000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "6VGkeUaX-zk",
-      "P8OjkcLzYCM",
-      "d3UTywBDSW4",
-      "Ks2UnT4Nzcs",
-      "c3hdmr5mlzc"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "ホロライブ",
-    "agencyGroup": "ホロライブ",
-    "vocalParts": [],
-    "agencyGroupCount": 43,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCqm3BQLlJfvkTsX_hvm0UmA",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCqm3BQLlJfvkTsX_hvm0UmA",
-    "aid": "a_36e3f97b",
-    "sc": {
-      "My song": {
-        "c": [
-          "堀江晶太"
-        ],
-        "a": [
-          "堀江晶太"
-        ]
-      },
-      "mayday,mayday": {
-        "c": [
-          "Junky"
-        ],
-        "a": [
-          "Junky"
-        ]
-      },
-      "鯨": {
-        "c": [
-          "鈴木健太朗"
-        ],
-        "a": [
-          "鈴木健太朗"
-        ]
-      },
-      "リスポーン!!": {
-        "c": [
-          "堀江晶太"
-        ],
-        "a": [
-          "堀江晶太"
-        ]
-      },
-      "灰色の証明": {
-        "c": [
-          "岸田(岸田教団&THE明星ロケッツ)"
-        ],
-        "a": [
-          "岸田(岸田教団&THE明星ロケッツ)"
-        ]
-      },
-      "What an amazing swing": {
-        "c": [
-          "FAKE TYPE."
-        ],
-        "a": [
-          "DYES IWASAKI (FAKE TYPE.)"
-        ]
-      },
-      "ビリ": {
-        "c": [
-          "神田ジョン"
-        ],
-        "a": [
-          "神田ジョン",
-          "篠崎あやと"
-        ]
-      },
-      "ぼくらのなぞなぞ": {
-        "c": [
-          "sabio/高村風太"
-        ],
-        "a": [
-          "sabio/高村風太"
-        ]
-      },
-      "ラムダック": {
-        "c": [
-          "ナユタン星人"
-        ],
-        "a": [
-          "ナユタン星人"
-        ]
-      },
-      "Now on step": {
-        "c": [
-          "佐藤陽介(Hifumi,inc.)"
-        ],
-        "a": [
-          "佐藤陽介(Hifumi,inc.)"
-        ]
-      },
-      "ししわたクッキング": {
-        "c": [
-          "やしきん"
-        ],
-        "a": [
-          "やしきん"
-        ]
-      },
-      "RAINBOW": {
-        "c": [
-          "DECO*27"
-        ],
-        "a": [
-          "Rockwell"
-        ]
-      },
-      "曇天羊": {
-        "c": [
-          "T-POCKET"
-        ],
-        "a": [
-          "T-POCKET"
-        ]
-      },
-      "Our step": {
-        "c": [
-          "遠藤信吾"
-        ],
-        "a": [
-          "遠藤信吾"
-        ]
-      },
-      "Everlasting Soul": {
-        "c": [
-          "Tom-H@ck(TaWaRa)"
-        ],
-        "a": [
-          "RINZO(TaWaRa)"
-        ]
-      },
-      "Reaper vs. Sheep -Ouen ver.-": {
-        "c": [
-          "Koko"
-        ],
-        "a": [
-          "Koko"
-        ]
-      },
-      "Fins": {
-        "c": [
-          "岡野昭仁",
-          "tasuku"
-        ],
-        "a": [
-          "tasuku"
-        ]
-      },
-      "キミだけのメロディ": {
-        "c": [
-          "彦田元気(Hifumi,inc.)"
-        ],
-        "a": [
-          "彦田元気(Hifumi,inc.)"
-        ]
-      },
-      "WataMeister": {
-        "c": [
-          "ケンモチヒデフミ"
-        ],
-        "a": [
-          "ケンモチヒデフミ"
-        ]
-      },
-      "御伽の詩と永久なるミライ": {
-        "c": [
-          "佐藤陽介(Hifumi,inc.)"
-        ],
-        "a": [
-          "佐高陵平(Hifumi,inc.)"
-        ]
-      },
-      "君色ハナミズキ": {
-        "c": [
-          "柴山太朗"
-        ],
-        "a": [
-          "山崎佳祐"
-        ]
-      },
-      "sweet night, sweet time…": {
-        "c": [
-          "佐高陵平"
-        ],
-        "a": [
-          "佐高陵平"
-        ]
-      },
-      "わための子守唄": {
-        "c": [
-          "角巻吟遊詩人団"
-        ],
-        "a": [
-          "角巻吟遊詩人団"
-        ]
-      },
-      "ゼロの足跡": {
-        "c": [
-          "砂守岳央(未来古代楽団)"
-        ],
-        "a": [
-          "未来古代楽団"
-        ]
-      },
-      "Go my way": {
-        "c": [
-          "木村孝明"
-        ],
-        "a": [
-          "木村孝明"
-        ]
-      },
-      "きっと": {
-        "c": [
-          "佐藤陽介(Hifumi,inc.)"
-        ],
-        "a": [
-          "佐藤陽介(Hifumi,inc.)"
-        ]
-      },
-      "イノコリ先生": {
-        "c": [
-          "HoneyWorks"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "Beautiful Circle": {
-        "c": [
-          "佐藤純一(fhana)"
-        ],
-        "a": [
-          "佐藤純一(fhana)"
-        ]
-      },
-      "Shout now, sheep!!": {
-        "c": [
-          "ダルビッシュP"
-        ],
-        "a": [
-          "ダルビッシュP"
-        ]
-      },
-      "恋のつぼみ": {
-        "c": [
-          "加藤裕介"
-        ],
-        "a": [
-          "加藤裕介"
-        ]
-      },
-      "愛昧ショコラーテ -PandaBoYremix-": {
-        "c": [
-          "やしきん"
-        ],
-        "a": [
-          "PandaBoY"
-        ]
-      },
-      "Revival": {
-        "c": [
-          "Junky"
-        ],
-        "a": [
-          "Junky"
-        ]
-      },
-      "Holidays!": {
-        "c": [
-          "ナノウ"
-        ],
-        "a": [
-          "ナノウ"
-        ]
-      },
-      "Happy day to you!": {
-        "c": [
-          "堀江晶太"
-        ],
-        "a": [
-          "堀江晶太"
-        ]
-      },
-      "夢見る羊": {
-        "c": [
-          "堀江晶太"
-        ],
-        "a": [
-          "堀江晶太"
-        ]
-      },
-      "愛昧ショコラーテ": {
-        "c": [
-          "Junky"
-        ],
-        "a": [
-          "Junky"
-        ]
-      },
-      "雲の上": {
-        "c": [
-          "堀江晶太"
-        ],
-        "a": [
-          "堀江晶太"
-        ]
-      }
-    }
-  },
-  {
     "name": "常闇トワ",
     "cat": 1,
     "count": 35,
@@ -12165,6 +11767,407 @@
         ]
       }
     }
+  },
+  {
+    "name": "角巻わため",
+    "cat": 1,
+    "count": 34,
+    "reading": "つのまきわため",
+    "kana": "つ",
+    "row": "た",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/XJYar8ZAQ59ce0nFlf-Dl6V16Dwznu5xfh3XnMW_JE-nCVLHLiRTS-x1gB_eR4_CJY3KDfKxsVo=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "My song",
+      "mayday,mayday",
+      "鯨",
+      "リスポーン!!",
+      "灰色の証明",
+      "What an amazing swing",
+      "ビリ",
+      "ぼくらのなぞなぞ",
+      "ラムダック",
+      "Now on step",
+      "ししわたクッキング",
+      "RAINBOW",
+      "曇天羊",
+      "Our step",
+      "Everlasting Soul",
+      "Reaper vs. Sheep -Ouen ver.-",
+      "Fins",
+      "キミだけのメロディ",
+      "WataMeister",
+      "御伽の詩と永久なるミライ",
+      "君色ハナミズキ",
+      "sweet night, sweet time…",
+      "わための子守唄",
+      "ゼロの足跡",
+      "Go my way",
+      "きっと",
+      "イノコリ先生",
+      "Beautiful Circle",
+      "Shout now, sheep!!",
+      "恋のつぼみ",
+      "愛昧ショコラーテ -PandaBoYremix-",
+      "Revival",
+      "Holidays!",
+      "Happy day to you!",
+      "夢見る羊"
+    ],
+    "topSongs": [
+      "My song",
+      "愛昧ショコラーテ",
+      "What an amazing swing",
+      "Fins",
+      "雲の上"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Tsunomaki Watame",
+      "Watame Tsunomaki",
+      "tsunomakiwatame",
+      "tunomakiwatame",
+      "ツノマキワタメ",
+      "ホロライブ"
+    ],
+    "role": "Vtuber",
+    "imgType": "youtube_official",
+    "sub": 1730000,
+    "subBucket": "over1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "6VGkeUaX-zk",
+      "P8OjkcLzYCM",
+      "d3UTywBDSW4",
+      "Ks2UnT4Nzcs",
+      "c3hdmr5mlzc"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "ホロライブ",
+    "agencyGroup": "ホロライブ",
+    "vocalParts": [],
+    "agencyGroupCount": 43,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCqm3BQLlJfvkTsX_hvm0UmA",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCqm3BQLlJfvkTsX_hvm0UmA",
+    "aid": "a_36e3f97b",
+    "sc": {
+      "My song": {
+        "c": [
+          "堀江晶太"
+        ],
+        "a": [
+          "堀江晶太"
+        ]
+      },
+      "mayday,mayday": {
+        "c": [
+          "Junky"
+        ],
+        "a": [
+          "Junky"
+        ]
+      },
+      "鯨": {
+        "c": [
+          "鈴木健太朗"
+        ],
+        "a": [
+          "鈴木健太朗"
+        ]
+      },
+      "リスポーン!!": {
+        "c": [
+          "堀江晶太"
+        ],
+        "a": [
+          "堀江晶太"
+        ]
+      },
+      "灰色の証明": {
+        "c": [
+          "岸田(岸田教団&THE明星ロケッツ)"
+        ],
+        "a": [
+          "岸田(岸田教団&THE明星ロケッツ)"
+        ]
+      },
+      "What an amazing swing": {
+        "c": [
+          "FAKE TYPE."
+        ],
+        "a": [
+          "DYES IWASAKI (FAKE TYPE.)"
+        ]
+      },
+      "ビリ": {
+        "c": [
+          "神田ジョン"
+        ],
+        "a": [
+          "神田ジョン",
+          "篠崎あやと"
+        ]
+      },
+      "ぼくらのなぞなぞ": {
+        "c": [
+          "sabio/高村風太"
+        ],
+        "a": [
+          "sabio/高村風太"
+        ]
+      },
+      "ラムダック": {
+        "c": [
+          "ナユタン星人"
+        ],
+        "a": [
+          "ナユタン星人"
+        ]
+      },
+      "Now on step": {
+        "c": [
+          "佐藤陽介(Hifumi,inc.)"
+        ],
+        "a": [
+          "佐藤陽介(Hifumi,inc.)"
+        ]
+      },
+      "ししわたクッキング": {
+        "c": [
+          "やしきん"
+        ],
+        "a": [
+          "やしきん"
+        ]
+      },
+      "RAINBOW": {
+        "c": [
+          "DECO*27"
+        ],
+        "a": [
+          "Rockwell"
+        ]
+      },
+      "曇天羊": {
+        "c": [
+          "T-POCKET"
+        ],
+        "a": [
+          "T-POCKET"
+        ]
+      },
+      "Our step": {
+        "c": [
+          "遠藤信吾"
+        ],
+        "a": [
+          "遠藤信吾"
+        ]
+      },
+      "Everlasting Soul": {
+        "c": [
+          "Tom-H@ck(TaWaRa)"
+        ],
+        "a": [
+          "RINZO(TaWaRa)"
+        ]
+      },
+      "Reaper vs. Sheep -Ouen ver.-": {
+        "c": [
+          "Koko"
+        ],
+        "a": [
+          "Koko"
+        ]
+      },
+      "Fins": {
+        "c": [
+          "岡野昭仁",
+          "tasuku"
+        ],
+        "a": [
+          "tasuku"
+        ]
+      },
+      "キミだけのメロディ": {
+        "c": [
+          "彦田元気(Hifumi,inc.)"
+        ],
+        "a": [
+          "彦田元気(Hifumi,inc.)"
+        ]
+      },
+      "WataMeister": {
+        "c": [
+          "ケンモチヒデフミ"
+        ],
+        "a": [
+          "ケンモチヒデフミ"
+        ]
+      },
+      "御伽の詩と永久なるミライ": {
+        "c": [
+          "佐藤陽介(Hifumi,inc.)"
+        ],
+        "a": [
+          "佐高陵平(Hifumi,inc.)"
+        ]
+      },
+      "君色ハナミズキ": {
+        "c": [
+          "柴山太朗"
+        ],
+        "a": [
+          "山崎佳祐"
+        ]
+      },
+      "sweet night, sweet time…": {
+        "c": [
+          "佐高陵平"
+        ],
+        "a": [
+          "佐高陵平"
+        ]
+      },
+      "わための子守唄": {
+        "c": [
+          "角巻吟遊詩人団"
+        ],
+        "a": [
+          "角巻吟遊詩人団"
+        ]
+      },
+      "ゼロの足跡": {
+        "c": [
+          "砂守岳央(未来古代楽団)"
+        ],
+        "a": [
+          "未来古代楽団"
+        ]
+      },
+      "Go my way": {
+        "c": [
+          "木村孝明"
+        ],
+        "a": [
+          "木村孝明"
+        ]
+      },
+      "きっと": {
+        "c": [
+          "佐藤陽介(Hifumi,inc.)"
+        ],
+        "a": [
+          "佐藤陽介(Hifumi,inc.)"
+        ]
+      },
+      "イノコリ先生": {
+        "c": [
+          "HoneyWorks"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "Beautiful Circle": {
+        "c": [
+          "佐藤純一(fhana)"
+        ],
+        "a": [
+          "佐藤純一(fhana)"
+        ]
+      },
+      "Shout now, sheep!!": {
+        "c": [
+          "ダルビッシュP"
+        ],
+        "a": [
+          "ダルビッシュP"
+        ]
+      },
+      "恋のつぼみ": {
+        "c": [
+          "加藤裕介"
+        ],
+        "a": [
+          "加藤裕介"
+        ]
+      },
+      "愛昧ショコラーテ -PandaBoYremix-": {
+        "c": [
+          "やしきん"
+        ],
+        "a": [
+          "PandaBoY"
+        ]
+      },
+      "Revival": {
+        "c": [
+          "Junky"
+        ],
+        "a": [
+          "Junky"
+        ]
+      },
+      "Holidays!": {
+        "c": [
+          "ナノウ"
+        ],
+        "a": [
+          "ナノウ"
+        ]
+      },
+      "Happy day to you!": {
+        "c": [
+          "堀江晶太"
+        ],
+        "a": [
+          "堀江晶太"
+        ]
+      },
+      "夢見る羊": {
+        "c": [
+          "堀江晶太"
+        ],
+        "a": [
+          "堀江晶太"
+        ]
+      },
+      "愛昧ショコラーテ": {
+        "c": [
+          "Junky"
+        ],
+        "a": [
+          "Junky"
+        ]
+      },
+      "雲の上": {
+        "c": [
+          "堀江晶太"
+        ],
+        "a": [
+          "堀江晶太"
+        ]
+      }
+    },
+    "mugen2HiddenSongs": [
+      "Reaper vs. Sheep -Ouen ver.-"
+    ]
   },
   {
     "name": "榊原ゆい",
