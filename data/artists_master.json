@@ -1,5 +1,849 @@
 [
   {
+    "name": "AZKi",
+    "cat": 1,
+    "count": 82,
+    "reading": "azki",
+    "kana": "",
+    "row": "",
+    "alpha": "A",
+    "img": "https://yt3.googleusercontent.com/tRZGMhn8vSvYE0_15SjaE_3dTH5JTZzjdnb5gs1StecT1tKn1gQ2tVkRfi_n42Q5fYz13ewdayo=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "未来カンパネラ",
+      "こいのうた",
+      "いのち (2024 ver.)",
+      "セカイの色彩",
+      "The Last Frontier",
+      "オキドキ",
+      "あずいろ BESTIE DAYS",
+      "最強未来衝動",
+      "エンドロールは終わらない",
+      "まいすとらてじー！",
+      "from A to Z",
+      "Intersection",
+      "afterglow",
+      "Fake.Fake.Fake",
+      "少年よ我に帰れ",
+      "I can't control myself",
+      "Kiss me! Choose me!",
+      "Farewell",
+      "without U",
+      "Existlog",
+      "フェリシア",
+      "FreeGeo",
+      "ありがとう…",
+      "カゲロウノ調",
+      "画面の中の君が好き",
+      "雨のち晴れ晴れ",
+      "フロンティアローカス",
+      "map in the cup",
+      "明けない夜があったなら",
+      "藍深く",
+      "発光体ソーラーサイクル",
+      "canopus",
+      "白明",
+      "petrichor",
+      "fragile",
+      "Chaotic inner world",
+      "センパイ。",
+      "Starry Regrets",
+      "猫ならばいける",
+      "夢屑ケーキ",
+      "エントロピー",
+      "紅藍クロニクル",
+      "夜の輪郭",
+      "オーバーライト",
+      "リアルメランコリー",
+      "Operation Z",
+      "ひかりのまち",
+      "のんびりと",
+      "Creating world",
+      "青い夢",
+      "自己アレルギー",
+      "嘘嘘嘘嘘",
+      "エトランゼ",
+      "Take me to Heaven",
+      "in this world",
+      "ちいさな心が決めたこと",
+      "虹を駆け抜けて",
+      "equal",
+      "世界は巡り、やがて君のものになる",
+      "コトノハ",
+      "最強×最弱ガール",
+      "止まない雨",
+      "さよならヒーロー",
+      "ERROR",
+      "ローテート・リピーテッド",
+      "運命の在処",
+      "mirror",
+      "ナナワリエネミー",
+      "Eternity Bright",
+      "銀河と海路",
+      "petal dance",
+      "Reflection",
+      "シットデイズ",
+      "黒鉄の守り人",
+      "Midnight Song",
+      "Cream+Mint",
+      "光",
+      "タイムカプセル",
+      "【My Loving収録】刹那ティックコード【ときのそら",
+      "ディーヴァフィーバー",
+      "Going My Way",
+      "午後8時のコーラスソング",
+      "画面の中と向こうの君へ"
+    ],
+    "topSongs": [
+      "いのち",
+      "Without U",
+      "リアルメランコリー",
+      "画面の中の君が好き",
+      "猫ならばいける"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "あずき",
+      "アズキ",
+      "ホロライブ"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 1340000,
+    "subBucket": "over1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "hQ3rYiaUsUY",
+      "ofdfaM11NIw",
+      "ttrblFfxDr4",
+      "7ZAeFUmGx4Y",
+      "aINNB2g6cIA"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "ホロライブ",
+    "agencyGroup": "ホロライブ",
+    "vocalParts": [],
+    "agencyGroupCount": 43,
+    "agencyClickable": true,
+    "memberOf": [
+      "SorAZ"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UC0TXe_LYZ4scaW2XMyi5_kw",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UC0TXe_LYZ4scaW2XMyi5_kw",
+    "aid": "a_4d4111fd",
+    "mugen2HiddenSongs": [
+      "Fake.Fake.Fake"
+    ],
+    "sc": {
+      "未来カンパネラ": {
+        "c": [
+          "山田竜平"
+        ],
+        "a": [
+          "山田竜平"
+        ]
+      },
+      "こいのうた": {
+        "c": [
+          "中島優美"
+        ],
+        "a": [
+          "GO!GO!7188"
+        ]
+      },
+      "いのち (2024 ver.)": {
+        "c": [
+          "瀬名航(SOVA)"
+        ],
+        "a": [
+          "瀬名航(SOVA)"
+        ]
+      },
+      "セカイの色彩": {
+        "c": [
+          "やしきん"
+        ],
+        "a": [
+          "やしきん"
+        ]
+      },
+      "The Last Frontier": {
+        "c": [
+          "AZKi"
+        ],
+        "a": [
+          "RD-Sounds"
+        ]
+      },
+      "オキドキ": {
+        "c": [
+          "渡辺翔"
+        ],
+        "a": [
+          "奈須野新平"
+        ]
+      },
+      "あずいろ BESTIE DAYS": {
+        "c": [
+          "渡辺拓也"
+        ],
+        "a": [
+          "渡辺拓也"
+        ]
+      },
+      "最強未来衝動": {
+        "c": [
+          "白戸佑輔"
+        ],
+        "a": [
+          "白戸佑輔"
+        ]
+      },
+      "エンドロールは終わらない": {
+        "c": [
+          "瀬名航"
+        ],
+        "a": [
+          "瀬名航"
+        ]
+      },
+      "まいすとらてじー！": {
+        "c": [
+          "ミト(クラムボン)"
+        ],
+        "a": [
+          "ミト(クラムボン)"
+        ]
+      },
+      "from A to Z": {
+        "c": [
+          "流歌"
+        ],
+        "a": [
+          "流歌"
+        ]
+      },
+      "Intersection": {
+        "c": [
+          "lapix"
+        ],
+        "a": [
+          "lapix"
+        ]
+      },
+      "afterglow": {
+        "c": [
+          "AZKi",
+          "中川大二郎"
+        ],
+        "a": [
+          "中川大二郎"
+        ]
+      },
+      "Fake.Fake.Fake": {
+        "c": [
+          "田中亮太"
+        ],
+        "a": [
+          "田中亮太"
+        ]
+      },
+      "少年よ我に帰れ": {
+        "c": [
+          "ティカ・α"
+        ],
+        "a": [
+          "やくしまるえつこ",
+          "近藤研二"
+        ]
+      },
+      "I can't control myself": {
+        "c": [
+          "井口イチロウ(SCRAMBLES)"
+        ],
+        "a": [
+          "井口イチロウ(SCRAMBLES)"
+        ]
+      },
+      "Kiss me! Choose me!": {
+        "c": [
+          "ハム"
+        ],
+        "a": [
+          "ハム"
+        ]
+      },
+      "Farewell": {
+        "c": [
+          "流歌",
+          "AZKi"
+        ],
+        "a": [
+          "佐伯高志",
+          "流歌",
+          "萩龍一",
+          "藤崎昌弘"
+        ]
+      },
+      "without U": {
+        "c": [
+          "RD-Sounds"
+        ],
+        "a": [
+          "RD-Sounds"
+        ]
+      },
+      "Existlog": {
+        "c": [
+          "鈴谷皆人"
+        ],
+        "a": [
+          "鈴谷皆人"
+        ]
+      },
+      "フェリシア": {
+        "c": [
+          "なつめ千秋"
+        ],
+        "a": [
+          "なつめ千秋"
+        ]
+      },
+      "FreeGeo": {
+        "c": [
+          "Twinfield"
+        ],
+        "a": [
+          "Twinfield"
+        ]
+      },
+      "ありがとう…": {
+        "c": [
+          "KOKIA"
+        ],
+        "a": [
+          "日向敏文"
+        ]
+      },
+      "カゲロウノ調": {
+        "c": [
+          "小野貴光"
+        ],
+        "a": [
+          "小野貴光"
+        ]
+      },
+      "画面の中の君が好き": {
+        "c": [
+          "瀬名航"
+        ],
+        "a": [
+          "瀬名航"
+        ]
+      },
+      "雨のち晴れ晴れ": {
+        "c": [
+          "山下洋介"
+        ],
+        "a": [
+          "山下洋介"
+        ]
+      },
+      "フロンティアローカス": {
+        "c": [
+          "ハム",
+          "clocknote."
+        ],
+        "a": [
+          "ハム",
+          "clocknote."
+        ]
+      },
+      "map in the cup": {
+        "c": [
+          "やなぎなぎ"
+        ],
+        "a": [
+          "やなぎなぎ"
+        ]
+      },
+      "明けない夜があったなら": {
+        "c": [
+          "毛蟹(LIVE LAB.)"
+        ],
+        "a": [
+          "毛蟹(LIVE LAB.)",
+          "PAN(LIVE LAB.)"
+        ]
+      },
+      "藍深く": {
+        "c": [
+          "keeno"
+        ],
+        "a": [
+          "keeno"
+        ]
+      },
+      "発光体ソーラーサイクル": {
+        "c": [
+          "柏森進(MOSAIC.WAV)"
+        ],
+        "a": [
+          "柏森進(MOSAIC.WAV)"
+        ]
+      },
+      "canopus": {
+        "c": [
+          "AZKi",
+          "中川大二郎"
+        ],
+        "a": [
+          "中川大二郎"
+        ]
+      },
+      "白明": {
+        "c": [
+          "山本玲史"
+        ],
+        "a": [
+          "山本玲史"
+        ]
+      },
+      "petrichor": {
+        "c": [
+          "AZKi"
+        ],
+        "a": [
+          "中川大二郎"
+        ]
+      },
+      "fragile": {
+        "c": [
+          "菊池一仁"
+        ],
+        "a": [
+          "高橋圭一"
+        ]
+      },
+      "Chaotic inner world": {
+        "c": [
+          "Q-MHz"
+        ],
+        "a": [
+          "涼木シンジ(KEYTONE)"
+        ]
+      },
+      "センパイ。": {
+        "c": [
+          "HoneyWorks"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "Starry Regrets": {
+        "c": [
+          "田仲圭太(SCRAMBLES)"
+        ],
+        "a": [
+          "田仲圭太(SCRAMBLES)"
+        ]
+      },
+      "猫ならばいける": {
+        "c": [
+          "ぼっちぼろまる"
+        ],
+        "a": [
+          "ぼっちぼろまる"
+        ]
+      },
+      "夢屑ケーキ": {
+        "c": [
+          "石井涼大"
+        ],
+        "a": [
+          "Honoka"
+        ]
+      },
+      "エントロピー": {
+        "c": [
+          "瀬名航(SOVA)"
+        ],
+        "a": [
+          "瀬名航(SOVA)"
+        ]
+      },
+      "紅藍クロニクル": {
+        "c": [
+          "Yugo Ichikawa"
+        ],
+        "a": [
+          "Yugo Ichikawa"
+        ]
+      },
+      "夜の輪郭": {
+        "c": [
+          "渡辺翔"
+        ],
+        "a": [
+          "星銀乃丈"
+        ]
+      },
+      "オーバーライト": {
+        "c": [
+          "ハム",
+          "clocknote."
+        ],
+        "a": [
+          "ハム",
+          "clocknote."
+        ]
+      },
+      "リアルメランコリー": {
+        "c": [
+          "瀬名航"
+        ],
+        "a": [
+          "瀬名航"
+        ]
+      },
+      "Operation Z": {
+        "c": [
+          "やしきん"
+        ],
+        "a": [
+          "やしきん"
+        ]
+      },
+      "ひかりのまち": {
+        "c": [
+          "豊住サトシ(SCRAMBLES)"
+        ],
+        "a": [
+          "豊住サトシ(SCRAMBLES)"
+        ]
+      },
+      "のんびりと": {
+        "c": [
+          "ぽりふぉ"
+        ],
+        "a": [
+          "ぽりふぉ"
+        ]
+      },
+      "Creating world": {
+        "c": [
+          "流歌"
+        ],
+        "a": [
+          "流歌"
+        ]
+      },
+      "青い夢": {
+        "c": [
+          "瀬名航"
+        ],
+        "a": [
+          "瀬名航"
+        ]
+      },
+      "自己アレルギー": {
+        "c": [
+          "豊住サトシ"
+        ],
+        "a": [
+          "SCRAMBLES"
+        ]
+      },
+      "嘘嘘嘘嘘": {
+        "c": [
+          "井口イチロウ"
+        ],
+        "a": [
+          "井口イチロウ"
+        ]
+      },
+      "エトランゼ": {
+        "c": [
+          "白戸佑輔(Dream Monster)"
+        ],
+        "a": [
+          "白戸佑輔(Dream Monster)"
+        ]
+      },
+      "Take me to Heaven": {
+        "c": [
+          "D.watt"
+        ],
+        "a": [
+          "D.watt"
+        ]
+      },
+      "in this world": {
+        "c": [
+          "流歌"
+        ],
+        "a": [
+          "流歌"
+        ]
+      },
+      "ちいさな心が決めたこと": {
+        "c": [
+          "AZKi"
+        ],
+        "a": [
+          "SCRAMBLES"
+        ]
+      },
+      "虹を駆け抜けて": {
+        "c": [
+          "井口イチロウ"
+        ],
+        "a": [
+          "SCRAMBLES"
+        ]
+      },
+      "equal": {
+        "c": [
+          "AZKi"
+        ],
+        "a": [
+          "中川大二郎"
+        ]
+      },
+      "世界は巡り、やがて君のものになる": {
+        "c": [
+          "さめのぽき"
+        ],
+        "a": [
+          "さめのぽき"
+        ]
+      },
+      "コトノハ": {
+        "c": [
+          "佐藤カズキ"
+        ],
+        "a": [
+          "SCRAMBLES"
+        ]
+      },
+      "最強×最弱ガール": {
+        "c": [
+          "sumeshiii a.k.a.バーチャルお寿司"
+        ],
+        "a": [
+          "sumeshiii a.k.a.バーチャルお寿司"
+        ]
+      },
+      "止まない雨": {
+        "c": [
+          "MANYO"
+        ],
+        "a": [
+          "MANYO"
+        ]
+      },
+      "さよならヒーロー": {
+        "c": [
+          "豊住サトシ(SCRAMBLES)"
+        ],
+        "a": [
+          "豊住サトシ(SCRAMBLES)"
+        ]
+      },
+      "ERROR": {
+        "c": [
+          "niki"
+        ],
+        "a": [
+          "niki"
+        ]
+      },
+      "ローテート・リピーテッド": {
+        "c": [
+          "やしきん"
+        ],
+        "a": [
+          "やしきん"
+        ]
+      },
+      "運命の在処": {
+        "c": [
+          "小高光太郎",
+          "矢野達也"
+        ],
+        "a": [
+          "小高光太郎",
+          "矢野達也"
+        ]
+      },
+      "mirror": {
+        "c": [
+          "さめのぽき"
+        ],
+        "a": [
+          "さめのぽき"
+        ]
+      },
+      "ナナワリエネミー": {
+        "c": [
+          "アザミ"
+        ],
+        "a": [
+          "アザミ"
+        ]
+      },
+      "Eternity Bright": {
+        "c": [
+          "HAMA"
+        ],
+        "a": [
+          "HAMA"
+        ]
+      },
+      "銀河と海路": {
+        "c": [
+          "伊東歌詞太郎"
+        ],
+        "a": [
+          "青柳諒"
+        ]
+      },
+      "petal dance": {
+        "c": [
+          "rionos"
+        ],
+        "a": [
+          "rionos"
+        ]
+      },
+      "Reflection": {
+        "c": [
+          "40mP"
+        ],
+        "a": [
+          "40mP"
+        ]
+      },
+      "シットデイズ": {
+        "c": [
+          "豊住サトシ(SCRAMBLES)"
+        ],
+        "a": [
+          "豊住サトシ(SCRAMBLES)"
+        ]
+      },
+      "黒鉄の守り人": {
+        "c": [
+          "山本こーすけ"
+        ],
+        "a": [
+          "山本こーすけ"
+        ]
+      },
+      "Midnight Song": {
+        "c": [
+          "Batsu"
+        ],
+        "a": [
+          "Batsu"
+        ]
+      },
+      "Cream+Mint": {
+        "c": [
+          "Batsu"
+        ],
+        "a": [
+          "Batsu"
+        ]
+      },
+      "光": {
+        "c": [
+          "池窪浩一"
+        ],
+        "a": [
+          "SCRAMBLES"
+        ]
+      },
+      "タイムカプセル": {
+        "c": [
+          "安瀬聖"
+        ],
+        "a": [
+          "安瀬聖"
+        ]
+      },
+      "【My Loving収録】刹那ティックコード【ときのそら": {
+        "c": [
+          "渡部チェル"
+        ],
+        "a": [
+          "渡部チェル"
+        ]
+      },
+      "ディーヴァフィーバー": {
+        "c": [
+          "加藤裕介"
+        ],
+        "a": [
+          "加藤裕介"
+        ]
+      },
+      "Going My Way": {
+        "c": [
+          "瀬名航"
+        ],
+        "a": [
+          "瀬名航"
+        ]
+      },
+      "午後8時のコーラスソング": {
+        "c": [
+          "ヒゲドライバー"
+        ],
+        "a": [
+          "ヒゲドライバー"
+        ]
+      },
+      "いのち": {
+        "c": [
+          "瀬名航"
+        ],
+        "a": [
+          "瀬名航"
+        ]
+      },
+      "Without U": {
+        "c": [
+          "RD-Sounds"
+        ],
+        "a": [
+          "RD-Sounds"
+        ]
+      },
+      "画面の中と向こうの君へ": {
+        "c": [
+          "Wataru Sena(SOVA)"
+        ],
+        "a": [
+          "Wataru Sena(SOVA)"
+        ]
+      }
+    }
+  },
+  {
     "name": "柘榴",
     "cat": 1,
     "count": 82,
@@ -793,841 +1637,6 @@
       "カノン": [
         "vocaloid"
       ]
-    }
-  },
-  {
-    "name": "AZKi",
-    "cat": 1,
-    "count": 81,
-    "reading": "azki",
-    "kana": "",
-    "row": "",
-    "alpha": "A",
-    "img": "https://yt3.googleusercontent.com/tRZGMhn8vSvYE0_15SjaE_3dTH5JTZzjdnb5gs1StecT1tKn1gQ2tVkRfi_n42Q5fYz13ewdayo=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "未来カンパネラ",
-      "こいのうた",
-      "いのち (2024 ver.)",
-      "セカイの色彩",
-      "The Last Frontier",
-      "オキドキ",
-      "あずいろ BESTIE DAYS",
-      "最強未来衝動",
-      "エンドロールは終わらない",
-      "まいすとらてじー！",
-      "from A to Z",
-      "Intersection",
-      "afterglow",
-      "Fake.Fake.Fake",
-      "少年よ我に帰れ",
-      "I can't control myself",
-      "Kiss me! Choose me!",
-      "Farewell",
-      "without U",
-      "Existlog",
-      "フェリシア",
-      "FreeGeo",
-      "ありがとう…",
-      "カゲロウノ調",
-      "画面の中の君が好き",
-      "雨のち晴れ晴れ",
-      "フロンティアローカス",
-      "map in the cup",
-      "明けない夜があったなら",
-      "藍深く",
-      "発光体ソーラーサイクル",
-      "canopus",
-      "白明",
-      "petrichor",
-      "fragile",
-      "Chaotic inner world",
-      "センパイ。",
-      "Starry Regrets",
-      "猫ならばいける",
-      "夢屑ケーキ",
-      "エントロピー",
-      "紅藍クロニクル",
-      "夜の輪郭",
-      "オーバーライト",
-      "リアルメランコリー",
-      "Operation Z",
-      "ひかりのまち",
-      "のんびりと",
-      "Creating world",
-      "青い夢",
-      "自己アレルギー",
-      "嘘嘘嘘嘘",
-      "エトランゼ",
-      "Take me to Heaven",
-      "in this world",
-      "ちいさな心が決めたこと",
-      "虹を駆け抜けて",
-      "equal",
-      "世界は巡り、やがて君のものになる",
-      "コトノハ",
-      "最強×最弱ガール",
-      "止まない雨",
-      "さよならヒーロー",
-      "ERROR",
-      "ローテート・リピーテッド",
-      "運命の在処",
-      "mirror",
-      "ナナワリエネミー",
-      "Eternity Bright",
-      "銀河と海路",
-      "petal dance",
-      "Reflection",
-      "シットデイズ",
-      "黒鉄の守り人",
-      "Midnight Song",
-      "Cream+Mint",
-      "光",
-      "タイムカプセル",
-      "【My Loving収録】刹那ティックコード【ときのそら",
-      "ディーヴァフィーバー",
-      "Going My Way",
-      "午後8時のコーラスソング"
-    ],
-    "topSongs": [
-      "いのち",
-      "Without U",
-      "リアルメランコリー",
-      "画面の中の君が好き",
-      "猫ならばいける"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "あずき",
-      "アズキ",
-      "ホロライブ"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 1340000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "hQ3rYiaUsUY",
-      "ofdfaM11NIw",
-      "ttrblFfxDr4",
-      "7ZAeFUmGx4Y",
-      "aINNB2g6cIA"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "ホロライブ",
-    "agencyGroup": "ホロライブ",
-    "vocalParts": [],
-    "agencyGroupCount": 43,
-    "agencyClickable": true,
-    "memberOf": [
-      "SorAZ"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UC0TXe_LYZ4scaW2XMyi5_kw",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UC0TXe_LYZ4scaW2XMyi5_kw",
-    "aid": "a_4d4111fd",
-    "mugen2HiddenSongs": [
-      "Fake.Fake.Fake"
-    ],
-    "sc": {
-      "未来カンパネラ": {
-        "c": [
-          "山田竜平"
-        ],
-        "a": [
-          "山田竜平"
-        ]
-      },
-      "こいのうた": {
-        "c": [
-          "中島優美"
-        ],
-        "a": [
-          "GO!GO!7188"
-        ]
-      },
-      "いのち (2024 ver.)": {
-        "c": [
-          "瀬名航(SOVA)"
-        ],
-        "a": [
-          "瀬名航(SOVA)"
-        ]
-      },
-      "セカイの色彩": {
-        "c": [
-          "やしきん"
-        ],
-        "a": [
-          "やしきん"
-        ]
-      },
-      "The Last Frontier": {
-        "c": [
-          "AZKi"
-        ],
-        "a": [
-          "RD-Sounds"
-        ]
-      },
-      "オキドキ": {
-        "c": [
-          "渡辺翔"
-        ],
-        "a": [
-          "奈須野新平"
-        ]
-      },
-      "あずいろ BESTIE DAYS": {
-        "c": [
-          "渡辺拓也"
-        ],
-        "a": [
-          "渡辺拓也"
-        ]
-      },
-      "最強未来衝動": {
-        "c": [
-          "白戸佑輔"
-        ],
-        "a": [
-          "白戸佑輔"
-        ]
-      },
-      "エンドロールは終わらない": {
-        "c": [
-          "瀬名航"
-        ],
-        "a": [
-          "瀬名航"
-        ]
-      },
-      "まいすとらてじー！": {
-        "c": [
-          "ミト(クラムボン)"
-        ],
-        "a": [
-          "ミト(クラムボン)"
-        ]
-      },
-      "from A to Z": {
-        "c": [
-          "流歌"
-        ],
-        "a": [
-          "流歌"
-        ]
-      },
-      "Intersection": {
-        "c": [
-          "lapix"
-        ],
-        "a": [
-          "lapix"
-        ]
-      },
-      "afterglow": {
-        "c": [
-          "AZKi",
-          "中川大二郎"
-        ],
-        "a": [
-          "中川大二郎"
-        ]
-      },
-      "Fake.Fake.Fake": {
-        "c": [
-          "田中亮太"
-        ],
-        "a": [
-          "田中亮太"
-        ]
-      },
-      "少年よ我に帰れ": {
-        "c": [
-          "ティカ・α"
-        ],
-        "a": [
-          "やくしまるえつこ",
-          "近藤研二"
-        ]
-      },
-      "I can't control myself": {
-        "c": [
-          "井口イチロウ(SCRAMBLES)"
-        ],
-        "a": [
-          "井口イチロウ(SCRAMBLES)"
-        ]
-      },
-      "Kiss me! Choose me!": {
-        "c": [
-          "ハム"
-        ],
-        "a": [
-          "ハム"
-        ]
-      },
-      "Farewell": {
-        "c": [
-          "流歌",
-          "AZKi"
-        ],
-        "a": [
-          "佐伯高志",
-          "流歌",
-          "萩龍一",
-          "藤崎昌弘"
-        ]
-      },
-      "without U": {
-        "c": [
-          "RD-Sounds"
-        ],
-        "a": [
-          "RD-Sounds"
-        ]
-      },
-      "Existlog": {
-        "c": [
-          "鈴谷皆人"
-        ],
-        "a": [
-          "鈴谷皆人"
-        ]
-      },
-      "フェリシア": {
-        "c": [
-          "なつめ千秋"
-        ],
-        "a": [
-          "なつめ千秋"
-        ]
-      },
-      "FreeGeo": {
-        "c": [
-          "Twinfield"
-        ],
-        "a": [
-          "Twinfield"
-        ]
-      },
-      "ありがとう…": {
-        "c": [
-          "KOKIA"
-        ],
-        "a": [
-          "日向敏文"
-        ]
-      },
-      "カゲロウノ調": {
-        "c": [
-          "小野貴光"
-        ],
-        "a": [
-          "小野貴光"
-        ]
-      },
-      "画面の中の君が好き": {
-        "c": [
-          "瀬名航"
-        ],
-        "a": [
-          "瀬名航"
-        ]
-      },
-      "雨のち晴れ晴れ": {
-        "c": [
-          "山下洋介"
-        ],
-        "a": [
-          "山下洋介"
-        ]
-      },
-      "フロンティアローカス": {
-        "c": [
-          "ハム",
-          "clocknote."
-        ],
-        "a": [
-          "ハム",
-          "clocknote."
-        ]
-      },
-      "map in the cup": {
-        "c": [
-          "やなぎなぎ"
-        ],
-        "a": [
-          "やなぎなぎ"
-        ]
-      },
-      "明けない夜があったなら": {
-        "c": [
-          "毛蟹(LIVE LAB.)"
-        ],
-        "a": [
-          "毛蟹(LIVE LAB.)",
-          "PAN(LIVE LAB.)"
-        ]
-      },
-      "藍深く": {
-        "c": [
-          "keeno"
-        ],
-        "a": [
-          "keeno"
-        ]
-      },
-      "発光体ソーラーサイクル": {
-        "c": [
-          "柏森進(MOSAIC.WAV)"
-        ],
-        "a": [
-          "柏森進(MOSAIC.WAV)"
-        ]
-      },
-      "canopus": {
-        "c": [
-          "AZKi",
-          "中川大二郎"
-        ],
-        "a": [
-          "中川大二郎"
-        ]
-      },
-      "白明": {
-        "c": [
-          "山本玲史"
-        ],
-        "a": [
-          "山本玲史"
-        ]
-      },
-      "petrichor": {
-        "c": [
-          "AZKi"
-        ],
-        "a": [
-          "中川大二郎"
-        ]
-      },
-      "fragile": {
-        "c": [
-          "菊池一仁"
-        ],
-        "a": [
-          "高橋圭一"
-        ]
-      },
-      "Chaotic inner world": {
-        "c": [
-          "Q-MHz"
-        ],
-        "a": [
-          "涼木シンジ(KEYTONE)"
-        ]
-      },
-      "センパイ。": {
-        "c": [
-          "HoneyWorks"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "Starry Regrets": {
-        "c": [
-          "田仲圭太(SCRAMBLES)"
-        ],
-        "a": [
-          "田仲圭太(SCRAMBLES)"
-        ]
-      },
-      "猫ならばいける": {
-        "c": [
-          "ぼっちぼろまる"
-        ],
-        "a": [
-          "ぼっちぼろまる"
-        ]
-      },
-      "夢屑ケーキ": {
-        "c": [
-          "石井涼大"
-        ],
-        "a": [
-          "Honoka"
-        ]
-      },
-      "エントロピー": {
-        "c": [
-          "瀬名航(SOVA)"
-        ],
-        "a": [
-          "瀬名航(SOVA)"
-        ]
-      },
-      "紅藍クロニクル": {
-        "c": [
-          "Yugo Ichikawa"
-        ],
-        "a": [
-          "Yugo Ichikawa"
-        ]
-      },
-      "夜の輪郭": {
-        "c": [
-          "渡辺翔"
-        ],
-        "a": [
-          "星銀乃丈"
-        ]
-      },
-      "オーバーライト": {
-        "c": [
-          "ハム",
-          "clocknote."
-        ],
-        "a": [
-          "ハム",
-          "clocknote."
-        ]
-      },
-      "リアルメランコリー": {
-        "c": [
-          "瀬名航"
-        ],
-        "a": [
-          "瀬名航"
-        ]
-      },
-      "Operation Z": {
-        "c": [
-          "やしきん"
-        ],
-        "a": [
-          "やしきん"
-        ]
-      },
-      "ひかりのまち": {
-        "c": [
-          "豊住サトシ(SCRAMBLES)"
-        ],
-        "a": [
-          "豊住サトシ(SCRAMBLES)"
-        ]
-      },
-      "のんびりと": {
-        "c": [
-          "ぽりふぉ"
-        ],
-        "a": [
-          "ぽりふぉ"
-        ]
-      },
-      "Creating world": {
-        "c": [
-          "流歌"
-        ],
-        "a": [
-          "流歌"
-        ]
-      },
-      "青い夢": {
-        "c": [
-          "瀬名航"
-        ],
-        "a": [
-          "瀬名航"
-        ]
-      },
-      "自己アレルギー": {
-        "c": [
-          "豊住サトシ"
-        ],
-        "a": [
-          "SCRAMBLES"
-        ]
-      },
-      "嘘嘘嘘嘘": {
-        "c": [
-          "井口イチロウ"
-        ],
-        "a": [
-          "井口イチロウ"
-        ]
-      },
-      "エトランゼ": {
-        "c": [
-          "白戸佑輔(Dream Monster)"
-        ],
-        "a": [
-          "白戸佑輔(Dream Monster)"
-        ]
-      },
-      "Take me to Heaven": {
-        "c": [
-          "D.watt"
-        ],
-        "a": [
-          "D.watt"
-        ]
-      },
-      "in this world": {
-        "c": [
-          "流歌"
-        ],
-        "a": [
-          "流歌"
-        ]
-      },
-      "ちいさな心が決めたこと": {
-        "c": [
-          "AZKi"
-        ],
-        "a": [
-          "SCRAMBLES"
-        ]
-      },
-      "虹を駆け抜けて": {
-        "c": [
-          "井口イチロウ"
-        ],
-        "a": [
-          "SCRAMBLES"
-        ]
-      },
-      "equal": {
-        "c": [
-          "AZKi"
-        ],
-        "a": [
-          "中川大二郎"
-        ]
-      },
-      "世界は巡り、やがて君のものになる": {
-        "c": [
-          "さめのぽき"
-        ],
-        "a": [
-          "さめのぽき"
-        ]
-      },
-      "コトノハ": {
-        "c": [
-          "佐藤カズキ"
-        ],
-        "a": [
-          "SCRAMBLES"
-        ]
-      },
-      "最強×最弱ガール": {
-        "c": [
-          "sumeshiii a.k.a.バーチャルお寿司"
-        ],
-        "a": [
-          "sumeshiii a.k.a.バーチャルお寿司"
-        ]
-      },
-      "止まない雨": {
-        "c": [
-          "MANYO"
-        ],
-        "a": [
-          "MANYO"
-        ]
-      },
-      "さよならヒーロー": {
-        "c": [
-          "豊住サトシ(SCRAMBLES)"
-        ],
-        "a": [
-          "豊住サトシ(SCRAMBLES)"
-        ]
-      },
-      "ERROR": {
-        "c": [
-          "niki"
-        ],
-        "a": [
-          "niki"
-        ]
-      },
-      "ローテート・リピーテッド": {
-        "c": [
-          "やしきん"
-        ],
-        "a": [
-          "やしきん"
-        ]
-      },
-      "運命の在処": {
-        "c": [
-          "小高光太郎",
-          "矢野達也"
-        ],
-        "a": [
-          "小高光太郎",
-          "矢野達也"
-        ]
-      },
-      "mirror": {
-        "c": [
-          "さめのぽき"
-        ],
-        "a": [
-          "さめのぽき"
-        ]
-      },
-      "ナナワリエネミー": {
-        "c": [
-          "アザミ"
-        ],
-        "a": [
-          "アザミ"
-        ]
-      },
-      "Eternity Bright": {
-        "c": [
-          "HAMA"
-        ],
-        "a": [
-          "HAMA"
-        ]
-      },
-      "銀河と海路": {
-        "c": [
-          "伊東歌詞太郎"
-        ],
-        "a": [
-          "青柳諒"
-        ]
-      },
-      "petal dance": {
-        "c": [
-          "rionos"
-        ],
-        "a": [
-          "rionos"
-        ]
-      },
-      "Reflection": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "シットデイズ": {
-        "c": [
-          "豊住サトシ(SCRAMBLES)"
-        ],
-        "a": [
-          "豊住サトシ(SCRAMBLES)"
-        ]
-      },
-      "黒鉄の守り人": {
-        "c": [
-          "山本こーすけ"
-        ],
-        "a": [
-          "山本こーすけ"
-        ]
-      },
-      "Midnight Song": {
-        "c": [
-          "Batsu"
-        ],
-        "a": [
-          "Batsu"
-        ]
-      },
-      "Cream+Mint": {
-        "c": [
-          "Batsu"
-        ],
-        "a": [
-          "Batsu"
-        ]
-      },
-      "光": {
-        "c": [
-          "池窪浩一"
-        ],
-        "a": [
-          "SCRAMBLES"
-        ]
-      },
-      "タイムカプセル": {
-        "c": [
-          "安瀬聖"
-        ],
-        "a": [
-          "安瀬聖"
-        ]
-      },
-      "【My Loving収録】刹那ティックコード【ときのそら": {
-        "c": [
-          "渡部チェル"
-        ],
-        "a": [
-          "渡部チェル"
-        ]
-      },
-      "ディーヴァフィーバー": {
-        "c": [
-          "加藤裕介"
-        ],
-        "a": [
-          "加藤裕介"
-        ]
-      },
-      "Going My Way": {
-        "c": [
-          "瀬名航"
-        ],
-        "a": [
-          "瀬名航"
-        ]
-      },
-      "午後8時のコーラスソング": {
-        "c": [
-          "ヒゲドライバー"
-        ],
-        "a": [
-          "ヒゲドライバー"
-        ]
-      },
-      "いのち": {
-        "c": [
-          "瀬名航"
-        ],
-        "a": [
-          "瀬名航"
-        ]
-      },
-      "Without U": {
-        "c": [
-          "RD-Sounds"
-        ],
-        "a": [
-          "RD-Sounds"
-        ]
-      }
     }
   },
   {
@@ -3755,6 +3764,652 @@
     }
   },
   {
+    "name": "琶舞",
+    "cat": 1,
+    "count": 63,
+    "reading": "べま",
+    "kana": "へ",
+    "row": "は",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/2jsXgHrgK1jDfbitaG3H6DqnypssysgNFrM5QtUJ0gdxm2OHdc3CUHaKDBAs5eliccS9w28k0A=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "INSANE",
+      "化けの花",
+      "Magia",
+      "Avid",
+      "戯れ",
+      "ファーストエイド",
+      "Alt Skin/ BEMA - Alt Skin",
+      "月夜にマリアージュ/ BEMA - Moonlit Marriage",
+      "捕食者 / BEMA - Predator",
+      "Symbiotic Dominion",
+      "カメレオン",
+      "ROSE",
+      "ワールドイズマイン",
+      "ギブス",
+      "Departures 〜あなたにおくるアイの歌〜",
+      "花の唄",
+      "白日",
+      "more than words",
+      "シャンティ",
+      "逆夢",
+      "Deep down",
+      "asphyxia",
+      "Brave Shine",
+      "STYX HELIX",
+      "偽顔",
+      "悪魔の子",
+      "All Alone With You",
+      "ハレンチ",
+      "名前のない怪物",
+      "ずうっといっしょ！",
+      "Heaven and Hell",
+      "Azalea",
+      "夢をみせて",
+      "お呪い",
+      "対象a",
+      "MIRROR",
+      "Loveit?",
+      "give it back",
+      "The Story of Us",
+      "AIZO",
+      "TEST ME",
+      "飛ぼうよ",
+      "ロミオとシンデレラ",
+      "硝子窓",
+      "My Body",
+      "JANE DOE",
+      "華奢なリップfeat.ちゃんみな",
+      "Ｗ●ＲＫ",
+      "子供になってみた】おこちゃま戦争",
+      "長く短い祭",
+      "絶頂讃歌",
+      "絶対敵対メチャキライヤー",
+      "ラヴィ",
+      "再会",
+      "二時間だけのバカンスfeaturing 椎名林檎 -宇多田ヒカル",
+      "ファイアダンス",
+      "One Last Kiss",
+      "Tiger",
+      "III",
+      "月夜にマリアージュ",
+      "捕食者",
+      "絶体絶命",
+      "本能"
+    ],
+    "topSongs": [
+      "戯れ",
+      "ファーストエイド",
+      "1314",
+      "カメレオン",
+      "捕食者"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "BEMA",
+      "bema",
+      "ベマ",
+      "KAMITSUBAKI STUDIO (SINSEKAI RECORD)"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 237000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "bKzl_rl8kqs",
+      "eFJxPBP0eBU",
+      "MchHrfXbOto",
+      "3yHd5s0SjZo",
+      "I1si4oNmZHU"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "KAMITSUBAKI STUDIO (SINSEKAI RECORD)",
+    "agencyGroup": "神椿スタジオ",
+    "vocalParts": [],
+    "agencyGroupCount": 21,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger",
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCz4jhqrCfthF8NnldZeK_rw",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCz4jhqrCfthF8NnldZeK_rw",
+    "aid": "a_55aed341",
+    "sc": {
+      "INSANE": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "化けの花": {
+        "c": [
+          "なきそ"
+        ],
+        "a": [
+          "なきそ"
+        ]
+      },
+      "Magia": {
+        "c": [
+          "梶浦由記"
+        ],
+        "a": [
+          "梶浦由記"
+        ]
+      },
+      "Avid": {
+        "c": [
+          "澤野弘之"
+        ],
+        "a": [
+          "澤野弘之"
+        ]
+      },
+      "戯れ": {
+        "c": [
+          "Δ"
+        ],
+        "a": [
+          "Δ"
+        ]
+      },
+      "ファーストエイド": {
+        "c": [
+          "水槽"
+        ],
+        "a": [
+          "水槽"
+        ]
+      },
+      "Alt Skin/ BEMA - Alt Skin": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "月夜にマリアージュ/ BEMA - Moonlit Marriage": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "捕食者 / BEMA - Predator": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "Symbiotic Dominion": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "カメレオン": {
+        "c": [
+          "常田大希"
+        ],
+        "a": [
+          "King Gnu"
+        ]
+      },
+      "ROSE": {
+        "c": [
+          "ちゃんみな"
+        ],
+        "a": [
+          "ちゃんみな",
+          "Ryosuke \"Dr.R\" Sakai"
+        ]
+      },
+      "ワールドイズマイン": {
+        "c": [
+          "ryo(supercell)"
+        ],
+        "a": [
+          "ryo(supercell)"
+        ]
+      },
+      "ギブス": {
+        "c": [
+          "椎名林檎"
+        ],
+        "a": [
+          "椎名林檎",
+          "亀田誠治"
+        ]
+      },
+      "Departures 〜あなたにおくるアイの歌〜": {
+        "c": [
+          "ryo"
+        ],
+        "a": [
+          "ryo"
+        ]
+      },
+      "花の唄": {
+        "c": [
+          "梶浦由記"
+        ],
+        "a": [
+          "梶浦由記"
+        ]
+      },
+      "白日": {
+        "c": [
+          "常田大希"
+        ],
+        "a": [
+          "King Gnu"
+        ]
+      },
+      "more than words": {
+        "c": [
+          "塩塚モエカ"
+        ],
+        "a": [
+          "羊文学"
+        ]
+      },
+      "シャンティ": {
+        "c": [
+          "wotaku"
+        ],
+        "a": []
+      },
+      "逆夢": {
+        "c": [
+          "常田大希"
+        ],
+        "a": [
+          "King Gnu"
+        ]
+      },
+      "Deep down": {
+        "c": [
+          "永澤和真"
+        ],
+        "a": [
+          "玉井健二",
+          "百田留衣"
+        ]
+      },
+      "asphyxia": {
+        "c": [
+          "中村未来"
+        ],
+        "a": [
+          "Cö shu Nie"
+        ]
+      },
+      "Brave Shine": {
+        "c": [
+          "小山寿"
+        ],
+        "a": [
+          "玉井健二",
+          "大西省吾"
+        ]
+      },
+      "STYX HELIX": {
+        "c": [
+          "MYTH & ROID"
+        ],
+        "a": [
+          "MYTH & ROID"
+        ]
+      },
+      "偽顔": {
+        "c": [
+          "川谷絵音"
+        ],
+        "a": [
+          "川谷絵音"
+        ]
+      },
+      "悪魔の子": {
+        "c": [
+          "ヒグチアイ"
+        ],
+        "a": [
+          "兼松衆"
+        ]
+      },
+      "All Alone With You": {
+        "c": [
+          "ryo(supercell)"
+        ],
+        "a": [
+          "ryo(supercell)"
+        ]
+      },
+      "ハレンチ": {
+        "c": [
+          "ちゃんみな",
+          "B.O"
+        ],
+        "a": [
+          "B.O"
+        ]
+      },
+      "名前のない怪物": {
+        "c": [
+          "ryo(supercell)"
+        ],
+        "a": [
+          "ryo(supercell)"
+        ]
+      },
+      "ずうっといっしょ！": {
+        "c": [
+          "キタニタツヤ"
+        ],
+        "a": [
+          "キタニタツヤ"
+        ]
+      },
+      "Heaven and Hell": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "Azalea": {
+        "c": [
+          "米津玄師"
+        ],
+        "a": [
+          "米津玄師",
+          "Yaffle"
+        ]
+      },
+      "夢をみせて": {
+        "c": [
+          "中村未来"
+        ],
+        "a": [
+          "Cö shu Nie"
+        ]
+      },
+      "お呪い": {
+        "c": [
+          "なきそ"
+        ],
+        "a": [
+          "なきそ"
+        ]
+      },
+      "対象a": {
+        "c": [
+          "bermei.inazawa"
+        ],
+        "a": [
+          "bermei.inazawa"
+        ]
+      },
+      "MIRROR": {
+        "c": [
+          "さめのぽき"
+        ],
+        "a": [
+          "さめのぽき"
+        ]
+      },
+      "Loveit?": {
+        "c": [
+          "biz",
+          "ZERA"
+        ],
+        "a": [
+          "biz",
+          "ZERA"
+        ]
+      },
+      "give it back": {
+        "c": [
+          "中村未来"
+        ],
+        "a": [
+          "Cö shu Nie"
+        ]
+      },
+      "The Story of Us": {
+        "c": [
+          "向井太一",
+          "CELSIOR COUPE"
+        ],
+        "a": [
+          "CELSIOR COUPE"
+        ]
+      },
+      "AIZO": {
+        "c": [
+          "常田大希"
+        ],
+        "a": [
+          "King Gnu"
+        ]
+      },
+      "TEST ME": {
+        "c": [
+          "ちゃんみな"
+        ],
+        "a": [
+          "Ryosuke \"Dr.R\" Sakai"
+        ]
+      },
+      "飛ぼうよ": {
+        "c": [
+          "椎名林檎"
+        ],
+        "a": [
+          "椎名林檎"
+        ]
+      },
+      "ロミオとシンデレラ": {
+        "c": [
+          "doriko"
+        ],
+        "a": [
+          "doriko"
+        ]
+      },
+      "硝子窓": {
+        "c": [
+          "常田大希"
+        ],
+        "a": [
+          "King Gnu"
+        ]
+      },
+      "My Body": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "JANE DOE": {
+        "c": [
+          "米津玄師"
+        ],
+        "a": [
+          "米津玄師"
+        ]
+      },
+      "華奢なリップfeat.ちゃんみな": {
+        "c": [
+          "川谷絵音"
+        ],
+        "a": [
+          "ジェニーハイ"
+        ]
+      },
+      "Ｗ●ＲＫ": {
+        "c": [
+          "常田大希"
+        ],
+        "a": [
+          "millennium parade",
+          "椎名林檎"
+        ]
+      },
+      "子供になってみた】おこちゃま戦争": {
+        "c": [
+          "Giga"
+        ],
+        "a": [
+          "Giga"
+        ]
+      },
+      "長く短い祭": {
+        "c": [
+          "椎名林檎"
+        ],
+        "a": [
+          "椎名林檎"
+        ]
+      },
+      "絶頂讃歌": {
+        "c": [
+          "和ぬか"
+        ],
+        "a": [
+          "100回嘔吐"
+        ]
+      },
+      "絶対敵対メチャキライヤー": {
+        "c": [
+          "メドミア"
+        ],
+        "a": [
+          "メドミア"
+        ]
+      },
+      "ラヴィ": {
+        "c": [
+          "すりぃ"
+        ],
+        "a": [
+          "すりぃ"
+        ]
+      },
+      "再会": {
+        "c": [
+          "Ayase"
+        ],
+        "a": [
+          "Ayase"
+        ]
+      },
+      "二時間だけのバカンスfeaturing 椎名林檎 -宇多田ヒカル": {
+        "c": [
+          "宇多田ヒカル"
+        ],
+        "a": [
+          "宇多田ヒカル"
+        ]
+      },
+      "ファイアダンス": {
+        "c": [
+          "DECO*27"
+        ],
+        "a": [
+          "Giga"
+        ]
+      },
+      "One Last Kiss": {
+        "c": [
+          "宇多田ヒカル"
+        ],
+        "a": [
+          "宇多田ヒカル",
+          "A.G. Cook"
+        ]
+      },
+      "Tiger": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "III": {
+        "c": [
+          "Giga",
+          "TeddyLoid"
+        ],
+        "a": [
+          "Giga",
+          "TeddyLoid"
+        ]
+      },
+      "月夜にマリアージュ": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "捕食者": {
+        "c": [
+          "Neuron"
+        ],
+        "a": [
+          "Neuron"
+        ]
+      },
+      "1314": {
+        "c": [
+          "4na",
+          "前田佑"
+        ],
+        "a": [
+          "前田佑"
+        ]
+      },
+      "本能": {
+        "c": [
+          "椎名林檎"
+        ],
+        "a": []
+      }
+    },
+    "songOrigCats": {
+      "再会": [
+        "other"
+      ]
+    }
+  },
+  {
     "name": "咲鐘星架",
     "cat": 1,
     "count": 62,
@@ -4348,645 +5003,6 @@
     "songOrigCats": {
       "カノン": [
         "vocaloid"
-      ]
-    }
-  },
-  {
-    "name": "琶舞",
-    "cat": 1,
-    "count": 62,
-    "reading": "べま",
-    "kana": "へ",
-    "row": "は",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/2jsXgHrgK1jDfbitaG3H6DqnypssysgNFrM5QtUJ0gdxm2OHdc3CUHaKDBAs5eliccS9w28k0A=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "INSANE",
-      "化けの花",
-      "Magia",
-      "Avid",
-      "戯れ",
-      "ファーストエイド",
-      "Alt Skin/ BEMA - Alt Skin",
-      "月夜にマリアージュ/ BEMA - Moonlit Marriage",
-      "捕食者 / BEMA - Predator",
-      "Symbiotic Dominion",
-      "カメレオン",
-      "ROSE",
-      "ワールドイズマイン",
-      "ギブス",
-      "Departures 〜あなたにおくるアイの歌〜",
-      "花の唄",
-      "白日",
-      "more than words",
-      "シャンティ",
-      "逆夢",
-      "Deep down",
-      "asphyxia",
-      "Brave Shine",
-      "STYX HELIX",
-      "偽顔",
-      "悪魔の子",
-      "All Alone With You",
-      "ハレンチ",
-      "名前のない怪物",
-      "ずうっといっしょ！",
-      "Heaven and Hell",
-      "Azalea",
-      "夢をみせて",
-      "お呪い",
-      "対象a",
-      "MIRROR",
-      "Loveit?",
-      "give it back",
-      "The Story of Us",
-      "AIZO",
-      "TEST ME",
-      "飛ぼうよ",
-      "ロミオとシンデレラ",
-      "硝子窓",
-      "My Body",
-      "JANE DOE",
-      "華奢なリップfeat.ちゃんみな",
-      "Ｗ●ＲＫ",
-      "子供になってみた】おこちゃま戦争",
-      "長く短い祭",
-      "絶頂讃歌",
-      "絶対敵対メチャキライヤー",
-      "ラヴィ",
-      "再会",
-      "二時間だけのバカンスfeaturing 椎名林檎 -宇多田ヒカル",
-      "ファイアダンス",
-      "One Last Kiss",
-      "Tiger",
-      "III",
-      "月夜にマリアージュ",
-      "捕食者",
-      "絶体絶命"
-    ],
-    "topSongs": [
-      "戯れ",
-      "ファーストエイド",
-      "1314",
-      "カメレオン",
-      "捕食者"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "BEMA",
-      "bema",
-      "ベマ",
-      "KAMITSUBAKI STUDIO (SINSEKAI RECORD)"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 237000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "bKzl_rl8kqs",
-      "eFJxPBP0eBU",
-      "MchHrfXbOto",
-      "3yHd5s0SjZo",
-      "I1si4oNmZHU"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "KAMITSUBAKI STUDIO (SINSEKAI RECORD)",
-    "agencyGroup": "神椿スタジオ",
-    "vocalParts": [],
-    "agencyGroupCount": 21,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger",
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCz4jhqrCfthF8NnldZeK_rw",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCz4jhqrCfthF8NnldZeK_rw",
-    "aid": "a_55aed341",
-    "sc": {
-      "INSANE": {
-        "c": [
-          "Neuron"
-        ],
-        "a": [
-          "Neuron"
-        ]
-      },
-      "化けの花": {
-        "c": [
-          "なきそ"
-        ],
-        "a": [
-          "なきそ"
-        ]
-      },
-      "Magia": {
-        "c": [
-          "梶浦由記"
-        ],
-        "a": [
-          "梶浦由記"
-        ]
-      },
-      "Avid": {
-        "c": [
-          "澤野弘之"
-        ],
-        "a": [
-          "澤野弘之"
-        ]
-      },
-      "戯れ": {
-        "c": [
-          "Δ"
-        ],
-        "a": [
-          "Δ"
-        ]
-      },
-      "ファーストエイド": {
-        "c": [
-          "水槽"
-        ],
-        "a": [
-          "水槽"
-        ]
-      },
-      "Alt Skin/ BEMA - Alt Skin": {
-        "c": [
-          "Neuron"
-        ],
-        "a": [
-          "Neuron"
-        ]
-      },
-      "月夜にマリアージュ/ BEMA - Moonlit Marriage": {
-        "c": [
-          "Neuron"
-        ],
-        "a": [
-          "Neuron"
-        ]
-      },
-      "捕食者 / BEMA - Predator": {
-        "c": [
-          "Neuron"
-        ],
-        "a": [
-          "Neuron"
-        ]
-      },
-      "Symbiotic Dominion": {
-        "c": [
-          "Neuron"
-        ],
-        "a": [
-          "Neuron"
-        ]
-      },
-      "カメレオン": {
-        "c": [
-          "常田大希"
-        ],
-        "a": [
-          "King Gnu"
-        ]
-      },
-      "ROSE": {
-        "c": [
-          "ちゃんみな"
-        ],
-        "a": [
-          "ちゃんみな",
-          "Ryosuke \"Dr.R\" Sakai"
-        ]
-      },
-      "ワールドイズマイン": {
-        "c": [
-          "ryo(supercell)"
-        ],
-        "a": [
-          "ryo(supercell)"
-        ]
-      },
-      "ギブス": {
-        "c": [
-          "椎名林檎"
-        ],
-        "a": [
-          "椎名林檎",
-          "亀田誠治"
-        ]
-      },
-      "Departures 〜あなたにおくるアイの歌〜": {
-        "c": [
-          "ryo"
-        ],
-        "a": [
-          "ryo"
-        ]
-      },
-      "花の唄": {
-        "c": [
-          "梶浦由記"
-        ],
-        "a": [
-          "梶浦由記"
-        ]
-      },
-      "白日": {
-        "c": [
-          "常田大希"
-        ],
-        "a": [
-          "King Gnu"
-        ]
-      },
-      "more than words": {
-        "c": [
-          "塩塚モエカ"
-        ],
-        "a": [
-          "羊文学"
-        ]
-      },
-      "シャンティ": {
-        "c": [
-          "wotaku"
-        ],
-        "a": []
-      },
-      "逆夢": {
-        "c": [
-          "常田大希"
-        ],
-        "a": [
-          "King Gnu"
-        ]
-      },
-      "Deep down": {
-        "c": [
-          "永澤和真"
-        ],
-        "a": [
-          "玉井健二",
-          "百田留衣"
-        ]
-      },
-      "asphyxia": {
-        "c": [
-          "中村未来"
-        ],
-        "a": [
-          "Cö shu Nie"
-        ]
-      },
-      "Brave Shine": {
-        "c": [
-          "小山寿"
-        ],
-        "a": [
-          "玉井健二",
-          "大西省吾"
-        ]
-      },
-      "STYX HELIX": {
-        "c": [
-          "MYTH & ROID"
-        ],
-        "a": [
-          "MYTH & ROID"
-        ]
-      },
-      "偽顔": {
-        "c": [
-          "川谷絵音"
-        ],
-        "a": [
-          "川谷絵音"
-        ]
-      },
-      "悪魔の子": {
-        "c": [
-          "ヒグチアイ"
-        ],
-        "a": [
-          "兼松衆"
-        ]
-      },
-      "All Alone With You": {
-        "c": [
-          "ryo(supercell)"
-        ],
-        "a": [
-          "ryo(supercell)"
-        ]
-      },
-      "ハレンチ": {
-        "c": [
-          "ちゃんみな",
-          "B.O"
-        ],
-        "a": [
-          "B.O"
-        ]
-      },
-      "名前のない怪物": {
-        "c": [
-          "ryo(supercell)"
-        ],
-        "a": [
-          "ryo(supercell)"
-        ]
-      },
-      "ずうっといっしょ！": {
-        "c": [
-          "キタニタツヤ"
-        ],
-        "a": [
-          "キタニタツヤ"
-        ]
-      },
-      "Heaven and Hell": {
-        "c": [
-          "Neuron"
-        ],
-        "a": [
-          "Neuron"
-        ]
-      },
-      "Azalea": {
-        "c": [
-          "米津玄師"
-        ],
-        "a": [
-          "米津玄師",
-          "Yaffle"
-        ]
-      },
-      "夢をみせて": {
-        "c": [
-          "中村未来"
-        ],
-        "a": [
-          "Cö shu Nie"
-        ]
-      },
-      "お呪い": {
-        "c": [
-          "なきそ"
-        ],
-        "a": [
-          "なきそ"
-        ]
-      },
-      "対象a": {
-        "c": [
-          "bermei.inazawa"
-        ],
-        "a": [
-          "bermei.inazawa"
-        ]
-      },
-      "MIRROR": {
-        "c": [
-          "さめのぽき"
-        ],
-        "a": [
-          "さめのぽき"
-        ]
-      },
-      "Loveit?": {
-        "c": [
-          "biz",
-          "ZERA"
-        ],
-        "a": [
-          "biz",
-          "ZERA"
-        ]
-      },
-      "give it back": {
-        "c": [
-          "中村未来"
-        ],
-        "a": [
-          "Cö shu Nie"
-        ]
-      },
-      "The Story of Us": {
-        "c": [
-          "向井太一",
-          "CELSIOR COUPE"
-        ],
-        "a": [
-          "CELSIOR COUPE"
-        ]
-      },
-      "AIZO": {
-        "c": [
-          "常田大希"
-        ],
-        "a": [
-          "King Gnu"
-        ]
-      },
-      "TEST ME": {
-        "c": [
-          "ちゃんみな"
-        ],
-        "a": [
-          "Ryosuke \"Dr.R\" Sakai"
-        ]
-      },
-      "飛ぼうよ": {
-        "c": [
-          "椎名林檎"
-        ],
-        "a": [
-          "椎名林檎"
-        ]
-      },
-      "ロミオとシンデレラ": {
-        "c": [
-          "doriko"
-        ],
-        "a": [
-          "doriko"
-        ]
-      },
-      "硝子窓": {
-        "c": [
-          "常田大希"
-        ],
-        "a": [
-          "King Gnu"
-        ]
-      },
-      "My Body": {
-        "c": [
-          "Neuron"
-        ],
-        "a": [
-          "Neuron"
-        ]
-      },
-      "JANE DOE": {
-        "c": [
-          "米津玄師"
-        ],
-        "a": [
-          "米津玄師"
-        ]
-      },
-      "華奢なリップfeat.ちゃんみな": {
-        "c": [
-          "川谷絵音"
-        ],
-        "a": [
-          "ジェニーハイ"
-        ]
-      },
-      "Ｗ●ＲＫ": {
-        "c": [
-          "常田大希"
-        ],
-        "a": [
-          "millennium parade",
-          "椎名林檎"
-        ]
-      },
-      "子供になってみた】おこちゃま戦争": {
-        "c": [
-          "Giga"
-        ],
-        "a": [
-          "Giga"
-        ]
-      },
-      "長く短い祭": {
-        "c": [
-          "椎名林檎"
-        ],
-        "a": [
-          "椎名林檎"
-        ]
-      },
-      "絶頂讃歌": {
-        "c": [
-          "和ぬか"
-        ],
-        "a": [
-          "100回嘔吐"
-        ]
-      },
-      "絶対敵対メチャキライヤー": {
-        "c": [
-          "メドミア"
-        ],
-        "a": [
-          "メドミア"
-        ]
-      },
-      "ラヴィ": {
-        "c": [
-          "すりぃ"
-        ],
-        "a": [
-          "すりぃ"
-        ]
-      },
-      "再会": {
-        "c": [
-          "Ayase"
-        ],
-        "a": [
-          "Ayase"
-        ]
-      },
-      "二時間だけのバカンスfeaturing 椎名林檎 -宇多田ヒカル": {
-        "c": [
-          "宇多田ヒカル"
-        ],
-        "a": [
-          "宇多田ヒカル"
-        ]
-      },
-      "ファイアダンス": {
-        "c": [
-          "DECO*27"
-        ],
-        "a": [
-          "Giga"
-        ]
-      },
-      "One Last Kiss": {
-        "c": [
-          "宇多田ヒカル"
-        ],
-        "a": [
-          "宇多田ヒカル",
-          "A.G. Cook"
-        ]
-      },
-      "Tiger": {
-        "c": [
-          "Neuron"
-        ],
-        "a": [
-          "Neuron"
-        ]
-      },
-      "III": {
-        "c": [
-          "Giga",
-          "TeddyLoid"
-        ],
-        "a": [
-          "Giga",
-          "TeddyLoid"
-        ]
-      },
-      "月夜にマリアージュ": {
-        "c": [
-          "Neuron"
-        ],
-        "a": [
-          "Neuron"
-        ]
-      },
-      "捕食者": {
-        "c": [
-          "Neuron"
-        ],
-        "a": [
-          "Neuron"
-        ]
-      },
-      "1314": {
-        "c": [
-          "4na",
-          "前田佑"
-        ],
-        "a": [
-          "前田佑"
-        ]
-      }
-    },
-    "songOrigCats": {
-      "再会": [
-        "other"
       ]
     }
   },
@@ -6189,7 +6205,7 @@
   {
     "name": "明透",
     "cat": 1,
-    "count": 49,
+    "count": 50,
     "reading": "あす",
     "kana": "あ",
     "row": "あ",
@@ -6244,7 +6260,8 @@
       "III",
       "HOME",
       "Little Bit",
-      "レディース・ロール・メソッド"
+      "レディース・ロール・メソッド",
+      "ジャンキーナイトタウンオーケストラ"
     ],
     "topSongs": [
       "スロウリー",
@@ -6719,6 +6736,12 @@
         "a": [
           "ポリスピカデリー"
         ]
+      },
+      "ジャンキーナイトタウンオーケストラ": {
+        "c": [
+          "すりぃ"
+        ],
+        "a": []
       }
     },
     "songOrigCats": {
@@ -7302,6 +7325,346 @@
       "紅、華を咲かせて (桑名江ver.) (桑名江)": [
         "anime"
       ]
+    }
+  },
+  {
+    "name": "ねんね",
+    "cat": 1,
+    "count": 48,
+    "reading": "ねんね",
+    "kana": "ね",
+    "row": "な",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/eD-eYaQgR0TI3ggQdGrUCQqYbUQiHBa68gUdi0jRMDrYMM43UGWPcnkEMZRQtu9yA37QxdUk=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Aria",
+      "Unveil",
+      "ミライ＝テレポート",
+      "多分、君と最後の海",
+      "プライオリティ",
+      "4月25日",
+      "ポストシェルター",
+      "曖昧信仰",
+      "ハルノ寂寞",
+      "さよならはきえない",
+      "Cigarette",
+      "月もねむる夜",
+      "天使を見たんだ",
+      "天使",
+      "As usual",
+      "BO-ZU",
+      "さよならセブンスター",
+      "この街に咲く",
+      "illusion",
+      "東京駅",
+      "致支量",
+      "キルマー",
+      "ディスコ",
+      "ゴースト",
+      "ワンダーランド",
+      "タイニーバニー",
+      "Q極進化論",
+      "ワンダーワームホール",
+      "ナイトルール",
+      "ダスト",
+      "シエレトワール",
+      "奈落",
+      "Summering",
+      "センティメント",
+      "熱風",
+      "スカイライン",
+      "ひみつの小学生",
+      "同級生",
+      "She",
+      "生命",
+      "渦をまく夕方",
+      "サマーエンドロール",
+      "E S P R",
+      "ジェーンは凍っていた",
+      "ミステリーワールド",
+      "輝き",
+      "旅人の森",
+      "隣り合わせ"
+    ],
+    "topSongs": [
+      "ミライ=テレポート",
+      "Aria",
+      "Unveil",
+      "イグニッション (feat. ゆある&ねんね)",
+      "NPC (feat. ねんね)"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "nenne"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 8400,
+    "subBucket": "under10k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "DpjPo7nt1T4",
+      "jKBXJXUeAeE",
+      "w5wNu69O2KA",
+      "6_Za11oioDY",
+      "vBGqKeCf1Ps"
+    ],
+    "subDate": "2026-10-28",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCs3uPR52C76c2psR2K2-yEA",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCs3uPR52C76c2psR2K2-yEA",
+    "aid": "a_2711c7fa",
+    "sc": {
+      "Aria": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "Unveil": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "ミライ＝テレポート": {
+        "c": [
+          "ねんね"
+        ],
+        "a": [
+          "佐々木聡作"
+        ]
+      },
+      "ミライ=テレポート": {
+        "c": [
+          "ねんね"
+        ],
+        "a": [
+          "佐々木聡作"
+        ]
+      },
+      "イグニッション (feat. ゆある&ねんね)": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "NPC (feat. ねんね)": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "Ghost": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "GHOST": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "NPC": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "あの夏のいつかは": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "メタフィクション": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "春の魔法": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "透明": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "Ours": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "てんせーしたい": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "朝風": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "イノセント": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "あの光だってきっと": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "アナクロニズム": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "この灯が消えるまで": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "Sense": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "まどろみ": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "夜を破って": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
+        ]
+      },
+      "4月25日": {
+        "c": [
+          "みきとP"
+        ],
+        "a": [
+          "みきとP"
+        ]
+      },
+      "曖昧信仰": {
+        "c": [
+          "ねんね"
+        ],
+        "a": [
+          "なつめ千秋"
+        ]
+      },
+      "月もねむる夜": {
+        "c": [
+          "ねんね"
+        ],
+        "a": [
+          "なつめ千秋"
+        ]
+      },
+      "ミステリーワールド": {
+        "c": [
+          "ねんね"
+        ],
+        "a": []
+      },
+      "輝き": {
+        "c": [
+          "ねんね"
+        ],
+        "a": []
+      },
+      "旅人の森": {
+        "c": [
+          "ねんね"
+        ],
+        "a": []
+      },
+      "隣り合わせ": {
+        "c": [
+          "ねんね"
+        ],
+        "a": []
+      }
     }
   },
   {
@@ -23570,6 +23933,289 @@
     }
   },
   {
+    "name": "松永依織",
+    "cat": 1,
+    "count": 19,
+    "reading": "まつながいおり",
+    "kana": "ま",
+    "row": "ま",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/_G-kZ_dgKoOW-iqSqXg_6s8qYcZ0XMsKPvDgKtHgWztRRy2zsxySoFAmmNwzwlYYWbzQtr3w2g=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Fallen",
+      "平行線",
+      "プリズムシェイク",
+      "We are Travelers",
+      "カクテルライツ",
+      "彼は誰時の走り方",
+      "Wagamama Conflict",
+      "大衆性ロマン",
+      "フルスロットル！！！！！！",
+      "永遠の場所",
+      "Blazing Out",
+      "Awaken Now",
+      "Crazy Rock Girl",
+      "Crossed Identity",
+      "ありがとう",
+      "NAMED",
+      "オーバーハレイション！",
+      "蒼穹のファンファーレ",
+      "Edge of Insanity"
+    ],
+    "topSongs": [
+      "カクテル・ライツ",
+      "アカシア",
+      "ファンサ",
+      "アゲハ蝶",
+      "世界に一つだけの花"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Iori Matsunaga",
+      "Matsunaga Iori",
+      "matsunagaiori",
+      "matunagaiori",
+      "マツナガイオリ",
+      "RIOT MUSIC (Blitz Wing)"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 188000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "7S8dBFRYByY",
+      "oe2f0fnNylo",
+      "qpp148YvmBI",
+      "qQ6e3jd2_rI",
+      "CXgDuAYGAHI"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "RIOT MUSIC (Blitz Wing)",
+    "agencyGroup": "RIOT MUSIC",
+    "vocalParts": [],
+    "agencyGroupCount": 15,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@IORIMATSUNAGA",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@IORIMATSUNAGA",
+    "aid": "a_061403f1",
+    "sc": {
+      "Fallen": {
+        "c": [
+          "ryo(supercell)"
+        ],
+        "a": [
+          "ryo(supercell)"
+        ]
+      },
+      "平行線": {
+        "c": [
+          "さユり"
+        ],
+        "a": [
+          "さユり",
+          "江口亮"
+        ]
+      },
+      "プリズムシェイク": {
+        "c": [
+          "KOTONOHOUSE"
+        ],
+        "a": [
+          "KOTONOHOUSE"
+        ]
+      },
+      "We are Travelers": {
+        "c": [
+          "本多友紀(Arte Refact)"
+        ],
+        "a": [
+          "脇眞富(Arte Refact)"
+        ]
+      },
+      "カクテルライツ": {
+        "c": [
+          "すりぃ"
+        ],
+        "a": [
+          "すりぃ"
+        ]
+      },
+      "彼は誰時の走り方": {
+        "c": [
+          "Cronix"
+        ],
+        "a": [
+          "Cronix"
+        ]
+      },
+      "Wagamama Conflict": {
+        "c": [
+          "烏屋茶房"
+        ],
+        "a": [
+          "烏屋茶房"
+        ]
+      },
+      "大衆性ロマン": {
+        "c": [
+          "ポリスピカデリー"
+        ],
+        "a": [
+          "ポリスピカデリー"
+        ]
+      },
+      "フルスロットル！！！！！！": {
+        "c": [
+          "空谷泉身"
+        ],
+        "a": [
+          "空谷泉身"
+        ]
+      },
+      "永遠の場所": {
+        "c": [
+          "草野華余子"
+        ],
+        "a": [
+          "草野華余子"
+        ]
+      },
+      "Blazing Out": {
+        "c": [
+          "ゆよゆっぺ"
+        ],
+        "a": [
+          "ゆよゆっぺ"
+        ]
+      },
+      "Awaken Now": {
+        "c": [
+          "R・O・N"
+        ],
+        "a": [
+          "R・O・N"
+        ]
+      },
+      "Crazy Rock Girl": {
+        "c": [
+          "みきとP"
+        ],
+        "a": [
+          "みきとP"
+        ]
+      },
+      "Crossed Identity": {
+        "c": [
+          "藤永龍太郎(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "ありがとう": {
+        "c": [
+          "柳沢亮太"
+        ],
+        "a": [
+          "SUPER BEAVER"
+        ]
+      },
+      "NAMED": {
+        "c": [
+          "じん"
+        ],
+        "a": [
+          "じん"
+        ]
+      },
+      "オーバーハレイション！": {
+        "c": [
+          "やしきん"
+        ],
+        "a": [
+          "やしきん"
+        ]
+      },
+      "蒼穹のファンファーレ": {
+        "c": [
+          "梶浦由記"
+        ],
+        "a": [
+          "梶浦由記"
+        ]
+      },
+      "カクテル・ライツ": {
+        "c": [
+          "すりぃ"
+        ],
+        "a": [
+          "すりぃ"
+        ]
+      },
+      "アカシア": {
+        "c": [
+          "藤原基央"
+        ],
+        "a": [
+          "BUMP OF CHICKEN"
+        ]
+      },
+      "ファンサ": {
+        "c": [
+          "HoneyWorks"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "アゲハ蝶": {
+        "c": [
+          "ak.homma"
+        ],
+        "a": [
+          "ak.homma"
+        ]
+      },
+      "世界に一つだけの花": {
+        "c": [
+          "槇原敬之"
+        ],
+        "a": [
+          "槇原敬之"
+        ]
+      },
+      "Edge of Insanity": {
+        "c": [
+          "Ito Kazuma"
+        ],
+        "a": []
+      }
+    },
+    "songOrigCats": {
+      "ありがとう": [
+        "other"
+      ],
+      "NAMED": [
+        "other"
+      ]
+    }
+  },
+  {
     "name": "羊羊",
     "cat": 1,
     "count": 19,
@@ -24082,6 +24728,263 @@
     }
   },
   {
+    "name": "nayuta",
+    "cat": 1,
+    "count": 18,
+    "reading": "nayuta",
+    "kana": "",
+    "row": "",
+    "alpha": "N",
+    "img": "https://yt3.googleusercontent.com/wQArqjCKWIC2RFWdQ87VjAuJRQuWzUhdQAilUF40cMPcDJzP85dZZZMSuQoPZWREDj1RsKy84dI=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "ひとひらを紡いで",
+      "Smiles Left Behind",
+      "遠くなる君",
+      "雪凪",
+      "Midnight Ping",
+      "Imaginary Arcadia",
+      "追慕",
+      "蒼のキャンバス",
+      "Vacancy",
+      "ハルハコブネ",
+      "Echoes Calling",
+      "星掬い",
+      "Aorist",
+      "恋、夏めく。",
+      "君を覚えていたい",
+      "瑠璃も玻璃も照らせば光る",
+      "ne / ne [ヒトらしくあるために]",
+      "時薬"
+    ],
+    "topSongs": [
+      "Decillion Encounter",
+      "until my last breath",
+      "夏空オーケストラ",
+      "贖罪",
+      "星掬い"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "7uta",
+      "なゆた",
+      "ナユタ"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 184000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "S6n8NMv4r2M",
+      "rm3-SKpmQ1M",
+      "GIFWszNqUts",
+      "6B4R2R2aniA",
+      "KJAG70ZzORg"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "La prière"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCmhtmUBjkXOAetnaDq-XJ1g",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCmhtmUBjkXOAetnaDq-XJ1g",
+    "aid": "a_db890600",
+    "sc": {
+      "ひとひらを紡いで": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "Smiles Left Behind": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "遠くなる君": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "雪凪": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "Midnight Ping": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "Imaginary Arcadia": {
+        "c": [
+          "RD-Sounds"
+        ],
+        "a": [
+          "RD-Sounds"
+        ]
+      },
+      "追慕": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "蒼のキャンバス": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "Vacancy": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "ハルハコブネ": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "Echoes Calling": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "星掬い": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "Aorist": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "恋、夏めく。": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "君を覚えていたい": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "瑠璃も玻璃も照らせば光る": {
+        "c": [
+          "SperioNz"
+        ],
+        "a": [
+          "SperioNz"
+        ]
+      },
+      "ne / ne [ヒトらしくあるために]": {
+        "c": [
+          "bermei.inazawa"
+        ],
+        "a": [
+          "bermei.inazawa"
+        ]
+      },
+      "until my last breath": {
+        "c": [
+          "RD-Sounds"
+        ],
+        "a": [
+          "RD-Sounds"
+        ]
+      },
+      "夏空オーケストラ": {
+        "c": [
+          "RD-Sounds"
+        ],
+        "a": [
+          "RD-Sounds"
+        ]
+      },
+      "贖罪": {
+        "c": [
+          "傘村トータ"
+        ],
+        "a": [
+          "傘村トータ"
+        ]
+      },
+      "Decillion Encounter": {
+        "c": [
+          "藤屋"
+        ],
+        "a": [
+          "藤屋"
+        ]
+      },
+      "時薬": {
+        "c": [
+          "nayuta",
+          "SperioNz"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "NEUN",
     "cat": 1,
     "count": 18,
@@ -24269,6 +25172,276 @@
         ],
         "a": []
       }
+    }
+  },
+  {
+    "name": "藍璃かんな",
+    "cat": 1,
+    "count": 18,
+    "reading": "あいりかんな",
+    "kana": "あ",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/1XAezMmxrnWo1lfzFvYTpbeUovIRpmpHDSy0LNL-UtdTI62ARWzelSiEaaZFdO5jYf19jvNMFA=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "最終話 (Acoustic Ver.)",
+      "KICK BACK (米津玄師)",
+      "LADY (米津玄師)",
+      "すずめ Suzume (RADWIMPS feat.十明)",
+      "ADDICT!ON",
+      "最終花",
+      "青い宝石と竜の子",
+      "Frozen Eclipse",
+      "逆光",
+      "傷つく誰かの心を守ることができたなら",
+      "勘ぐれい (ZUTOMAYO)",
+      "地球儀 (米津玄師ㅣ君たちはどう生きるか OST)",
+      "ねむるまち (くじら)",
+      "ERROR (nikiP)",
+      "三文小説 (King Gnu)",
+      "The Last Flower",
+      "Love wins all (IU)",
+      "最終話"
+    ],
+    "topSongs": [
+      "ファンサ",
+      "金曜日のおはよう",
+      "可愛くてごめん",
+      "サインはB",
+      "私、アイドル宣言"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Airi Kanna",
+      "airikanna",
+      "アイリカンナ"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 213000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "of5l0st1kA8",
+      "q-QjjmJjU_8",
+      "eNlXPUp9WBw",
+      "GdH0TsPznUs",
+      "3PxbqWrDCz4"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/@airikanna",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "Team. Palette"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@airikanna",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_bb56decc",
+    "sc": {
+      "最終話 (Acoustic Ver.)": {
+        "c": [
+          "Tsubasa Harihara (HarryP)"
+        ],
+        "a": [
+          "장재훈",
+          "REQ"
+        ]
+      },
+      "KICK BACK (米津玄師)": {
+        "c": [
+          "米津玄師"
+        ],
+        "a": [
+          "米津玄師",
+          "常田大希"
+        ]
+      },
+      "LADY (米津玄師)": {
+        "c": [
+          "米津玄師"
+        ],
+        "a": [
+          "米津玄師",
+          "坂東祐大"
+        ]
+      },
+      "すずめ Suzume (RADWIMPS feat.十明)": {
+        "c": [
+          "野田洋次郎"
+        ],
+        "a": [
+          "野田洋次郎",
+          "陣内一真"
+        ]
+      },
+      "ADDICT!ON": {
+        "c": [
+          "ESAI",
+          "REQ",
+          "Memme",
+          "문연",
+          "제이돕",
+          "ONAIR(온에어)",
+          "CLEF CREW"
+        ],
+        "a": [
+          "ESAI"
+        ]
+      },
+      "最終花": {
+        "c": [
+          "Tsubasa Harihara (HarryP)"
+        ],
+        "a": [
+          "Masataka Aratomai"
+        ]
+      },
+      "青い宝石と竜の子": {
+        "c": [
+          "Miyako Matsuoka"
+        ],
+        "a": []
+      },
+      "Frozen Eclipse": {
+        "c": [
+          "REQ"
+        ],
+        "a": []
+      },
+      "逆光": {
+        "c": [
+          "Vaundy"
+        ],
+        "a": [
+          "Vaundy"
+        ]
+      },
+      "傷つく誰かの心を守ることができたなら": {
+        "c": [
+          "王可鑫 Eli.W (HOYO-MiX)"
+        ],
+        "a": [
+          "王可鑫 Eli.W (HOYO-MiX)"
+        ]
+      },
+      "勘ぐれい (ZUTOMAYO)": {
+        "c": [
+          "ACAね"
+        ],
+        "a": [
+          "100回嘔吐",
+          "ZTMY"
+        ]
+      },
+      "地球儀 (米津玄師ㅣ君たちはどう生きるか OST)": {
+        "c": [
+          "米津玄師"
+        ],
+        "a": [
+          "米津玄師"
+        ]
+      },
+      "ねむるまち (くじら)": {
+        "c": [
+          "くじら"
+        ],
+        "a": [
+          "くじら"
+        ]
+      },
+      "ERROR (nikiP)": {
+        "c": [
+          "niki"
+        ],
+        "a": [
+          "niki"
+        ]
+      },
+      "三文小説 (King Gnu)": {
+        "c": [
+          "常田大希"
+        ],
+        "a": [
+          "King Gnu"
+        ]
+      },
+      "The Last Flower": {
+        "c": [
+          "Tsubasa Harihara (HarryP)"
+        ],
+        "a": [
+          "Masataka Aratomai"
+        ]
+      },
+      "Love wins all (IU)": {
+        "c": [
+          "서동환(Seo Dong Hwan)"
+        ],
+        "a": [
+          "서동환(Seo Dong Hwan)"
+        ]
+      },
+      "ファンサ": {
+        "c": [
+          "HoneyWorks"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "金曜日のおはよう": {
+        "c": [
+          "shito"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "可愛くてごめん": {
+        "c": [
+          "shito"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "サインはB": {
+        "c": [
+          "大石昌良"
+        ],
+        "a": [
+          "大石昌良"
+        ]
+      },
+      "私、アイドル宣言": {
+        "c": [
+          "shito"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      }
+    },
+    "songOrigCats": {
+      "傷つく誰かの心を守ることができたなら": [
+        "game"
+      ]
     }
   },
   {
@@ -25280,531 +26453,6 @@
     }
   },
   {
-    "name": "松永依織",
-    "cat": 1,
-    "count": 18,
-    "reading": "まつながいおり",
-    "kana": "ま",
-    "row": "ま",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/_G-kZ_dgKoOW-iqSqXg_6s8qYcZ0XMsKPvDgKtHgWztRRy2zsxySoFAmmNwzwlYYWbzQtr3w2g=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Fallen",
-      "平行線",
-      "プリズムシェイク",
-      "We are Travelers",
-      "カクテルライツ",
-      "彼は誰時の走り方",
-      "Wagamama Conflict",
-      "大衆性ロマン",
-      "フルスロットル！！！！！！",
-      "永遠の場所",
-      "Blazing Out",
-      "Awaken Now",
-      "Crazy Rock Girl",
-      "Crossed Identity",
-      "ありがとう",
-      "NAMED",
-      "オーバーハレイション！",
-      "蒼穹のファンファーレ"
-    ],
-    "topSongs": [
-      "カクテル・ライツ",
-      "アカシア",
-      "ファンサ",
-      "アゲハ蝶",
-      "世界に一つだけの花"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Iori Matsunaga",
-      "Matsunaga Iori",
-      "matsunagaiori",
-      "matunagaiori",
-      "マツナガイオリ",
-      "RIOT MUSIC (Blitz Wing)"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 188000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "7S8dBFRYByY",
-      "oe2f0fnNylo",
-      "qpp148YvmBI",
-      "qQ6e3jd2_rI",
-      "CXgDuAYGAHI"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "RIOT MUSIC (Blitz Wing)",
-    "agencyGroup": "RIOT MUSIC",
-    "vocalParts": [],
-    "agencyGroupCount": 15,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@IORIMATSUNAGA",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@IORIMATSUNAGA",
-    "aid": "a_061403f1",
-    "sc": {
-      "Fallen": {
-        "c": [
-          "ryo(supercell)"
-        ],
-        "a": [
-          "ryo(supercell)"
-        ]
-      },
-      "平行線": {
-        "c": [
-          "さユり"
-        ],
-        "a": [
-          "さユり",
-          "江口亮"
-        ]
-      },
-      "プリズムシェイク": {
-        "c": [
-          "KOTONOHOUSE"
-        ],
-        "a": [
-          "KOTONOHOUSE"
-        ]
-      },
-      "We are Travelers": {
-        "c": [
-          "本多友紀(Arte Refact)"
-        ],
-        "a": [
-          "脇眞富(Arte Refact)"
-        ]
-      },
-      "カクテルライツ": {
-        "c": [
-          "すりぃ"
-        ],
-        "a": [
-          "すりぃ"
-        ]
-      },
-      "彼は誰時の走り方": {
-        "c": [
-          "Cronix"
-        ],
-        "a": [
-          "Cronix"
-        ]
-      },
-      "Wagamama Conflict": {
-        "c": [
-          "烏屋茶房"
-        ],
-        "a": [
-          "烏屋茶房"
-        ]
-      },
-      "大衆性ロマン": {
-        "c": [
-          "ポリスピカデリー"
-        ],
-        "a": [
-          "ポリスピカデリー"
-        ]
-      },
-      "フルスロットル！！！！！！": {
-        "c": [
-          "空谷泉身"
-        ],
-        "a": [
-          "空谷泉身"
-        ]
-      },
-      "永遠の場所": {
-        "c": [
-          "草野華余子"
-        ],
-        "a": [
-          "草野華余子"
-        ]
-      },
-      "Blazing Out": {
-        "c": [
-          "ゆよゆっぺ"
-        ],
-        "a": [
-          "ゆよゆっぺ"
-        ]
-      },
-      "Awaken Now": {
-        "c": [
-          "R・O・N"
-        ],
-        "a": [
-          "R・O・N"
-        ]
-      },
-      "Crazy Rock Girl": {
-        "c": [
-          "みきとP"
-        ],
-        "a": [
-          "みきとP"
-        ]
-      },
-      "Crossed Identity": {
-        "c": [
-          "藤永龍太郎(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "ありがとう": {
-        "c": [
-          "柳沢亮太"
-        ],
-        "a": [
-          "SUPER BEAVER"
-        ]
-      },
-      "NAMED": {
-        "c": [
-          "じん"
-        ],
-        "a": [
-          "じん"
-        ]
-      },
-      "オーバーハレイション！": {
-        "c": [
-          "やしきん"
-        ],
-        "a": [
-          "やしきん"
-        ]
-      },
-      "蒼穹のファンファーレ": {
-        "c": [
-          "梶浦由記"
-        ],
-        "a": [
-          "梶浦由記"
-        ]
-      },
-      "カクテル・ライツ": {
-        "c": [
-          "すりぃ"
-        ],
-        "a": [
-          "すりぃ"
-        ]
-      },
-      "アカシア": {
-        "c": [
-          "藤原基央"
-        ],
-        "a": [
-          "BUMP OF CHICKEN"
-        ]
-      },
-      "ファンサ": {
-        "c": [
-          "HoneyWorks"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "アゲハ蝶": {
-        "c": [
-          "ak.homma"
-        ],
-        "a": [
-          "ak.homma"
-        ]
-      },
-      "世界に一つだけの花": {
-        "c": [
-          "槇原敬之"
-        ],
-        "a": [
-          "槇原敬之"
-        ]
-      }
-    },
-    "songOrigCats": {
-      "ありがとう": [
-        "other"
-      ],
-      "NAMED": [
-        "other"
-      ]
-    }
-  },
-  {
-    "name": "nayuta",
-    "cat": 1,
-    "count": 17,
-    "reading": "nayuta",
-    "kana": "",
-    "row": "",
-    "alpha": "N",
-    "img": "https://yt3.googleusercontent.com/wQArqjCKWIC2RFWdQ87VjAuJRQuWzUhdQAilUF40cMPcDJzP85dZZZMSuQoPZWREDj1RsKy84dI=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "ひとひらを紡いで",
-      "Smiles Left Behind",
-      "遠くなる君",
-      "雪凪",
-      "Midnight Ping",
-      "Imaginary Arcadia",
-      "追慕",
-      "蒼のキャンバス",
-      "Vacancy",
-      "ハルハコブネ",
-      "Echoes Calling",
-      "星掬い",
-      "Aorist",
-      "恋、夏めく。",
-      "君を覚えていたい",
-      "瑠璃も玻璃も照らせば光る",
-      "ne / ne [ヒトらしくあるために]"
-    ],
-    "topSongs": [
-      "Decillion Encounter",
-      "until my last breath",
-      "夏空オーケストラ",
-      "贖罪",
-      "星掬い"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "7uta",
-      "なゆた",
-      "ナユタ"
-    ],
-    "role": "歌い手",
-    "imgType": "youtube_official",
-    "sub": 184000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "S6n8NMv4r2M",
-      "rm3-SKpmQ1M",
-      "GIFWszNqUts",
-      "6B4R2R2aniA",
-      "KJAG70ZzORg"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [
-      "La prière"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCmhtmUBjkXOAetnaDq-XJ1g",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCmhtmUBjkXOAetnaDq-XJ1g",
-    "aid": "a_db890600",
-    "sc": {
-      "ひとひらを紡いで": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "Smiles Left Behind": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "遠くなる君": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "雪凪": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "Midnight Ping": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "Imaginary Arcadia": {
-        "c": [
-          "RD-Sounds"
-        ],
-        "a": [
-          "RD-Sounds"
-        ]
-      },
-      "追慕": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "蒼のキャンバス": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "Vacancy": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "ハルハコブネ": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "Echoes Calling": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "星掬い": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "Aorist": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "恋、夏めく。": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "君を覚えていたい": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "瑠璃も玻璃も照らせば光る": {
-        "c": [
-          "SperioNz"
-        ],
-        "a": [
-          "SperioNz"
-        ]
-      },
-      "ne / ne [ヒトらしくあるために]": {
-        "c": [
-          "bermei.inazawa"
-        ],
-        "a": [
-          "bermei.inazawa"
-        ]
-      },
-      "until my last breath": {
-        "c": [
-          "RD-Sounds"
-        ],
-        "a": [
-          "RD-Sounds"
-        ]
-      },
-      "夏空オーケストラ": {
-        "c": [
-          "RD-Sounds"
-        ],
-        "a": [
-          "RD-Sounds"
-        ]
-      },
-      "贖罪": {
-        "c": [
-          "傘村トータ"
-        ],
-        "a": [
-          "傘村トータ"
-        ]
-      },
-      "Decillion Encounter": {
-        "c": [
-          "藤屋"
-        ],
-        "a": [
-          "藤屋"
-        ]
-      }
-    }
-  },
-  {
     "name": "Nina77",
     "cat": 1,
     "count": 17,
@@ -26038,275 +26686,6 @@
           "Vaundy"
         ]
       }
-    }
-  },
-  {
-    "name": "藍璃かんな",
-    "cat": 1,
-    "count": 17,
-    "reading": "あいりかんな",
-    "kana": "あ",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/1XAezMmxrnWo1lfzFvYTpbeUovIRpmpHDSy0LNL-UtdTI62ARWzelSiEaaZFdO5jYf19jvNMFA=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "最終話 (Acoustic Ver.)",
-      "KICK BACK (米津玄師)",
-      "LADY (米津玄師)",
-      "すずめ Suzume (RADWIMPS feat.十明)",
-      "ADDICT!ON",
-      "最終花",
-      "青い宝石と竜の子",
-      "Frozen Eclipse",
-      "逆光",
-      "傷つく誰かの心を守ることができたなら",
-      "勘ぐれい (ZUTOMAYO)",
-      "地球儀 (米津玄師ㅣ君たちはどう生きるか OST)",
-      "ねむるまち (くじら)",
-      "ERROR (nikiP)",
-      "三文小説 (King Gnu)",
-      "The Last Flower",
-      "Love wins all (IU)"
-    ],
-    "topSongs": [
-      "ファンサ",
-      "金曜日のおはよう",
-      "可愛くてごめん",
-      "サインはB",
-      "私、アイドル宣言"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Airi Kanna",
-      "airikanna",
-      "アイリカンナ"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 213000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "of5l0st1kA8",
-      "q-QjjmJjU_8",
-      "eNlXPUp9WBw",
-      "GdH0TsPznUs",
-      "3PxbqWrDCz4"
-    ],
-    "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/@airikanna",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [
-      "Team. Palette"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@airikanna",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_bb56decc",
-    "sc": {
-      "最終話 (Acoustic Ver.)": {
-        "c": [
-          "Tsubasa Harihara (HarryP)"
-        ],
-        "a": [
-          "장재훈",
-          "REQ"
-        ]
-      },
-      "KICK BACK (米津玄師)": {
-        "c": [
-          "米津玄師"
-        ],
-        "a": [
-          "米津玄師",
-          "常田大希"
-        ]
-      },
-      "LADY (米津玄師)": {
-        "c": [
-          "米津玄師"
-        ],
-        "a": [
-          "米津玄師",
-          "坂東祐大"
-        ]
-      },
-      "すずめ Suzume (RADWIMPS feat.十明)": {
-        "c": [
-          "野田洋次郎"
-        ],
-        "a": [
-          "野田洋次郎",
-          "陣内一真"
-        ]
-      },
-      "ADDICT!ON": {
-        "c": [
-          "ESAI",
-          "REQ",
-          "Memme",
-          "문연",
-          "제이돕",
-          "ONAIR(온에어)",
-          "CLEF CREW"
-        ],
-        "a": [
-          "ESAI"
-        ]
-      },
-      "最終花": {
-        "c": [
-          "Tsubasa Harihara (HarryP)"
-        ],
-        "a": [
-          "Masataka Aratomai"
-        ]
-      },
-      "青い宝石と竜の子": {
-        "c": [
-          "Miyako Matsuoka"
-        ],
-        "a": []
-      },
-      "Frozen Eclipse": {
-        "c": [
-          "REQ"
-        ],
-        "a": []
-      },
-      "逆光": {
-        "c": [
-          "Vaundy"
-        ],
-        "a": [
-          "Vaundy"
-        ]
-      },
-      "傷つく誰かの心を守ることができたなら": {
-        "c": [
-          "王可鑫 Eli.W (HOYO-MiX)"
-        ],
-        "a": [
-          "王可鑫 Eli.W (HOYO-MiX)"
-        ]
-      },
-      "勘ぐれい (ZUTOMAYO)": {
-        "c": [
-          "ACAね"
-        ],
-        "a": [
-          "100回嘔吐",
-          "ZTMY"
-        ]
-      },
-      "地球儀 (米津玄師ㅣ君たちはどう生きるか OST)": {
-        "c": [
-          "米津玄師"
-        ],
-        "a": [
-          "米津玄師"
-        ]
-      },
-      "ねむるまち (くじら)": {
-        "c": [
-          "くじら"
-        ],
-        "a": [
-          "くじら"
-        ]
-      },
-      "ERROR (nikiP)": {
-        "c": [
-          "niki"
-        ],
-        "a": [
-          "niki"
-        ]
-      },
-      "三文小説 (King Gnu)": {
-        "c": [
-          "常田大希"
-        ],
-        "a": [
-          "King Gnu"
-        ]
-      },
-      "The Last Flower": {
-        "c": [
-          "Tsubasa Harihara (HarryP)"
-        ],
-        "a": [
-          "Masataka Aratomai"
-        ]
-      },
-      "Love wins all (IU)": {
-        "c": [
-          "서동환(Seo Dong Hwan)"
-        ],
-        "a": [
-          "서동환(Seo Dong Hwan)"
-        ]
-      },
-      "ファンサ": {
-        "c": [
-          "HoneyWorks"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "金曜日のおはよう": {
-        "c": [
-          "shito"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "可愛くてごめん": {
-        "c": [
-          "shito"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "サインはB": {
-        "c": [
-          "大石昌良"
-        ],
-        "a": [
-          "大石昌良"
-        ]
-      },
-      "私、アイドル宣言": {
-        "c": [
-          "shito"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      }
-    },
-    "songOrigCats": {
-      "傷つく誰かの心を守ることができたなら": [
-        "game"
-      ]
     }
   },
   {
@@ -28477,6 +28856,249 @@
     }
   },
   {
+    "name": "やなぎなぎ",
+    "cat": 1,
+    "count": 16,
+    "reading": "やなぎなぎ",
+    "kana": "や",
+    "row": "や",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/ytc/AIdro_kg79ca7OOSlfgzZ57DOfGKBH9wF9BC-C1p7PTGkFXySA=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "恋文",
+      "Ashita no Hanashi",
+      "偽らない君へ",
+      "春擬き",
+      "ラテラリティ",
+      "終わりの世界から",
+      "Blank",
+      "landscape",
+      "アウトサイダー",
+      "Sweet Track",
+      "ファラウェイ・ハイウェイ",
+      "here and there",
+      "color capsule",
+      "心月の詩・秘めた想い",
+      "心月の詩",
+      "夜と青"
+    ],
+    "topSongs": [
+      "ビードロ模様",
+      "春擬き",
+      "ユキトキ",
+      "アクアテラリウム",
+      "メルト"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Nagi Yanagi",
+      "yanaginagi",
+      "ヤナギナギ"
+    ],
+    "role": "歌手",
+    "imgType": "youtube_official",
+    "sub": 144000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "jtRJ0zt8cnw",
+      "aIdtgWpoYI4",
+      "qDE4pm6yiHM",
+      "QHSrcqwLJL0",
+      "4YHUamjfJ0k"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "Sizuk",
+      "supercell"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "歌手"
+    ],
+    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。『ビードロ模様』や『春擬き』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCty-AHEQn5dkYr2oq6fd4yw",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCty-AHEQn5dkYr2oq6fd4yw",
+    "aid": "a_8790ea44",
+    "sc": {
+      "恋文": {
+        "c": [
+          "折戸伸治"
+        ],
+        "a": [
+          "MANYO"
+        ]
+      },
+      "Ashita no Hanashi": {
+        "c": [
+          "やなぎなぎ"
+        ],
+        "a": [
+          "出羽良彰"
+        ]
+      },
+      "偽らない君へ": {
+        "c": [
+          "折戸伸治"
+        ],
+        "a": [
+          "森藤晶司"
+        ]
+      },
+      "春擬き": {
+        "c": [
+          "北川勝利"
+        ],
+        "a": [
+          "北川勝利"
+        ]
+      },
+      "ラテラリティ": {
+        "c": [
+          "藤田淳平(Elements Garden)"
+        ],
+        "a": [
+          "藤田淳平(Elements Garden)"
+        ]
+      },
+      "終わりの世界から": {
+        "c": [
+          "麻枝准"
+        ],
+        "a": [
+          "竹下智博"
+        ]
+      },
+      "Blank": {
+        "c": [
+          "やなぎなぎ"
+        ],
+        "a": [
+          "やなぎなぎ"
+        ]
+      },
+      "landscape": {
+        "c": [
+          "やなぎなぎ"
+        ],
+        "a": [
+          "やなぎなぎ"
+        ]
+      },
+      "アウトサイダー": {
+        "c": [
+          "やなぎなぎ"
+        ],
+        "a": [
+          "出羽良彰"
+        ]
+      },
+      "Sweet Track": {
+        "c": [
+          "楠野功太郎"
+        ],
+        "a": [
+          "大西省吾"
+        ]
+      },
+      "ファラウェイ・ハイウェイ": {
+        "c": [
+          "やなぎなぎ"
+        ],
+        "a": [
+          "やなぎなぎ"
+        ]
+      },
+      "here and there": {
+        "c": [
+          "中沢伴行"
+        ],
+        "a": [
+          "中沢伴行",
+          "尾崎武士"
+        ]
+      },
+      "color capsule": {
+        "c": [
+          "やなぎなぎ"
+        ],
+        "a": [
+          "やなぎなぎ"
+        ]
+      },
+      "心月の詩・秘めた想い": {
+        "c": [
+          "HoYo-MiX"
+        ],
+        "a": [
+          "HoYo-MiX"
+        ]
+      },
+      "心月の詩": {
+        "c": [
+          "HoYo-MiX"
+        ],
+        "a": [
+          "HoYo-MiX"
+        ]
+      },
+      "ビードロ模様": {
+        "c": [
+          "中沢伴行"
+        ],
+        "a": [
+          "中沢伴行",
+          "尾崎武士"
+        ]
+      },
+      "ユキトキ": {
+        "c": [
+          "北川勝利"
+        ],
+        "a": [
+          "北川勝利"
+        ]
+      },
+      "アクアテラリウム": {
+        "c": [
+          "石川智晶"
+        ],
+        "a": [
+          "MATERIAL WORLD"
+        ]
+      },
+      "メルト": {
+        "c": [
+          "ryo(supercell)"
+        ],
+        "a": [
+          "ryo(supercell)"
+        ]
+      },
+      "夜と青": {
+        "c": [
+          "ryo"
+        ],
+        "a": [
+          "ryo"
+        ]
+      }
+    }
+  },
+  {
     "name": "藍月なくる",
     "cat": 1,
     "count": 15,
@@ -30298,240 +30920,6 @@
       "ホログラム": [
         "anime"
       ]
-    }
-  },
-  {
-    "name": "やなぎなぎ",
-    "cat": 1,
-    "count": 15,
-    "reading": "やなぎなぎ",
-    "kana": "や",
-    "row": "や",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/ytc/AIdro_kg79ca7OOSlfgzZ57DOfGKBH9wF9BC-C1p7PTGkFXySA=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "恋文",
-      "Ashita no Hanashi",
-      "偽らない君へ",
-      "春擬き",
-      "ラテラリティ",
-      "終わりの世界から",
-      "Blank",
-      "landscape",
-      "アウトサイダー",
-      "Sweet Track",
-      "ファラウェイ・ハイウェイ",
-      "here and there",
-      "color capsule",
-      "心月の詩・秘めた想い",
-      "心月の詩"
-    ],
-    "topSongs": [
-      "ビードロ模様",
-      "春擬き",
-      "ユキトキ",
-      "アクアテラリウム",
-      "メルト"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Nagi Yanagi",
-      "yanaginagi",
-      "ヤナギナギ"
-    ],
-    "role": "歌手",
-    "imgType": "youtube_official",
-    "sub": 144000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "jtRJ0zt8cnw",
-      "aIdtgWpoYI4",
-      "qDE4pm6yiHM",
-      "QHSrcqwLJL0",
-      "4YHUamjfJ0k"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [
-      "Sizuk",
-      "supercell"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "歌手"
-    ],
-    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。『ビードロ模様』や『春擬き』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCty-AHEQn5dkYr2oq6fd4yw",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCty-AHEQn5dkYr2oq6fd4yw",
-    "aid": "a_8790ea44",
-    "sc": {
-      "恋文": {
-        "c": [
-          "折戸伸治"
-        ],
-        "a": [
-          "MANYO"
-        ]
-      },
-      "Ashita no Hanashi": {
-        "c": [
-          "やなぎなぎ"
-        ],
-        "a": [
-          "出羽良彰"
-        ]
-      },
-      "偽らない君へ": {
-        "c": [
-          "折戸伸治"
-        ],
-        "a": [
-          "森藤晶司"
-        ]
-      },
-      "春擬き": {
-        "c": [
-          "北川勝利"
-        ],
-        "a": [
-          "北川勝利"
-        ]
-      },
-      "ラテラリティ": {
-        "c": [
-          "藤田淳平(Elements Garden)"
-        ],
-        "a": [
-          "藤田淳平(Elements Garden)"
-        ]
-      },
-      "終わりの世界から": {
-        "c": [
-          "麻枝准"
-        ],
-        "a": [
-          "竹下智博"
-        ]
-      },
-      "Blank": {
-        "c": [
-          "やなぎなぎ"
-        ],
-        "a": [
-          "やなぎなぎ"
-        ]
-      },
-      "landscape": {
-        "c": [
-          "やなぎなぎ"
-        ],
-        "a": [
-          "やなぎなぎ"
-        ]
-      },
-      "アウトサイダー": {
-        "c": [
-          "やなぎなぎ"
-        ],
-        "a": [
-          "出羽良彰"
-        ]
-      },
-      "Sweet Track": {
-        "c": [
-          "楠野功太郎"
-        ],
-        "a": [
-          "大西省吾"
-        ]
-      },
-      "ファラウェイ・ハイウェイ": {
-        "c": [
-          "やなぎなぎ"
-        ],
-        "a": [
-          "やなぎなぎ"
-        ]
-      },
-      "here and there": {
-        "c": [
-          "中沢伴行"
-        ],
-        "a": [
-          "中沢伴行",
-          "尾崎武士"
-        ]
-      },
-      "color capsule": {
-        "c": [
-          "やなぎなぎ"
-        ],
-        "a": [
-          "やなぎなぎ"
-        ]
-      },
-      "心月の詩・秘めた想い": {
-        "c": [
-          "HoYo-MiX"
-        ],
-        "a": [
-          "HoYo-MiX"
-        ]
-      },
-      "心月の詩": {
-        "c": [
-          "HoYo-MiX"
-        ],
-        "a": [
-          "HoYo-MiX"
-        ]
-      },
-      "ビードロ模様": {
-        "c": [
-          "中沢伴行"
-        ],
-        "a": [
-          "中沢伴行",
-          "尾崎武士"
-        ]
-      },
-      "ユキトキ": {
-        "c": [
-          "北川勝利"
-        ],
-        "a": [
-          "北川勝利"
-        ]
-      },
-      "アクアテラリウム": {
-        "c": [
-          "石川智晶"
-        ],
-        "a": [
-          "MATERIAL WORLD"
-        ]
-      },
-      "メルト": {
-        "c": [
-          "ryo(supercell)"
-        ],
-        "a": [
-          "ryo(supercell)"
-        ]
-      }
     }
   },
   {
@@ -32498,6 +32886,206 @@
     }
   },
   {
+    "name": "Roselia",
+    "cat": 1,
+    "count": 13,
+    "reading": "roselia",
+    "kana": "",
+    "row": "",
+    "alpha": "R",
+    "img": "https://yt3.googleusercontent.com/Tux86oXhLOFrEy7JhlwgFWqMHNPtq2m68JGOLGIKWkFIeuGFAd_rTNXwPb-t1X0KnzhiiJNe=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Dazzle the Destiny",
+      "PASSIONATE ANTHEM",
+      "LOUDER",
+      "Ringing Bloom",
+      "シャルル",
+      "深愛",
+      "Legendary",
+      "“UNIONS” Road",
+      "－HEROIC ADVENT－",
+      "R",
+      "陽だまりロードナイト",
+      "BRAVE JEWEL",
+      "MAdEaR MAdEaR"
+    ],
+    "topSongs": [
+      "FIRE BIRD",
+      "BLACK SHOUT",
+      "Neo-Aspect",
+      "LOUDER",
+      "PASSIONATE ANTHEM"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "ろぜりあ",
+      "ロゼリア"
+    ],
+    "role": "音楽グループ",
+    "imgType": "youtube_official",
+    "sub": 138000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "en5avELIxfU",
+      "g85rkjvAVl4",
+      "Zw7u9uW4pzE",
+      "vMHCWDr4VXc",
+      "aMLTI64iwjg"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "BanG Dream!",
+    "agencyGroup": "BanG Dream!",
+    "vocalParts": [],
+    "agencyGroupCount": 18,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(アニゲー関連)",
+    "roles": [
+      "音楽グループ"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCLeeo2KeEketIWQ2QK8qXLw",
+    "ytChannelLabel": "YouTubeチャンネル（トピック） →",
+    "ytChannelType": "topic",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCLeeo2KeEketIWQ2QK8qXLw",
+    "aid": "a_72a655de",
+    "sc": {
+      "Dazzle the Destiny": {
+        "c": [
+          "上松範康(Elements Garden)"
+        ],
+        "a": [
+          "竹田祐介(Elements Garden)"
+        ]
+      },
+      "PASSIONATE ANTHEM": {
+        "c": [
+          "藤永龍太郎(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "LOUDER": {
+        "c": [
+          "藤永龍太郎(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "Ringing Bloom": {
+        "c": [
+          "藤永龍太郎(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "シャルル": {
+        "c": [
+          "バルーン"
+        ],
+        "a": [
+          "バルーン"
+        ]
+      },
+      "深愛": {
+        "c": [
+          "上松範康(Elements Garden)"
+        ],
+        "a": [
+          "藤間仁(Elements Garden)"
+        ]
+      },
+      "Legendary": {
+        "c": [
+          "上松範康(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "“UNIONS” Road": {
+        "c": [
+          "藤永龍太郎(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "－HEROIC ADVENT－": {
+        "c": [
+          "藤田淳平(Elements Garden)"
+        ],
+        "a": [
+          "藤田淳平(Elements Garden)"
+        ]
+      },
+      "R": {
+        "c": [
+          "上松範康(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "陽だまりロードナイト": {
+        "c": [
+          "藤永龍太郎(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "BRAVE JEWEL": {
+        "c": [
+          "上松範康(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "FIRE BIRD": {
+        "c": [
+          "上松範康(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "BLACK SHOUT": {
+        "c": [
+          "上松範康(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "Neo-Aspect": {
+        "c": [
+          "藤永龍太郎(Elements Garden)"
+        ],
+        "a": [
+          "藤永龍太郎(Elements Garden)"
+        ]
+      },
+      "MAdEaR MAdEaR": {
+        "c": [
+          "SLAVE.V-V-R"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "アキ・ローゼンタール",
     "cat": 1,
     "count": 13,
@@ -33758,199 +34346,6 @@
         ],
         "a": [
           "HoneyWorks"
-        ]
-      }
-    }
-  },
-  {
-    "name": "Roselia",
-    "cat": 1,
-    "count": 12,
-    "reading": "roselia",
-    "kana": "",
-    "row": "",
-    "alpha": "R",
-    "img": "https://yt3.googleusercontent.com/Tux86oXhLOFrEy7JhlwgFWqMHNPtq2m68JGOLGIKWkFIeuGFAd_rTNXwPb-t1X0KnzhiiJNe=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Dazzle the Destiny",
-      "PASSIONATE ANTHEM",
-      "LOUDER",
-      "Ringing Bloom",
-      "シャルル",
-      "深愛",
-      "Legendary",
-      "“UNIONS” Road",
-      "－HEROIC ADVENT－",
-      "R",
-      "陽だまりロードナイト",
-      "BRAVE JEWEL"
-    ],
-    "topSongs": [
-      "FIRE BIRD",
-      "BLACK SHOUT",
-      "Neo-Aspect",
-      "LOUDER",
-      "PASSIONATE ANTHEM"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "ろぜりあ",
-      "ロゼリア"
-    ],
-    "role": "音楽グループ",
-    "imgType": "youtube_official",
-    "sub": 138000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "en5avELIxfU",
-      "g85rkjvAVl4",
-      "Zw7u9uW4pzE",
-      "vMHCWDr4VXc",
-      "aMLTI64iwjg"
-    ],
-    "subDate": "2026-10-27",
-    "agency": "BanG Dream!",
-    "agencyGroup": "BanG Dream!",
-    "vocalParts": [],
-    "agencyGroupCount": 18,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(アニゲー関連)",
-    "roles": [
-      "音楽グループ"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCLeeo2KeEketIWQ2QK8qXLw",
-    "ytChannelLabel": "YouTubeチャンネル（トピック） →",
-    "ytChannelType": "topic",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCLeeo2KeEketIWQ2QK8qXLw",
-    "aid": "a_72a655de",
-    "sc": {
-      "Dazzle the Destiny": {
-        "c": [
-          "上松範康(Elements Garden)"
-        ],
-        "a": [
-          "竹田祐介(Elements Garden)"
-        ]
-      },
-      "PASSIONATE ANTHEM": {
-        "c": [
-          "藤永龍太郎(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "LOUDER": {
-        "c": [
-          "藤永龍太郎(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "Ringing Bloom": {
-        "c": [
-          "藤永龍太郎(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "シャルル": {
-        "c": [
-          "バルーン"
-        ],
-        "a": [
-          "バルーン"
-        ]
-      },
-      "深愛": {
-        "c": [
-          "上松範康(Elements Garden)"
-        ],
-        "a": [
-          "藤間仁(Elements Garden)"
-        ]
-      },
-      "Legendary": {
-        "c": [
-          "上松範康(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "“UNIONS” Road": {
-        "c": [
-          "藤永龍太郎(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "－HEROIC ADVENT－": {
-        "c": [
-          "藤田淳平(Elements Garden)"
-        ],
-        "a": [
-          "藤田淳平(Elements Garden)"
-        ]
-      },
-      "R": {
-        "c": [
-          "上松範康(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "陽だまりロードナイト": {
-        "c": [
-          "藤永龍太郎(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "BRAVE JEWEL": {
-        "c": [
-          "上松範康(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "FIRE BIRD": {
-        "c": [
-          "上松範康(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "BLACK SHOUT": {
-        "c": [
-          "上松範康(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
-        ]
-      },
-      "Neo-Aspect": {
-        "c": [
-          "藤永龍太郎(Elements Garden)"
-        ],
-        "a": [
-          "藤永龍太郎(Elements Garden)"
         ]
       }
     }
@@ -37307,6 +37702,153 @@
     }
   },
   {
+    "name": "流水",
+    "cat": 1,
+    "count": 11,
+    "reading": "るすい",
+    "kana": "る",
+    "row": "ら",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/dteRsdORHN-0aOx1Se04IITs4pKDsfuvSY3CzyD5FCS036kPiTeLNn9f815t51xM-wfKEOsD=s240-c-k-c0x00ffffff-no-rj",
+    "imgType": "youtube_official",
+    "songs": [
+      "雨音ノイズ",
+      "少女と舎利",
+      "夏が終わる件について",
+      "BAD SAD BAD",
+      "死にたくなったら電話して",
+      "POOL",
+      "ハイパーベンチレイション",
+      "魔法少女脱走事件",
+      "月面少女現象",
+      "ナイトドライバー",
+      "ギャラリー"
+    ],
+    "topSongs": [
+      "雨音ノイズ",
+      "少女と舎利",
+      "夏が終わる件について",
+      "BAD SAD BAD",
+      "死にたくなったら電話して"
+    ],
+    "topTypes": [
+      "カバー",
+      "orig",
+      "orig",
+      "orig",
+      "orig"
+    ],
+    "topLinks": [
+      "",
+      "8PqoOGtidZU",
+      "T9Ajqm_KBj8",
+      "MGMomDiuk2U",
+      "lUszCmdViYY"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "歌い手",
+    "sub": null,
+    "subBucket": "unknown",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [
+      "Rusui",
+      "流水Rusui"
+    ],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "",
+    "ytChannelLabel": "",
+    "ytChannelType": "",
+    "youtubeChannelUrl": "",
+    "aid": "a_37cfa877",
+    "sc": {
+      "雨音ノイズ": {
+        "c": [
+          "40mP"
+        ],
+        "a": [
+          "40mP"
+        ]
+      },
+      "少女と舎利": {
+        "c": [
+          "Lonepi"
+        ],
+        "a": []
+      },
+      "夏が終わる件について": {
+        "c": [
+          "犬飼"
+        ],
+        "a": [
+          "犬飼"
+        ]
+      },
+      "BAD SAD BAD": {
+        "c": [
+          "平田義久"
+        ],
+        "a": []
+      },
+      "死にたくなったら電話して": {
+        "c": [
+          "カササギ"
+        ],
+        "a": [
+          "カササギ"
+        ]
+      },
+      "POOL": {
+        "c": [
+          "Natrium"
+        ],
+        "a": [
+          "Natrium"
+        ]
+      },
+      "ハイパーベンチレイション": {
+        "c": [
+          "野田洋次郎"
+        ],
+        "a": []
+      },
+      "魔法少女脱走事件": {
+        "c": [
+          "b8xB"
+        ],
+        "a": []
+      },
+      "月面少女現象": {
+        "c": [
+          "b8xB"
+        ],
+        "a": []
+      },
+      "ナイトドライバー": {
+        "c": [
+          "平田義久"
+        ],
+        "a": []
+      },
+      "ギャラリー": {
+        "c": [
+          "是"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "Myuk",
     "cat": 1,
     "count": 10,
@@ -40336,146 +40878,6 @@
         "a": [
           "AKAP"
         ]
-      }
-    }
-  },
-  {
-    "name": "流水",
-    "cat": 1,
-    "count": 10,
-    "reading": "るすい",
-    "kana": "る",
-    "row": "ら",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/dteRsdORHN-0aOx1Se04IITs4pKDsfuvSY3CzyD5FCS036kPiTeLNn9f815t51xM-wfKEOsD=s240-c-k-c0x00ffffff-no-rj",
-    "imgType": "youtube_official",
-    "songs": [
-      "雨音ノイズ",
-      "少女と舎利",
-      "夏が終わる件について",
-      "BAD SAD BAD",
-      "死にたくなったら電話して",
-      "POOL",
-      "ハイパーベンチレイション",
-      "魔法少女脱走事件",
-      "月面少女現象",
-      "ナイトドライバー"
-    ],
-    "topSongs": [
-      "雨音ノイズ",
-      "少女と舎利",
-      "夏が終わる件について",
-      "BAD SAD BAD",
-      "死にたくなったら電話して"
-    ],
-    "topTypes": [
-      "カバー",
-      "orig",
-      "orig",
-      "orig",
-      "orig"
-    ],
-    "topLinks": [
-      "",
-      "8PqoOGtidZU",
-      "T9Ajqm_KBj8",
-      "MGMomDiuk2U",
-      "lUszCmdViYY"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "歌い手",
-    "sub": null,
-    "subBucket": "unknown",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [
-      "Rusui",
-      "流水Rusui"
-    ],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "",
-    "ytChannelLabel": "",
-    "ytChannelType": "",
-    "youtubeChannelUrl": "",
-    "aid": "a_37cfa877",
-    "sc": {
-      "雨音ノイズ": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "少女と舎利": {
-        "c": [
-          "Lonepi"
-        ],
-        "a": []
-      },
-      "夏が終わる件について": {
-        "c": [
-          "犬飼"
-        ],
-        "a": [
-          "犬飼"
-        ]
-      },
-      "BAD SAD BAD": {
-        "c": [
-          "平田義久"
-        ],
-        "a": []
-      },
-      "死にたくなったら電話して": {
-        "c": [
-          "カササギ"
-        ],
-        "a": [
-          "カササギ"
-        ]
-      },
-      "POOL": {
-        "c": [
-          "Natrium"
-        ],
-        "a": [
-          "Natrium"
-        ]
-      },
-      "ハイパーベンチレイション": {
-        "c": [
-          "野田洋次郎"
-        ],
-        "a": []
-      },
-      "魔法少女脱走事件": {
-        "c": [
-          "b8xB"
-        ],
-        "a": []
-      },
-      "月面少女現象": {
-        "c": [
-          "b8xB"
-        ],
-        "a": []
-      },
-      "ナイトドライバー": {
-        "c": [
-          "平田義久"
-        ],
-        "a": []
       }
     }
   },
@@ -70761,253 +71163,6 @@
         ],
         "a": [
           "emon(Tes.)"
-        ]
-      }
-    }
-  },
-  {
-    "name": "ねんね",
-    "cat": 1,
-    "count": 3,
-    "reading": "ねんね",
-    "kana": "ね",
-    "row": "な",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/eD-eYaQgR0TI3ggQdGrUCQqYbUQiHBa68gUdi0jRMDrYMM43UGWPcnkEMZRQtu9yA37QxdUk=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Aria",
-      "Unveil",
-      "ミライ＝テレポート"
-    ],
-    "topSongs": [
-      "ミライ=テレポート",
-      "Aria",
-      "Unveil",
-      "イグニッション (feat. ゆある&ねんね)",
-      "NPC (feat. ねんね)"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "nenne"
-    ],
-    "role": "歌い手",
-    "imgType": "youtube_official",
-    "sub": 8400,
-    "subBucket": "under10k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "DpjPo7nt1T4",
-      "jKBXJXUeAeE",
-      "w5wNu69O2KA",
-      "6_Za11oioDY",
-      "vBGqKeCf1Ps"
-    ],
-    "subDate": "2026-10-28",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌い手"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCs3uPR52C76c2psR2K2-yEA",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCs3uPR52C76c2psR2K2-yEA",
-    "aid": "a_2711c7fa",
-    "sc": {
-      "Aria": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "Unveil": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "ミライ＝テレポート": {
-        "c": [
-          "ねんね"
-        ],
-        "a": [
-          "佐々木聡作"
-        ]
-      },
-      "ミライ=テレポート": {
-        "c": [
-          "ねんね"
-        ],
-        "a": [
-          "佐々木聡作"
-        ]
-      },
-      "イグニッション (feat. ゆある&ねんね)": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "NPC (feat. ねんね)": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "Ghost": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "GHOST": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "NPC": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "あの夏のいつかは": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "メタフィクション": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "春の魔法": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "透明": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "Ours": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "てんせーしたい": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "朝風": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "イノセント": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "あの光だってきっと": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "アナクロニズム": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "この灯が消えるまで": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "Sense": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "まどろみ": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
-        ]
-      },
-      "夜を破って": {
-        "c": [
-          "*Luna"
-        ],
-        "a": [
-          "*Luna"
         ]
       }
     }
@@ -117228,216 +117383,6 @@
     }
   },
   {
-    "name": "さくらみこ",
-    "cat": 2,
-    "count": 16,
-    "reading": "さくらみこ",
-    "kana": "さ",
-    "row": "さ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/b8EKl_i-e2dinoparyhUJEaRhInlSWwm-dZX0oIq-x1mUvQga530G_PIdutlSNkGKEAyX9aaBQ=s240-c-k-c0x00ffffff-no-rj",
-    "imgType": "youtube_official",
-    "songs": [
-      "サキミダレアッパレード♪",
-      "Sakuraful March",
-      "ファッションビート",
-      "PON-DERFUL!!!",
-      "咲き誇れアイドル",
-      "Mosh Race",
-      "ハートオンライン",
-      "花月ノ夢",
-      "アワーツリー",
-      "SUNAO",
-      "サクラカゼ",
-      "シュガーラッシュ",
-      "光になれ！",
-      "Re:flection",
-      "flower rhapsody",
-      "僕らと君のうた。"
-    ],
-    "topSongs": [
-      "サキミダレアッパレード♪",
-      "咲き誇れアイドル",
-      "Sakuraful March",
-      "ファッションビート",
-      "PON-DERFUL!!!"
-    ],
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "gF4UwqAvFOE",
-      "Vui-Eor7H2Y",
-      "bKJefYPsJdk",
-      "zP9ieFhlgcQ",
-      "9d-TpebqYfc"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "Vtuber",
-    "sub": 2310000,
-    "subBucket": "over1m",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [
-      "Sakura Miko",
-      "sakuramiko",
-      "みこち",
-      "ホロライブ",
-      "hololive"
-    ],
-    "agency": "ホロライブ",
-    "agencyGroup": "ホロライブ",
-    "vocalParts": [],
-    "agencyGroupCount": 43,
-    "agencyClickable": true,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vtuber"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@SakuraMiko",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@SakuraMiko",
-    "aid": "a_3b38c4fa",
-    "sc": {
-      "サキミダレアッパレード♪": {
-        "c": [
-          "まろん(IOSYS)"
-        ],
-        "a": [
-          "まろん(IOSYS)"
-        ]
-      },
-      "Sakuraful March": {
-        "c": [
-          "本多友紀(Arte Refact)"
-        ],
-        "a": [
-          "本多友紀(Arte Refact)"
-        ]
-      },
-      "ファッションビート": {
-        "c": [
-          "ピノキオピー"
-        ],
-        "a": [
-          "ピノキオピー"
-        ]
-      },
-      "PON-DERFUL!!!": {
-        "c": [
-          "ナユタン星人"
-        ],
-        "a": [
-          "ナユタン星人"
-        ]
-      },
-      "咲き誇れアイドル": {
-        "c": [
-          "HoneyWorks"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "Mosh Race": {
-        "c": [
-          "じん"
-        ],
-        "a": [
-          "堀江晶太"
-        ]
-      },
-      "ハートオンライン": {
-        "c": [
-          "キノシタ"
-        ],
-        "a": [
-          "キノシタ"
-        ]
-      },
-      "花月ノ夢": {
-        "c": [
-          "ゆうゆ"
-        ],
-        "a": [
-          "ゆうゆ"
-        ]
-      },
-      "アワーツリー": {
-        "c": [
-          "ハム"
-        ],
-        "a": [
-          "ハム"
-        ]
-      },
-      "SUNAO": {
-        "c": [
-          "水野良樹"
-        ],
-        "a": [
-          "中野領太",
-          "田中ユウスケ"
-        ]
-      },
-      "サクラカゼ": {
-        "c": [
-          "ハム"
-        ],
-        "a": [
-          "ハム"
-        ]
-      },
-      "シュガーラッシュ": {
-        "c": [
-          "DECO*27"
-        ],
-        "a": [
-          "tepe"
-        ]
-      },
-      "光になれ！": {
-        "c": [
-          "田淵智也"
-        ],
-        "a": [
-          "堀江晶太"
-        ]
-      },
-      "Re:flection": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "flower rhapsody": {
-        "c": [
-          "堀江晶太"
-        ],
-        "a": [
-          "神田ジョン"
-        ]
-      },
-      "僕らと君のうた。": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      }
-    }
-  },
-  {
     "name": "nao",
     "cat": 2,
     "count": 16,
@@ -117872,6 +117817,219 @@
         ]
       }
     }
+  },
+  {
+    "name": "さくらみこ",
+    "cat": 2,
+    "count": 15,
+    "reading": "さくらみこ",
+    "kana": "さ",
+    "row": "さ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/b8EKl_i-e2dinoparyhUJEaRhInlSWwm-dZX0oIq-x1mUvQga530G_PIdutlSNkGKEAyX9aaBQ=s240-c-k-c0x00ffffff-no-rj",
+    "imgType": "youtube_official",
+    "songs": [
+      "サキミダレアッパレード♪",
+      "Sakuraful March",
+      "ファッションビート",
+      "PON-DERFUL!!!",
+      "咲き誇れアイドル",
+      "Mosh Race",
+      "ハートオンライン",
+      "花月ノ夢",
+      "アワーツリー",
+      "SUNAO",
+      "サクラカゼ",
+      "シュガーラッシュ",
+      "光になれ！",
+      "Re:flection",
+      "flower rhapsody",
+      "僕らと君のうた。"
+    ],
+    "topSongs": [
+      "サキミダレアッパレード♪",
+      "咲き誇れアイドル",
+      "Sakuraful March",
+      "ファッションビート",
+      "PON-DERFUL!!!"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "gF4UwqAvFOE",
+      "Vui-Eor7H2Y",
+      "bKJefYPsJdk",
+      "zP9ieFhlgcQ",
+      "9d-TpebqYfc"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "Vtuber",
+    "sub": 2310000,
+    "subBucket": "over1m",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [
+      "Sakura Miko",
+      "sakuramiko",
+      "みこち",
+      "ホロライブ",
+      "hololive"
+    ],
+    "agency": "ホロライブ",
+    "agencyGroup": "ホロライブ",
+    "vocalParts": [],
+    "agencyGroupCount": 43,
+    "agencyClickable": true,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vtuber"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@SakuraMiko",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@SakuraMiko",
+    "aid": "a_3b38c4fa",
+    "sc": {
+      "サキミダレアッパレード♪": {
+        "c": [
+          "まろん(IOSYS)"
+        ],
+        "a": [
+          "まろん(IOSYS)"
+        ]
+      },
+      "Sakuraful March": {
+        "c": [
+          "本多友紀(Arte Refact)"
+        ],
+        "a": [
+          "本多友紀(Arte Refact)"
+        ]
+      },
+      "ファッションビート": {
+        "c": [
+          "ピノキオピー"
+        ],
+        "a": [
+          "ピノキオピー"
+        ]
+      },
+      "PON-DERFUL!!!": {
+        "c": [
+          "ナユタン星人"
+        ],
+        "a": [
+          "ナユタン星人"
+        ]
+      },
+      "咲き誇れアイドル": {
+        "c": [
+          "HoneyWorks"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "Mosh Race": {
+        "c": [
+          "じん"
+        ],
+        "a": [
+          "堀江晶太"
+        ]
+      },
+      "ハートオンライン": {
+        "c": [
+          "キノシタ"
+        ],
+        "a": [
+          "キノシタ"
+        ]
+      },
+      "花月ノ夢": {
+        "c": [
+          "ゆうゆ"
+        ],
+        "a": [
+          "ゆうゆ"
+        ]
+      },
+      "アワーツリー": {
+        "c": [
+          "ハム"
+        ],
+        "a": [
+          "ハム"
+        ]
+      },
+      "SUNAO": {
+        "c": [
+          "水野良樹"
+        ],
+        "a": [
+          "中野領太",
+          "田中ユウスケ"
+        ]
+      },
+      "サクラカゼ": {
+        "c": [
+          "ハム"
+        ],
+        "a": [
+          "ハム"
+        ]
+      },
+      "シュガーラッシュ": {
+        "c": [
+          "DECO*27"
+        ],
+        "a": [
+          "tepe"
+        ]
+      },
+      "光になれ！": {
+        "c": [
+          "田淵智也"
+        ],
+        "a": [
+          "堀江晶太"
+        ]
+      },
+      "Re:flection": {
+        "c": [
+          "40mP"
+        ],
+        "a": [
+          "40mP"
+        ]
+      },
+      "flower rhapsody": {
+        "c": [
+          "堀江晶太"
+        ],
+        "a": [
+          "神田ジョン"
+        ]
+      },
+      "僕らと君のうた。": {
+        "c": [
+          "40mP"
+        ],
+        "a": [
+          "40mP"
+        ]
+      }
+    },
+    "mugen2HiddenSongs": [
+      "花月ノ夢"
+    ]
   },
   {
     "name": "月詠み",
@@ -128274,6 +128432,104 @@
     }
   },
   {
+    "name": "如月千早 (765PRO ALLSTARS)",
+    "cat": 2,
+    "count": 4,
+    "reading": "きさらぎちはや",
+    "kana": "き",
+    "row": "か",
+    "alpha": "",
+    "img": "https://i.ytimg.com/vi/KXbbZ7T7034/hqdefault.jpg",
+    "imgType": "youtube_official",
+    "songs": [
+      "Blue Symphony",
+      "リベレイシング／アロン -LiberaSing Along-",
+      "蒼い鳥 (M@STER VERSION)",
+      "約束"
+    ],
+    "topSongs": [
+      "Blue Symphony",
+      "リベレイシング／アロン -LiberaSing Along-",
+      "蒼い鳥 (M@STER VERSION)",
+      "約束"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "orig"
+    ],
+    "topLinks": [
+      "KXbbZ7T7034",
+      "3g2OqaO4Ajs",
+      "R0CS0gDxBkU",
+      "QKuQ69jIpvs"
+    ],
+    "topStatus": "completed_3_songs",
+    "role": "キャラ",
+    "sub": null,
+    "subBucket": "unknown",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [
+      "今井麻美",
+      "アイドルマスター",
+      "Chihaya Kisaragi (CV: Asami Imai)",
+      "如月千早"
+    ],
+    "agency": "アイドルマスター",
+    "agencyGroup": "アイドルマスターシリーズ",
+    "vocalParts": [],
+    "agencyGroupCount": 88,
+    "agencyClickable": true,
+    "memberOf": [
+      "765PRO ALLSTARS",
+      "ARCANA"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "キャラ"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "",
+    "ytChannelLabel": "",
+    "ytChannelType": "",
+    "youtubeChannelUrl": "",
+    "aid": "a_15c60398",
+    "sc": {
+      "Blue Symphony": {
+        "c": [
+          "山口朗彦"
+        ],
+        "a": [
+          "山口朗彦"
+        ]
+      },
+      "リベレイシング／アロン -LiberaSing Along-": {
+        "c": [
+          "椎名豪"
+        ],
+        "a": [
+          "椎名豪"
+        ]
+      },
+      "蒼い鳥 (M@STER VERSION)": {
+        "c": [
+          "椎名豪"
+        ],
+        "a": [
+          "椎名豪"
+        ]
+      },
+      "約束": {
+        "c": [
+          "NBGI"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "霧島透子 (青春ブタ野郎シリーズ)",
     "cat": 2,
     "count": 4,
@@ -131840,94 +132096,6 @@
     }
   },
   {
-    "name": "如月千早 (765PRO ALLSTARS)",
-    "cat": 2,
-    "count": 3,
-    "reading": "きさらぎちはや",
-    "kana": "き",
-    "row": "か",
-    "alpha": "",
-    "img": "https://i.ytimg.com/vi/KXbbZ7T7034/hqdefault.jpg",
-    "imgType": "youtube_official",
-    "songs": [
-      "Blue Symphony",
-      "リベレイシング／アロン -LiberaSing Along-",
-      "蒼い鳥 (M@STER VERSION)"
-    ],
-    "topSongs": [
-      "Blue Symphony",
-      "リベレイシング／アロン -LiberaSing Along-",
-      "蒼い鳥 (M@STER VERSION)"
-    ],
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "KXbbZ7T7034",
-      "3g2OqaO4Ajs",
-      "R0CS0gDxBkU"
-    ],
-    "topStatus": "completed_3_songs",
-    "role": "キャラ",
-    "sub": null,
-    "subBucket": "unknown",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [
-      "今井麻美",
-      "アイドルマスター",
-      "Chihaya Kisaragi (CV: Asami Imai)",
-      "如月千早"
-    ],
-    "agency": "アイドルマスター",
-    "agencyGroup": "アイドルマスターシリーズ",
-    "vocalParts": [],
-    "agencyGroupCount": 88,
-    "agencyClickable": true,
-    "memberOf": [
-      "765PRO ALLSTARS",
-      "ARCANA"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "キャラ"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "",
-    "ytChannelLabel": "",
-    "ytChannelType": "",
-    "youtubeChannelUrl": "",
-    "aid": "a_15c60398",
-    "sc": {
-      "Blue Symphony": {
-        "c": [
-          "山口朗彦"
-        ],
-        "a": [
-          "山口朗彦"
-        ]
-      },
-      "リベレイシング／アロン -LiberaSing Along-": {
-        "c": [
-          "椎名豪"
-        ],
-        "a": [
-          "椎名豪"
-        ]
-      },
-      "蒼い鳥 (M@STER VERSION)": {
-        "c": [
-          "椎名豪"
-        ],
-        "a": [
-          "椎名豪"
-        ]
-      }
-    }
-  },
-  {
     "name": "きのこ帝国",
     "cat": 2,
     "count": 3,
@@ -132751,6 +132919,86 @@
         ],
         "a": [
           "Chano"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Tia",
+    "cat": 2,
+    "count": 3,
+    "reading": "てぃあ",
+    "kana": "て",
+    "row": "た",
+    "alpha": "T",
+    "img": "https://i.ytimg.com/vi/K-HmPIFinBQ/hqdefault.jpg",
+    "imgType": "youtube_official",
+    "songs": [
+      "Nirvana",
+      "Heart realize",
+      "春の魔法"
+    ],
+    "topSongs": [
+      "Nirvana",
+      "Heart realize",
+      "春の魔法"
+    ],
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "orig"
+    ],
+    "topLinks": [
+      "",
+      "",
+      "UI2jJmaRtbY"
+    ],
+    "topStatus": "completed_2_songs",
+    "role": "歌手",
+    "sub": 8200,
+    "subBucket": "under10k",
+    "subDate": "2026-10-29",
+    "vocal": "",
+    "al": [],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌手"
+    ],
+    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。『Nirvana』や『Heart realize』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
+    "ytChannelUrl": "",
+    "ytChannelLabel": "",
+    "ytChannelType": "",
+    "youtubeChannelUrl": "",
+    "aid": "a_f3e89a2c",
+    "sc": {
+      "Nirvana": {
+        "c": [
+          "ryo(supercell)"
+        ],
+        "a": [
+          "ryo(supercell)"
+        ]
+      },
+      "Heart realize": {
+        "c": [
+          "ryo(supercell)"
+        ],
+        "a": [
+          "ryo(supercell)"
+        ]
+      },
+      "春の魔法": {
+        "c": [
+          "*Luna"
+        ],
+        "a": [
+          "*Luna"
         ]
       }
     }
@@ -141283,74 +141531,6 @@
         "a": [
           "篠崎あやと",
           "橘亮祐"
-        ]
-      }
-    }
-  },
-  {
-    "name": "Tia",
-    "cat": 2,
-    "count": 2,
-    "reading": "てぃあ",
-    "kana": "て",
-    "row": "た",
-    "alpha": "T",
-    "img": "https://i.ytimg.com/vi/K-HmPIFinBQ/hqdefault.jpg",
-    "imgType": "youtube_official",
-    "songs": [
-      "Nirvana",
-      "Heart realize"
-    ],
-    "topSongs": [
-      "Nirvana",
-      "Heart realize"
-    ],
-    "topTypes": [
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "",
-      ""
-    ],
-    "topStatus": "completed_2_songs",
-    "role": "歌手",
-    "sub": 8200,
-    "subBucket": "under10k",
-    "subDate": "2026-10-29",
-    "vocal": "",
-    "al": [],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌手"
-    ],
-    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。『Nirvana』や『Heart realize』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
-    "ytChannelUrl": "",
-    "ytChannelLabel": "",
-    "ytChannelType": "",
-    "youtubeChannelUrl": "",
-    "aid": "a_f3e89a2c",
-    "sc": {
-      "Nirvana": {
-        "c": [
-          "ryo(supercell)"
-        ],
-        "a": [
-          "ryo(supercell)"
-        ]
-      },
-      "Heart realize": {
-        "c": [
-          "ryo(supercell)"
-        ],
-        "a": [
-          "ryo(supercell)"
         ]
       }
     }
