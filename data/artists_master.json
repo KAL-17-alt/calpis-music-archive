@@ -67153,6 +67153,124 @@
     }
   },
   {
+    "name": "幾田りら",
+    "cat": 1,
+    "count": 3,
+    "reading": "いくたりら",
+    "kana": "い",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/z1XLbs1z7vIjltOYV3blWp8PwxOtctT0z8AAR-nxlM3Mcv7nHLuu4NFcWeN8KgMFtW2cD1U6=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Actor",
+      "JUMP",
+      "LilaS"
+    ],
+    "topSongs": [
+      "スパークル",
+      "Answer",
+      "レンズ",
+      "蒲公英",
+      "DUET"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Ikuta Lilas",
+      "Lilas Ikuta",
+      "ikutarira",
+      "イクタリラ"
+    ],
+    "role": "歌手",
+    "imgType": "youtube_official",
+    "sub": 1010000,
+    "subBucket": "over1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "q4CbHfW3Ji8",
+      "eBA3AzSVxBg",
+      "OnwCe7WIbsE",
+      "nYT9RPNPlLI",
+      "pP0Xn4c14ME"
+    ],
+    "subDate": "2026-10-28",
+    "youtubeChannelUrl": "https://www.youtube.com/@Lilas_0925",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌手"
+    ],
+    "profileBio": "幾田りらは、東京都出身のシンガーソングライターであり、「小説を音楽にするユニット」YOASOBIのボーカル・ikuraとしても世界的に活躍するアーティスト。アコースティックセッションユニット「ぷらそにか」での活動を経て、ソロ名義では自身で作詞・作曲を手がける『Answer』『スパークル』『レンズ』など瑞々しく伸びやかな楽曲を発表している。",
+    "ytChannelUrl": "https://www.youtube.com/@Lilas_0925",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_e6531995",
+    "sc": {
+      "Actor": {
+        "c": [
+          "幾田りら"
+        ],
+        "a": []
+      },
+      "JUMP": {
+        "c": [
+          "幾田りら"
+        ],
+        "a": []
+      },
+      "スパークル": {
+        "c": [
+          "幾田りら"
+        ],
+        "a": []
+      },
+      "Answer": {
+        "c": [
+          "安瀬聖"
+        ],
+        "a": [
+          "安瀬聖"
+        ]
+      },
+      "レンズ": {
+        "c": [
+          "幾田りら"
+        ],
+        "a": []
+      },
+      "蒲公英": {
+        "c": [
+          "幾田りら"
+        ],
+        "a": []
+      },
+      "DUET": {
+        "c": [
+          "幾田りら"
+        ],
+        "a": []
+      },
+      "LilaS": {
+        "c": [
+          "Hiroyuki Sawano"
+        ],
+        "a": [
+          "Hiroyuki Sawano"
+        ]
+      }
+    }
+  },
+  {
     "name": "石原夏織",
     "cat": 1,
     "count": 3,
@@ -74954,115 +75072,6 @@
         "a": [
           "みきとP"
         ]
-      }
-    }
-  },
-  {
-    "name": "幾田りら",
-    "cat": 1,
-    "count": 2,
-    "reading": "いくたりら",
-    "kana": "い",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/z1XLbs1z7vIjltOYV3blWp8PwxOtctT0z8AAR-nxlM3Mcv7nHLuu4NFcWeN8KgMFtW2cD1U6=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "Actor",
-      "JUMP"
-    ],
-    "topSongs": [
-      "スパークル",
-      "Answer",
-      "レンズ",
-      "蒲公英",
-      "DUET"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Ikuta Lilas",
-      "Lilas Ikuta",
-      "ikutarira",
-      "イクタリラ"
-    ],
-    "role": "歌手",
-    "imgType": "youtube_official",
-    "sub": 1010000,
-    "subBucket": "over1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "q4CbHfW3Ji8",
-      "eBA3AzSVxBg",
-      "OnwCe7WIbsE",
-      "nYT9RPNPlLI",
-      "pP0Xn4c14ME"
-    ],
-    "subDate": "2026-10-28",
-    "youtubeChannelUrl": "https://www.youtube.com/@Lilas_0925",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌手"
-    ],
-    "profileBio": "幾田りらは、東京都出身のシンガーソングライターであり、「小説を音楽にするユニット」YOASOBIのボーカル・ikuraとしても世界的に活躍するアーティスト。アコースティックセッションユニット「ぷらそにか」での活動を経て、ソロ名義では自身で作詞・作曲を手がける『Answer』『スパークル』『レンズ』など瑞々しく伸びやかな楽曲を発表している。",
-    "ytChannelUrl": "https://www.youtube.com/@Lilas_0925",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_e6531995",
-    "sc": {
-      "Actor": {
-        "c": [
-          "幾田りら"
-        ],
-        "a": []
-      },
-      "JUMP": {
-        "c": [
-          "幾田りら"
-        ],
-        "a": []
-      },
-      "スパークル": {
-        "c": [
-          "幾田りら"
-        ],
-        "a": []
-      },
-      "Answer": {
-        "c": [
-          "安瀬聖"
-        ],
-        "a": [
-          "安瀬聖"
-        ]
-      },
-      "レンズ": {
-        "c": [
-          "幾田りら"
-        ],
-        "a": []
-      },
-      "蒲公英": {
-        "c": [
-          "幾田りら"
-        ],
-        "a": []
-      },
-      "DUET": {
-        "c": [
-          "幾田りら"
-        ],
-        "a": []
       }
     }
   },
@@ -150256,6 +150265,105 @@
     }
   },
   {
+    "name": "mizuki",
+    "cat": 2,
+    "count": 1,
+    "reading": "mizuki",
+    "kana": "",
+    "row": "",
+    "alpha": "M",
+    "img": "https://lh3.googleusercontent.com/cG4CpMaBPIokpAVifx2Zgnita1H5Ktkj-a1txUg7vqm61fY5SAmMgTNRf52E9x5eYdwNelRPG2Kx7io=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "Avid"
+    ],
+    "topSongs": [
+      "aLIEz",
+      "Avid",
+      "&Z",
+      "CRYst-Alise",
+      "Christmas Scene"
+    ],
+    "topStatus": "completed_5_songs",
+    "role": "歌手",
+    "imgType": "youtube_official",
+    "sub": null,
+    "subBucket": "unknown",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "2brDsA1AVOY",
+      "hSzyI3u5DFo",
+      "",
+      "",
+      ""
+    ],
+    "subDate": "2026-10-28",
+    "al": [],
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "歌手"
+    ],
+    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。『aLIEz』や『Avid』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
+    "ytChannelUrl": "",
+    "ytChannelLabel": "",
+    "ytChannelType": "",
+    "youtubeChannelUrl": "",
+    "aid": "a_fa3cbd5e",
+    "sc": {
+      "aLIEz": {
+        "c": [
+          "澤野弘之"
+        ],
+        "a": [
+          "澤野弘之"
+        ]
+      },
+      "Avid": {
+        "c": [
+          "澤野弘之"
+        ],
+        "a": [
+          "澤野弘之"
+        ]
+      },
+      "&Z": {
+        "c": [
+          "澤野弘之"
+        ],
+        "a": [
+          "澤野弘之"
+        ]
+      },
+      "CRYst-Alise": {
+        "c": [
+          "澤野弘之"
+        ],
+        "a": [
+          "澤野弘之"
+        ]
+      },
+      "Christmas Scene": {
+        "c": [
+          "澤野弘之"
+        ],
+        "a": [
+          "澤野弘之"
+        ]
+      }
+    }
+  },
+  {
     "name": "MoonHack",
     "cat": 2,
     "count": 1,
@@ -175786,103 +175894,6 @@
         ],
         "a": [
           "AliA"
-        ]
-      }
-    }
-  },
-  {
-    "name": "mizuki",
-    "cat": 2,
-    "count": 0,
-    "reading": "mizuki",
-    "kana": "",
-    "row": "",
-    "alpha": "M",
-    "img": "https://lh3.googleusercontent.com/cG4CpMaBPIokpAVifx2Zgnita1H5Ktkj-a1txUg7vqm61fY5SAmMgTNRf52E9x5eYdwNelRPG2Kx7io=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [],
-    "topSongs": [
-      "aLIEz",
-      "Avid",
-      "&Z",
-      "CRYst-Alise",
-      "Christmas Scene"
-    ],
-    "topStatus": "completed_5_songs",
-    "role": "歌手",
-    "imgType": "youtube_official",
-    "sub": null,
-    "subBucket": "unknown",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "2brDsA1AVOY",
-      "hSzyI3u5DFo",
-      "",
-      "",
-      ""
-    ],
-    "subDate": "2026-10-28",
-    "al": [],
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "歌手"
-    ],
-    "profileBio": "透明感と芯のある表現力を兼ね備えた女性シンガー。『aLIEz』や『Avid』をはじめ、楽曲の情景を鮮やかに浮かび上がらせる丁寧なボーカルワークが持ち味。繊細な息遣いから伸びやかな高音まで自在に操り、聴き手の心に深く寄り添う音楽を届けている。",
-    "ytChannelUrl": "",
-    "ytChannelLabel": "",
-    "ytChannelType": "",
-    "youtubeChannelUrl": "",
-    "aid": "a_fa3cbd5e",
-    "sc": {
-      "aLIEz": {
-        "c": [
-          "澤野弘之"
-        ],
-        "a": [
-          "澤野弘之"
-        ]
-      },
-      "Avid": {
-        "c": [
-          "澤野弘之"
-        ],
-        "a": [
-          "澤野弘之"
-        ]
-      },
-      "&Z": {
-        "c": [
-          "澤野弘之"
-        ],
-        "a": [
-          "澤野弘之"
-        ]
-      },
-      "CRYst-Alise": {
-        "c": [
-          "澤野弘之"
-        ],
-        "a": [
-          "澤野弘之"
-        ]
-      },
-      "Christmas Scene": {
-        "c": [
-          "澤野弘之"
-        ],
-        "a": [
-          "澤野弘之"
         ]
       }
     }

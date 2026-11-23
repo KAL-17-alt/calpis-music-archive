@@ -1,5 +1,33 @@
 [
   {
+    "date": "2026-11-23",
+    "timestamp": "2026-11-23T01:18:27Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_fa3cbd5e",
+    "artist": "mizuki",
+    "song": "Avid",
+    "type": "orig",
+    "confidence": 1.0,
+    "videoId": "ROqQGFIYVH4",
+    "reason": "既存名義「mizuki」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
+    "date": "2026-11-23",
+    "timestamp": "2026-11-23T01:18:27Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_e6531995",
+    "artist": "幾田りら",
+    "song": "LilaS",
+    "type": "orig",
+    "confidence": 1.0,
+    "videoId": "Lc4dvMDGmQQ",
+    "reason": "既存名義「幾田りら」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
     "date": "2026-11-22",
     "timestamp": "2026-11-22T00:50:49Z",
     "action": "hidden_by_mugen2_deletion",
