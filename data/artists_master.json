@@ -13271,6 +13271,320 @@
     }
   },
   {
+    "name": "白嶺六花",
+    "cat": 1,
+    "count": 31,
+    "reading": "しらねりっか",
+    "kana": "し",
+    "row": "さ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/rkuBog9UHiSTQNDuK1LAk4KNtjzjQ0LHhG-V2wqXj6xSg0yTwOVzhD6R4IGRhIWxHnadw_XoNA=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "君の指先",
+      "死冷していく",
+      "ガブ",
+      "Noroc!!",
+      "Silent Key",
+      "溶けきれない背景",
+      "LAST STARDUST",
+      "She",
+      "Take 2",
+      "楽園",
+      "ラブ＆デストロイ",
+      "センチメンタルな愛慕心",
+      "わんしょっときる!",
+      "水際輪唱",
+      "グラスアート",
+      "空中",
+      "25.2.24",
+      "かすかなはな",
+      "take it easy",
+      "シックス・フィート・アンダー",
+      "あなたのことをおしえて",
+      "叫びに代えて。",
+      "ぼくのかみさま",
+      "animus",
+      "たった1つの想い",
+      "桜流し",
+      "永遠のあくる日",
+      "さよなら12月",
+      "烈火",
+      "白絵にもならない",
+      "HEAT"
+    ],
+    "topSongs": [
+      "君の指先",
+      "致命",
+      "天使だったんだよ",
+      "待ってて、彼岸で",
+      "瓦礫の塔"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "shiranerikka",
+      "siranerikka",
+      "ヨルよなかproject"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 32800,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "M6rfOXW3V_M",
+      "4m-Wd6VfgB4",
+      "mNHD_w_olo8",
+      "sGyLZIJkl44",
+      "PKGRRNaQEI8"
+    ],
+    "subDate": "2026-10-28",
+    "youtubeChannelUrl": "https://www.youtube.com/@Shiramine_Rikka",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@Shiramine_Rikka",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_b298cec0",
+    "sc": {
+      "君の指先": {
+        "c": [
+          "ロリP"
+        ],
+        "a": []
+      },
+      "待ってて、彼岸で": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "致命": {
+        "c": [
+          "小ノ寺空"
+        ],
+        "a": [
+          "小ノ寺空"
+        ]
+      },
+      "天使だったんだよ": {
+        "c": [
+          "Ç¢Çª"
+        ],
+        "a": [
+          "Ç¢Çª"
+        ]
+      },
+      "瓦礫の塔": {
+        "c": [
+          "kemu"
+        ],
+        "a": [
+          "kemu"
+        ]
+      },
+      "死冷していく": {
+        "c": [
+          "rinri"
+        ],
+        "a": []
+      },
+      "ガブ": {
+        "c": [
+          "伊根"
+        ],
+        "a": [
+          "MELOIMAGE"
+        ]
+      },
+      "Noroc!!": {
+        "c": [
+          "South&"
+        ],
+        "a": []
+      },
+      "Silent Key": {
+        "c": [
+          "South&"
+        ],
+        "a": []
+      },
+      "溶けきれない背景": {
+        "c": [
+          "Kyiku"
+        ],
+        "a": []
+      },
+      "LAST STARDUST": {
+        "c": [
+          "出羽良彰"
+        ],
+        "a": []
+      },
+      "She": {
+        "c": [
+          "buzzG"
+        ],
+        "a": []
+      },
+      "Take 2": {
+        "c": [
+          "Remo"
+        ],
+        "a": []
+      },
+      "楽園": {
+        "c": [
+          "春野"
+        ],
+        "a": []
+      },
+      "ラブ＆デストロイ": {
+        "c": [
+          "MI8k"
+        ],
+        "a": []
+      },
+      "センチメンタルな愛慕心": {
+        "c": [
+          "なつめ千秋"
+        ],
+        "a": []
+      },
+      "わんしょっときる!": {
+        "c": [
+          "MEA"
+        ],
+        "a": []
+      },
+      "水際輪唱": {
+        "c": [
+          "中瀬ミル"
+        ],
+        "a": []
+      },
+      "グラスアート": {
+        "c": [
+          "パトリチェフ"
+        ],
+        "a": []
+      },
+      "空中": {
+        "c": [
+          "GESO"
+        ],
+        "a": []
+      },
+      "25.2.24": {
+        "c": [
+          "桶屋"
+        ],
+        "a": []
+      },
+      "かすかなはな": {
+        "c": [
+          "キタニタツヤ"
+        ],
+        "a": []
+      },
+      "take it easy": {
+        "c": [
+          "川谷絵音"
+        ],
+        "a": []
+      },
+      "シックス・フィート・アンダー": {
+        "c": [
+          "Aqu3ra"
+        ],
+        "a": []
+      },
+      "あなたのことをおしえて": {
+        "c": [
+          "キタニタツヤ"
+        ],
+        "a": []
+      },
+      "叫びに代えて。": {
+        "c": [
+          "園端石"
+        ],
+        "a": []
+      },
+      "ぼくのかみさま": {
+        "c": [
+          "羽生まゐご"
+        ],
+        "a": []
+      },
+      "animus": {
+        "c": [
+          "Ç¢Çª"
+        ],
+        "a": []
+      },
+      "たった1つの想い": {
+        "c": [
+          "KOKIA"
+        ],
+        "a": []
+      },
+      "桜流し": {
+        "c": [
+          "宇多田ヒカル"
+        ],
+        "a": []
+      },
+      "永遠のあくる日": {
+        "c": [
+          "てにをは"
+        ],
+        "a": []
+      },
+      "さよなら12月": {
+        "c": [
+          "GESO"
+        ],
+        "a": []
+      },
+      "烈火": {
+        "c": [
+          "niki"
+        ],
+        "a": []
+      },
+      "白絵にもならない": {
+        "c": [
+          "Kyiku",
+          "rinri"
+        ],
+        "a": []
+      },
+      "HEAT": {
+        "c": [
+          "塩入冬湖"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "ときのそら",
     "cat": 1,
     "count": 31,
@@ -13642,6 +13956,364 @@
     "songOrigCats": {
       "Beyond": [
         "other"
+      ]
+    }
+  },
+  {
+    "name": "藍璃かんな",
+    "cat": 1,
+    "count": 30,
+    "reading": "あいりかんな",
+    "kana": "あ",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/1XAezMmxrnWo1lfzFvYTpbeUovIRpmpHDSy0LNL-UtdTI62ARWzelSiEaaZFdO5jYf19jvNMFA=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "最終話 (Acoustic Ver.)",
+      "KICK BACK (米津玄師)",
+      "LADY (米津玄師)",
+      "すずめ Suzume (RADWIMPS feat.十明)",
+      "ADDICT!ON",
+      "最終花",
+      "青い宝石と竜の子",
+      "Frozen Eclipse",
+      "逆光",
+      "傷つく誰かの心を守ることができたなら",
+      "勘ぐれい (ZUTOMAYO)",
+      "地球儀 (米津玄師ㅣ君たちはどう生きるか OST)",
+      "ねむるまち (くじら)",
+      "ERROR (nikiP)",
+      "三文小説 (King Gnu)",
+      "The Last Flower",
+      "Love wins all (IU)",
+      "最終話",
+      "私は最強",
+      "好きだから。",
+      "新時代",
+      "すずめ",
+      "アイドル",
+      "ねむるまち",
+      "KICK BACK",
+      "地球儀",
+      "愛して愛して愛して",
+      "勘ぐれい",
+      "Love wins all",
+      "空奏列車"
+    ],
+    "topSongs": [
+      "ファンサ",
+      "金曜日のおはよう",
+      "可愛くてごめん",
+      "サインはB",
+      "私、アイドル宣言"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Airi Kanna",
+      "airikanna",
+      "アイリカンナ"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 213000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "of5l0st1kA8",
+      "q-QjjmJjU_8",
+      "eNlXPUp9WBw",
+      "GdH0TsPznUs",
+      "3PxbqWrDCz4"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/@airikanna",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "Team. Palette"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@airikanna",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_bb56decc",
+    "sc": {
+      "最終話 (Acoustic Ver.)": {
+        "c": [
+          "Tsubasa Harihara (HarryP)"
+        ],
+        "a": [
+          "장재훈",
+          "REQ"
+        ]
+      },
+      "KICK BACK (米津玄師)": {
+        "c": [
+          "米津玄師"
+        ],
+        "a": [
+          "米津玄師",
+          "常田大希"
+        ]
+      },
+      "LADY (米津玄師)": {
+        "c": [
+          "米津玄師"
+        ],
+        "a": [
+          "米津玄師",
+          "坂東祐大"
+        ]
+      },
+      "すずめ Suzume (RADWIMPS feat.十明)": {
+        "c": [
+          "野田洋次郎"
+        ],
+        "a": [
+          "野田洋次郎",
+          "陣内一真"
+        ]
+      },
+      "ADDICT!ON": {
+        "c": [
+          "ESAI",
+          "REQ",
+          "Memme",
+          "문연",
+          "제이돕",
+          "ONAIR(온에어)",
+          "CLEF CREW"
+        ],
+        "a": [
+          "ESAI"
+        ]
+      },
+      "最終花": {
+        "c": [
+          "Tsubasa Harihara (HarryP)"
+        ],
+        "a": [
+          "Masataka Aratomai"
+        ]
+      },
+      "青い宝石と竜の子": {
+        "c": [
+          "Miyako Matsuoka"
+        ],
+        "a": []
+      },
+      "Frozen Eclipse": {
+        "c": [
+          "REQ"
+        ],
+        "a": []
+      },
+      "逆光": {
+        "c": [
+          "Vaundy"
+        ],
+        "a": [
+          "Vaundy"
+        ]
+      },
+      "傷つく誰かの心を守ることができたなら": {
+        "c": [
+          "王可鑫 Eli.W (HOYO-MiX)"
+        ],
+        "a": [
+          "王可鑫 Eli.W (HOYO-MiX)"
+        ]
+      },
+      "勘ぐれい (ZUTOMAYO)": {
+        "c": [
+          "ACAね"
+        ],
+        "a": [
+          "100回嘔吐",
+          "ZTMY"
+        ]
+      },
+      "地球儀 (米津玄師ㅣ君たちはどう生きるか OST)": {
+        "c": [
+          "米津玄師"
+        ],
+        "a": [
+          "米津玄師"
+        ]
+      },
+      "ねむるまち (くじら)": {
+        "c": [
+          "くじら"
+        ],
+        "a": [
+          "くじら"
+        ]
+      },
+      "ERROR (nikiP)": {
+        "c": [
+          "niki"
+        ],
+        "a": [
+          "niki"
+        ]
+      },
+      "三文小説 (King Gnu)": {
+        "c": [
+          "常田大希"
+        ],
+        "a": [
+          "King Gnu"
+        ]
+      },
+      "The Last Flower": {
+        "c": [
+          "Tsubasa Harihara (HarryP)"
+        ],
+        "a": [
+          "Masataka Aratomai"
+        ]
+      },
+      "Love wins all (IU)": {
+        "c": [
+          "서동환(Seo Dong Hwan)"
+        ],
+        "a": [
+          "서동환(Seo Dong Hwan)"
+        ]
+      },
+      "ファンサ": {
+        "c": [
+          "HoneyWorks"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "金曜日のおはよう": {
+        "c": [
+          "shito"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "可愛くてごめん": {
+        "c": [
+          "shito"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "サインはB": {
+        "c": [
+          "大石昌良"
+        ],
+        "a": [
+          "大石昌良"
+        ]
+      },
+      "私、アイドル宣言": {
+        "c": [
+          "shito"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "私は最強": {
+        "c": [
+          "大森元貴"
+        ],
+        "a": []
+      },
+      "好きだから。": {
+        "c": [
+          "『ユイカ』"
+        ],
+        "a": []
+      },
+      "新時代": {
+        "c": [
+          "中田ヤスタカ"
+        ],
+        "a": []
+      },
+      "すずめ": {
+        "c": [
+          "野田洋次郎"
+        ],
+        "a": [
+          "REQ"
+        ]
+      },
+      "アイドル": {
+        "c": [
+          "Ayase"
+        ],
+        "a": []
+      },
+      "ねむるまち": {
+        "c": [
+          "くじら"
+        ],
+        "a": []
+      },
+      "KICK BACK": {
+        "c": [
+          "米津玄師"
+        ],
+        "a": [
+          "REQ"
+        ]
+      },
+      "地球儀": {
+        "c": [
+          "米津玄師"
+        ],
+        "a": [
+          "REQ"
+        ]
+      },
+      "愛して愛して愛して": {
+        "c": [
+          "Kikuo"
+        ],
+        "a": []
+      },
+      "勘ぐれい": {
+        "c": [
+          "ACAね"
+        ],
+        "a": [
+          "REQ"
+        ]
+      },
+      "空奏列車": {
+        "c": [
+          "Orangestar"
+        ],
+        "a": [
+          "REQ"
+        ]
+      }
+    },
+    "songOrigCats": {
+      "傷つく誰かの心を守ることができたなら": [
+        "game"
       ]
     }
   },
@@ -25175,276 +25847,6 @@
     }
   },
   {
-    "name": "藍璃かんな",
-    "cat": 1,
-    "count": 18,
-    "reading": "あいりかんな",
-    "kana": "あ",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/1XAezMmxrnWo1lfzFvYTpbeUovIRpmpHDSy0LNL-UtdTI62ARWzelSiEaaZFdO5jYf19jvNMFA=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "最終話 (Acoustic Ver.)",
-      "KICK BACK (米津玄師)",
-      "LADY (米津玄師)",
-      "すずめ Suzume (RADWIMPS feat.十明)",
-      "ADDICT!ON",
-      "最終花",
-      "青い宝石と竜の子",
-      "Frozen Eclipse",
-      "逆光",
-      "傷つく誰かの心を守ることができたなら",
-      "勘ぐれい (ZUTOMAYO)",
-      "地球儀 (米津玄師ㅣ君たちはどう生きるか OST)",
-      "ねむるまち (くじら)",
-      "ERROR (nikiP)",
-      "三文小説 (King Gnu)",
-      "The Last Flower",
-      "Love wins all (IU)",
-      "最終話"
-    ],
-    "topSongs": [
-      "ファンサ",
-      "金曜日のおはよう",
-      "可愛くてごめん",
-      "サインはB",
-      "私、アイドル宣言"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Airi Kanna",
-      "airikanna",
-      "アイリカンナ"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 213000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "of5l0st1kA8",
-      "q-QjjmJjU_8",
-      "eNlXPUp9WBw",
-      "GdH0TsPznUs",
-      "3PxbqWrDCz4"
-    ],
-    "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/@airikanna",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [
-      "Team. Palette"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@airikanna",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_bb56decc",
-    "sc": {
-      "最終話 (Acoustic Ver.)": {
-        "c": [
-          "Tsubasa Harihara (HarryP)"
-        ],
-        "a": [
-          "장재훈",
-          "REQ"
-        ]
-      },
-      "KICK BACK (米津玄師)": {
-        "c": [
-          "米津玄師"
-        ],
-        "a": [
-          "米津玄師",
-          "常田大希"
-        ]
-      },
-      "LADY (米津玄師)": {
-        "c": [
-          "米津玄師"
-        ],
-        "a": [
-          "米津玄師",
-          "坂東祐大"
-        ]
-      },
-      "すずめ Suzume (RADWIMPS feat.十明)": {
-        "c": [
-          "野田洋次郎"
-        ],
-        "a": [
-          "野田洋次郎",
-          "陣内一真"
-        ]
-      },
-      "ADDICT!ON": {
-        "c": [
-          "ESAI",
-          "REQ",
-          "Memme",
-          "문연",
-          "제이돕",
-          "ONAIR(온에어)",
-          "CLEF CREW"
-        ],
-        "a": [
-          "ESAI"
-        ]
-      },
-      "最終花": {
-        "c": [
-          "Tsubasa Harihara (HarryP)"
-        ],
-        "a": [
-          "Masataka Aratomai"
-        ]
-      },
-      "青い宝石と竜の子": {
-        "c": [
-          "Miyako Matsuoka"
-        ],
-        "a": []
-      },
-      "Frozen Eclipse": {
-        "c": [
-          "REQ"
-        ],
-        "a": []
-      },
-      "逆光": {
-        "c": [
-          "Vaundy"
-        ],
-        "a": [
-          "Vaundy"
-        ]
-      },
-      "傷つく誰かの心を守ることができたなら": {
-        "c": [
-          "王可鑫 Eli.W (HOYO-MiX)"
-        ],
-        "a": [
-          "王可鑫 Eli.W (HOYO-MiX)"
-        ]
-      },
-      "勘ぐれい (ZUTOMAYO)": {
-        "c": [
-          "ACAね"
-        ],
-        "a": [
-          "100回嘔吐",
-          "ZTMY"
-        ]
-      },
-      "地球儀 (米津玄師ㅣ君たちはどう生きるか OST)": {
-        "c": [
-          "米津玄師"
-        ],
-        "a": [
-          "米津玄師"
-        ]
-      },
-      "ねむるまち (くじら)": {
-        "c": [
-          "くじら"
-        ],
-        "a": [
-          "くじら"
-        ]
-      },
-      "ERROR (nikiP)": {
-        "c": [
-          "niki"
-        ],
-        "a": [
-          "niki"
-        ]
-      },
-      "三文小説 (King Gnu)": {
-        "c": [
-          "常田大希"
-        ],
-        "a": [
-          "King Gnu"
-        ]
-      },
-      "The Last Flower": {
-        "c": [
-          "Tsubasa Harihara (HarryP)"
-        ],
-        "a": [
-          "Masataka Aratomai"
-        ]
-      },
-      "Love wins all (IU)": {
-        "c": [
-          "서동환(Seo Dong Hwan)"
-        ],
-        "a": [
-          "서동환(Seo Dong Hwan)"
-        ]
-      },
-      "ファンサ": {
-        "c": [
-          "HoneyWorks"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "金曜日のおはよう": {
-        "c": [
-          "shito"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "可愛くてごめん": {
-        "c": [
-          "shito"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "サインはB": {
-        "c": [
-          "大石昌良"
-        ],
-        "a": [
-          "大石昌良"
-        ]
-      },
-      "私、アイドル宣言": {
-        "c": [
-          "shito"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      }
-    },
-    "songOrigCats": {
-      "傷つく誰かの心を守ることができたなら": [
-        "game"
-      ]
-    }
-  },
-  {
     "name": "青雲凛 (아오쿠모 린 AOKUMO RIN)",
     "cat": 1,
     "count": 18,
@@ -27874,6 +28276,241 @@
     ]
   },
   {
+    "name": "藍月なくる",
+    "cat": 1,
+    "count": 16,
+    "reading": "あいつきなくる",
+    "kana": "あ",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/7TOVVer3LJLtRlvXlC4JNx-2yp1p5IOnFyi4xWAQ_EfAkId1YIPPgmEC3l54CcTcesjJ8Lyy=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "エモーション・キャプチャー",
+      "Azura Luno",
+      "Lilith",
+      "追想のラグナロク",
+      "愛の残滓",
+      "Indigrotto",
+      "友愛進化論",
+      "これくらいで",
+      "ご注文はえいえんに",
+      "約束のリンカネーション",
+      "待ってて、彼岸で",
+      "Not a Hero",
+      "あなたしか見えないの",
+      "美人局",
+      "コトノハ (Kotonoha)",
+      "forget-me-not"
+    ],
+    "topSongs": [
+      "FAKE IDOL",
+      "コンティニュー!",
+      "Lilith",
+      "悪戯センセーション",
+      "Indigrotto"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Aitsuki Nakuru",
+      "Nakuru Aitsuki",
+      "aitsukinakuru",
+      "aitukinakuru",
+      "アイツキナクル"
+    ],
+    "role": "歌い手",
+    "imgType": "youtube_official",
+    "sub": 277000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "7XeWXV_9mOY",
+      "WzRlOocUugc",
+      "WlfX_d_0BiM",
+      "B9TOGFM3pTw",
+      "UvEINf9CvXw"
+    ],
+    "subDate": "2026-10-27",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [
+      "La prière",
+      "Endorfin.",
+      "cittan*",
+      "MOTTO MUSIC"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "歌い手"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@AitsukiNakuru",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/@AitsukiNakuru",
+    "aid": "a_da53af28",
+    "sc": {
+      "エモーション・キャプチャー": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "Azura Luno": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "Lilith": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "追想のラグナロク": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "愛の残滓": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "Indigrotto": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "友愛進化論": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "これくらいで": {
+        "c": [
+          "グシミヤギヒデユキ"
+        ],
+        "a": [
+          "グシミヤギヒデユキ"
+        ]
+      },
+      "ご注文はえいえんに": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "約束のリンカネーション": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "待ってて、彼岸で": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "Not a Hero": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "あなたしか見えないの": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "美人局": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "コトノハ (Kotonoha)": {
+        "c": [
+          "sky_delta"
+        ],
+        "a": [
+          "sky_delta"
+        ]
+      },
+      "FAKE IDOL": {
+        "c": [
+          "Akki"
+        ],
+        "a": [
+          "Akki"
+        ]
+      },
+      "コンティニュー!": {
+        "c": [
+          "lapix"
+        ],
+        "a": [
+          "lapix"
+        ]
+      },
+      "悪戯センセーション": {
+        "c": [
+          "Sky_Delta"
+        ],
+        "a": [
+          "Sky_Delta"
+        ]
+      },
+      "forget-me-not": {
+        "c": [
+          "たけだ"
+        ],
+        "a": []
+      }
+    }
+  },
+  {
     "name": "存流",
     "cat": 1,
     "count": 16,
@@ -29099,50 +29736,47 @@
     }
   },
   {
-    "name": "藍月なくる",
+    "name": "JELEE",
     "cat": 1,
     "count": 15,
-    "reading": "あいつきなくる",
-    "kana": "あ",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/7TOVVer3LJLtRlvXlC4JNx-2yp1p5IOnFyi4xWAQ_EfAkId1YIPPgmEC3l54CcTcesjJ8Lyy=s240-c-k-c0x00ffffff-no-rj",
+    "reading": "jelee",
+    "kana": "",
+    "row": "",
+    "alpha": "J",
+    "img": "https://lh3.googleusercontent.com/zDKzAwCOgvgX4vzxHlNrBkbw1iRE3rJC9pCq7jPZiQcrZjc5CN4q-WKMsrKqK91vZa6rTgasuT5URfMi=s240-c-k-c0x00ffffff-no-rj",
     "songs": [
-      "エモーション・キャプチャー",
-      "Azura Luno",
-      "Lilith",
-      "追想のラグナロク",
-      "愛の残滓",
-      "Indigrotto",
-      "友愛進化論",
-      "これくらいで",
-      "ご注文はえいえんに",
-      "約束のリンカネーション",
-      "待ってて、彼岸で",
-      "Not a Hero",
-      "あなたしか見えないの",
-      "美人局",
-      "コトノハ (Kotonoha)"
+      "海を泳ぐ月",
+      "からくりピエロ",
+      "JOURNEE",
+      "億万☆Choooo者！",
+      "笑顔のおかわり",
+      "ってゆーか",
+      "月の温度",
+      "最強ガール",
+      "深海遊泳",
+      "1日は25時間。",
+      "渋谷アクアリウム",
+      "青一色",
+      "重力級拘束ラブ",
+      "ブルーライトコネクト",
+      "夢泳少女"
     ],
     "topSongs": [
-      "FAKE IDOL",
-      "コンティニュー!",
-      "Lilith",
-      "悪戯センセーション",
-      "Indigrotto"
+      "渋谷アクアリウム",
+      "最強ガール",
+      "青一色",
+      "月の温度",
+      "深海遊泳"
     ],
     "topStatus": "completed_5_songs",
     "al": [
-      "Aitsuki Nakuru",
-      "Nakuru Aitsuki",
-      "aitsukinakuru",
-      "aitukinakuru",
-      "アイツキナクル"
+      "じぇりー",
+      "ジェリー"
     ],
-    "role": "歌い手",
+    "role": "音楽グループ",
     "imgType": "youtube_official",
-    "sub": 277000,
-    "subBucket": "100kTo1m",
+    "sub": 90500,
+    "subBucket": "10kTo100k",
     "topTypes": [
       "オリジナル",
       "オリジナル",
@@ -29151,177 +29785,148 @@
       "オリジナル"
     ],
     "topLinks": [
-      "7XeWXV_9mOY",
-      "WzRlOocUugc",
-      "WlfX_d_0BiM",
-      "B9TOGFM3pTw",
-      "UvEINf9CvXw"
+      "4KbArcGFZdA",
+      "tpWIK6D-yVM",
+      "g3OKl5OzwiU",
+      "Yv0Ybyq_C-Q",
+      "d9pOqWHY9Ws"
     ],
-    "subDate": "2026-10-27",
+    "subDate": "2026-10-28",
     "agency": "",
     "agencyGroup": "",
     "vocalParts": [],
     "agencyGroupCount": 0,
     "agencyClickable": false,
-    "memberOf": [
-      "La prière",
-      "Endorfin.",
-      "cittan*",
-      "MOTTO MUSIC"
-    ],
-    "groupSubRole": "",
+    "memberOf": [],
+    "groupSubRole": "音楽グループ(アニゲー関連)",
     "roles": [
-      "歌い手"
+      "音楽グループ"
     ],
     "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@AitsukiNakuru",
+    "ytChannelUrl": "https://www.youtube.com/@jelee_official",
     "ytChannelLabel": "YouTubeチャンネル →",
     "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@AitsukiNakuru",
-    "aid": "a_da53af28",
+    "youtubeChannelUrl": "https://www.youtube.com/@jelee_official",
+    "aid": "a_9c50e851",
     "sc": {
-      "エモーション・キャプチャー": {
+      "海を泳ぐ月": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "Azura Luno": {
+      "からくりピエロ": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "Lilith": {
+      "JOURNEE": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "追想のラグナロク": {
+      "億万☆Choooo者！": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "愛の残滓": {
+      "笑顔のおかわり": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "Indigrotto": {
+      "ってゆーか": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "友愛進化論": {
+      "月の温度": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "これくらいで": {
+      "最強ガール": {
         "c": [
-          "グシミヤギヒデユキ"
+          "40mP"
         ],
         "a": [
-          "グシミヤギヒデユキ"
+          "40mP"
         ]
       },
-      "ご注文はえいえんに": {
+      "深海遊泳": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "約束のリンカネーション": {
+      "1日は25時間。": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "待ってて、彼岸で": {
+      "渋谷アクアリウム": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "Not a Hero": {
+      "青一色": {
         "c": [
-          "sky_delta"
+          "40mP"
         ],
         "a": [
-          "sky_delta"
+          "40mP"
         ]
       },
-      "あなたしか見えないの": {
+      "重力級拘束ラブ": {
         "c": [
-          "sky_delta"
+          "小野貴光"
         ],
         "a": [
-          "sky_delta"
+          "小野貴光"
         ]
       },
-      "美人局": {
+      "ブルーライトコネクト": {
         "c": [
-          "sky_delta"
+          "青ゐネコ"
         ],
         "a": [
-          "sky_delta"
+          "伊藤立"
         ]
       },
-      "コトノハ (Kotonoha)": {
+      "夢泳少女": {
         "c": [
-          "sky_delta"
+          "高田真路 by chef's"
         ],
         "a": [
-          "sky_delta"
-        ]
-      },
-      "FAKE IDOL": {
-        "c": [
-          "Akki"
-        ],
-        "a": [
-          "Akki"
-        ]
-      },
-      "コンティニュー!": {
-        "c": [
-          "lapix"
-        ],
-        "a": [
-          "lapix"
-        ]
-      },
-      "悪戯センセーション": {
-        "c": [
-          "Sky_Delta"
-        ],
-        "a": [
-          "Sky_Delta"
+          "高田真路 by chef's"
         ]
       }
     }
@@ -31366,193 +31971,6 @@
         ],
         "a": [
           "ヒトリエ"
-        ]
-      }
-    }
-  },
-  {
-    "name": "JELEE",
-    "cat": 1,
-    "count": 14,
-    "reading": "jelee",
-    "kana": "",
-    "row": "",
-    "alpha": "J",
-    "img": "https://lh3.googleusercontent.com/zDKzAwCOgvgX4vzxHlNrBkbw1iRE3rJC9pCq7jPZiQcrZjc5CN4q-WKMsrKqK91vZa6rTgasuT5URfMi=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "海を泳ぐ月",
-      "からくりピエロ",
-      "JOURNEE",
-      "億万☆Choooo者！",
-      "笑顔のおかわり",
-      "ってゆーか",
-      "月の温度",
-      "最強ガール",
-      "深海遊泳",
-      "1日は25時間。",
-      "渋谷アクアリウム",
-      "青一色",
-      "重力級拘束ラブ",
-      "ブルーライトコネクト"
-    ],
-    "topSongs": [
-      "渋谷アクアリウム",
-      "最強ガール",
-      "青一色",
-      "月の温度",
-      "深海遊泳"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "じぇりー",
-      "ジェリー"
-    ],
-    "role": "音楽グループ",
-    "imgType": "youtube_official",
-    "sub": 90500,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "4KbArcGFZdA",
-      "tpWIK6D-yVM",
-      "g3OKl5OzwiU",
-      "Yv0Ybyq_C-Q",
-      "d9pOqWHY9Ws"
-    ],
-    "subDate": "2026-10-28",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "音楽グループ(アニゲー関連)",
-    "roles": [
-      "音楽グループ"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@jelee_official",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/@jelee_official",
-    "aid": "a_9c50e851",
-    "sc": {
-      "海を泳ぐ月": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "からくりピエロ": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "JOURNEE": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "億万☆Choooo者！": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "笑顔のおかわり": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "ってゆーか": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "月の温度": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "最強ガール": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "深海遊泳": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "1日は25時間。": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "渋谷アクアリウム": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "青一色": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "重力級拘束ラブ": {
-        "c": [
-          "小野貴光"
-        ],
-        "a": [
-          "小野貴光"
-        ]
-      },
-      "ブルーライトコネクト": {
-        "c": [
-          "青ゐネコ"
-        ],
-        "a": [
-          "伊藤立"
         ]
       }
     }
@@ -96902,107 +97320,6 @@
     }
   },
   {
-    "name": "白嶺六花",
-    "cat": 1,
-    "count": 1,
-    "reading": "しらねりっか",
-    "kana": "し",
-    "row": "さ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/rkuBog9UHiSTQNDuK1LAk4KNtjzjQ0LHhG-V2wqXj6xSg0yTwOVzhD6R4IGRhIWxHnadw_XoNA=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "君の指先"
-    ],
-    "topSongs": [
-      "君の指先",
-      "致命",
-      "天使だったんだよ",
-      "待ってて、彼岸で",
-      "瓦礫の塔"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "shiranerikka",
-      "siranerikka",
-      "ヨルよなかproject"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 32800,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "M6rfOXW3V_M",
-      "4m-Wd6VfgB4",
-      "mNHD_w_olo8",
-      "sGyLZIJkl44",
-      "PKGRRNaQEI8"
-    ],
-    "subDate": "2026-10-28",
-    "youtubeChannelUrl": "https://www.youtube.com/@Shiramine_Rikka",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@Shiramine_Rikka",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_b298cec0",
-    "sc": {
-      "君の指先": {
-        "c": [
-          "ロリP"
-        ],
-        "a": []
-      },
-      "待ってて、彼岸で": {
-        "c": [
-          "sky_delta"
-        ],
-        "a": [
-          "sky_delta"
-        ]
-      },
-      "致命": {
-        "c": [
-          "小ノ寺空"
-        ],
-        "a": [
-          "小ノ寺空"
-        ]
-      },
-      "天使だったんだよ": {
-        "c": [
-          "Ç¢Çª"
-        ],
-        "a": [
-          "Ç¢Çª"
-        ]
-      },
-      "瓦礫の塔": {
-        "c": [
-          "kemu"
-        ],
-        "a": [
-          "kemu"
-        ]
-      }
-    }
-  },
-  {
     "name": "白雪巴",
     "cat": 1,
     "count": 1,
@@ -109122,6 +109439,118 @@
     }
   },
   {
+    "name": "ヨミ (VESPERBELL)",
+    "cat": 1,
+    "count": 1,
+    "reading": "よみ (VESPERBELL)",
+    "kana": "よ",
+    "row": "や",
+    "alpha": "",
+    "img": "https://i.ytimg.com/vi/f7qLt8s-wF4/hqdefault.jpg",
+    "songs": [
+      "空奏列車"
+    ],
+    "topSongs": [
+      "RISE",
+      "RAMPAGE",
+      "To The World",
+      "同担☆拒否",
+      "遮二無二"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "yomivesperbell",
+      "RK Music"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 366000,
+    "subBucket": "100kTo1m",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "f7qLt8s-wF4",
+      "Q11fH9-s7kg",
+      "7808bQ_B-VM",
+      "QOCmDcgPtYw",
+      "oPrYUb-KDUU"
+    ],
+    "subDate": "2026-10-28",
+    "agency": "RK Music",
+    "agencyGroup": "RK Music",
+    "vocalParts": [],
+    "agencyGroupCount": 14,
+    "agencyClickable": true,
+    "memberOf": [
+      "VESPERBELL"
+    ],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/@VESPERBELL",
+    "ytChannelLabel": "YouTubeチャンネル（VESPERBELL） →",
+    "ytChannelType": "unit",
+    "youtubeChannelUrl": "https://www.youtube.com/@VESPERBELL",
+    "aid": "a_c4fca38d",
+    "sc": {
+      "RISE": {
+        "c": [
+          "KENT"
+        ],
+        "a": [
+          "KENT"
+        ]
+      },
+      "RAMPAGE": {
+        "c": [
+          "KENT"
+        ],
+        "a": [
+          "KENT"
+        ]
+      },
+      "To The World": {
+        "c": [
+          "都丸椋太(Elements Garden)"
+        ],
+        "a": [
+          "都丸椋太(Elements Garden)"
+        ]
+      },
+      "同担☆拒否": {
+        "c": [
+          "shito"
+        ],
+        "a": [
+          "HoneyWorks"
+        ]
+      },
+      "遮二無二": {
+        "c": [
+          "KIRA"
+        ],
+        "a": [
+          "KIRA"
+        ]
+      },
+      "空奏列車": {
+        "c": [
+          "Orangestar"
+        ],
+        "a": [
+          "REQ"
+        ]
+      }
+    }
+  },
+  {
     "name": "楽奈 (MyGO!!!!!)",
     "cat": 1,
     "count": 1,
@@ -112529,108 +112958,6 @@
         ],
         "a": [
           "dai"
-        ]
-      }
-    }
-  },
-  {
-    "name": "ヨミ (VESPERBELL)",
-    "cat": 1,
-    "count": 0,
-    "reading": "よみ (VESPERBELL)",
-    "kana": "よ",
-    "row": "や",
-    "alpha": "",
-    "img": "https://i.ytimg.com/vi/f7qLt8s-wF4/hqdefault.jpg",
-    "songs": [],
-    "topSongs": [
-      "RISE",
-      "RAMPAGE",
-      "To The World",
-      "同担☆拒否",
-      "遮二無二"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "yomivesperbell",
-      "RK Music"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 366000,
-    "subBucket": "100kTo1m",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "f7qLt8s-wF4",
-      "Q11fH9-s7kg",
-      "7808bQ_B-VM",
-      "QOCmDcgPtYw",
-      "oPrYUb-KDUU"
-    ],
-    "subDate": "2026-10-28",
-    "agency": "RK Music",
-    "agencyGroup": "RK Music",
-    "vocalParts": [],
-    "agencyGroupCount": 14,
-    "agencyClickable": true,
-    "memberOf": [
-      "VESPERBELL"
-    ],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/@VESPERBELL",
-    "ytChannelLabel": "YouTubeチャンネル（VESPERBELL） →",
-    "ytChannelType": "unit",
-    "youtubeChannelUrl": "https://www.youtube.com/@VESPERBELL",
-    "aid": "a_c4fca38d",
-    "sc": {
-      "RISE": {
-        "c": [
-          "KENT"
-        ],
-        "a": [
-          "KENT"
-        ]
-      },
-      "RAMPAGE": {
-        "c": [
-          "KENT"
-        ],
-        "a": [
-          "KENT"
-        ]
-      },
-      "To The World": {
-        "c": [
-          "都丸椋太(Elements Garden)"
-        ],
-        "a": [
-          "都丸椋太(Elements Garden)"
-        ]
-      },
-      "同担☆拒否": {
-        "c": [
-          "shito"
-        ],
-        "a": [
-          "HoneyWorks"
-        ]
-      },
-      "遮二無二": {
-        "c": [
-          "KIRA"
-        ],
-        "a": [
-          "KIRA"
         ]
       }
     }
