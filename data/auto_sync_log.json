@@ -1,5 +1,33 @@
 [
   {
+    "date": "2026-11-27",
+    "timestamp": "2026-11-27T03:25:14Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_f688e281",
+    "artist": "妃那子",
+    "song": "ちんたら",
+    "type": "cover",
+    "confidence": 1.0,
+    "videoId": "J4BL1xNOfUA",
+    "reason": "既存名義「妃那子」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
+    "date": "2026-11-27",
+    "timestamp": "2026-11-27T03:25:14Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_0e26c6d6",
+    "artist": "大橋彩香",
+    "song": "Rolling star",
+    "type": "cover",
+    "confidence": 1.0,
+    "videoId": "AA7_RtrFnUo",
+    "reason": "既存名義「大橋彩香」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
     "date": "2026-11-25",
     "timestamp": "2026-11-25T03:53:50Z",
     "action": "auto_skipped_non_target",

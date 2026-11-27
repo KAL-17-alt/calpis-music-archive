@@ -17659,6 +17659,292 @@
     }
   },
   {
+    "name": "妃那子",
+    "cat": 1,
+    "count": 25,
+    "reading": "ひなこ",
+    "kana": "ひ",
+    "row": "は",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/rkFdTgKDsoXj6T5CFfBNXJnDIC3M8pPzJ7Nspty0wEZeFTg4vE3ZAKXcs9CtiM0akTwVmfzBtw=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "逆光",
+      "heavenly blue",
+      "Prayer X",
+      "inner universe",
+      "わが臈たし悪の華",
+      "誰ガ為ノ世界",
+      "aLIEz",
+      "白虎野の娘",
+      "君よ 気高くあれ",
+      "祝福のメシアとアイの塔",
+      "One Last Kiss",
+      "FIND THE WAY",
+      "英雄 運命の詩",
+      "ヘミソフィア",
+      "プライド～嘆きの旅",
+      "Vermillion",
+      "かたち",
+      "谺、碧海、那由多を見定むアグラフォノスの詩篇",
+      "サクラメイキュウ",
+      "StarRingChild",
+      "銀の龍の背に乗って",
+      "夢の島思念公園",
+      "雫",
+      "アヤノの幸福理論",
+      "ちんたら"
+    ],
+    "topSongs": [
+      "逆光",
+      "heavenly blue",
+      "One Last Kiss",
+      "aLIEz",
+      "Prayer X"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Hinako",
+      "hinako",
+      "ヒナコ"
+    ],
+    "role": "Vsinger",
+    "imgType": "youtube_official",
+    "sub": 73500,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "subDate": "2026-10-27",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "Vsinger"
+    ],
+    "profileBio": "",
+    "ytChannelUrl": "https://www.youtube.com/channel/UCDpX_q4mlkbuPJbY6h62eHQ",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "youtubeChannelUrl": "https://www.youtube.com/channel/UCDpX_q4mlkbuPJbY6h62eHQ",
+    "aid": "a_f688e281",
+    "sc": {
+      "逆光": {
+        "c": [
+          "Vaundy"
+        ],
+        "a": [
+          "Vaundy"
+        ]
+      },
+      "heavenly blue": {
+        "c": [
+          "梶浦由記"
+        ],
+        "a": [
+          "梶浦由記"
+        ]
+      },
+      "Prayer X": {
+        "c": [
+          "常田大希"
+        ],
+        "a": [
+          "King Gnu"
+        ]
+      },
+      "inner universe": {
+        "c": [
+          "菅野よう子"
+        ],
+        "a": [
+          "菅野よう子"
+        ]
+      },
+      "わが臈たし悪の華": {
+        "c": [
+          "片倉三起也"
+        ],
+        "a": [
+          "片倉三起也"
+        ]
+      },
+      "誰ガ為ノ世界": {
+        "c": [
+          "志方あきこ"
+        ],
+        "a": [
+          "志方あきこ"
+        ]
+      },
+      "aLIEz": {
+        "c": [
+          "澤野弘之"
+        ],
+        "a": [
+          "澤野弘之"
+        ]
+      },
+      "白虎野の娘": {
+        "c": [
+          "平沢進"
+        ],
+        "a": [
+          "平沢進"
+        ]
+      },
+      "君よ 気高くあれ": {
+        "c": [
+          "ryo(supercell)"
+        ],
+        "a": [
+          "ryo(supercell)"
+        ]
+      },
+      "祝福のメシアとアイの塔": {
+        "c": [
+          "ひとしずく×やま△"
+        ],
+        "a": [
+          "ひとしずく×やま△"
+        ]
+      },
+      "One Last Kiss": {
+        "c": [
+          "宇多田ヒカル"
+        ],
+        "a": [
+          "宇多田ヒカル",
+          "A.G. Cook"
+        ]
+      },
+      "FIND THE WAY": {
+        "c": [
+          "Lori Fine"
+        ],
+        "a": [
+          "Ken Kimura"
+        ]
+      },
+      "英雄 運命の詩": {
+        "c": [
+          "ryo(supercell)"
+        ],
+        "a": [
+          "ryo(supercell)"
+        ]
+      },
+      "ヘミソフィア": {
+        "c": [
+          "菅野よう子"
+        ],
+        "a": [
+          "菅野よう子"
+        ]
+      },
+      "プライド～嘆きの旅": {
+        "c": [
+          "新居昭乃"
+        ],
+        "a": [
+          "保刈久明"
+        ]
+      },
+      "Vermillion": {
+        "c": [
+          "石川智晶"
+        ],
+        "a": [
+          "西田マサラ"
+        ]
+      },
+      "かたち": {
+        "c": [
+          "eba"
+        ],
+        "a": [
+          "eba"
+        ]
+      },
+      "谺、碧海、那由多を見定むアグラフォノスの詩篇": {
+        "c": [
+          "電気"
+        ],
+        "a": [
+          "電気"
+        ]
+      },
+      "サクラメイキュウ": {
+        "c": [
+          "分島花音"
+        ],
+        "a": [
+          "千葉\"naotyu-\"直樹"
+        ]
+      },
+      "StarRingChild": {
+        "c": [
+          "澤野弘之"
+        ],
+        "a": [
+          "澤野弘之"
+        ]
+      },
+      "銀の龍の背に乗って": {
+        "c": [
+          "中島みゆき"
+        ],
+        "a": [
+          "瀬尾一三"
+        ]
+      },
+      "夢の島思念公園": {
+        "c": [
+          "平沢進"
+        ],
+        "a": [
+          "平沢進"
+        ]
+      },
+      "雫": {
+        "c": [
+          "大橋卓弥",
+          "常田真太郎"
+        ],
+        "a": [
+          "スキマスイッチ"
+        ]
+      },
+      "アヤノの幸福理論": {
+        "c": [
+          "じん"
+        ],
+        "a": [
+          "じん"
+        ]
+      }
+    },
+    "songOrigCats": {
+      "谺、碧海、那由多を見定むアグラフォノスの詩篇": [
+        "game"
+      ]
+    }
+  },
+  {
     "name": "majiko",
     "cat": 1,
     "count": 24,
@@ -19188,291 +19474,6 @@
     "songOrigCats": {
       "DEADPOOL": [
         "other"
-      ]
-    }
-  },
-  {
-    "name": "妃那子",
-    "cat": 1,
-    "count": 24,
-    "reading": "ひなこ",
-    "kana": "ひ",
-    "row": "は",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/rkFdTgKDsoXj6T5CFfBNXJnDIC3M8pPzJ7Nspty0wEZeFTg4vE3ZAKXcs9CtiM0akTwVmfzBtw=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "逆光",
-      "heavenly blue",
-      "Prayer X",
-      "inner universe",
-      "わが臈たし悪の華",
-      "誰ガ為ノ世界",
-      "aLIEz",
-      "白虎野の娘",
-      "君よ 気高くあれ",
-      "祝福のメシアとアイの塔",
-      "One Last Kiss",
-      "FIND THE WAY",
-      "英雄 運命の詩",
-      "ヘミソフィア",
-      "プライド～嘆きの旅",
-      "Vermillion",
-      "かたち",
-      "谺、碧海、那由多を見定むアグラフォノスの詩篇",
-      "サクラメイキュウ",
-      "StarRingChild",
-      "銀の龍の背に乗って",
-      "夢の島思念公園",
-      "雫",
-      "アヤノの幸福理論"
-    ],
-    "topSongs": [
-      "逆光",
-      "heavenly blue",
-      "One Last Kiss",
-      "aLIEz",
-      "Prayer X"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Hinako",
-      "hinako",
-      "ヒナコ"
-    ],
-    "role": "Vsinger",
-    "imgType": "youtube_official",
-    "sub": 73500,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "subDate": "2026-10-27",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "Vsinger"
-    ],
-    "profileBio": "",
-    "ytChannelUrl": "https://www.youtube.com/channel/UCDpX_q4mlkbuPJbY6h62eHQ",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "youtubeChannelUrl": "https://www.youtube.com/channel/UCDpX_q4mlkbuPJbY6h62eHQ",
-    "aid": "a_f688e281",
-    "sc": {
-      "逆光": {
-        "c": [
-          "Vaundy"
-        ],
-        "a": [
-          "Vaundy"
-        ]
-      },
-      "heavenly blue": {
-        "c": [
-          "梶浦由記"
-        ],
-        "a": [
-          "梶浦由記"
-        ]
-      },
-      "Prayer X": {
-        "c": [
-          "常田大希"
-        ],
-        "a": [
-          "King Gnu"
-        ]
-      },
-      "inner universe": {
-        "c": [
-          "菅野よう子"
-        ],
-        "a": [
-          "菅野よう子"
-        ]
-      },
-      "わが臈たし悪の華": {
-        "c": [
-          "片倉三起也"
-        ],
-        "a": [
-          "片倉三起也"
-        ]
-      },
-      "誰ガ為ノ世界": {
-        "c": [
-          "志方あきこ"
-        ],
-        "a": [
-          "志方あきこ"
-        ]
-      },
-      "aLIEz": {
-        "c": [
-          "澤野弘之"
-        ],
-        "a": [
-          "澤野弘之"
-        ]
-      },
-      "白虎野の娘": {
-        "c": [
-          "平沢進"
-        ],
-        "a": [
-          "平沢進"
-        ]
-      },
-      "君よ 気高くあれ": {
-        "c": [
-          "ryo(supercell)"
-        ],
-        "a": [
-          "ryo(supercell)"
-        ]
-      },
-      "祝福のメシアとアイの塔": {
-        "c": [
-          "ひとしずく×やま△"
-        ],
-        "a": [
-          "ひとしずく×やま△"
-        ]
-      },
-      "One Last Kiss": {
-        "c": [
-          "宇多田ヒカル"
-        ],
-        "a": [
-          "宇多田ヒカル",
-          "A.G. Cook"
-        ]
-      },
-      "FIND THE WAY": {
-        "c": [
-          "Lori Fine"
-        ],
-        "a": [
-          "Ken Kimura"
-        ]
-      },
-      "英雄 運命の詩": {
-        "c": [
-          "ryo(supercell)"
-        ],
-        "a": [
-          "ryo(supercell)"
-        ]
-      },
-      "ヘミソフィア": {
-        "c": [
-          "菅野よう子"
-        ],
-        "a": [
-          "菅野よう子"
-        ]
-      },
-      "プライド～嘆きの旅": {
-        "c": [
-          "新居昭乃"
-        ],
-        "a": [
-          "保刈久明"
-        ]
-      },
-      "Vermillion": {
-        "c": [
-          "石川智晶"
-        ],
-        "a": [
-          "西田マサラ"
-        ]
-      },
-      "かたち": {
-        "c": [
-          "eba"
-        ],
-        "a": [
-          "eba"
-        ]
-      },
-      "谺、碧海、那由多を見定むアグラフォノスの詩篇": {
-        "c": [
-          "電気"
-        ],
-        "a": [
-          "電気"
-        ]
-      },
-      "サクラメイキュウ": {
-        "c": [
-          "分島花音"
-        ],
-        "a": [
-          "千葉\"naotyu-\"直樹"
-        ]
-      },
-      "StarRingChild": {
-        "c": [
-          "澤野弘之"
-        ],
-        "a": [
-          "澤野弘之"
-        ]
-      },
-      "銀の龍の背に乗って": {
-        "c": [
-          "中島みゆき"
-        ],
-        "a": [
-          "瀬尾一三"
-        ]
-      },
-      "夢の島思念公園": {
-        "c": [
-          "平沢進"
-        ],
-        "a": [
-          "平沢進"
-        ]
-      },
-      "雫": {
-        "c": [
-          "大橋卓弥",
-          "常田真太郎"
-        ],
-        "a": [
-          "スキマスイッチ"
-        ]
-      },
-      "アヤノの幸福理論": {
-        "c": [
-          "じん"
-        ],
-        "a": [
-          "じん"
-        ]
-      }
-    },
-    "songOrigCats": {
-      "谺、碧海、那由多を見定むアグラフォノスの詩篇": [
-        "game"
       ]
     }
   },
@@ -49046,6 +49047,167 @@
     }
   },
   {
+    "name": "大橋彩香",
+    "cat": 1,
+    "count": 7,
+    "reading": "おおはしあやか",
+    "kana": "お",
+    "row": "あ",
+    "alpha": "",
+    "img": "https://yt3.googleusercontent.com/Cobfsq86d9Ac7xssziUYRDZF43t7VxxKj9M_7wWEhDu3-hwIHXAV4nOUJbNoKcc0tmHEBN1y=s240-c-k-c0x00ffffff-no-rj",
+    "songs": [
+      "変革Delight",
+      "Flash Summit!!",
+      "Étoile",
+      "HOWL",
+      "NOISY LOVE POWER☆",
+      "青春のアーカイブ (セリカ)",
+      "Rolling star"
+    ],
+    "topSongs": [
+      "ワガママMIRROR HEART",
+      "YES!!",
+      "ダイスキ。",
+      "NOISY LOVE POWER☆",
+      "おしえてブルースカイ"
+    ],
+    "topStatus": "completed_5_songs",
+    "al": [
+      "Ayaka Ohashi",
+      "Ohashi Ayaka",
+      "oohashiayaka",
+      "oohasiayaka",
+      "オオハシアヤカ"
+    ],
+    "role": "声優",
+    "imgType": "youtube_official",
+    "sub": 21700,
+    "subBucket": "10kTo100k",
+    "topTypes": [
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル",
+      "オリジナル"
+    ],
+    "topLinks": [
+      "uaolGrJ_e7Y",
+      "U0CGQ8-92Ds",
+      "2Twgo_QBVz8",
+      "eBxX0ttl_R0",
+      "rICnlcwsIvE"
+    ],
+    "subDate": "2026-10-27",
+    "youtubeChannelUrl": "https://www.youtube.com/@ayaka_ohashi",
+    "agency": "",
+    "agencyGroup": "",
+    "vocalParts": [],
+    "agencyGroupCount": 0,
+    "agencyClickable": false,
+    "memberOf": [],
+    "groupSubRole": "",
+    "roles": [
+      "声優"
+    ],
+    "profileBio": "大橋彩香は、埼玉県出身の声優・アーティスト。ホリプロインターナショナル所属。『アイドルマスター シンデレラガールズ』島村卯月役や『BanG Dream!』Poppin'Partyの山吹沙綾役（ドラムス）、『ウマ娘 プリティーダービー』ウオッカ役などを演じ、ソロ歌手としても『YES!!』『ワガママMIRROR HEART』『ダイスキ。』などパワフルで明るい歌声を届けている。",
+    "ytChannelUrl": "https://www.youtube.com/@ayaka_ohashi",
+    "ytChannelLabel": "YouTubeチャンネル →",
+    "ytChannelType": "official",
+    "aid": "a_0e26c6d6",
+    "sc": {
+      "変革Delight": {
+        "c": [
+          "TAKE(FLOW)"
+        ],
+        "a": [
+          "FLOW"
+        ]
+      },
+      "Flash Summit!!": {
+        "c": [
+          "TAKUYA"
+        ],
+        "a": [
+          "本間昭光"
+        ]
+      },
+      "Étoile": {
+        "c": [
+          "Kanata Okajima",
+          "MEG"
+        ],
+        "a": [
+          "MEG"
+        ]
+      },
+      "HOWL": {
+        "c": [
+          "DECO*27"
+        ],
+        "a": [
+          "Rockwell"
+        ]
+      },
+      "NOISY LOVE POWER☆": {
+        "c": [
+          "本多友紀(Arte Refact)"
+        ],
+        "a": [
+          "本多友紀(Arte Refact)"
+        ]
+      },
+      "青春のアーカイブ (セリカ)": {
+        "c": [
+          "40mP"
+        ],
+        "a": [
+          "40mP"
+        ]
+      },
+      "ワガママMIRROR HEART": {
+        "c": [
+          "加藤裕介"
+        ],
+        "a": [
+          "酒井拓也(Arte Refact)"
+        ]
+      },
+      "YES!!": {
+        "c": [
+          "伊澤一葉"
+        ],
+        "a": [
+          "江口亮"
+        ]
+      },
+      "ダイスキ。": {
+        "c": [
+          "Kanata Okajima",
+          "pw.a"
+        ],
+        "a": [
+          "pw.a"
+        ]
+      },
+      "おしえてブルースカイ": {
+        "c": [
+          "藤末樹"
+        ],
+        "a": [
+          "藤末樹"
+        ]
+      },
+      "Rolling star": {
+        "c": [
+          "YUI"
+        ],
+        "a": [
+          "Kai Miyazaki"
+        ]
+      }
+    }
+  },
+  {
     "name": "空白ごっこ",
     "cat": 1,
     "count": 7,
@@ -53541,158 +53703,6 @@
         ],
         "a": [
           "Sizuk"
-        ]
-      }
-    }
-  },
-  {
-    "name": "大橋彩香",
-    "cat": 1,
-    "count": 6,
-    "reading": "おおはしあやか",
-    "kana": "お",
-    "row": "あ",
-    "alpha": "",
-    "img": "https://yt3.googleusercontent.com/Cobfsq86d9Ac7xssziUYRDZF43t7VxxKj9M_7wWEhDu3-hwIHXAV4nOUJbNoKcc0tmHEBN1y=s240-c-k-c0x00ffffff-no-rj",
-    "songs": [
-      "変革Delight",
-      "Flash Summit!!",
-      "Étoile",
-      "HOWL",
-      "NOISY LOVE POWER☆",
-      "青春のアーカイブ (セリカ)"
-    ],
-    "topSongs": [
-      "ワガママMIRROR HEART",
-      "YES!!",
-      "ダイスキ。",
-      "NOISY LOVE POWER☆",
-      "おしえてブルースカイ"
-    ],
-    "topStatus": "completed_5_songs",
-    "al": [
-      "Ayaka Ohashi",
-      "Ohashi Ayaka",
-      "oohashiayaka",
-      "oohasiayaka",
-      "オオハシアヤカ"
-    ],
-    "role": "声優",
-    "imgType": "youtube_official",
-    "sub": 21700,
-    "subBucket": "10kTo100k",
-    "topTypes": [
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル",
-      "オリジナル"
-    ],
-    "topLinks": [
-      "uaolGrJ_e7Y",
-      "U0CGQ8-92Ds",
-      "2Twgo_QBVz8",
-      "eBxX0ttl_R0",
-      "rICnlcwsIvE"
-    ],
-    "subDate": "2026-10-27",
-    "youtubeChannelUrl": "https://www.youtube.com/@ayaka_ohashi",
-    "agency": "",
-    "agencyGroup": "",
-    "vocalParts": [],
-    "agencyGroupCount": 0,
-    "agencyClickable": false,
-    "memberOf": [],
-    "groupSubRole": "",
-    "roles": [
-      "声優"
-    ],
-    "profileBio": "大橋彩香は、埼玉県出身の声優・アーティスト。ホリプロインターナショナル所属。『アイドルマスター シンデレラガールズ』島村卯月役や『BanG Dream!』Poppin'Partyの山吹沙綾役（ドラムス）、『ウマ娘 プリティーダービー』ウオッカ役などを演じ、ソロ歌手としても『YES!!』『ワガママMIRROR HEART』『ダイスキ。』などパワフルで明るい歌声を届けている。",
-    "ytChannelUrl": "https://www.youtube.com/@ayaka_ohashi",
-    "ytChannelLabel": "YouTubeチャンネル →",
-    "ytChannelType": "official",
-    "aid": "a_0e26c6d6",
-    "sc": {
-      "変革Delight": {
-        "c": [
-          "TAKE(FLOW)"
-        ],
-        "a": [
-          "FLOW"
-        ]
-      },
-      "Flash Summit!!": {
-        "c": [
-          "TAKUYA"
-        ],
-        "a": [
-          "本間昭光"
-        ]
-      },
-      "Étoile": {
-        "c": [
-          "Kanata Okajima",
-          "MEG"
-        ],
-        "a": [
-          "MEG"
-        ]
-      },
-      "HOWL": {
-        "c": [
-          "DECO*27"
-        ],
-        "a": [
-          "Rockwell"
-        ]
-      },
-      "NOISY LOVE POWER☆": {
-        "c": [
-          "本多友紀(Arte Refact)"
-        ],
-        "a": [
-          "本多友紀(Arte Refact)"
-        ]
-      },
-      "青春のアーカイブ (セリカ)": {
-        "c": [
-          "40mP"
-        ],
-        "a": [
-          "40mP"
-        ]
-      },
-      "ワガママMIRROR HEART": {
-        "c": [
-          "加藤裕介"
-        ],
-        "a": [
-          "酒井拓也(Arte Refact)"
-        ]
-      },
-      "YES!!": {
-        "c": [
-          "伊澤一葉"
-        ],
-        "a": [
-          "江口亮"
-        ]
-      },
-      "ダイスキ。": {
-        "c": [
-          "Kanata Okajima",
-          "pw.a"
-        ],
-        "a": [
-          "pw.a"
-        ]
-      },
-      "おしえてブルースカイ": {
-        "c": [
-          "藤末樹"
-        ],
-        "a": [
-          "藤末樹"
         ]
       }
     }
