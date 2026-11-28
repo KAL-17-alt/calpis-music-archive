@@ -1,5 +1,55 @@
 [
   {
+    "date": "2026-11-28",
+    "timestamp": "2026-11-28T03:01:17Z",
+    "action": "hidden_by_mugen2_deletion",
+    "aid": "a_5cf40b70",
+    "artist": "アキ・ローゼンタール",
+    "song": "電脳ぴゅあ推し大宣言",
+    "videoIds": [
+      "wS_9sZ2yRC4"
+    ]
+  },
+  {
+    "date": "2026-11-28",
+    "timestamp": "2026-11-28T03:01:17Z",
+    "action": "hidden_by_mugen2_deletion",
+    "aid": "a_ef328dc4",
+    "artist": "navi",
+    "song": "うつつと空の放送",
+    "videoIds": [
+      "Md9__HY-6fE"
+    ]
+  },
+  {
+    "date": "2026-11-28",
+    "timestamp": "2026-11-28T03:01:17Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_72043b7a",
+    "artist": "Hebi",
+    "song": "지금부터 (Onward)",
+    "type": "orig",
+    "confidence": 0.98,
+    "videoId": "yomKWG44odg",
+    "reason": "既存名義「Hebi」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
+    "date": "2026-11-28",
+    "timestamp": "2026-11-28T03:01:17Z",
+    "action": "auto_added_song",
+    "registrationType": "newly_added_song",
+    "aid": "a_d0dde61f",
+    "artist": "幸祜",
+    "song": "ivory",
+    "type": "orig",
+    "confidence": 0.99,
+    "videoId": "WBcdH2DtOWU",
+    "reason": "既存名義「幸祜」と照合一致（チャンネル・動画メタデータで根拠確認済み）",
+    "status": "success"
+  },
+  {
     "date": "2026-11-27",
     "timestamp": "2026-11-27T03:25:14Z",
     "action": "auto_added_song",
